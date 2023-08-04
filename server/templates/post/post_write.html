@@ -1,0 +1,227 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<h1>제작 페이지</h1>
+<button onclick="showAllItems()">모든아이템</button>
+{% if user.is_authenticated %}
+<p>{{user.username}} 님 안녕하세요!</p>
+<button>
+  <a href="/user/auth/logout"> logout</a>
+</button>
+{% else %}
+<p>anonymous</p>
+<button>
+  <a href="/user/auth/login"> login</a>
+</button>
+{% endif %}
+<form onsubmit="handleSubmit(event)">
+  <input type="text" placeholder="title" name="title" id="titleInput" />
+  <input type="text" placeholder="설명" name="dsec" id="descInput" />
+  <div class="main column-mode">
+    <button type="button" onclick="handleAddPath()" class="add_new-btn">
+      옆에 새로운 패스 추가하기
+    </button>
+  </div>
+  <input type="text" name="review" placeholder="후기" id="reviewInput" />
+  <button type="submit">제출하기</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  const csrftoken = getCookie("csrftoken");
+</script>
+<script>
+  let paths = [];
+  let steps = [];
+  // TODO. COLUM삭제. ORDER변경. 그리고 아이템 ORDER변경.
+
+  const titleInput = document.querySelector("#titleInput");
+  const descInput = document.querySelector("#descInput");
+  const reviewInput = document.querySelector("#reviewInput");
+
+  function showAllItems() {
+    console.log(steps);
+    for (let step of steps) {
+      console.log(step.colId, step.order);
+    }
+  }
+
+  function handleToggleModal(id) {
+    const modal = document.querySelector(`.modal_${id}`);
+    modal.classList.toggle("hidden");
+    // TODO 토글시 다른 아이템들은 다 숨겨지도록 해야함.
+
+    let titleVal = document.querySelector(`.step_${id} .title`).innerText;
+    let descVal = document.querySelector(`.step_${id} .desc`).innerText;
+
+    const titleForm = modal.querySelector(".title");
+    const descForm = modal.querySelector(".desc");
+
+    titleForm.value = titleVal;
+    descForm.value = descVal;
+  }
+
+  function handleSaveValue(id) {
+    const modal = document.querySelector(`.modal_${id}`);
+    const titleForm = modal.querySelector(".title");
+    const descForm = modal.querySelector(".desc");
+
+    const titleNode = document.querySelector(`.step_${id} .title`);
+    const descNode = document.querySelector(`.step_${id} .desc`);
+
+    titleNode.innerText = titleForm.value;
+    descNode.innerText = descForm.value;
+    modal.classList.toggle("hidden");
+
+    step = steps.find((step) => step.id == id);
+    step.title = titleForm.value;
+    step.desc = descForm.value;
+    step.isEdited = true;
+  }
+
+  function handleAddPath(prevPathId) {
+    const NewBtn = document.querySelector(".add_new-btn");
+    if (NewBtn) {
+      NewBtn.parentNode.removeChild(NewBtn);
+    }
+    const main = document.querySelector(".main");
+    let isColumnMode = main.classList.contains("column-mode");
+
+    let id = uuid.v4();
+
+    li = document.createElement("li");
+    li.classList.add(`path`);
+    li.classList.add(`path_${id}`);
+    li.innerText = `${id.slice(0, 10)}`;
+    li.innerHTML += `
+        <button type="button" onclick="handleAddPath('${id}')">옆에 패스 추가하기</button>
+        <div class="step_container${isColumnMode ? "" : "container_row-mode"}">
+                </div>
+        <button type="button" onclick="handleAddStep('${id}')" class="item_add-btn">
+              밑에 아이템 추가하기
+            </button>
+        `;
+    if (prevPathId) {
+      const prevPath = document.querySelector(`.path_${prevPathId}`);
+      if (prevPath.nextSibling) {
+        main.insertBefore(li, prevPath.nextSibling);
+      } else {
+        main.append(li);
+      }
+    } else {
+      main.append(li);
+    }
+
+    paths.push({
+      id: id,
+      order: paths.length + 1,
+      title: `${id.slice(0, 10)}`,
+    });
+  }
+
+  function handleAddStep(targetPathId) {
+    let id = uuid.v4();
+    const stepContainer = document.querySelector(
+      `.path_${targetPathId} .step_container`
+    );
+    const section = document.createElement("section");
+    section.classList.add(`step`);
+    section.classList.add(`step_${id}`);
+    section.innerHTML = `
+              <div>
+                <p class="title">id: ${id.slice(0, 10)}</p>
+                <p class="desc"></p>
+                <button type="button" onclick="moveItemUp('${id}')">위로 올리기</button>
+                <button type="button" onclick="moveItemDown('${id}')">밑으로 내리기</button>
+                <button type="button" onclick="handleDeleteItem('${id}')">삭제하기</button>
+                <button
+                  class="edit-btn"
+                  type="button"
+                  onclick="handleToggleModal('${id}')"
+                >
+                  편집하기
+                </button>
+              </div>
+              <div class="step__edit-modal modal_${id} hidden">
+                <input type="text" class="title" />
+                <textarea class="desc"></textarea>
+                <div>
+                  <button type="button" onClick="handleToggleModal('${id}')">취소</button>
+                  <button type="button" onclick="handleSaveValue('${id}')">변경</button>
+                </div>
+              </div>
+        `;
+    stepContainer.appendChild(section);
+
+    steps.push({
+      id,
+      pathId: targetPathId,
+      order: steps.filter((step) => step.pathId == targetPathId).length + 1,
+      isNew: true,
+      isEdited: false,
+      title: "",
+      desc: "",
+    });
+  }
+
+  function handleDeleteItem(targetStepId) {
+    const targetNode = document.querySelector(`.step_${targetStepId}`);
+    targetNode.parentNode.removeChild(targetNode);
+
+    // TODO 삭제한 아이템의, order위에 있는것들을 다 하나씩 땡겨야 한다.
+
+    const targetStep = steps.find((step) => step.id == targetStepId);
+
+    steps = steps.map((step) => {
+      if (step.colId == targetStep.colId && step.order > targetStep.order) {
+        step.order -= 1;
+        step.isEdited = true;
+      }
+
+      return step;
+    });
+    steps.splice(
+      steps.findIndex((step) => step.id == targetStepId),
+      1
+    );
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const response = await fetch("/post/write", {
+      method: "POST",
+      body: JSON.stringify({
+        paths: paths,
+        steps: steps,
+        title: titleInput.value,
+        desc: descInput.value,
+        review: reviewInput.value,
+        mode: "col",
+      }),
+      headers: {
+        "content-type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+    });
+
+    console.log(await response.json());
+
+    // window.location.href = "/path/list";
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    {% for post in posts %}
+    <a href="{% url 'post_edit' id=post.id %}">
+      <div>{{post.title}}</div>
+      {% for path in post.path.all %}
+      <div>{{path.title}}</div>
+      {% for step in path.step.all %}
+      <div>{{step.title}}</div>
+      {% endfor %} {% endfor %}
+    </a>
+    {% endfor %}
+  </body>
+</html>
