@@ -29,21 +29,3 @@ class User(AbstractUser):
     intro = models.CharField(max_length=300)
     membership = models.CharField(
         max_length=10, choices=membershipRank, default="bronze", blank=False, null=False)
-
-    groups = models.ManyToManyField(
-        AuthUser.groups.field.remote_field.model,
-        related_name='custom_user_set',
-        blank=True,
-        help_text=_(
-            "사용자가 속한 그룹입니다. 사용자는 각 그룹에 부여된 모든 권한을 받게 됩니다."
-        ),
-        verbose_name=_("groups"),
-    )
-
-    user_permissions = models.ManyToManyField(
-        AuthUser.user_permissions.field.remote_field.model,
-        related_name='custom_user_set',
-        blank=True,
-        help_text=_("사용자에 대한 특정 권한."),
-        verbose_name=_("user permissions"),
-    )
