@@ -28,41 +28,56 @@ def get_user_by_username(username):
 def view_post_write(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        # if not request.user.is_authenticated:
-        user = get_user_by_username("개미개미")
+        if not request.user.is_authenticated:
+            user = get_user_by_username("개미개미")
+        else:
+            user = request.user
         print(user.get_username())
 
-        # post = Post.objects.create(
-        #     user=user,
-        #     title=data['title'],
-        #     desc=data['desc'],
-        # )
-        # print("post 생성", post)
-        # for path in data['paths']:
-        #     newPath = Path.objects.create(
-        #         post=post,
-        #         title=path['title'],
-        #         order=path['order']
-        #     )
-        #     print("path 생성", newPath)
-        #     for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
-        #         Image_data = step.get("Image")
-        #         if Image_data is not None:
-        #             newStep = Step.objects.create(
-        #                 path=path,
-        #                 title=step['title'],
-        #                 desc=step['desc'],
-        #                 order=step['order'],
-        #                 Image=step['Image']
-        #             )
-        #         else:
-        #             newStep = Step.objects.create(
-        #                 path=path,
-        #                 title=step['title'],
-        #                 desc=step['desc'],
-        #                 order=step['order'],
-        #             )
-        #         print("step생성", newStep)
+        thumbnail_data = data.get("thumbnail")
+        if thumbnail_data is not None:
+            post = Post.objects.create(
+                user=user,
+                title=data['title'],
+                desc=data['desc'],
+                review=data['review'],
+                mode=data['mode'],
+                thumbnail=data['thumbnail']
+            )
+        else:
+            post = Post.objects.create(
+                user=user,
+                title=data['title'],
+                desc=data['desc'],
+                review=data['review'],
+                mode=data['mode'],
+            )
+        print("post 생성", post)
+        for path in data['paths']:
+            newPath = Path.objects.create(
+                post=post,
+                title=path['title'],
+                order=path['order']
+            )
+            print("path 생성", newPath)
+            for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
+                Image_data = step.get("Image")
+                if Image_data is not None:
+                    newStep = Step.objects.create(
+                        path=newPath,
+                        title=step['title'],
+                        desc=step['desc'],
+                        order=step['order'],
+                        Image=step['Image']
+                    )
+                else:
+                    newStep = Step.objects.create(
+                        path=newPath,
+                        title=step['title'],
+                        desc=step['desc'],
+                        order=step['order'],
+                    )
+                print("step생성", newStep)
 
         return JsonResponse({"msg": "hello"})
 
