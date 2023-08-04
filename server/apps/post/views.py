@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 from .models import Post, Path, Step
+from django.core.serializers import serialize
+
 # from apps.user.models import User
 from django.contrib.auth import get_user_model
 from django.http.response import JsonResponse
@@ -93,5 +95,70 @@ def view_post_list(request):
     return render(request, 'post/post_list.html', ctx)
 
 
-def view_post_edit(request):
-    return render(request, 'post/post_edit.html')
+def view_post_edit(request, id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        post = get_object_or_404(Post, pk=id)
+
+        # 1. 삭제된 id를 삭제한다.
+        for deletedId in data['deletedIds']:
+            matching_objects = Step.objects.filter(pk=deletedId)
+            if matching_objects.exists():
+                for obj in matching_objects:
+                    print("deleted"+obj.title)
+                    obj.delete()
+
+        # 1. Create 기존 컬럼에 추가된 스텝을 추가한다.
+        for item in [data for data in data['steps'] if data['isNew'] == True]:
+            matching_objects = Path.objects.filter(pk=item['pathId'])
+            if matching_objects.exists():
+                step = Step.objects.create(
+                    path=Path.objects.get(pk=item['pathId']),
+                    title=item['title'],
+                    desc=item['desc'],
+                    order=item['order'],
+                )
+                print("created into current path", step.title)
+
+        # 2. Create 새로운 컬럼을 추가하고, 그 컬럼에 해당하는 step도 추가한다.
+        for path in [path for path in data['paths'] if path['isNew'] == True]:
+            newPath = Path.objects.create(
+                post=post, title=path['title'], order=path['order'])
+            for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
+                newStep = Step.objects.create(path=newPath, title=step['title'], desc=step['desc'],
+                                              order=step['order']
+                                              )
+                print("created new step in new column", newStep.title)
+
+        # 3. Update 그 다음 편집되었던 step을 골라서. 해당 실제 데이터로 넣어준다. title,desc,order 등.
+        for step in [step for step in data['steps'] if step['isEdited'] == True and step['isNew'] == False]:
+            myStep = get_object_or_404(Step, pk=step['id'])
+            myStep.title = step['title']
+            myStep.desc = step['desc']
+            myStep.order = step['order']
+            myStep.save()
+            print("edited step", myStep.title)
+
+        post.title = data['title']
+        post.desc = data['desc']
+        post.review = data['review']
+        print("edited post")
+        post.save()
+
+        return JsonResponse({"msg": "hello"})
+
+    post = get_object_or_404(Post, id=id)
+    paths = get_list_or_404(Path, post=post)
+    jsonPost = serialize('json', [post])
+    jsonPaths = serialize('json', paths)
+    jsonSteps = serialize('json', Step.objects.filter(path__in=paths))
+
+    ctx = {
+        "post": post,
+        "paths": paths,
+        "jsonPost": jsonPost,
+        "jsonPaths": jsonPaths,
+        "jsonSteps": jsonSteps
+    }
+
+    return render(request, 'post/post_edit.html', ctx)

@@ -10,11 +10,12 @@
     <a href="{% url 'post_edit' id=post.id %}">
       <div>{{post.title}}</div>
       {% for path in post.path.all %}
-      <div>{{path.title}}</div>
+      <div>패스: {{path.title}}</div>
       {% for step in path.step.all %}
-      <div>{{step.title}}</div>
+      <div>스텝: {{step.title}}</div>
       {% endfor %} {% endfor %}
     </a>
+    <br />
     {% endfor %}
   </body>
 </html>
