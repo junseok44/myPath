@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404
-from .models import Post, Path, Step
+from .models import Post, Path, Step, Category, CategoryTable
 from django.core.serializers import serialize
 
 # from apps.user.models import User
@@ -35,7 +35,6 @@ def view_post_write(request):
         else:
             user = request.user
         print(user.get_username())
-
         thumbnail_data = data.get("thumbnail")
         if thumbnail_data is not None:
             post = Post.objects.create(
@@ -55,6 +54,14 @@ def view_post_write(request):
                 mode=data['mode'],
             )
         print("post 생성", post)
+
+        print(data['category'])
+        cat = Category.objects.get(name=data['category'])
+        CategoryTable.objects.create(
+            post=post,
+            category=cat
+        )
+
         for path in data['paths']:
             newPath = Path.objects.create(
                 post=post,
@@ -83,7 +90,10 @@ def view_post_write(request):
 
         return JsonResponse({"msg": "hello"})
 
-    return render(request, "post/post_write.html")
+    categories = Category.objects.all()
+    return render(request, "post/post_write.html",
+                  
+                  {"categories": categories})
 
 
 def view_post_list(request):
@@ -101,11 +111,19 @@ def view_post_edit(request, id):
         post = get_object_or_404(Post, pk=id)
 
         # 1. 삭제된 id를 삭제한다.
+        for deletedId in data['deletedPaths']:
+            matching_objects = Path.objects.filter(pk=deletedId)
+            if matching_objects.exists():
+                for obj in matching_objects:
+                    print("deleted columns"+obj.title)
+                    obj.delete()
+
+
         for deletedId in data['deletedIds']:
             matching_objects = Step.objects.filter(pk=deletedId)
             if matching_objects.exists():
                 for obj in matching_objects:
-                    print("deleted"+obj.title)
+                    print("deleted steps"+obj.title)
                     obj.delete()
 
         # 1. Create 기존 컬럼에 추가된 스텝을 추가한다.
@@ -130,6 +148,15 @@ def view_post_edit(request, id):
                                               )
                 print("created new step in new column", newStep.title)
 
+        # 기존 path 중에서 수정된것을 반영한다.
+        for path in [path for path in data['paths'] if path['isEdited'] == True and path['isNew'] == False]:
+            matching_objects = Path.objects.filter(pk=path['id'])
+            if matching_objects.exists():
+                for obj in matching_objects:
+                    obj.title = path['title']
+                    obj.order = path['order']
+
+
         # 3. Update 그 다음 편집되었던 step을 골라서. 해당 실제 데이터로 넣어준다. title,desc,order 등.
         for step in [step for step in data['steps'] if step['isEdited'] == True and step['isNew'] == False]:
             myStep = get_object_or_404(Step, pk=step['id'])
@@ -142,23 +169,30 @@ def view_post_edit(request, id):
         post.title = data['title']
         post.desc = data['desc']
         post.review = data['review']
-        print("edited post")
+        
+        category = Category.objects.get(name=data['category'])
+        table = CategoryTable.objects.get(post=post)
+        table.category = category
+        table.save()
         post.save()
 
         return JsonResponse({"msg": "hello"})
 
     post = get_object_or_404(Post, id=id)
-    paths = get_list_or_404(Path, post=post)
+    paths = Path.objects.filter(post=post)
     jsonPost = serialize('json', [post])
     jsonPaths = serialize('json', paths)
     jsonSteps = serialize('json', Step.objects.filter(path__in=paths))
-
+    currentCategory = CategoryTable.objects.get(post=post).category.name
+    categories = Category.objects.all()
     ctx = {
         "post": post,
         "paths": paths,
         "jsonPost": jsonPost,
         "jsonPaths": jsonPaths,
-        "jsonSteps": jsonSteps
+        "jsonSteps": jsonSteps,
+        "currentCategory":currentCategory,
+        "categories": categories,
     }
 
     return render(request, 'post/post_edit.html', ctx)

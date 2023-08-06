@@ -15,6 +15,11 @@
 <form onsubmit="handleSubmit(event)">
   <input type="text" placeholder="title" name="title" id="titleInput" />
   <input type="text" placeholder="설명" name="dsec" id="descInput" />
+  <select id="categorySelect" name="categorySelect">
+    {% for cat in categories %}
+    <option value="{{cat.name}}">{{cat.name}}</option>
+    {% endfor %}
+  </select>
   <div class="main column-mode">
     <button type="button" onclick="handleAddPath()" class="add_new-btn">
       옆에 새로운 패스 추가하기
@@ -51,6 +56,7 @@
   const titleInput = document.querySelector("#titleInput");
   const descInput = document.querySelector("#descInput");
   const reviewInput = document.querySelector("#reviewInput");
+  const categorySelect = document.querySelector("#categorySelect");
 
   function showAllItems() {
     console.log(steps);
@@ -108,6 +114,8 @@
     li.innerText = `${id.slice(0, 10)}`;
     li.innerHTML += `
         <button type="button" onclick="handleAddPath('${id}')">옆에 패스 추가하기</button>
+        <button type="button" onclick="handleDeletePath('${id}')">이 패스 삭제하기</button>
+
         <div class="step_container${isColumnMode ? "" : "container_row-mode"}">
                 </div>
         <button type="button" onclick="handleAddStep('${id}')" class="item_add-btn">
@@ -142,7 +150,7 @@
     section.classList.add(`step_${id}`);
     section.innerHTML = `
               <div>
-                <p class="title">id: ${id.slice(0, 10)}</p>
+                <p class="title"></p>
                 <p class="desc"></p>
                 <button type="button" onclick="moveItemUp('${id}')">위로 올리기</button>
                 <button type="button" onclick="moveItemDown('${id}')">밑으로 내리기</button>
@@ -199,6 +207,23 @@
     );
   }
 
+  function handleDeletePath(targetPathId) {
+    const main = document.querySelector(".main");
+    const target = main.querySelector(`.path_${targetPathId}`);
+    main.removeChild(target);
+
+    if (main.childElementCount == 0) {
+      main.innerHTML = `
+      <button type="button" onclick="handleAddPath()" class="add_new-btn">
+      옆에 새로운 패스 추가하기
+      </button>
+      `;
+    }
+
+    paths = paths.filter((path) => path.id == targetPathId);
+    steps = steps.filter((step) => step.pathId !== targetPathId);
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -210,6 +235,7 @@
         title: titleInput.value,
         desc: descInput.value,
         review: reviewInput.value,
+        category: categorySelect.value,
         mode: "col",
       }),
       headers: {

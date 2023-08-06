@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import User
-from .models import Post, Path, Step
+from .models import Post, Path, Step, Category
 # Register your models here.
 
 
-admin.site.register(User)
 admin.site.register(Post)
 admin.site.register(Path)
-
+admin.site.register(Category)
 admin.site.register(Step)
