@@ -39,8 +39,8 @@
     {% endif %}
     {% for path in paths %}
     <li class="path path_{{path.id}}">
-      <input placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
-      <button type="button" onclick="handleAddPath('{{path.id}}')">
+      <input placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
+      <button type="button" onclick="handleAddPath('{{path.id}}') ">
         옆에 패스 추가하기
       </button>
       <button type="button" onclick="handleDeletePath('{{path.id}}')">
@@ -278,7 +278,8 @@ window.addEventListener('resize', () => {
   }
 
   function handleChangePathTitle(e,pathId) {
-    paths = paths.map(path => path.id == pathId ? {...path, title : e.target.value, isEdited: true} : path )
+    console.log(e.target.value, pathId);
+    paths = paths.map(path => path.id == pathId ? {...path, title : e.target.value, isEdited: true } : path )
   }
 
   function handleAddPath(prevPathId) {

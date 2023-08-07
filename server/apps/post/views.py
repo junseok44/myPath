@@ -146,7 +146,7 @@ def view_post_edit(request, id):
                     print("deleted steps"+obj.title)
                     obj.delete()
 
-        # 1. Create 기존 컬럼에 추가된 스텝을 추가한다.
+        # 1. Create 기존 패스에 추가된 스텝을 추가한다.
         for item in [data for data in data['steps'] if data['isNew'] == True]:
             matching_objects = Path.objects.filter(pk=item['pathId'])
             if matching_objects.exists():
@@ -158,7 +158,7 @@ def view_post_edit(request, id):
                 )
                 print("created into current path", step.title)
 
-        # 2. Create 새로운 컬럼을 추가하고, 그 컬럼에 해당하는 step도 추가한다.
+        # 2. Create 새로운 패스를 추가하고, 그 패스에 해당하는 step도 추가한다.
         for path in [path for path in data['paths'] if path['isNew'] == True]:
             newPath = Path.objects.create(
                 post=post, title=path['title'], order=path['order'])
@@ -168,14 +168,18 @@ def view_post_edit(request, id):
                                               )
                 print("created new step in new column", newStep.title)
 
+
+        #update
         # 기존 path 중에서 수정된것을 반영한다.
         for path in [path for path in data['paths'] if path['isEdited'] == True and path['isNew'] == False]:
             matching_objects = Path.objects.filter(pk=path['id'])
             if matching_objects.exists():
                 for obj in matching_objects:
+                    print(obj)
                     obj.title = path['title']
                     obj.order = path['order']
                     obj.save()
+
 
         # 3. Update 그 다음 편집되었던 step을 골라서. 해당 실제 데이터로 넣어준다. title,desc,order 등.
         for step in [step for step in data['steps'] if step['isEdited'] == True and step['isNew'] == False]:
