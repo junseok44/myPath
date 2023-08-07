@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404
-from .models import Post, Path, Step, Category, CategoryTable
+from .models import Post, Path, Step, Category, CategoryTable, Tag, TagTable
 from django.core.serializers import serialize
 
 # from apps.user.models import User
@@ -36,6 +36,7 @@ def view_post_write(request):
             user = request.user
         print(user.get_username())
         thumbnail_data = data.get("thumbnail")
+        
         if thumbnail_data is not None:
             post = Post.objects.create(
                 user=user,
@@ -61,6 +62,27 @@ def view_post_write(request):
             post=post,
             category=cat
         )
+
+        print(data['tags'])
+        for tagName in data['tags']:
+            tagObj = Tag.objects.filter(name=tagName)
+            if tagObj.exists():
+                for tag in tagObj:
+                    #하나의 tag 인스턴스임.
+                    tagtable = TagTable.objects.create(
+                        post=post,
+                        tag=tag
+                    )
+                    print("tagable 연결", tagtable.tag.name)
+            else:
+                newTag = Tag.objects.create(name=tagName)
+                print("태그생성",newTag.name)
+                tagtable = TagTable.objects.create(
+                        post=post,
+                        tag=newTag
+                    )
+                print("tagable 연결", tagtable.tag.name)
+
 
         for path in data['paths']:
             newPath = Path.objects.create(
@@ -95,7 +117,6 @@ def view_post_write(request):
                   
                   {"categories": categories})
 
-
 def view_post_list(request):
     posts = Post.objects.all()
     ctx = {
@@ -103,7 +124,6 @@ def view_post_list(request):
     }
 
     return render(request, 'post/post_list.html', ctx)
-
 
 def view_post_edit(request, id):
     if request.method == "POST":

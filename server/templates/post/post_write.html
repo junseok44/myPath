@@ -20,6 +20,12 @@
     <option value="{{cat.name}}">{{cat.name}}</option>
     {% endfor %}
   </select>
+  <input
+    type="text"
+    id="tagInput"
+    placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"
+  />
+  <ul id="tagList"></ul>
   <div class="main column-mode">
     <select id="pathSelect" class="select"></select>
     <button type="button" onclick="handleAddPath()" class="add_new-btn">
@@ -31,6 +37,8 @@
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
+
+<!-- csrf token -->
 <script>
   function getCookie(name) {
     let cookieValue = null;
@@ -48,6 +56,56 @@
     return cookieValue;
   }
   const csrftoken = getCookie("csrftoken");
+</script>
+
+<!-- 태그기능 -->
+<script>
+  // JavaScript code
+  const tagList = []; // Array to store tags
+
+  function addTag(tag) {
+    if (!tagList.includes(tag)) {
+      tagList.push(tag);
+      updateTagList();
+    }
+  }
+
+  function removeTag(tag) {
+    const index = tagList.indexOf(tag);
+    if (index !== -1) {
+      tagList.splice(index, 1);
+      updateTagList();
+    }
+  }
+
+  function updateTagList() {
+    const tagListElement = document.getElementById("tagList");
+    tagListElement.innerHTML = ""; // Clear the current list
+
+    tagList.forEach((tag) => {
+      const li = document.createElement("li");
+      const closeButton = document.createElement("span");
+      closeButton.innerText = "x";
+      closeButton.classList.add("close-button");
+      closeButton.onclick = () => removeTag(tag);
+
+      li.innerText = "#" + tag;
+      li.appendChild(closeButton);
+
+      tagListElement.appendChild(li);
+    });
+  }
+
+  document.getElementById("tagInput").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent form submission
+      const tagInput = event.target.value.trim();
+      if (tagInput !== "") {
+        addTag(tagInput);
+        event.target.value = "";
+      }
+    }
+  });
 </script>
 
 <!-- <script>
@@ -119,6 +177,8 @@
 
   function showAllItems() {
     console.log(steps);
+    console.log(paths);
+    console.log(tagList);
   }
 
   function handleToggleModal(id) {
@@ -187,6 +247,7 @@
               밑에 아이템 추가하기
             </button>
         `;
+
     if (prevPathId) {
       const prevPath = document.querySelector(`.path_${prevPathId}`);
       if (prevPath.nextSibling) {
@@ -198,18 +259,27 @@
       main.append(li);
     }
 
-    prevPath = paths.find((path) => path.id == prevPathId);
-    paths.push({
-      id: id,
-      order: prevPath.order + 1,
-      title: `${id.slice(0, 10)}`,
-    });
+    const prevPathItem = paths.find((path) => path.id == prevPathId);
 
-    paths = paths.map((path) =>
-      path.order >= prevPath.order + 1
-        ? { ...path, order: path.order + 1 }
-        : path
-    );
+    if (prevPathItem) {
+      paths.push({
+        id: id,
+        order: prevPathItem.order + 1,
+        title: `${id.slice(0, 10)}`,
+      });
+
+      paths = paths.map((path) =>
+        path.order >= prevPathItem.order + 1
+          ? { ...path, order: path.order + 1 }
+          : path
+      );
+    } else {
+      paths.push({
+        id: id,
+        order: 1,
+        title: `${id.slice(0, 10)}`,
+      });
+    }
 
     // path의 order에 해당하는 것들을 다 plus+1해야한다.
   }
@@ -354,6 +424,12 @@
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (!titleInput.value || !descInput.value || !categorySelect.value) {
+      //TODO 에러 메시지 띄우기
+      console.log("제목, 설명 입력");
+      return;
+    }
+
     const response = await fetch("/post/write", {
       method: "POST",
       body: JSON.stringify({
@@ -362,6 +438,7 @@
         title: titleInput.value,
         desc: descInput.value,
         review: reviewInput.value,
+        tags: tagList,
         category: categorySelect.value,
         mode: "col",
       }),

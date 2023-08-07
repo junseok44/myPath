@@ -23,6 +23,12 @@
     <option value="{{cat.name}}" {% if cat.name == currentCategory %} selected {% endif %}>{{cat.name}}</option>
     {% endfor %}
   </select>
+  <p>모든태그</p>
+  <ul id="tagList">
+    {% for tagtable in post.tag_table.all %}
+    <li>{{tagtable.tag.name}}</li>
+    {% endfor %}
+  </ul>
   <hr />
   <select id="pathSelect" class="select"></select>
   <ul class="main column-mode">
@@ -40,7 +46,6 @@
       <button type="button" onclick="handleDeletePath('{{path.id}}')">
         이 패스 삭제하기
       </button>
-
       <div class="step_container">
         {% for step in path.steps %}
         <section class="step step_{{step.id}}">
@@ -62,18 +67,22 @@
               편집하기
             </button>
           </div>
-          <div class="step__edit-modal modal_{{step.id}} hidden">
-            <input type="text" class="title" />
-            <textarea class="desc"></textarea>
-            <div>
-              <button type="button" onClick="handleToggleModal('{{step.id}}')">
-                취소
-              </button>
-              <button type="button" onclick="handleSaveValue('{{step.id}}')">
-                변경
-              </button>
+          <div class="modal__overlay hidden">
+            <div class="step__edit-modal modal_{{step.id}} hidden">
+              <input type="text" class="title" />
+              <textarea class="desc"></textarea>
+              <div>
+                <button type="button" onClick="handleToggleModal('{{step.id}}')">
+                  취소
+                </button>
+                <button type="button" onclick="handleSaveValue('{{step.id}}')">
+                  변경
+                </button>
+              </div>
             </div>
           </div>
+
+        
         </section>
 
         {% endfor %}
@@ -181,6 +190,9 @@ window.addEventListener('resize', () => {
     listItems.forEach(item => item.style.display = 'none')
   listItems[0].style.display = "block"
     updateSelectOptions();
+  } else {
+    const listItems = listElement.querySelectorAll('.path');
+    listItems.forEach(item => item.style.display = 'block')
   }
 });
 
@@ -226,12 +238,13 @@ window.addEventListener('resize', () => {
 
   function showAllItems() {
     console.log(steps);
+    console.log(paths);
   }
 
   function handleToggleModal(id) {
     const modal = document.querySelector(`.modal_${id}`);
     modal.classList.toggle("hidden");
-
+    modal.parentElement.classList.toggle("hidden")
     // 토글시 다른 아이템들은 다 숨겨지도록 해야함.
 
     titleVal = descVal = document.querySelector(`.step_${id} .title`).innerText;
@@ -255,6 +268,8 @@ window.addEventListener('resize', () => {
     titleNode.innerText = titleForm.value;
     descNode.innerText = descForm.value;
     modal.classList.toggle("hidden");
+    modal.parentElement.classList.toggle("hidden")
+
 
     step = steps.find((step) => step.id == id);
     step.title = titleForm.value;
@@ -301,21 +316,34 @@ window.addEventListener('resize', () => {
       main.append(li)
     }
  
-    prevPath = paths.find((path) => path.id == prevPathId);
-    paths = paths.map((path) =>
-      path.order >= prevPath.order + 1
-        ? { ...path, order: path.order + 1, isEdited: true, isNew: false, }
-        : path
-    );
-    console.log(paths);
+  
+    const prevPathItem = paths.find((path) => path.id == prevPathId);
 
-    paths.push({
-      id: id,
-      order: prevPath.order + 1,
-      title: `${id.slice(0, 10)}`,
-      isNew: true,
+    if (prevPathItem) {
+ 
+
+  paths = paths.map((path) =>
+    path.order >= prevPathItem.order + 1
+      ? { ...path, order: path.order + 1 , isNew: false, isEdited: true}
+      : path
+  );
+
+  paths.push({
+    id: id,
+    order: prevPathItem.order + 1,
+    title: `${id.slice(0, 10)}`,
+    isNew: true,
       isEdited: false,
-    });
+  });
+} else {
+  paths.push({
+    id: id,
+    order: 1,
+    title: `${id.slice(0, 10)}`,
+    isNew: true,
+    isEdited: false,
+  });
+}
 
     updateSelectOptions()
   }
@@ -343,6 +371,7 @@ window.addEventListener('resize', () => {
                   편집하기
                 </button>
               </div>
+              <div class="modal__overlay hidden">
               <div class="step__edit-modal modal_${id} hidden">
                 <input type="text" class="title" />
                 <textarea class="desc"></textarea>
@@ -350,6 +379,7 @@ window.addEventListener('resize', () => {
                   <button type="button" onClick="handleToggleModal('${id}')">취소</button>
                   <button type="button" onclick="handleSaveValue('${id}')">변경</button>
                 </div>
+              </div>
               </div>
         `;
     stepContainer.appendChild(section);
@@ -447,6 +477,8 @@ window.addEventListener('resize', () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    if(!titleInput.value || !descInput.value ) return;
 
     const response = await fetch(`/post/edit/${postData[0].pk}`, {
       method: "POST",
