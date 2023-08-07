@@ -11,6 +11,10 @@
   </head>
   <body>
     <header>this is header</header>
+    <div>
+      <a href="{% url 'post_list' %}">list</a>
+      <a href="{% url 'post_write' %}">write post</a>
+    </div>
     {% block content %} {% endblock %}
   </body>
 </html>

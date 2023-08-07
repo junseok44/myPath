@@ -1,6 +1,8 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
 <h1>edit</h1>
+<button onclick="showAllItems()">모든아이템</button>
+
 <form class="edit__form" onsubmit="handleSubmit(event)">
   <span>제목</span>
 
@@ -40,7 +42,7 @@
       </button>
 
       <div class="step_container">
-        {% for step in path.step.all %}
+        {% for step in path.steps %}
         <section class="step step_{{step.id}}">
           <div>
             <p class="title">{{step.title}}</p>
@@ -48,7 +50,7 @@
             <button type="button" onclick="moveItemUp('{{step.id}}')">
               위로 올리기
             </button>
-            <button type="button">밑으로 내리기</button>
+            <button type="button" onclick="moveItemDown('{{step.id}}')">밑으로 내리기</button>
             <button type="button" onclick="handleDeleteItem('{{step.id}}')">
               삭제하기
             </button>
@@ -103,6 +105,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
 
+<!-- csrf token -->
 <script>
   function getCookie(name) {
     let cookieValue = null;
@@ -121,7 +124,8 @@
   }
   const csrftoken = getCookie("csrftoken");
 </script>
-<!-- 
+
+<!-- 반응형 path 디자인 -->
 <script>
 const listElement = document.querySelector('.main');
 const selectElement = document.getElementById('pathSelect');
@@ -129,13 +133,20 @@ const selectElement = document.getElementById('pathSelect');
 function updateSelectOptions() {
   selectElement.innerHTML = '';
   const listItems = listElement.querySelectorAll('.path');
-  let index = 1;
   for (const listItem of listItems) {
+
+    const pathTitle = listItem.querySelector(".path_title").value
     const option = document.createElement('option');
-    option.value = `패스${index}`
-    option.textContent = `패스${index}`
+    const classNames = listItem.className.split(' ');
+    let id = null;
+    for (const className of classNames) {
+      if (className.startsWith('path_')) {
+        id = className.slice(5); // Remove "step_" from the class name to get the "id"
+        option.value = id
+      }
+    }
+    option.textContent = pathTitle
     selectElement.appendChild(option);
-    index++
   }
 }
 
@@ -155,15 +166,27 @@ selectElement.addEventListener('change', () => {
   }
 });
 
-// Event listener to update the select dropdown when the window is resized
+if(window.innerWidth <= 600) {
+  const listItems = listElement.querySelectorAll('.path');
+  listItems.forEach(item => item.style.display = 'none')
+
+  listItems[0].style.display = "block"
+  updateSelectOptions()
+}
+
+// 개발용 이벤트 리스너.
 window.addEventListener('resize', () => {
   if (window.innerWidth <= 600) {
+    const listItems = listElement.querySelectorAll('.path');
+    listItems.forEach(item => item.style.display = 'none')
+  listItems[0].style.display = "block"
     updateSelectOptions();
   }
 });
 
-</script> -->
+</script>
 
+<!-- 메인 핸들러 -->
 <script>
   const postData = JSON.parse("{{ jsonPost|escapejs }}");
   const pathData = JSON.parse("{{ jsonPaths|escapejs }}");
@@ -187,7 +210,6 @@ window.addEventListener('resize', () => {
     };
     paths.push(newPath);
   }
-  console.log(paths);
 
   for (let instance of stepData) {
     let item = {
@@ -201,7 +223,10 @@ window.addEventListener('resize', () => {
     delete item["path"];
     steps.push(item);
   }
-  console.log(steps);
+
+  function showAllItems() {
+    console.log(steps);
+  }
 
   function handleToggleModal(id) {
     const modal = document.querySelector(`.modal_${id}`);
@@ -276,14 +301,23 @@ window.addEventListener('resize', () => {
       main.append(li)
     }
  
+    prevPath = paths.find((path) => path.id == prevPathId);
+    paths = paths.map((path) =>
+      path.order >= prevPath.order + 1
+        ? { ...path, order: path.order + 1, isEdited: true, isNew: false, }
+        : path
+    );
+    console.log(paths);
 
     paths.push({
       id: id,
-      order: paths.length + 1,
+      order: prevPath.order + 1,
       title: `${id.slice(0, 10)}`,
       isNew: true,
       isEdited: false,
     });
+
+    updateSelectOptions()
   }
 
   function handleAddStep(targetPathId) {
@@ -338,6 +372,61 @@ window.addEventListener('resize', () => {
     steps = steps.filter((step) => step.id !== stepId);
     deletedIds.push(stepId);
   }
+
+  function moveItemUp(stepId) {
+    const targetStep = steps.find((step) => step.id == stepId);
+    const pathId = targetStep.pathId;
+    const target = document.querySelector(`.step_${stepId}`);
+    const container = document.querySelector(`.path_${pathId} .step_container`);
+    const previousNode = target.previousElementSibling;
+    if (!previousNode) return;
+
+    container.removeChild(target);
+    container.insertBefore(target, previousNode);
+    
+    const movedStep = steps.find(
+      (step) => step.pathId == pathId && step.order == targetStep.order - 1
+    );
+    // targetStep은 order를 -1 . movedStep은 order를 1.
+    steps = steps.map((step) => {
+      if (step.id == movedStep.id) return { ...step, order: step.order + 1, isEdited: true };
+      else if (step.id === targetStep.id)
+        return { ...step, order: step.order - 1, isEdited: true };
+      else return step;
+    });
+  }
+
+  function moveItemDown(stepId) {
+    const targetStep = steps.find((step) => step.id == stepId);
+    const pathId = targetStep.pathId;
+    const target = document.querySelector(`.step_${stepId}`);
+    const container = document.querySelector(`.path_${pathId} .step_container`);
+    const nextNode = target.nextElementSibling;
+
+    if (!nextNode) return;
+    const next_nextNode = nextNode.nextElementSibling;
+    container.removeChild(target);
+
+    if (next_nextNode) {
+      container.insertBefore(target, next_nextNode);
+
+    } else {
+      container.appendChild(target);
+      console.log("append last");
+    }
+
+    const movedStep = steps.find(
+      (step) => step.pathId == pathId && step.order == targetStep.order + 1
+    );
+
+    steps = steps.map((step) => {
+      if (step.id == movedStep.id) return { ...step, order: step.order - 1, isEdited: true };
+      else if (step.id === targetStep.id)
+        return { ...step, order: step.order + 1, isEdited: true };
+      else return step;
+    });
+  }
+
 
   function handleDeletePath(targetPathId) {
     const main = document.querySelector(".main");

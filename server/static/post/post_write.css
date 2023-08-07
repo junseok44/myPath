@@ -24,17 +24,21 @@
   display: flex;
   flex-direction: column;
 }
-/* 
+
+.hidden {
+  display: none;
+}
+
+#pathSelect {
+  display: none;
+}
+
 @media screen and (max-width: 600px) {
-  .path {
+  /* .path {
     display: none;
-  }
+  } */
 
   #pathSelect {
     display: block;
   }
 }
-
-.hidden {
-  display: none;
-} */

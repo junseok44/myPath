@@ -110,7 +110,7 @@ def view_post_edit(request, id):
         data = json.loads(request.body)
         post = get_object_or_404(Post, pk=id)
 
-        # 1. 삭제된 id를 삭제한다.
+        # 1. 삭제된 path를 삭제한다.
         for deletedId in data['deletedPaths']:
             matching_objects = Path.objects.filter(pk=deletedId)
             if matching_objects.exists():
@@ -118,7 +118,7 @@ def view_post_edit(request, id):
                     print("deleted columns"+obj.title)
                     obj.delete()
 
-
+        # 삭제된 column을 삭제한다.
         for deletedId in data['deletedIds']:
             matching_objects = Step.objects.filter(pk=deletedId)
             if matching_objects.exists():
@@ -155,7 +155,7 @@ def view_post_edit(request, id):
                 for obj in matching_objects:
                     obj.title = path['title']
                     obj.order = path['order']
-
+                    obj.save()
 
         # 3. Update 그 다음 편집되었던 step을 골라서. 해당 실제 데이터로 넣어준다. title,desc,order 등.
         for step in [step for step in data['steps'] if step['isEdited'] == True and step['isNew'] == False]:
@@ -166,6 +166,7 @@ def view_post_edit(request, id):
             myStep.save()
             print("edited step", myStep.title)
 
+        # post를 수정한다.
         post.title = data['title']
         post.desc = data['desc']
         post.review = data['review']
@@ -179,7 +180,11 @@ def view_post_edit(request, id):
         return JsonResponse({"msg": "hello"})
 
     post = get_object_or_404(Post, id=id)
-    paths = Path.objects.filter(post=post)
+    paths = Path.objects.filter(post=post).order_by("order")
+
+    for path in paths:
+        path.steps = path.step.all().order_by("order")
+
     jsonPost = serialize('json', [post])
     jsonPaths = serialize('json', paths)
     jsonSteps = serialize('json', Step.objects.filter(path__in=paths))
