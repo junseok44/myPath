@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from .models import Post, Path, Step, Category, CategoryTable, Tag, TagTable
 from django.core.serializers import serialize
-
+from django.contrib import messages
 # from apps.user.models import User
 from django.contrib.auth import get_user_model
 from django.http.response import JsonResponse
@@ -36,7 +36,6 @@ def view_post_write(request):
             user = request.user
         print(user.get_username())
         thumbnail_data = data.get("thumbnail")
-        
         if thumbnail_data is not None:
             post = Post.objects.create(
                 user=user,
@@ -63,7 +62,6 @@ def view_post_write(request):
             category=cat
         )
 
-        print(data['tags'])
         for tagName in data['tags']:
             tagObj = Tag.objects.filter(name=tagName)
             if tagObj.exists():
@@ -110,7 +108,8 @@ def view_post_write(request):
                     )
                 print("step생성", newStep)
 
-        return JsonResponse({"msg": "hello"})
+        messages.success(request, '패스를 생성했습니다!')
+        return JsonResponse({"id": post.id})
 
     categories = Category.objects.all()
     return render(request, "post/post_write.html",
@@ -122,13 +121,24 @@ def view_post_list(request):
     ctx = {
         "posts": posts
     }
-
     return render(request, 'post/post_list.html', ctx)
+
+
+def view_post_delete(request, id):
+    try:
+        deletedPost = Post.objects.get(pk=id)
+        deletedPost.delete()
+        messages.success(request, 'delete successful')
+        return JsonResponse({"msg":"success"},status = 200)
+    except:
+        messages.error(request, 'delete failed')
+        return JsonResponse({"msg":"error"},status = 404)
 
 def view_post_edit(request, id):
     if request.method == "POST":
         data = json.loads(request.body)
         post = get_object_or_404(Post, pk=id)
+
 
         # 1. 삭제된 path를 삭제한다.
         for deletedId in data['deletedPaths']:
@@ -195,12 +205,45 @@ def view_post_edit(request, id):
         post.desc = data['desc']
         post.review = data['review']
         
+
+        # post category 수정
         category = Category.objects.get(name=data['category'])
         table = CategoryTable.objects.get(post=post)
         table.category = category
         table.save()
         post.save()
 
+        # post tag 삭제.
+        for dTagName in data['deletedTag']:
+            try:
+                print(dTagName)
+                dTag = Tag.objects.get(name=dTagName)
+                dTagTable = TagTable.objects.get(tag=dTag, post=post)
+                print(dTagTable)
+                dTagTable.delete()
+            except:
+                pass
+        
+        # post tag 추가.
+        for tagName in data['addedTag']:
+            tagObj = Tag.objects.filter(name=tagName)
+            if tagObj.exists():
+                for tag in tagObj:
+                    tagtable = TagTable.objects.create(
+                        post=post,
+                        tag=tag
+                    )
+                    print("tagable 연결", tagtable.tag.name)
+            else:
+                newTag = Tag.objects.create(name=tagName)
+                print("태그생성",newTag.name)
+                tagtable = TagTable.objects.create(
+                        post=post,
+                        tag=newTag
+                    )
+                print("tagable 연결", tagtable.tag.name)
+
+        messages.success(request, "성공적으로 수정했습니다!!")
         return JsonResponse({"msg": "hello"})
 
     post = get_object_or_404(Post, id=id)

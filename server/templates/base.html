@@ -8,13 +8,50 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'reset.css' %}" />
     <link rel="stylesheet" href="{% static 'index.css' %}" />
+    <link rel="stylesheet" href="{% static 'shared.css' %}" />
   </head>
   <body>
-    <header>this is header</header>
-    <div>
-      <a href="{% url 'post_list' %}">list</a>
-      <a href="{% url 'post_write' %}">write post</a>
+    <header>
+      this is header
+      <span>
+        <a href="{% url 'post_list' %}">list</a>
+        <a href="{% url 'post_write' %}">write post</a>
+      </span>
+      <span>
+        {% if user.is_authenticated %}
+        <span>{{user.username}} 님 안녕하세요!</span>
+
+        <button>
+          <a href="/user/auth/logout"> logout</a>
+        </button>
+        {% else %}
+        <p>anonymous</p>
+        <button>
+          <a href="/user/auth/login"> login</a>
+        </button>
+        {% endif %}
+      </span>
+    </header>
+    {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+      <div class="message {{ message.tags }}">{{ message }}</div>
+      {% endfor %}
     </div>
-    {% block content %} {% endblock %}
+    {% endif %} {% block content %} {% endblock %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var messages = document.querySelector(".messages");
+
+        if (messages) {
+          setTimeout(function () {
+            messages.classList.add("show"); // Show the message
+            setTimeout(function () {
+              messages.style.top = "-100%"; // Move the message back up
+            }, 2000); // Wait for 3 seconds
+          }, 500); // Delay before showing the message
+        }
+      });
+    </script>
   </body>
 </html>

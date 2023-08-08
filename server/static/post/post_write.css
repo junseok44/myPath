@@ -6,6 +6,16 @@
 .container_row-mode {
   display: flex;
   gap: 2rem;
+
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
+}
+
+.path {
+  /* @media screen and (max-width: 600px) {
+    display: none;
+  } */
 }
 
 .step {
@@ -13,6 +23,7 @@
   margin-bottom: 1rem;
   padding: 10px;
   border: 1px solid black;
+  min-width: 15rem;
 }
 
 .step__edit-modal {
@@ -25,6 +36,7 @@
   display: flex;
   flex-direction: column;
   z-index: 10;
+  border: 1px solid black;
   @media screen and (max-width: 600px) {
     position: fixed;
     top: 50%;
@@ -37,15 +49,14 @@
   display: none;
 }
 
-#pathSelect {
+.pathSelect {
   display: none;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 600px) {
-  #pathSelect {
-    display: block;
-  }
-
   .modal__overlay {
     position: fixed;
     top: 0;

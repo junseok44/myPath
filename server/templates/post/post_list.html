@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    {% for post in posts %}
-    <a href="{% url 'post_edit' id=post.id %}">
-      <div>{{post.title}}</div>
-    </a>
-    <br />
-    {% endfor %}
-  </body>
-</html>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div>
+  {% for post in posts %}
+  <a href="{% url 'post_edit' id=post.id %}">
+    <div>{{post.title}}</div>
+  </a>
+  <br />
+  {% endfor %}
+</div>
+{% endblock %}
