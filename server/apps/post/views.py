@@ -22,3 +22,23 @@ def view_post_detail(requests,pk):
     ctx={"post":post,"paths":paths,"post_comments":post_comments}
 
     return render(requests,"post/detail.html",context=ctx)
+
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def view_step_detail_ajax(request):
+    req=json.loads(request.body)
+    step_id=req['id']
+    step=Step.objects.get(id=step_id)
+
+    return JsonResponse()
+
+@csrf_exempt
+def view_step_comment_create_ajax(request):
+    req=json.loads(request.body)
+    step_id=req['id']
+    step=Step.objects.get(id=step_id)
+    
+    return JsonResponse()

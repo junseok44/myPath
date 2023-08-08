@@ -8,8 +8,11 @@
             <h2>{{post.title}}</h2>
             <a href="/">{{post.user}}</a>
         </div>
-        <img src="{{post.thumbnail.url}}">
-        <p>{{post.desc}}</p>
+        <div class="intro-desc">
+            <img src="{{post.thumbnail.url}}">
+            <p>{{post.desc}}</p>
+        </div>
+        
     </div>
     <ul class="main-container {{post.mode}}">
         {% for path in paths %}
@@ -21,8 +24,19 @@
                     <div>
                         <p class="title">{{step.title}}</p>
                         <p class="desc">{{step.desc}}</p>
-                        <button type="button">더보기</button>
-
+                        <button type="button" onclick="onClickStepShow('{{step.id}}')">더보기</button>
+                    </div>
+                    <div class="modal__overlay hidden">
+                        <div class="step__modal modal_{{step.id}} hidden">
+                          <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
+                          <h3>{{step.title}}</h3>
+                          <img src="{{step.Image.url}}">
+                          <p>{{step.desc}}</p>
+                          <div class="step__comment">
+                            <input type="text" class="new-comment" placeholder="댓글을 입력하세요">
+                            <button class="comment-create" onclick="onClickStepComment({{step.id}})">댓글 쓰기</button>
+                          </div>
+                        </div>
                     </div>
                 </section>
                 {% endfor %}
@@ -40,4 +54,20 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    const onClickStepShow=(id)=>{
+        const url='/step';
+        const step_title=document.querySelector(`.modal_${step.id} h2`);
+        const step_image=document.querySelector(`.modal_${step.id} img`);
+        const step_desc=document.querySelector(`.modal_${step.id} p`);
+    };
+
+    const onClickStepComment=(id)=>{
+        const url='step/comment_create';
+
+    };
+
+</script>
 {% endblock %}
