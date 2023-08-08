@@ -1,0 +1,38 @@
+{% extends 'post/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="intro-container">
+        <div class="intro-title">
+            <h2>{{post.title}}</h2>
+        </div>
+        <img src="{{post.thumbnail.url}}">
+        <p>{{post.desc}}</p>
+    </div>
+    <ul class="main-container">
+        {% for path in paths %}
+        <li class="path path_{{path.id}}">
+            <div class="step-container">
+                {% for step in path.steps %}
+                <section class="step step_{{step.id}}">
+                    <div>
+                        <p class="title">{{step.title}}</p>
+                        <p class="desc">{{step.desc}}</p>
+                    </div>
+                </section>
+                {% endfor %}
+            </div>
+        </li>    
+        {% endfor %}
+    </ul>
+    <div class="review-container">
+        <div class="review-content">{{post.review}}</div>
+        <div class="comment-container">
+            {% for post_comment in {{post_comments}}%}
+            <p>{{post_comment.writer}}</p>
+            <p>{{post_comment.text}}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
