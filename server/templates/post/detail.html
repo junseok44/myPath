@@ -1,4 +1,4 @@
-{% extends 'post/main.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
@@ -11,7 +11,7 @@
         <img src="{{post.thumbnail.url}}">
         <p>{{post.desc}}</p>
     </div>
-    <ul class="main-container">
+    <ul class="main-container {{post.mode}}">
         {% for path in paths %}
         <li class="path path_{{path.id}}">
             <p>{{path.title}}</p>

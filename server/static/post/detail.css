@@ -1,0 +1,16 @@
+.detail-container .main-container {
+    display:flex;
+}
+
+.detail-container .main-container .step-container{
+    display:flex;
+}
+
+.row .main-container{
+    flex-direction:column;
+}
+
+.col .step-container{
+
+    flex-direction:column;
+}
