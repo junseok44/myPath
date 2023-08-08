@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block content %}
+<div class="login-container">
+    <h2>Login</h2>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+
+        <label for="loginId">ID: </label>
+        <input type="text" name="loginId" required>
+
+        <label for="password">Password: </label>
+        <input type="password" name="password" required>
+        
+        <button type="submit">로그인</button>
+    </form>
+    <p>계정이 없으신가요? <a href="{% url 'signup' %}">회원가입</a></p>
+</div>
+{% endblock %}

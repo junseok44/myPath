@@ -26,6 +26,7 @@ class User(AbstractUser):
         },
     )
     username = models.CharField(max_length=20, unique=True)
+    email = models.EmailField(_('email address'), unique=True)
     intro = models.CharField(max_length=300)
     membership = models.CharField(
         max_length=10, choices=membershipRank, default="bronze", blank=False, null=False)

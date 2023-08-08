@@ -38,6 +38,7 @@ def get_env_variable(key):
 
 SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
 
+AUTH_USER_MODEL = 'user.User'
 
 
 
