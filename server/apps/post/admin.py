@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import Post, Path, Step, Category, Tag, TagTable
+from apps.post.models import *
+
 # Register your models here.
-
-
 admin.site.register(Post)
 admin.site.register(Path)
-admin.site.register(Category)
 admin.site.register(Step)
+admin.site.register(Category)
+admin.site.register(CategoryTable)
 admin.site.register(Tag)
+admin.site.register(TagTable)

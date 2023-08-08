@@ -1,0 +1,168 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="detail-container">
+  <div class="intro-container">
+    <div class="intro-title">
+      <h2>{{post.title}}</h2>
+      <a href="/">{{post.user}}</a>
+    </div>
+    <div class="intro-desc">
+      {% if post.thumbnail %}
+      <img src="{{post.thumbnail.url}}" />
+      {% else %}
+      <img src="{% static 'noimage.jpg' %}" />
+      {% endif %}
+      <p>
+        좋아요 수 : <span class="post-likes">{{post.like_table.count}}</span>
+      </p>
+      <p>
+        북마크 수 :
+        <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
+      </p>
+      <p>{{post.desc}}</p>
+      {% if user.is_authenticated %}
+      <p>{{user.username}}님</p>
+      <button class="like-btn" onclick="likeToggle('{{post.id}}')">
+        {% if post.isLiked %} 좋아요취소 {% else %} 좋아요하기 {% endif %}
+      </button>
+      <button class="bookmark-btn" onclick="bookMarkToggle('{{post.id}}')">
+        {% if post.isBookMarked %} 북마크취소 {% else %} 북마크하기 {% endif %}
+      </button>
+
+      {% endif %}
+    </div>
+  </div>
+  <ul class="main-container {{post.mode}}">
+    {% for path in paths %}
+    <li class="path path_{{path.id}}">
+      <p>{{path.title}}</p>
+      <div class="step-container">
+        {% for step in path.steps %}
+        <section class="step step_{{step.id}}">
+          <div>
+            <p class="title">{{step.title}}</p>
+            <p class="desc">{{step.desc}}</p>
+            <button type="button" onclick="onClickStepShow('{{step.id}}')">
+              더보기
+            </button>
+          </div>
+          <div class="modal__overlay hidden">
+            <div class="step__modal modal_{{step.id}} hidden">
+              <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
+              <h3>{{step.title}}</h3>
+              {% if step.Image %}
+              <img src="{{step.Image.url}}" />
+              {% else %} {% endif %}
+              <p>{{step.desc}}</p>
+              <div class="step__comment">
+                <input
+                  type="text"
+                  class="new-comment"
+                  placeholder="댓글을 입력하세요"
+                />
+                <button
+                  class="comment-create"
+                  onclick="onClickStepComment({{step.id}})"
+                >
+                  댓글 쓰기
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        {% endfor %}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="review-container">
+    <div class="review-content">{{post.review}}</div>
+    <div class="comment-container">
+      {% for post_comment in post_comments%}
+      <p>{{post_comment.writer}}</p>
+      <p>{{post_comment.text}}</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- csrf token. fetch 요청할때 header에 넣어주면 @exempt 안써도 되요. 밑에 사용례 참고 -->
+<script>
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+</script>
+<!-- 북마크, 좋아요 관련 스크립트 -->
+<script>
+  const bookmarkBtn = document.querySelector(".bookmark-btn");
+  const likeBtn = document.querySelector(".like-btn");
+
+  const bookmarkCount = document.querySelector(".post-bookmarks");
+  const likeCount = document.querySelector(".post-likes");
+  async function bookMarkToggle(postId) {
+    const response = await fetch("/api/toggleBookMark/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken"), // Replace with your method of getting CSRF token
+      },
+      body: JSON.stringify({
+        postId: postId,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      if (data.isBookMarked) {
+        bookmarkBtn.innerHTML = "북마크취소";
+      } else {
+        bookmarkBtn.innerHTML = "북마크하기";
+      }
+
+      bookmarkCount.innerHTML = data["bookMark_count"];
+    } else {
+      console.error("Error toggling bookmark");
+    }
+  }
+
+  async function likeToggle(postId) {
+    const response = await fetch("/api/toggleLike/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken"), // Replace with your method of getting CSRF token
+      },
+      body: JSON.stringify({
+        postId: postId,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.isLiked) {
+        likeBtn.innerHTML = "좋아요취소";
+      } else {
+        likeBtn.innerHTML = "좋아요하기";
+      }
+      likeCount.innerHTML = data["like_count"];
+    } else {
+      console.error("Error toggling like");
+    }
+  }
+</script>
+
+<script>
+  const onClickStepShow = (id) => {
+    const url = "/step";
+    const step_title = document.querySelector(`.modal_${step.id} h2`);
+    const step_image = document.querySelector(`.modal_${step.id} img`);
+    const step_desc = document.querySelector(`.modal_${step.id} p`);
+  };
+
+  const onClickStepComment = (id) => {
+    const url = "step/comment_create";
+  };
+</script>
+{% endblock %}

@@ -1,0 +1,26 @@
+.intro-container .intro-desc{
+    display:flex;
+
+}
+
+.intro-container .intro-desc img{
+    height:150px;
+    width:150px;
+}
+
+.detail-container .main-container {
+    display:flex;
+}
+
+.detail-container .main-container .step-container{
+    display:flex;
+}
+
+.row .main-container{
+    flex-direction:column;
+}
+
+.col .step-container{
+
+    flex-direction:column;
+}
