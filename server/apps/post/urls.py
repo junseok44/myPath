@@ -9,6 +9,9 @@ urlpatterns = [
     path('post/<uuid:pk>',view_post_detail,name='post_detail'),
     path('step',view_step_detail_ajax,name='step_detail'),
     path('step/comment_create',view_step_comment_create_ajax,name='step_comment_create'),
+    path('api/toggleBookMark/', toggle_bookmark_ajax),
+    path('api/toggleLike/', toggle_like_ajax)   ,
+
 ]
 
 if settings.DEBUG:
