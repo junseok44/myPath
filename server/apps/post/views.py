@@ -7,6 +7,11 @@ from apps.comment.models import PostComment,StepComment
 def view_post_main(requests):
     return render(requests, "post/main.html")
 
+def view_post_list(requests):
+    posts=Post.objects.all()
+    ctx={"posts":posts}
+    return render(requests,"post/post_list.html",context=ctx)
+
 def view_post_detail(requests,pk):
 
     post=Post.objects.get(id=pk)
