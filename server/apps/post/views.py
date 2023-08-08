@@ -29,87 +29,92 @@ def get_user_by_username(username):
 
 def view_post_write(request):
     if request.method == "POST":
-        data = json.loads(request.body)
-        if not request.user.is_authenticated:
-            user = get_user_by_username("개미개미")
-        else:
-            user = request.user
-        print(user.get_username())
-        thumbnail_data = data.get("thumbnail")
-        if thumbnail_data is not None:
-            post = Post.objects.create(
-                user=user,
-                title=data['title'],
-                desc=data['desc'],
-                review=data['review'],
-                mode=data['mode'],
-                thumbnail=data['thumbnail']
-            )
-        else:
-            post = Post.objects.create(
-                user=user,
-                title=data['title'],
-                desc=data['desc'],
-                review=data['review'],
-                mode=data['mode'],
-            )
-        print("post 생성", post)
-
-        print(data['category'])
-        cat = Category.objects.get(name=data['category'])
-        CategoryTable.objects.create(
-            post=post,
-            category=cat
-        )
-
-        for tagName in data['tags']:
-            tagObj = Tag.objects.filter(name=tagName)
-            if tagObj.exists():
-                for tag in tagObj:
-                    #하나의 tag 인스턴스임.
-                    tagtable = TagTable.objects.create(
-                        post=post,
-                        tag=tag
-                    )
-                    print("tagable 연결", tagtable.tag.name)
+        try:
+            data = json.loads(request.body)
+            # 로그인 기능 구현이 안되어서, 일단 임시로 유저 생성.
+            if not request.user.is_authenticated:
+                user = get_user_by_username("개미개미")
             else:
-                newTag = Tag.objects.create(name=tagName)
-                print("태그생성",newTag.name)
-                tagtable = TagTable.objects.create(
-                        post=post,
-                        tag=newTag
-                    )
-                print("tagable 연결", tagtable.tag.name)
+                user = request.user
+            print(user.get_username())
+            thumbnail_data = data.get("thumbnail")
+            if thumbnail_data is not None:
+                post = Post.objects.create(
+                    user=user,
+                    title=data['title'],
+                    desc=data['desc'],
+                    review=data['review'],
+                    mode=data['mode'],
+                    thumbnail=data['thumbnail']
+                )
+            else:
+                post = Post.objects.create(
+                    user=user,
+                    title=data['title'],
+                    desc=data['desc'],
+                    review=data['review'],
+                    mode=data['mode'],
+                )
+            print("post 생성", post)
 
-
-        for path in data['paths']:
-            newPath = Path.objects.create(
+            print(data['category'])
+            cat = Category.objects.get(name=data['category'])
+            CategoryTable.objects.create(
                 post=post,
-                title=path['title'],
-                order=path['order']
+                category=cat
             )
-            print("path 생성", newPath)
-            for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
-                Image_data = step.get("Image")
-                if Image_data is not None:
-                    newStep = Step.objects.create(
-                        path=newPath,
-                        title=step['title'],
-                        desc=step['desc'],
-                        order=step['order'],
-                        Image=step['Image']
-                    )
-                else:
-                    newStep = Step.objects.create(
-                        path=newPath,
-                        title=step['title'],
-                        desc=step['desc'],
-                        order=step['order'],
-                    )
-                print("step생성", newStep)
 
-        messages.success(request, '패스를 생성했습니다!')
-        return JsonResponse({"id": post.id})
+            for tagName in data['tags']:
+                tagObj = Tag.objects.filter(name=tagName)
+                if tagObj.exists():
+                    for tag in tagObj:
+                        #하나의 tag 인스턴스임.
+                        tagtable = TagTable.objects.create(
+                            post=post,
+                            tag=tag
+                        )
+                        print("tagable 연결", tagtable.tag.name)
+                else:
+                    newTag = Tag.objects.create(name=tagName)
+                    print("태그생성",newTag.name)
+                    tagtable = TagTable.objects.create(
+                            post=post,
+                            tag=newTag
+                        )
+                    print("tagable 연결", tagtable.tag.name)
+
+
+            for path in data['paths']:
+                newPath = Path.objects.create(
+                    post=post,
+                    title=path['title'],
+                    order=path['order']
+                )
+                print("path 생성", newPath)
+                for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
+                    Image_data = step.get("Image")
+                    if Image_data is not None:
+                        newStep = Step.objects.create(
+                            path=newPath,
+                            title=step['title'],
+                            desc=step['desc'],
+                            order=step['order'],
+                            Image=step['Image']
+                        )
+                    else:
+                        newStep = Step.objects.create(
+                            path=newPath,
+                            title=step['title'],
+                            desc=step['desc'],
+                            order=step['order'],
+                        )
+                    print("step생성", newStep)
+
+            messages.success(request, '패스를 생성했습니다!')
+            return JsonResponse({"id": post.id})
+        except:
+            messages.success(request, '작성에 실패했습니다! 다시 시도해주세요')
+            return JsonResponse({"error": "errormessage"}, status=500)  # Internal Server Error
 
     categories = Category.objects.all()
     return render(request, "post/post_write.html",
@@ -123,12 +128,11 @@ def view_post_list(request):
     }
     return render(request, 'post/post_list.html', ctx)
 
-
 def view_post_delete(request, id):
     try:
         deletedPost = Post.objects.get(pk=id)
         deletedPost.delete()
-        messages.success(request, 'delete successful')
+        messages.success(request, '성공적으로 삭제되었습니다.')
         return JsonResponse({"msg":"success"},status = 200)
     except:
         messages.error(request, 'delete failed')
@@ -136,115 +140,120 @@ def view_post_delete(request, id):
 
 def view_post_edit(request, id):
     if request.method == "POST":
-        data = json.loads(request.body)
-        post = get_object_or_404(Post, pk=id)
+        try:
+            data = json.loads(request.body)
+            post = get_object_or_404(Post, pk=id)
+
+            # 1. 삭제된 path를 삭제한다.
+            for deletedId in data['deletedPaths']:
+                matching_objects = Path.objects.filter(pk=deletedId)
+                if matching_objects.exists():
+                    for obj in matching_objects:
+                        print("deleted columns"+obj.title)
+                        obj.delete()
+
+            # 삭제된 column을 삭제한다.
+            for deletedId in data['deletedIds']:
+                matching_objects = Step.objects.filter(pk=deletedId)
+                if matching_objects.exists():
+                    for obj in matching_objects:
+                        print("deleted steps"+obj.title)
+                        obj.delete()
+
+            # 1. Create 기존 패스에 추가된 스텝을 추가한다.
+            for item in [data for data in data['steps'] if data['isNew'] == True]:
+                matching_objects = Path.objects.filter(pk=item['pathId'])
+                if matching_objects.exists():
+                    step = Step.objects.create(
+                        path=Path.objects.get(pk=item['pathId']),
+                        title=item['title'],
+                        desc=item['desc'],
+                        order=item['order'],
+                    )
+                    print("created into current path", step.title)
+
+            # 2. Create 새로운 패스를 추가하고, 그 패스에 해당하는 step도 추가한다.
+            for path in [path for path in data['paths'] if path['isNew'] == True]:
+                newPath = Path.objects.create(
+                    post=post, title=path['title'], order=path['order'])
+                for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
+                    newStep = Step.objects.create(path=newPath, title=step['title'], desc=step['desc'],
+                                                  order=step['order']
+                                                  )
+                    print("created new step in new column", newStep.title)
 
 
-        # 1. 삭제된 path를 삭제한다.
-        for deletedId in data['deletedPaths']:
-            matching_objects = Path.objects.filter(pk=deletedId)
-            if matching_objects.exists():
-                for obj in matching_objects:
-                    print("deleted columns"+obj.title)
-                    obj.delete()
-
-        # 삭제된 column을 삭제한다.
-        for deletedId in data['deletedIds']:
-            matching_objects = Step.objects.filter(pk=deletedId)
-            if matching_objects.exists():
-                for obj in matching_objects:
-                    print("deleted steps"+obj.title)
-                    obj.delete()
-
-        # 1. Create 기존 패스에 추가된 스텝을 추가한다.
-        for item in [data for data in data['steps'] if data['isNew'] == True]:
-            matching_objects = Path.objects.filter(pk=item['pathId'])
-            if matching_objects.exists():
-                step = Step.objects.create(
-                    path=Path.objects.get(pk=item['pathId']),
-                    title=item['title'],
-                    desc=item['desc'],
-                    order=item['order'],
-                )
-                print("created into current path", step.title)
-
-        # 2. Create 새로운 패스를 추가하고, 그 패스에 해당하는 step도 추가한다.
-        for path in [path for path in data['paths'] if path['isNew'] == True]:
-            newPath = Path.objects.create(
-                post=post, title=path['title'], order=path['order'])
-            for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
-                newStep = Step.objects.create(path=newPath, title=step['title'], desc=step['desc'],
-                                              order=step['order']
-                                              )
-                print("created new step in new column", newStep.title)
+            #update
+            # 기존 path 중에서 수정된것을 반영한다.
+            for path in [path for path in data['paths'] if path['isEdited'] == True and path['isNew'] == False]:
+                matching_objects = Path.objects.filter(pk=path['id'])
+                if matching_objects.exists():
+                    for obj in matching_objects:
+                        print(obj)
+                        obj.title = path['title']
+                        obj.order = path['order']
+                        obj.save()
 
 
-        #update
-        # 기존 path 중에서 수정된것을 반영한다.
-        for path in [path for path in data['paths'] if path['isEdited'] == True and path['isNew'] == False]:
-            matching_objects = Path.objects.filter(pk=path['id'])
-            if matching_objects.exists():
-                for obj in matching_objects:
-                    print(obj)
-                    obj.title = path['title']
-                    obj.order = path['order']
-                    obj.save()
+            # 3. Update 그 다음 편집되었던 step을 골라서. 해당 실제 데이터로 넣어준다. title,desc,order 등.
+            for step in [step for step in data['steps'] if step['isEdited'] == True and step['isNew'] == False]:
+                myStep = get_object_or_404(Step, pk=step['id'])
+                myStep.title = step['title']
+                myStep.desc = step['desc']
+                myStep.order = step['order']
+                myStep.save()
+                print("edited step", myStep.title)
+
+            # post를 수정한다.
+            post.title = data['title']
+            post.desc = data['desc']
+            post.review = data['review']
 
 
-        # 3. Update 그 다음 편집되었던 step을 골라서. 해당 실제 데이터로 넣어준다. title,desc,order 등.
-        for step in [step for step in data['steps'] if step['isEdited'] == True and step['isNew'] == False]:
-            myStep = get_object_or_404(Step, pk=step['id'])
-            myStep.title = step['title']
-            myStep.desc = step['desc']
-            myStep.order = step['order']
-            myStep.save()
-            print("edited step", myStep.title)
+            # post category 수정
+            category = Category.objects.get(name=data['category'])
+            table = CategoryTable.objects.get(post=post)
+            table.category = category
+            table.save()
+            post.save()
 
-        # post를 수정한다.
-        post.title = data['title']
-        post.desc = data['desc']
-        post.review = data['review']
-        
-
-        # post category 수정
-        category = Category.objects.get(name=data['category'])
-        table = CategoryTable.objects.get(post=post)
-        table.category = category
-        table.save()
-        post.save()
-
-        # post tag 삭제.
-        for dTagName in data['deletedTag']:
-            try:
-                print(dTagName)
-                dTag = Tag.objects.get(name=dTagName)
-                dTagTable = TagTable.objects.get(tag=dTag, post=post)
-                print(dTagTable)
-                dTagTable.delete()
-            except:
-                pass
-        
-        # post tag 추가.
-        for tagName in data['addedTag']:
-            tagObj = Tag.objects.filter(name=tagName)
-            if tagObj.exists():
-                for tag in tagObj:
+            # post tag 삭제.
+            for dTagName in data['deletedTag']:
+                try:
+                    print(dTagName)
+                    dTag = Tag.objects.get(name=dTagName)
+                    dTagTable = TagTable.objects.get(tag=dTag, post=post)
+                    print(dTagTable)
+                    dTagTable.delete()
+                except:
+                    pass
+                
+            # post tag 추가.
+            for tagName in data['addedTag']:
+                tagObj = Tag.objects.filter(name=tagName)
+                if tagObj.exists():
+                    for tag in tagObj:
+                        tagtable = TagTable.objects.create(
+                            post=post,
+                            tag=tag
+                        )
+                        print("tagable 연결", tagtable.tag.name)
+                else:
+                    newTag = Tag.objects.create(name=tagName)
+                    print("태그생성",newTag.name)
                     tagtable = TagTable.objects.create(
-                        post=post,
-                        tag=tag
-                    )
+                            post=post,
+                            tag=newTag
+                        )
                     print("tagable 연결", tagtable.tag.name)
-            else:
-                newTag = Tag.objects.create(name=tagName)
-                print("태그생성",newTag.name)
-                tagtable = TagTable.objects.create(
-                        post=post,
-                        tag=newTag
-                    )
-                print("tagable 연결", tagtable.tag.name)
 
-        messages.success(request, "성공적으로 수정했습니다!!")
-        return JsonResponse({"msg": "hello"})
+            messages.success(request, "성공적으로 수정했습니다!!")
+            return JsonResponse({"msg": "hello"})
+
+        except Exception as e:
+            print(e)
+            messages.error(request, "수정에 실패했습니다. 다시 시도해주세요!")
+            return JsonResponse({"error":"an error occurred"},status=404)
 
     post = get_object_or_404(Post, id=id)
     paths = Path.objects.filter(post=post).order_by("order")

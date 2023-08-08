@@ -1,7 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
 <h1>edit</h1>
-<button onclick="showAllItems()">모든아이템</button>
 <button onclick="deletepost('{{post.id}}')">이 포스트 삭제하기</button>
 
 <form class="edit__form" onsubmit="handleSubmit(event)">
@@ -421,7 +420,7 @@ const postData = JSON.parse("{{ jsonPost|escapejs }}");
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if(!titleInput.value || !descInput.value ) return;
+    if(!titleInput.value || !descInput.value) return;
 
     const response = await fetch(`/post/edit/${postData[0].pk}`, {
       method: "POST",
@@ -446,6 +445,8 @@ const postData = JSON.parse("{{ jsonPost|escapejs }}");
 
     console.log(await response.json());
     if(response.status == 200) {
+      location.reload()
+    } else {
       location.reload()
     }
     // window.location.href = "/post/list";

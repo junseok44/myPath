@@ -1,21 +1,35 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <h1>제작 페이지</h1>
+<!-- 모든아이템은 디버그용임 -->
 <!-- <button onclick="showAllItems()">모든아이템</button> -->
 <button onclick="toggleMode()" class="mode-btn">세로모드로</button>
 <form onsubmit="handleSubmit(event)">
-  <input type="text" placeholder="title" name="title" id="titleInput" />
+  <span>제목</span>
+
+  <input
+    type="text"
+    placeholder="포스트 제목"
+    name="title"
+    id="titleInput"
+    required
+  />
+  <span>내용</span>
+
   <textarea
     type="text"
-    placeholder="설명"
+    placeholder="포스트 설명"
     name="dsec"
     id="descInput"
+    required
   ></textarea>
+  <span>카테고리</span>
+
   <select id="categorySelect" name="categorySelect">
     {% for cat in categories %}
     <option value="{{cat.name}}">{{cat.name}}</option>
     {% endfor %}
   </select>
-
+  <span>태그</span>
   <input
     type="text"
     id="tagInput"
@@ -26,18 +40,21 @@
     <span>패스 선택</span>
     <select id="pathSelect" class="select"></select>
   </div>
-  <div class="main column-mode">
+  <hr />
+  <ul class="main main-container column-mode">
     <button type="button" onclick="handleAddPath()" class="add_new-btn">
       새로운 패스 추가하기
     </button>
-  </div>
+  </ul>
+  <hr />
+
   <textarea
     type="text"
     name="review"
     placeholder="후기"
     id="reviewInput"
   ></textarea>
-  <button type="submit">제출하기</button>
+  <button type="submit">내 패스 등록하기</button>
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
@@ -315,6 +332,8 @@
     if (response.status == 200) {
       let response123 = await response.json();
       window.location.href = `/post/edit/${response123.id}`;
+    } else {
+      location.reload();
     }
   }
 </script>
