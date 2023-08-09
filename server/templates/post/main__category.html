@@ -1,0 +1,30 @@
+{% extends 'post/main__templates.html' %} {% load static %}
+
+<div>
+  {% block mainContent%}
+
+  <div>
+    <h1>{{category_name}}</h1>
+    <ul class="main__item-container">
+      {% for post in category_posts %}
+      <a href="/post/{{post.id}}">
+        <li class="main__item">
+          {% if post.thumbnail %}
+          <img src="{{post.thumbnail.url}}" alt="my icon" />
+          {% else %}
+          <img src="" />
+          {% endif %}
+          <div class="postname">{{post.title}}</div>
+          <div class="postwriter">{{post.user.username}}</div>
+          <div class="postdetail">{{post.desc}}</div>
+          <button class="">{{post.like_table.count}}</button>
+          <button class="">댓글</button>
+          <button class="">공유</button>
+        </li>
+      </a>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {% endblock %}
+</div>

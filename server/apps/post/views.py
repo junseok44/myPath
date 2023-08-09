@@ -15,12 +15,45 @@ User = get_user_model()
 # Create your views here.
 
 
-def view_post_main(requests):
-    return render(requests, "post/main.html")
+def view_post_main(requests): 
+        categories = Category.objects.all()
+        allcuration__list = []
+        curation__ids = [1,2]
+        for cur__id in curation__ids:
+                try:
+                        curation = Curation.objects.get(pk=cur__id)
+                        curation__tables = CurationTable.objects.filter(curation=curation)
+                        curation__list = []
+                        for table in curation__tables:
+                            curation__list.append(table.post)
+                        allcuration__list.append({"name": curation.name, "list": curation__list})
+                except:
+                        continue
+
+        ctx = {
+               "categories": categories,
+               "curations": allcuration__list
+        }
+   
+        return render(requests, "post/main.html",ctx)
 
 
-
-
+def category_search(request, category_name):
+    category = Category.objects.get(name=category_name)
+    category_tables = CategoryTable.objects.filter(category=category)
+    categories = Category.objects.all()
+    category_posts = []
+    for tables in category_tables:
+           category_posts.append(tables.post)
+    return render(
+        request,
+        "post/main__category.html",
+        {
+            "category_name": category_name,
+            "category_posts": category_posts,
+            "categories": categories,
+        },
+    )
 
 def get_user_by_username(username):
     try:

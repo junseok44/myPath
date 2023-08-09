@@ -17,7 +17,7 @@ def user_login(request):
         if user is not None:
             auth_login(request, user) 
             messages.success(request, "성공적인 로그인입니다!")
-            return redirect('user_main')
+            return redirect('/')
         else:
             messages.error(request, "실패한 로그인입니다!")
             return render(request, 'user/login.html', {'error': 'Invalid credentials.'})
@@ -31,7 +31,7 @@ def user_signup(request):
             user = form.save()
             auth_login(request, user)  
             messages.success(request, "성공적인 회원가입 & 로그인입니다!")
-            return redirect('user_main')
+            return redirect('/')
         else:
             messages.error(request, "회원가입에 실패하였습니다.")
             return render(request, 'user/signup.html', {'form': form})

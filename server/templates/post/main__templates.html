@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="mainsearch">
+  <input type="text" placeholder="검색어를 입력해보세요." />
+  <button class="searchbtn">검색</button>
+</div>
+
+<div class="container">
+  <div class="categorycontainer">
+    <ul>
+      {% for category in categories %}
+      <li>
+        <a href="{% url 'post:category' category_name=category.name %}"
+          >{{ category.name }}</a
+        >
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% block mainContent %} {% endblock %} {% endblock %}

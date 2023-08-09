@@ -15,8 +15,8 @@
       <a href="/">MYPATH</a>
 
       <span>
-        <a href="{% url 'post_list' %}">포스트 목록</a>
-        <a href="{% url 'post_write' %}">포스트 작성하기</a>
+        <a href="{% url 'post:post_list' %}">포스트 목록</a>
+        <a href="{% url 'post:post_write' %}">포스트 작성하기</a>
       </span>
       <span>
         {% if user.is_authenticated %}
@@ -24,6 +24,7 @@
         <button>
           <a href="{% url 'user_logout' %}">logout</a>
           <a href="{% url 'user_page' id=user.id %}">내 유저 페이지</a>
+          <a href="{% url 'my_page' %}">마이페이지</a>
         </button>
         {% else %}
         <span>anonymous</span>

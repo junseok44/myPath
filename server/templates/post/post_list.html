@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div>
   {% for post in posts %}
-  <a href="{% url 'post_detail' post.pk %}">
+  <a href="{% url 'post:post_detail' post.pk %}">
     <div>{{post.title}}</div>
   </a>
   <br />
