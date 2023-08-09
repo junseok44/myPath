@@ -44,19 +44,16 @@
               더보기
             </button>
           </div>
-          <div class="modal__overlay">
-            <div class="step__modal modal_{{step.id}} hidden" id="step-modal-{{step.id}}">
+          <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
+            <div class="step__modal modal_{{step.id}}" >
               <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
-              <h3>{{step.title}}</h3>
-              {% if step.Image %}
-              <img src="{{step.Image.url}}" />
-              {% else %} {% endif %}
-              <p>{{step.desc}}</p>
-              <div class="step__comment">
+              
+            </div>
+            <div class="step__comment">
                 <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
                 <button class="comment-create" onclick="onClickStepComment('{{step.id}}')">댓글 쓰기</button>
-              </div>
             </div>
+            
           </div>
         </section>
         {% endfor %}
@@ -81,6 +78,7 @@
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
+
 <script>
 
     var clicked=0;
@@ -99,62 +97,66 @@
         );
         var data =JSON.stringify({step_id: step_id});
         requestStepDetail.send(data);
+
     };
     requestStepDetail.onreadystatechange=()=>{
         if(requestStepDetail.readyState===XMLHttpRequest.DONE){
             if(requestStepDetail.status<400){
                     
                 if (clicked!=1){
-                    // element.innerHTML+= `<p>text</p>`;
                     clicked=1;
-                    const {step,step_comments}=JSON.parse(requestStepDetail.response|escapejs);
-                    const parent=document.querySelector(`.modal_${step.id}`);
+                    const {step,step_comments}=JSON.parse(requestStepDetail.response);
+                    step_parsed=JSON.parse(step)[0];
+                    console.log(step_parsed["fields"]["Image"]);
+                    const parent=document.querySelector(`.modal_${step_parsed["pk"]}`);
                     parent.innerHTML += 
-                    `<div class="step-${step.id}">
-                        <h2>${step.title}<h2>
-                        <p>${step.desc}</p>
+                    `<div class="step-${step_parsed["pk"]}">
+                        <h3>${step_parsed["fields"]["title"]}<h2>
+                        <img src="../media/${step_parsed["fields"]["Image"]}" />
+                        <p>${step_parsed["fields"]["desc"]}</p>
                     </div>`;
                 }
             }
         }
     };
 
+    
     const requestCommentCreate=new XMLHttpRequest();
-    const onClickStepComment=(id)=>{
+    const onClickStepComment=(step_id)=>{
         const url='step/comment_create/'; //    post/step/comment_create
-        const text=document.querySelector(`.new-comment`).value;
+        const text=document.querySelector(`#step-modal-${step_id} .step__comment`).value;
         requestCommentCreate.open("POST",url,true);
         requestCommentCreate.setRequestHeader(
             "Content-Type",
             "application/x-www-form-urlencoded"
         );
-        requestCommentCreate.send(JSON.stringify({id:id,text:text}))
+        requestCommentCreate.send(JSON.stringify({step_id:step_id,text:text}))
 
     };
 
     requestCommentCreate.onreadystatechange=()=>{
         if(requestCommentCreate.readyState===XMLHttpRequest.DONE){
             if(requestCommentCreate.status<400){
-                const{id,comment_id,content}=JSON.parse(requestCommentCreate.response);
+                const{id,comment_id,text}=JSON.parse(requestCommentCreate.response);
                 const parent=document.querySelector(`.step__comment`);
                 parent.innerHTML += 
                 `<div class="step-comment-${comment_id}">
-                    <p>${content}</p>
+                    <p>${text}</p>
                 </div>`;
             }
         }
     };
     
 
-
+</script>
 // <!-- csrf token. fetch 요청할때 header에 넣어주면 @exempt 안써도 되요. 밑에 사용례 참고 -->
-// <script>
-//   function getCookie(name) {
-//     const value = `; ${document.cookie}`;
-//     const parts = value.split(`; ${name}=`);
-//     if (parts.length === 2) return parts.pop().split(";").shift();
-//   }
-// </script>
+<script>
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+</script>
 
 <!-- 북마크, 좋아요 관련 스크립트 -->
 <script>

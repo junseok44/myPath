@@ -47,38 +47,58 @@ def view_post_comment_create(request,pk):
 
 
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers import serialize
 
+# @csrf_exempt
+# def view_step_detail_ajax(request):
+#     req=json.loads(request.body)
+#     step_id=req['id']
+#     step=get_object_or_404(Step, pk=step_id)
+#     step_comments=StepComment.objects.filter(step=step)
+#     step_json=serialize('json',step)
+#     step_comments_json=serialize('json',step_comments)
+#     step_json=serialize('json',step)
+#     step_comments_json=serialize('json',step_comments_json)
+#     ctx={"step":step_json,"step_comments":step_comments_json}
+
+#     return JsonResponse(ctx)
 @csrf_exempt
 def view_step_detail_ajax(request):
-    req=json.loads(request.body)
-    step_id=req['id']
-    step=get_object_or_404(Step, pk=step_id)
-    step_comments=StepComment.objects.filter(step=step)
-    step_json=serialize('json',step)
-    step_comments_json=serialize('json',step_comments)
-    step_json=serialize('json',step)
-    step_comments_json=serialize('json',step_comments_json)
-    ctx={"step":step_json,"step_comments":step_comments_json}
+    req = json.loads(request.body)
+    step_id = req['step_id']
 
-    return JsonResponse(ctx)
+    if request.method=="POST":
+        step = get_object_or_404(Step, pk=step_id)
+        step_comments = StepComment.objects.filter(step=step)
+
+        step_json = serialize('json', [step])
+        step_comments_json = serialize('json', step_comments)
+
+        ctx = {"step": step_json, "step_comments": step_comments_json}
+
+        return JsonResponse(ctx)
+    else:
+        return HttpResponse('Failed: Post requests only.')
 
 @csrf_exempt
 def view_step_comment_create_ajax(request):
     req=json.loads(request.body)
-    step_id=req['id']
-    content=req['content']
+    step_id=req['step_id']
+    text=req['text']
     if request.method=="POST":
         step=Step.objects.get(id=step_id)
         comment=StepComment.objects.create(
+            writer=request.user,
             step=step,
-            text=content,
+            text=text,
         )
         # comment.save()
-    ctx={'id':step_id,'comment_id':comment.id,'content':content}
-    return JsonResponse(ctx)
+        ctx={'id':step_id,'comment_id':comment.id,'text':text}
+        return JsonResponse(ctx)
+    else:
+        return HttpResponse('Failed: Post requests only.')
 
 
 def toggle_bookmark_ajax(request):

@@ -9,7 +9,7 @@ urlpatterns = [
     path('post/<uuid:pk>',view_post_detail,name='post_detail'),
     path('post/<uuid:pk>/comment_create',view_post_comment_create,name='post_comment_create'),
     path('post/step',view_step_detail_ajax,name='step_detail'),
-    path('post/step/comment_create',view_step_comment_create_ajax,name='step_comment_create'),
+    path('post/step/create_comment',view_step_comment_create_ajax,name='step_comment_create'),
     path('api/toggleBookMark/', toggle_bookmark_ajax),
     path('api/toggleLike/', toggle_like_ajax)   ,
 
