@@ -81,10 +81,18 @@
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
+// <!-- csrf token. fetch 요청할때 header에 넣어주면 @exempt 안써도 되요. 밑에 사용례 참고 -->
+<script>
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+</script>
 
 <script>
 
-    var clicked=0;
+    // var clicked=0;
     const requestStepDetail=new XMLHttpRequest();
     onClickStepDetail=(step_id)=>{
         
@@ -96,7 +104,7 @@
         requestStepDetail.open("POST",url,true);
         requestStepDetail.setRequestHeader(
             "Content-Type",
-            "application/x-www-form-urlencoded"
+            "application/x-www-form-urlencoded",
         );
         var data =JSON.stringify({step_id: step_id});
         requestStepDetail.send(data);
@@ -106,26 +114,26 @@
         if(requestStepDetail.readyState===XMLHttpRequest.DONE){
             if(requestStepDetail.status<400){
                     
-                if (clicked!=1){
-                    clicked=1;
-                    const {step,step_comments}=JSON.parse(requestStepDetail.response);
-                    step_parsed=JSON.parse(step)[0];
-                    console.log(step_parsed["fields"]["Image"]);
-                    step_comments_parsed=JSON.parse(step_comments);
-                    console.log(step_comments_parsed);
-                    const stepNode=document.querySelector(`.modal_${step_parsed["pk"]}`);
-                    const commentNode=document.querySelector(`.step_comment_${step_parsed["pk"]}`);
-                    stepNode.innerHTML += 
+                const {step,step_comments}=JSON.parse(requestStepDetail.response);
+                step_parsed=JSON.parse(step)[0];
+                console.log(step_parsed["pk"]);
+                step_comments_parsed=JSON.parse(step_comments);
+                console.log(step_comments_parsed);
+                const stepNode=document.querySelector(`.modal_${step_parsed["pk"]}`);
+                const commentNode=document.querySelector(`.step_comment_${step_parsed["pk"]}`);
+                stepNode.innerHTML = 
                     `<div class="step-${step_parsed["pk"]}">
                         <h3>${step_parsed["fields"]["title"]}<h2>
                         <img src="../media/${step_parsed["fields"]["Image"]}" />
                         <p>${step_parsed["fields"]["desc"]}</p>
                     </div>`;
-                    step_comments_parsed.forEach(element => {
-                        commentNode.innerHTML+=
+
+                commentNode.innerHTML=``;
+                step_comments_parsed.forEach(element => {
+                    commentNode.innerHTML+=
                     `<p>${element["fields"]["text"]}</p>`;
-                    });
-                }
+                });
+                
             }
         }
     };
@@ -138,7 +146,7 @@
         requestCommentCreate.open("POST",url,true);
         requestCommentCreate.setRequestHeader(
             "Content-Type",
-            "application/x-www-form-urlencoded"
+            "application/x-www-form-urlencoded",
         );
         requestCommentCreate.send(JSON.stringify({step_id:step_id,text:text}))
 
@@ -160,14 +168,7 @@
     
 
 </script>
-// <!-- csrf token. fetch 요청할때 header에 넣어주면 @exempt 안써도 되요. 밑에 사용례 참고 -->
-<script>
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
-  }
-</script>
+
 
 <!-- 북마크, 좋아요 관련 스크립트 -->
 <script>
