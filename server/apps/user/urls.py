@@ -5,6 +5,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('',view_user_main,name='user_main'),
+    path('my_page', my_page, name='my_page'),
+    path('user_page/<uuid:id>', user_page, name='user_page'),
 ]
 
 if settings.DEBUG:
