@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.http.response import JsonResponse
 import json
+import base64
+from django.core.files.base import ContentFile
 
 User = get_user_model()
 # Create your views here.
@@ -26,6 +28,14 @@ def get_user_by_username(username):
             username=username, loginId="myOne", password='jang1234', intro='Test intro')
         return newUser
 
+def get_image_from_dataUrl(dataUrl):
+    image_data = None 
+    if dataUrl:
+        format, imgstr = dataUrl.split(';base64,')
+        ext = format.split('/')[-1]
+        image_data = ContentFile(base64.b64decode(imgstr), name=f'image.{ext}')
+
+    return image_data
 
 def view_post_write(request):
     if request.method == "POST":
@@ -106,14 +116,15 @@ def view_post_write(request):
                 )
                 print("path 생성", newPath)
                 for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
-                    Image_data = step.get("Image")
+                    Image_url = step.get("image")
+                    Image_data = get_image_from_dataUrl(Image_url)
                     if Image_data is not None:
                         newStep = Step.objects.create(
                             path=newPath,
                             title=step['title'],
                             desc=step['desc'],
                             order=step['order'],
-                            Image=step['Image']
+                            Image=Image_data
                         )
                     else:
                         newStep = Step.objects.create(

@@ -192,6 +192,7 @@
   function handleAddStep(targetPathId) {
     let id = uuid.v4();
     addStepNode(targetPathId, id);
+
     steps.push({
       id,
       pathId: targetPathId,
