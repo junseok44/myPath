@@ -1,5 +1,13 @@
 @import "./reset.css";
+<<<<<<< HEAD
 @import "./shared.css";
 @import "./post/post_write.css";
 @import "./post/shared.css";
 @import "./post/detail.css";
+=======
+
+.post__title {
+    font-size: 16px;
+    color: red;
+}
+>>>>>>> feature/uuserpage

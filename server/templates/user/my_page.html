@@ -1,0 +1,88 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container">
+  <div class="post__title">나의 패스</div>
+  <div class="post__container">
+    나의 패스 리스트 {% for post in my_posts %}
+    <div class="card__container post-id-{{ post.id }}">
+      <div class="card__header">
+        <div class="card-author-profile-image"></div>
+        <div class="card-title">{{post.title}}</div>
+        <div class="card-author">{{post.user}}</div>
+      </div>
+      <div class="card__body">
+        <div class="card-thumbnail">
+          {% if post.thumbnail != null and post.image.url != "" %}
+          <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+          {% endif %}
+        </div>
+        <div class="card-description">{{post.desc}}</div>
+      </div>
+      <div class="card__buttons">
+        <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
+        <div class="btn reply-btn">
+          <i class="fa-solid fa-comment-dots"></i>
+        </div>
+        <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <hr />
+  <div class="post__title">내가 찜한 패스</div>
+  <div class="post__container">
+    찜한 패스 리스트 {% for like_post in my_likes %}
+    <div class="card__container post-id-{{ post.id }}">
+      <div class="card__header">
+        <div class="card-author-profile-image"></div>
+        <div class="card-title">{{like_post.post.title}}</div>
+        <div class="card-author">{{like_post.post.user}}</div>
+      </div>
+      <div class="card__body">
+        <div class="card-thumbnail">
+          {% if post.thumbnail != null and post.image.url != "" %}
+          <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+          {% endif %}
+        </div>
+        <div class="card-description">{{post.desc}}</div>
+      </div>
+      <div class="card__buttons">
+        <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
+        <div class="btn reply-btn">
+          <i class="fa-solid fa-comment-dots"></i>
+        </div>
+        <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <hr />
+  <div class="post__title">내가 스크랩한 패스</div>
+  <div class="post__container">
+    스크랩 성장단계 리스트 {% for bm_post in my_bookmarks %}
+    <div class="card__container post-id-{{ post.id }}">
+      <div class="card__header">
+        <div class="card-author-profile-image"></div>
+        <div class="card-title">{{bm_post.post.title}}</div>
+        <div class="card-author">{{bm_post.post.user}}</div>
+      </div>
+      <div class="card__body">
+        <div class="card-thumbnail">
+          {% if post.thumbnail != null and post.image.url != "" %}
+          <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+          {% endif %}
+        </div>
+        <div class="card-description">{{post.desc}}</div>
+      </div>
+      <div class="card__buttons">
+        <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
+        <div class="btn reply-btn">
+          <i class="fa-solid fa-comment-dots"></i>
+        </div>
+        <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
