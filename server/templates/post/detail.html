@@ -29,9 +29,12 @@
       <p>카테고리:{{post_category}}</p>
       <ul id="tagList">
         {% for post_tag in post_tags %}
-        <li>#{{post_tag.tag.name}}</li>
+        <li>
+            <span>#{{post_tag.tag.name}}</span>
+        </li>
+        {% endfor %}
       </ul>
-      {% endfor %}
+      
       <p>작성자 : {{post.user.username}}</p>
       {% if user.is_authenticated %}
       <button class="like-btn" onclick="likeToggle('{{post.id}}')">
