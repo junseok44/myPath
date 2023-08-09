@@ -50,6 +50,9 @@
               
             </div>
             <div class="step__comment">
+                <div class="step_comment_{{step.id}}">
+                    
+                </div>     
                 <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
                 <button class="comment-create" onclick="onClickStepComment('{{step.id}}')">댓글 쓰기</button>
             </div>
@@ -68,7 +71,7 @@
             <p>{{post_comment.writer}}</p>
             <p>{{post_comment.text}}</p>
             {% endfor %}
-            <form action="{%url 'post_comment_create' post.id%}" method="POST">
+            <form action="{%url 'post_create_comment' post.id%}" method="POST">
                 {%csrf_token%}
                 <input type="text" name="comment" placeholder="댓글을 입력하세요">
                 <input type="submit" value="submit">
@@ -108,13 +111,20 @@
                     const {step,step_comments}=JSON.parse(requestStepDetail.response);
                     step_parsed=JSON.parse(step)[0];
                     console.log(step_parsed["fields"]["Image"]);
-                    const parent=document.querySelector(`.modal_${step_parsed["pk"]}`);
-                    parent.innerHTML += 
+                    step_comments_parsed=JSON.parse(step_comments);
+                    console.log(step_comments_parsed);
+                    const stepNode=document.querySelector(`.modal_${step_parsed["pk"]}`);
+                    const commentNode=document.querySelector(`.step_comment_${step_parsed["pk"]}`);
+                    stepNode.innerHTML += 
                     `<div class="step-${step_parsed["pk"]}">
                         <h3>${step_parsed["fields"]["title"]}<h2>
                         <img src="../media/${step_parsed["fields"]["Image"]}" />
                         <p>${step_parsed["fields"]["desc"]}</p>
                     </div>`;
+                    step_comments_parsed.forEach(element => {
+                        commentNode.innerHTML+=
+                    `<p>${element["fields"]["text"]}</p>`;
+                    });
                 }
             }
         }
@@ -123,8 +133,8 @@
     
     const requestCommentCreate=new XMLHttpRequest();
     const onClickStepComment=(step_id)=>{
-        const url='step/comment_create/'; //    post/step/comment_create
-        const text=document.querySelector(`#step-modal-${step_id} .step__comment`).value;
+        const url='step/create_comment'; //    post/step/comment_create
+        const text=document.querySelector(`#step-modal-${step_id} .new-comment`).value;
         requestCommentCreate.open("POST",url,true);
         requestCommentCreate.setRequestHeader(
             "Content-Type",
@@ -137,8 +147,9 @@
     requestCommentCreate.onreadystatechange=()=>{
         if(requestCommentCreate.readyState===XMLHttpRequest.DONE){
             if(requestCommentCreate.status<400){
-                const{id,comment_id,text}=JSON.parse(requestCommentCreate.response);
-                const parent=document.querySelector(`.step__comment`);
+                const{step_id,comment_id,text}=JSON.parse(requestCommentCreate.response);
+                // console.log(step_id);
+                const parent=document.querySelector(`.step_comment_${step_id}`);
                 parent.innerHTML += 
                 `<div class="step-comment-${comment_id}">
                     <p>${text}</p>
