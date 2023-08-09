@@ -12,15 +12,28 @@
     display:flex;
 }
 
+.row {
+    flex-direction:column;
+}
+
 .detail-container .main-container .step-container{
     display:flex;
 }
 
-.row .main-container{
-    flex-direction:column;
-}
 
 .col .step-container{
 
     flex-direction:column;
+}
+
+
+
+
+.step-container img{
+    height:150px;
+    width:150px;
+}
+
+.hidden{
+    display:none;
 }

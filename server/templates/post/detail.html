@@ -24,19 +24,18 @@
                     <div>
                         <p class="title">{{step.title}}</p>
                         <p class="desc">{{step.desc}}</p>
-                        <button type="button" onclick="onClickStepShow('{{step.id}}')">더보기</button>
+                        <button type="button" onclick="onClickStepDetail('{{step.id}}')">더보기</button>
                     </div>
-                    <div class="modal__overlay hidden">
-                        <div class="step__modal modal_{{step.id}} hidden">
-                          <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
-                          <h3>{{step.title}}</h3>
-                          <img src="{{step.Image.url}}">
-                          <p>{{step.desc}}</p>
-                          <div class="step__comment">
-                            <input type="text" class="new-comment" placeholder="댓글을 입력하세요">
-                            <button class="comment-create" onclick="onClickStepComment({{step.id}})">댓글 쓰기</button>
-                          </div>
+                    <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
+                        <div class="step__modal modal_{{step.id}}">
+                          더보기 버튼을 눌렀을때 나오는 모달
                         </div>
+                        <div class="step__comment">
+                            {% for step_comment in step_comments %}
+                            {% endfor %}
+                            <input type="text" class="new-comment" placeholder="댓글을 입력하세요">
+                            <input type="submit" value="submit">
+                          </div>
                     </div>
                 </section>
                 {% endfor %}
@@ -51,23 +50,79 @@
             <p>{{post_comment.writer}}</p>
             <p>{{post_comment.text}}</p>
             {% endfor %}
+            <form action="{%url 'post_comment_create' post.id%}" method="POST">
+                {%csrf_token%}
+                <input type="text" name="comment" placeholder="댓글을 입력하세요">
+                <input type="submit" value="submit">
+            </form>
         </div>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
 <script>
 
-    const onClickStepShow=(id)=>{
-        const url='/step';
-        const step_title=document.querySelector(`.modal_${step.id} h2`);
-        const step_image=document.querySelector(`.modal_${step.id} img`);
-        const step_desc=document.querySelector(`.modal_${step.id} p`);
+    var clicked=0;
+    const requestStepDetail=new XMLHttpRequest();
+    onClickStepDetail=(step_id)=>{
+        
+        var element= document.getElementById(`step-modal-${step_id}`);
+        element.classList.toggle("hidden");
+        
+        //url은 post/step
+        const url='step';
+        requestStepDetail.open("POST",url,true);
+        requestStepDetail.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+        );
+        var data =JSON.stringify({step_id: step_id});
+        requestStepDetail.send(data);
+    };
+    requestStepDetail.onreadystatechange=()=>{
+        if(requestStepDetail.readyState===XMLHttpRequest.DONE){
+            if(requestStepDetail.status<400){
+                    
+                if (clicked!=1){
+                    // element.innerHTML+= `<p>text</p>`;
+                    clicked=1;
+                    const {step,step_comments}=JSON.parse(requestStepDetail.response|escapejs);
+                    const parent=document.querySelector(`.modal_${step.id}`);
+                    parent.innerHTML += 
+                    `<div class="step-${step.id}">
+                        <h2>${step.title}<h2>
+                        <p>${step.desc}</p>
+                    </div>`;
+                }
+            }
+        }
     };
 
+    const requestCommentCreate=new XMLHttpRequest();
     const onClickStepComment=(id)=>{
-        const url='step/comment_create';
+        const url='step/comment_create/'; //    post/step/comment_create
+        const text=document.querySelector(`.new-comment`).value;
+        requestCommentCreate.open("POST",url,true);
+        requestCommentCreate.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+        );
+        requestCommentCreate.send(JSON.stringify({id:id,text:text}))
 
     };
+
+    requestCommentCreate.onreadystatechange=()=>{
+        if(requestCommentCreate.readyState===XMLHttpRequest.DONE){
+            if(requestCommentCreate.status<400){
+                const{id,comment_id,content}=JSON.parse(requestCommentCreate.response);
+                const parent=document.querySelector(`.step__comment`);
+                parent.innerHTML += 
+                `<div class="step-comment-${comment_id}">
+                    <p>${content}</p>
+                </div>`;
+            }
+        }
+    };
+    
 
 </script>
 {% endblock %}
