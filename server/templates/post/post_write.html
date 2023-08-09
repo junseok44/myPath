@@ -22,6 +22,10 @@
     id="descInput"
     required
   ></textarea>
+  <span>포스트 이미지</span>
+
+  <input type="file" id="imageInput" />
+
   <span>카테고리</span>
 
   <select id="categorySelect" name="categorySelect">
@@ -148,6 +152,7 @@
   const titleInput = document.querySelector("#titleInput");
   const descInput = document.querySelector("#descInput");
   const reviewInput = document.querySelector("#reviewInput");
+  const imageInput = document.querySelector("#imageInput");
   const categorySelect = document.querySelector("#categorySelect");
 
   function showAllItems() {
@@ -310,21 +315,25 @@
       return;
     }
 
-    const main = document.querySelector(".main");
+    const formData = new FormData();
+    formData.append("thumbnail", imageInput.files[0]);
+    formData.append("paths", JSON.stringify(paths));
+    formData.append("steps", JSON.stringify(steps));
+    formData.append("title", titleInput.value);
+    formData.append("desc", descInput.value);
+    formData.append("review", reviewInput.value);
+    formData.append("tags", JSON.stringify(tagList));
+    formData.append("category", categorySelect.value);
+    formData.append(
+      "mode",
+      main.classList.contains("column-mode") ? "col" : "row"
+    );
+
+    // const main = document.querySelector(".main");
     const response = await fetch("/post/write", {
       method: "POST",
-      body: JSON.stringify({
-        paths: paths,
-        steps: steps,
-        title: titleInput.value,
-        desc: descInput.value,
-        review: reviewInput.value,
-        tags: tagList,
-        category: categorySelect.value,
-        mode: main.classList.contains("column-mode") ? "col" : "row",
-      }),
+      body: formData,
       headers: {
-        "content-type": "application/json",
         "X-CSRFToken": csrftoken,
       },
     });

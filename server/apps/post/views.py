@@ -31,13 +31,26 @@ def get_user_by_username(username):
 def view_post_write(request):
     if request.method == "POST":
         try:
-            data = json.loads(request.body)
+            data = {}
+            data['thumbnail'] = request.FILES.get("thumbnail")
+            data['paths'] = json.loads(request.POST.get("paths"))
+            data['steps'] = json.loads(request.POST.get("steps"))
+            data['title'] = request.POST.get("title")
+            data['desc'] = request.POST.get("desc")
+            data['review'] = request.POST.get("review")
+            data['tags'] = json.loads(request.POST.get("tags"))
+            data['category'] = request.POST.get("category")
+            data['mode'] = request.POST.get("mode")
+
             # 로그인 기능 구현이 안되어서, 일단 임시로 유저 생성.
             if not request.user.is_authenticated:
                 user = get_user_by_username("개미개미")
             else:
                 user = request.user
             print(user.get_username())
+
+
+            #썸네일 있는지 확인후, post 생성.
             thumbnail_data = data.get("thumbnail")
             if thumbnail_data is not None:
                 post = Post.objects.create(
@@ -58,13 +71,14 @@ def view_post_write(request):
                 )
             print("post 생성", post)
 
-            print(data['category'])
+            #카테고리 불러온후, post와 연결
             cat = Category.objects.get(name=data['category'])
             CategoryTable.objects.create(
                 post=post,
                 category=cat
             )
-
+            
+            #태그 불러온후, 없으면 생성후 연결, 있으면 연결
             for tagName in data['tags']:
                 tagObj = Tag.objects.filter(name=tagName)
                 if tagObj.exists():
@@ -84,7 +98,7 @@ def view_post_write(request):
                         )
                     print("tagable 연결", tagtable.tag.name)
 
-
+            #새로운 패스와 거기에 해당하는 스텝 생성.
             for path in data['paths']:
                 newPath = Path.objects.create(
                     post=post,
@@ -113,13 +127,13 @@ def view_post_write(request):
 
             messages.success(request, '패스를 생성했습니다!')
             return JsonResponse({"id": post.id})
-        except:
-            messages.success(request, '작성에 실패했습니다! 다시 시도해주세요')
+        except Exception as e:
+            print(e)
+            messages.error(request, '작성에 실패했습니다! 다시 시도해주세요')
             return JsonResponse({"error": "errormessage"}, status=500)  # Internal Server Error
 
     categories = Category.objects.all()
     return render(request, "post/post_write.html",
-                  
                   {"categories": categories})
 
 def view_post_list(request):
