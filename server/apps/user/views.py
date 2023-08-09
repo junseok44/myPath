@@ -18,8 +18,9 @@ def my_page(requests):
 
 def user_page(requests, id):
     user = User.objects.get(id=id)
-    posts = Post.objects.all()
+    posts = Post.objects.filter(user=user.id).values()
+    posts_count = Post.objects.filter(user=user.id).count()
 
-    ctx = {'user': user, 'posts': posts, "id": id} 
+    ctx = {'user': user, 'posts': posts, 'posts_count': posts_count, "id": id} 
     return render(requests, "user/user_page.html", ctx)
 

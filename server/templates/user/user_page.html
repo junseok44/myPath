@@ -1,7 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="container">
-  UserPage
   <div class="userinfo__title">{{user.membership}} {{user.username}}</div>
   <div class="userinfo__container">
     <div class="usercard__container">
@@ -10,7 +9,7 @@
     </div>
     <div class="usercard__container">
       <div class="usercard__header">작성한 Path의 수</div>
-      <div class="usercard__body"></div>
+      <div class="usercard__body">{{posts_count}}</div>
     </div>
     <div class="usercard__container">
       <div class="usercard__header">좋아요 지수</div>
@@ -21,7 +20,6 @@
   <div class="post__title">{{user.username}}의 패스들</div>
   <div class="post__container">
     {% for post in posts %}
-      {% if post.user.id == user.id  %}
         <div class="card__container post-id-{{ post.id }}">
           <div class="card__header">
             <div class="card-author-profile-image"></div>
@@ -42,7 +40,6 @@
             <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
           </div>
         </div>
-      {% endif %}
     {% endfor %}
   </div>
 </div>
