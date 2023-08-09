@@ -6,7 +6,7 @@
   <div class="userinfo__container">
     <div class="usercard__container">
       <div class="usercard__header">자기소개</div>
-      <div class="usercard__body"></div>
+      <div class="usercard__body">{{user.intro}}</div>
     </div>
     <div class="usercard__container">
       <div class="usercard__header">작성한 Path의 수</div>
@@ -18,7 +18,7 @@
     </div>
   </div>
   <hr />
-  <div class="post__title">{{user.username}}의 성장단계들</div>
+  <div class="post__title">{{user.username}}의 패스들</div>
   <div class="post__container">
     {% for post in posts %}
       {% if post.user.id == user.id  %}
