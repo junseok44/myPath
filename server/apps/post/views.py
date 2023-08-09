@@ -365,13 +365,34 @@ def view_post_detail(requests,pk):
     return render(requests,"post/detail.html",context=ctx)
 
 def view_post_create_comment(request,pk):
-    if request.method=="POST":
-        comment = PostComment() 
-        comment.post=Post.objects.get(id=pk)
-        comment.text = request.POST['comment']
-        comment.save()
-        
-    return redirect(f'/post/{pk}/')  
+    if request.method=="POST" and request.user.is_authenticated:
+        PostComment.objects.create(
+            writer=request.user,
+            post=Post.objects.get(id=pk),
+            text = request.POST['comment']
+        )
+        return redirect(f'/post/{pk}') 
+    return render(request,"post/detail.html")
+
+@csrf_exempt
+def view_post_delete_comment_ajax(request):
+    req=json.loads(request.body)
+    post_id=req['post_id']
+    comment_id=req['comment_id']
+    post=Post.objects.get(id=post_id)
+    comment=PostComment.objects.get(post=post, id=comment_id)
+    
+
+    if request.method=="POST" and request.user.is_authenticated:
+        if(request.user==comment.writer):
+            comment_json=serialize('json', [comment])
+            comment.delete()
+            return JsonResponse({'comment':comment_json})
+    else:
+        return HttpResponse('Failed: Post requests only.')
+
+    
+     
 
 @csrf_exempt
 def view_step_detail_ajax(request):
@@ -396,7 +417,7 @@ def view_step_create_comment_ajax(request):
     req=json.loads(request.body)
     step_id=req['step_id']
     text=req['text']
-    if request.method=="POST":
+    if request.method=="POST" and request.user.is_authenticated:
         comment=StepComment.objects.create(
             writer=request.user,
             step=get_object_or_404(Step, pk=step_id),
