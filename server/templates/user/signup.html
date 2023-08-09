@@ -1,4 +1,11 @@
 {% extends 'base.html' %} {% block content %}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 <div class="signup">
     <h1>로그인</h1>
     <form action="{% url 'user_signup' %}" method="post">
@@ -28,4 +35,3 @@
     {% endif %}
 </div>
 {% endblock %}
-
