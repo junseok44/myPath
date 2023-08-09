@@ -1,9 +1,9 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="container">
-  <div class="post__title">나의 성장단계들</div>
+  <div class="post__title">나의 패스들</div>
   <div class="post__container">
-    나의 성장단계들 리스트
+    나의 패스들 리스트
     {% for post in my_posts %}
       {% if post.user.id == user.id  %}
         <div class="card__container post-id-{{ post.id }}">
@@ -29,9 +29,9 @@
       {% endif %}
     {% endfor %}
   </div>
-  <div class="post__title">내가 찜한 성장단계들</div>
+  <div class="post__title">내가 찜한 패스들</div>
   <div class="post__container">
-    찜한 성장단계 리스트
+    찜한 패스 리스트
       {% for like_post in like_posts %}
       <div class="card__container post-id-{{ post.id }}">
         <div class="card__header">
@@ -55,9 +55,9 @@
       </div>
     {% endfor %}
   </div>
-  <div class="post__title">내가 스크랩한 성장단계들</div>
+  <div class="post__title">내가 스크랩한 패스들</div>
   <div class="post__container">
-    스크랩 성장단계 리스트
+    스크랩 패스 리스트
     {% for bm_post in bookmark_posts %}
       <div class="card__container post-id-{{ post.id }}">
         <div class="card__header">
