@@ -19,6 +19,9 @@ def view_post_main(requests):
     return render(requests, "post/main.html")
 
 
+
+
+
 def get_user_by_username(username):
     try:
         print("find user")

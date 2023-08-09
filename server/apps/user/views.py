@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from .forms import CustomUserCreationForm
 from django.contrib import messages
 from apps.user.models import User
@@ -39,6 +39,11 @@ def user_signup(request):
         form = CustomUserCreationForm()
         return render(request, 'user/signup.html', {'form': form})
 
+
+def user_logout(request):
+    if request.user.is_authenticated:
+        auth_logout(request)
+        return redirect("/")
 
 
 def view_user_main(requests):

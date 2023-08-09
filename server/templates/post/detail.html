@@ -6,10 +6,17 @@
       <a href="/">{{post.user}}</a>
     </div>
     <div class="intro-desc">
+      
       {% if post.thumbnail %}
       <img src="{{post.thumbnail.url}}" />
       {% else %}
       <img src="{% static 'noimage.jpg' %}" />
+      {% endif %}
+
+      {% if post.user == user %}
+      <a href="{% url 'post_edit' id=post.id %}">
+        <button>이 포스트 편집하기</button>
+      </a>
       {% endif %}
       <p>
         좋아요 수 : <span class="post-likes">{{post.like_table.count}}</span>

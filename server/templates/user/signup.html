@@ -3,11 +3,13 @@
 <div class="signup">
   <h1>로그인</h1>
   <form action="{% url 'user_signup' %}" method="post">
-    {% csrf_token %} {{ form.loginId.label_tag }} {{ form.loginId }} {{
-    form.username.label_tag }} {{ form.username }} {{ form.email.label_tag }} {{
-    form.email }} {{ form.password1.label_tag }} {{ form.password1 }} {{
-    form.password2.label_tag }} {{ form.password2 }} {{ form.intro.label_tag }}
-    {{ form.intro }} {{ form.membership.label_tag }} {{ form.membership }}
+    {% csrf_token %} {{ form.loginId.label_tag }} {{ form.loginId }}
+
+    <p>{{ form.username.label_tag }} {{ form.username }}</p>
+    {{ form.email.label_tag }} {{ form.email }} {{ form.password1.label_tag }}
+    {{ form.password1 }} {{ form.password2.label_tag }} {{ form.password2 }}
+    <p>{{ form.intro.label_tag }} {{ form.intro }}</p>
+    <p></p>
 
     <button type="submit">등록</button>
   </form>
