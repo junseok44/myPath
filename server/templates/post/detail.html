@@ -27,7 +27,6 @@
       <button class="bookmark-btn" onclick="bookMarkToggle('{{post.id}}')">
         {% if post.isBookMarked %} 북마크취소 {% else %} 북마크하기 {% endif %}
       </button>
-
       {% endif %}
     </div>
   </div>
@@ -41,51 +40,48 @@
           <div>
             <p class="title">{{step.title}}</p>
             <p class="desc">{{step.desc}}</p>
-            <button type="button" onclick="onClickStepShow('{{step.id}}')">
+            <button type="button" onclick="onClickStepDetail('{{step.id}}')">
               더보기
             </button>
           </div>
-          <div class="modal__overlay hidden">
-            <div class="step__modal modal_{{step.id}} hidden">
+          <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
+            <div class="step__modal modal_{{step.id}}" >
               <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
-              <h3>{{step.title}}</h3>
-              {% if step.Image %}
-              <img src="{{step.Image.url}}" />
-              {% else %} {% endif %}
-              <p>{{step.desc}}</p>
-              <div class="step__comment">
-                <input
-                  type="text"
-                  class="new-comment"
-                  placeholder="댓글을 입력하세요"
-                />
-                <button
-                  class="comment-create"
-                  onclick="onClickStepComment({{step.id}})"
-                >
-                  댓글 쓰기
-                </button>
-              </div>
+              
             </div>
+            <div class="step__comment">
+                <div class="step_comment_{{step.id}}">
+                    
+                </div>     
+                <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
+                <button class="comment-create" onclick="onClickStepComment('{{step.id}}')">댓글 쓰기</button>
+            </div>
+            
           </div>
         </section>
         {% endfor %}
       </div>
     </li>
     {% endfor %}
-  </ul>
-  <div class="review-container">
-    <div class="review-content">{{post.review}}</div>
-    <div class="comment-container">
-      {% for post_comment in post_comments%}
-      <p>{{post_comment.writer}}</p>
-      <p>{{post_comment.text}}</p>
-      {% endfor %}
+    </ul>
+    <div class="review-container">
+        <div class="review-content">{{post.review}}</div>
+        <div class="comment-container">
+            {% for post_comment in post_comments%}
+            <p>{{post_comment.writer}}</p>
+            <p>{{post_comment.text}}</p>
+            {% endfor %}
+            <form action="{%url 'post_create_comment' post.id%}" method="POST">
+                {%csrf_token%}
+                <input type="text" name="comment" placeholder="댓글을 입력하세요">
+                <input type="submit" value="submit">
+            </form>
+        </div>
     </div>
   </div>
 </div>
-
-<!-- csrf token. fetch 요청할때 header에 넣어주면 @exempt 안써도 되요. 밑에 사용례 참고 -->
+<script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
+// <!-- csrf token. fetch 요청할때 header에 넣어주면 @exempt 안써도 되요. 밑에 사용례 참고 -->
 <script>
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -93,6 +89,87 @@
     if (parts.length === 2) return parts.pop().split(";").shift();
   }
 </script>
+
+<script>
+
+    // var clicked=0;
+    const requestStepDetail=new XMLHttpRequest();
+    onClickStepDetail=(step_id)=>{
+        
+        var element= document.getElementById(`step-modal-${step_id}`);
+        element.classList.toggle("hidden");
+        
+        //url은 post/step
+        const url='step';
+        requestStepDetail.open("POST",url,true);
+        requestStepDetail.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded",
+        );
+        var data =JSON.stringify({step_id: step_id});
+        requestStepDetail.send(data);
+
+    };
+    requestStepDetail.onreadystatechange=()=>{
+        if(requestStepDetail.readyState===XMLHttpRequest.DONE){
+            if(requestStepDetail.status<400){
+                    
+                const {step,step_comments}=JSON.parse(requestStepDetail.response);
+                step_parsed=JSON.parse(step)[0];
+                console.log(step_parsed["pk"]);
+                step_comments_parsed=JSON.parse(step_comments);
+                console.log(step_comments_parsed);
+                const stepNode=document.querySelector(`.modal_${step_parsed["pk"]}`);
+                const commentNode=document.querySelector(`.step_comment_${step_parsed["pk"]}`);
+                stepNode.innerHTML = 
+                    `<div class="step-${step_parsed["pk"]}">
+                        <h3>${step_parsed["fields"]["title"]}<h2>
+                        <img src="../media/${step_parsed["fields"]["Image"]}" />
+                        <p>${step_parsed["fields"]["desc"]}</p>
+                    </div>`;
+
+                commentNode.innerHTML=``;
+                step_comments_parsed.forEach(element => {
+                    commentNode.innerHTML+=
+                    `<p>${element["fields"]["text"]}</p>`;
+                });
+                
+            }
+        }
+    };
+
+    
+    const requestCommentCreate=new XMLHttpRequest();
+    const onClickStepComment=(step_id)=>{
+        const url='step/create_comment'; //    post/step/comment_create
+        const text=document.querySelector(`#step-modal-${step_id} .new-comment`).value;
+        requestCommentCreate.open("POST",url,true);
+        requestCommentCreate.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded",
+        );
+        requestCommentCreate.send(JSON.stringify({step_id:step_id,text:text}))
+
+    };
+
+    requestCommentCreate.onreadystatechange=()=>{
+        if(requestCommentCreate.readyState===XMLHttpRequest.DONE){
+            if(requestCommentCreate.status<400){
+                const{step_id,comment_id,text}=JSON.parse(requestCommentCreate.response);
+                // console.log(step_id);
+                const parent=document.querySelector(`.step_comment_${step_id}`);
+                parent.innerHTML += 
+                `<div class="step-comment-${comment_id}">
+                    <p>${text}</p>
+                </div>`;
+            }
+        }
+    };
+    
+
+</script>
+
+
 <!-- 북마크, 좋아요 관련 스크립트 -->
 <script>
   const bookmarkBtn = document.querySelector(".bookmark-btn");
@@ -153,16 +230,4 @@
   }
 </script>
 
-<script>
-  const onClickStepShow = (id) => {
-    const url = "/step";
-    const step_title = document.querySelector(`.modal_${step.id} h2`);
-    const step_image = document.querySelector(`.modal_${step.id} img`);
-    const step_desc = document.querySelector(`.modal_${step.id} p`);
-  };
-
-  const onClickStepComment = (id) => {
-    const url = "step/comment_create";
-  };
-</script>
 {% endblock %}

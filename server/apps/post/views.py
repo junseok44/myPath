@@ -1,12 +1,15 @@
-from django.shortcuts import render, get_list_or_404, get_object_or_404
+from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
 from .models import *
 from apps.comment.models import *
 from django.core.serializers import serialize
 from django.contrib import messages
 # from apps.user.models import User
 from django.contrib.auth import get_user_model
-from django.http.response import JsonResponse
 import json
+from django.http import JsonResponse,HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.serializers import serialize
+
 
 User = get_user_model()
 # Create your views here.
@@ -294,6 +297,38 @@ def view_post_edit(request, id):
     return render(request, 'post/post_edit.html', ctx)
 
 
+def view_post_detail(requests,pk):
+
+    post=Post.objects.get(id=pk)
+    paths=Path.objects.filter(post=post).order_by("order")
+    for path in paths:
+        path.steps=Step.objects.filter(path=path).order_by("order") #?
+    post_comments=PostComment.objects.filter(post=post)
+
+    if requests.user.is_authenticated:
+        if LikeTable.objects.filter(post=post, user=requests.user).exists():
+            post.isLiked = True
+        else:
+            post.isLiked = False
+        
+        if BookMarkTable.objects.filter(post=post, user=requests.user).exists():
+            post.isBookMarked = True
+        else:
+            post.isBookMarked = False
+
+    ctx={"post":post,"paths":paths,"post_comments":post_comments}
+
+    return render(requests,"post/detail.html",context=ctx)
+
+def view_post_create_comment(request,pk):
+    if request.method=="POST":
+        comment = PostComment() 
+        comment.post=Post.objects.get(id=pk)
+        comment.text = request.POST['comment']
+        comment.save()
+        
+    return redirect(f'/post/{pk}/')  
+
 # Create your views here.
 
 def view_post_detail(requests,pk):
@@ -319,24 +354,43 @@ def view_post_detail(requests,pk):
 
     return render(requests,"post/detail.html",context=ctx)
 
-import json
-from django.views.decorators.csrf import csrf_exempt
+
+
 
 @csrf_exempt
 def view_step_detail_ajax(request):
-    req=json.loads(request.body)
-    step_id=req['id']
-    step=Step.objects.get(id=step_id)
+    req = json.loads(request.body)
+    step_id = req['step_id']
 
-    return JsonResponse()
+    if request.method=="POST":
+        step = get_object_or_404(Step, pk=step_id)
+        step_comments = StepComment.objects.filter(step=step)
 
-@csrf_exempt
-def view_step_comment_create_ajax(request):
-    req=json.loads(request.body)
-    step_id=req['id']
-    step=Step.objects.get(id=step_id)
+        step_json = serialize('json', [step])
+        step_comments_json = serialize('json', step_comments)
+
+        ctx = {"step": step_json, "step_comments": step_comments_json}
+
+        return JsonResponse(ctx)
+    else:
+        return HttpResponse('Failed: Post requests only.')
     
-    return JsonResponse()
+@csrf_exempt
+def view_step_create_comment_ajax(request):
+    req=json.loads(request.body)
+    step_id=req['step_id']
+    text=req['text']
+    if request.method=="POST":
+        comment=StepComment.objects.create(
+            writer=request.user,
+            step=get_object_or_404(Step, pk=step_id),
+            text=text,
+        )
+        ctx={'step_id':step_id,'comment_id':comment.id,'text':text}
+        return JsonResponse(ctx)
+    else:
+        return HttpResponse('Failed: Post requests only.')
+
 
 
 def toggle_bookmark_ajax(request):
@@ -381,3 +435,19 @@ def toggle_like_ajax(request):
             return JsonResponse({'isLiked': is_Liked, 'like_count': count})
         except:
             return JsonResponse({"msg":"error"},status=404)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
