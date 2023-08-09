@@ -47,11 +47,10 @@ def view_post_write(request):
 
             # 로그인 기능 구현이 안되어서, 일단 임시로 유저 생성.
             if not request.user.is_authenticated:
-                user = get_user_by_username("개미개미")
+                messages.error(request, '글을 쓰시려면 로그인해야해요!')
+                return JsonResponse({"error": "errormessage"}, status=500) 
             else:
                 user = request.user
-            print(user.get_username())
-
 
             #썸네일 있는지 확인후, post 생성.
             thumbnail_data = data.get("thumbnail")

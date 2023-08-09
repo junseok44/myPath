@@ -19,8 +19,8 @@
         <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
       </p>
       <p>{{post.desc}}</p>
+      <p>작성자 : {{post.user.username}}</p>
       {% if user.is_authenticated %}
-      <p>{{user.username}}님</p>
       <button class="like-btn" onclick="likeToggle('{{post.id}}')">
         {% if post.isLiked %} 좋아요취소 {% else %} 좋아요하기 {% endif %}
       </button>
