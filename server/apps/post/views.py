@@ -335,10 +335,13 @@ def view_post_edit(request, id):
 def view_post_detail(requests,pk):
 
     post=Post.objects.get(id=pk)
+    post_category = CategoryTable.objects.get(post=post).category.name
+    post_tags=TagTable.objects.filter(post=post)
     paths=Path.objects.filter(post=post).order_by("order")
     for path in paths:
         path.steps=Step.objects.filter(path=path).order_by("order") #?
     post_comments=PostComment.objects.filter(post=post)
+   
 
     if requests.user.is_authenticated:
         if LikeTable.objects.filter(post=post, user=requests.user).exists():
@@ -351,7 +354,13 @@ def view_post_detail(requests,pk):
         else:
             post.isBookMarked = False
 
-    ctx={"post":post,"paths":paths,"post_comments":post_comments}
+    ctx={
+            "post":post,
+            "post_category":post_category,
+            "post_tags":post_tags,
+            "paths":paths,
+            "post_comments":post_comments
+         }
 
     return render(requests,"post/detail.html",context=ctx)
 
@@ -363,34 +372,6 @@ def view_post_create_comment(request,pk):
         comment.save()
         
     return redirect(f'/post/{pk}/')  
-
-# Create your views here.
-
-def view_post_detail(requests,pk):
-
-    post=Post.objects.get(id=pk)
-    paths=Path.objects.filter(post=post).order_by("order")
-    for path in paths:
-        path.steps=Step.objects.filter(path=path).order_by("order") #?
-    post_comments=PostComment.objects.filter(post=post)
-
-    if requests.user.is_authenticated:
-        if LikeTable.objects.filter(post=post, user=requests.user).exists():
-            post.isLiked = True
-        else:
-            post.isLiked = False
-        
-        if BookMarkTable.objects.filter(post=post, user=requests.user).exists():
-            post.isBookMarked = True
-        else:
-            post.isBookMarked = False
-
-    ctx={"post":post,"paths":paths,"post_comments":post_comments}
-
-    return render(requests,"post/detail.html",context=ctx)
-
-
-
 
 @csrf_exempt
 def view_step_detail_ajax(request):

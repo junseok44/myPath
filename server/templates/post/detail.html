@@ -26,6 +26,12 @@
         <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
       </p>
       <p>{{post.desc}}</p>
+      <p>카테고리:{{post_category}}</p>
+      <ul id="tagList">
+        {% for post_tag in post_tags %}
+        <li>#{{post_tag.tag.name}}</li>
+      </ul>
+      {% endfor %}
       <p>작성자 : {{post.user.username}}</p>
       {% if user.is_authenticated %}
       <button class="like-btn" onclick="likeToggle('{{post.id}}')">
