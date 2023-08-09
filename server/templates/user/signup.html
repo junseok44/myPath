@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
-<div class="register-container">
+<div class="signup">
     <h1>로그인</h1>
-    <form action="{% url 'signup' %}" method="post">
+    <form action="{% url 'user_signup' %}" method="post">
         {% csrf_token %}
 
         {{ form.loginId.label_tag }} {{ form.loginId }}
@@ -14,7 +14,7 @@
 
         <button type="submit">등록</button>
     </form>
-    <p>이미 계정이 있나요? <a href="{% url 'login' %}">Login</a></p>
+    <p>이미 계정이 있나요? <a href="{% url 'user_login' %}">Login</a></p>
     {% if form.errors %}
     <div class="errors">
         <ul>

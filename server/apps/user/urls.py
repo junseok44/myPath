@@ -1,12 +1,12 @@
 from django.urls import path
-from .views import *
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import view_user_login, view_user_signup
+from .views import user_main, user_login, user_signup
 
 urlpatterns = [
-    path('login/', view_user_login, name='login'),
-    path('signup/', view_user_signup, name='signup'),
+    path('', user_main, name='user_main'),
+    path('login/', user_login, name='user_login'), 
+    path('signup/', user_signup, name='user_signup'),
 ]
 
 if settings.DEBUG:

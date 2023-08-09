@@ -1,16 +1,11 @@
-{% load static %}
+{% extends 'base.html' %} {% block content %}
+<div class="main">
+    <a href="{% url 'user_login' %}">
+        <button>로그인</button>
+    </a>
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'reset.css' %}" />
-    <link rel="stylesheet" href="{% static 'index.css' %}" />
-  </head>
-  <body>
-    <header>this is header</header>
-    {% block content %} {% endblock %}
-  </body>
-</html>
+    <a href="{% url 'user_signup' %}">
+        <button>회원가입</button>
+    </a>
+</div>
+{% endblock %}

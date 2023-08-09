@@ -12,10 +12,11 @@ class User(AbstractUser):
         ('silver', "실버"),
         ('gold', "골드"),
         ('platinum', "플래티넘"),
-
     ]
+
     id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
+    
     loginId = models.CharField(
         max_length=150,
         unique=True,
@@ -25,8 +26,12 @@ class User(AbstractUser):
             "unique": "A user with that loginId already exists.",
         },
     )
-    username = models.CharField(max_length=20, unique=True)
+
+    username = models.CharField(max_length=10, unique=True)
+
     email = models.EmailField(_('email address'), unique=True)
+
     intro = models.CharField(max_length=300)
+
     membership = models.CharField(
         max_length=10, choices=membershipRank, default="bronze", blank=False, null=False)
