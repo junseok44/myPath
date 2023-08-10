@@ -218,8 +218,8 @@ def view_post_edit(request, id):
             data['review'] = request.POST.get("review")
             data['category'] = request.POST.get("category")
 
-            data['deletedTag'] = request.POST.get("deletedTag")
-            data['addedTag'] = request.POST.get("addedTag")
+            data['deletedTag'] = json.loads(request.POST.get("deletedTag"))
+            data['addedTag'] = json.loads(request.POST.get("addedTag"))
             data['mode'] = request.POST.get("mode")
 
             # data = json.loads(request.body)
