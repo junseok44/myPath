@@ -402,7 +402,6 @@ def view_step_detail_ajax(request):
     if request.method=="POST":
         step = get_object_or_404(Step, pk=step_id)
         step_comments = StepComment.objects.filter(step=step)
-
         step_json = serialize('json', [step])
         step_comments_json = serialize('json', step_comments)
 
@@ -423,11 +422,27 @@ def view_step_create_comment_ajax(request):
             step=get_object_or_404(Step, pk=step_id),
             text=text,
         )
-        ctx={'step_id':step_id,'comment_id':comment.id,'text':text}
+        ctx={'step_id':step_id,'comment_id':comment.id,'writer':comment.writer.username,'text':text}
         return JsonResponse(ctx)
     else:
         return HttpResponse('Failed: Post requests only.')
 
+@csrf_exempt
+def view_step_delete_comment_ajax(request):
+    req=json.loads(request.body)
+    step_id=req['step_id']
+    comment_id=req['comment_id']
+    step=Step.objects.get(id=step_id)
+    comment=StepComment.objects.get(step=step, id=comment_id)
+    
+
+    if request.method=="POST" and request.user.is_authenticated:
+        if(request.user==comment.writer):
+            comment_json=serialize('json', [comment])
+            comment.delete()
+            return JsonResponse({'comment':comment_json})
+    else:
+        return HttpResponse('Failed: Post requests only.')
 
 
 def toggle_bookmark_ajax(request):
