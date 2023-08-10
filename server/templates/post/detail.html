@@ -82,7 +82,7 @@
     </ul>
     <div class="review-container">
         <div class="review-content">{{post.review}}</div>
-        <div class="comment-container {{post.id}}">
+        <div class="comment-container post_{{post.id}}">
                 {% for post_comment in post_comments%}
                 <div class="post_comment_{{post_comment.id}}">
                     <p>{{post_comment.writer}}</p>
@@ -202,7 +202,7 @@
             if(requestCommentDelete.status<400){
                 const{comment}=JSON.parse(requestCommentDelete.response);
                 comment_parsed=JSON.parse(comment)[0]
-                commentNode=document.querySelector(`.${comment_parsed["fields"]["post"]} .post_comment_${comment_parsed["pk"]}`);
+                commentNode=document.querySelector(`.post_${comment_parsed["fields"]["post"]} .post_comment_${comment_parsed["pk"]}`);
                 commentNode.remove();
             }
         }
