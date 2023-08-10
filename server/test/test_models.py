@@ -3,10 +3,14 @@ from apps.post.models import Post, Path, Step, Category, CategoryTable, Tag, Tag
 from apps.user.models import User
 from apps.comment.models import PostComment, StepComment
 
+
 class YourAppModelsTestCase(TestCase):
     def setUp(self):
         # Create a test user
-        self.user = User.objects.create_user(username='testuser', password='testpassword', intro='Test intro')
+        self.user = User.objects.create_user(
+            username='testuser', password='testpassword', intro='Test intro')
+        self.post = Post.objects.create(
+            user=self.user, title='Test Post', desc='Test description')
 
         # Create some test categories and tags
         self.category1 = Category.objects.create(name='Category1')
@@ -15,7 +19,6 @@ class YourAppModelsTestCase(TestCase):
         self.tag2 = Tag.objects.create(name='Tag2')
 
         # Create a test post
-        self.post = Post.objects.create(user=self.user, title='Test Post', desc='Test description')
 
         # Add categories and tags to the post using the intermediate models
         CategoryTable.objects.create(post=self.post, category=self.category1)
@@ -24,17 +27,19 @@ class YourAppModelsTestCase(TestCase):
         TagTable.objects.create(post=self.post, tag=self.tag2)
 
         # Create a test path for the post
-        self.path = Path.objects.create(post=self.post, title='Test Path', order=1)
+        self.path = Path.objects.create(
+            post=self.post, title='Test Path', order=1)
 
         # Create a test step for the path
-        self.step = Step.objects.create(path=self.path, title='Test Step', desc='Test step description', order=1)
+        self.step = Step.objects.create(
+            path=self.path, title='Test Step', desc='Test step description', order=1)
 
         # Create a test bookmark
-        self.bookmark = BookMarkTable.objects.create(post=self.post, user=self.user)
+        self.bookmark = BookMarkTable.objects.create(
+            post=self.post, user=self.user)
 
         # Create a test like
         self.like = LikeTable.objects.create(post=self.post, user=self.user)
-
 
     def test_post_model(self):
         self.assertEqual(self.post.title, 'Test Post')
@@ -76,9 +81,12 @@ class YourAppModelsTestCase(TestCase):
 
 class PostCommentModelTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpass')
-        self.post = Post.objects.create(user=self.user, title='Test Post', desc='Test Description')
-        self.post_comment = PostComment.objects.create(post=self.post, writer=self.user, text='Test Comment')
+        self.user = User.objects.create_user(
+            username='testuser', password='testpass')
+        self.post = Post.objects.create(
+            user=self.user, title='Test Post', desc='Test Description')
+        self.post_comment = PostComment.objects.create(
+            post=self.post, writer=self.user, text='Test Comment')
 
     def test_post_comment_model(self):
         self.assertEqual(self.post_comment.post, self.post)
@@ -86,13 +94,19 @@ class PostCommentModelTestCase(TestCase):
         self.assertEqual(self.post_comment.text, 'Test Comment')
         self.assertIsNone(self.post_comment.parentComment)
 
+
 class StepCommentModelTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpass')
-        self.post = Post.objects.create(user=self.user, title='Test Post', desc='Test Description')
-        self.path = Path.objects.create(post=self.post, title='Test Path', order=1)
-        self.step = Step.objects.create(path=self.path, title='Test Step', desc='Test Step Description', order=1)
-        self.step_comment = StepComment.objects.create(step=self.step, writer=self.user, text='Test Comment')
+        self.user = User.objects.create_user(
+            username='testuser', password='testpass')
+        self.post = Post.objects.create(
+            user=self.user, title='Test Post', desc='Test Description')
+        self.path = Path.objects.create(
+            post=self.post, title='Test Path', order=1)
+        self.step = Step.objects.create(
+            path=self.path, title='Test Step', desc='Test Step Description', order=1)
+        self.step_comment = StepComment.objects.create(
+            step=self.step, writer=self.user, text='Test Comment')
 
     def test_step_comment_model(self):
         self.assertEqual(self.step_comment.step, self.step)

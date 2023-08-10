@@ -1,0 +1,38 @@
+.messages {
+  position: fixed;
+  top: 1rem;
+  width: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0 auto;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 500;
+  transition: top 0.9s ease-in-out, opacity 0.5s ease-in-out;
+
+  @media screen and (max-width: 600px) {
+    width: 70%;
+  }
+}
+
+.message {
+  padding: 10px;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.message.show {
+  top: 2rem; /* Display the message naturally */
+  opacity: 1;
+}
+
+.message.success {
+  background-color: #dff0d8;
+  color: #3c763d;
+}
+
+.message.error {
+  background-color: #f2dede;
+  color: #a94442;
+}
