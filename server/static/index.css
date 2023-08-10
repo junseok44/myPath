@@ -1,6 +1,78 @@
 @import "./reset.css";
+@import "./shared.css";
+@import "./post/post_write.css";
+@import "./post/shared.css";
+@import "./post/detail.css";
 
 .post__title {
-    font-size: 16px;
-    color: red;
+  font-size: 16px;
+  color: red;
+}
+
+img {
+  width: 5rem;
+  height: 5rem;
+}
+
+.main__list {
+  margin-bottom: 1rem;
+}
+
+.main__list h1 {
+  font-size: 2rem;
+}
+
+.main__item-container {
+  display: flex;
+}
+
+.main__item img {
+  width: 10rem;
+  height: 10rem;
+}
+
+.categorycontainer {
+  display: grid;
+
+  grid-template-columns: 100px 100px 100px 100px;
+  justify-content: center;
+}
+
+.mainsearch {
+  text-align: center;
+}
+
+.editerspick {
+  display: flex;
+  text-align: center;
+  place-content: center;
+}
+
+.popularposts {
+  display: flex;
+  text-align: center;
+  place-content: center;
+}
+
+.categorycontainer {
+  display: grid;
+
+  grid-template-columns: 100px 100px 100px 100px;
+  justify-content: center;
+}
+
+.mainsearch {
+  text-align: center;
+}
+
+.editerspick {
+  display: flex;
+  text-align: center;
+  place-content: center;
+}
+
+.popularposts {
+  display: flex;
+  text-align: center;
+  place-content: center;
 }

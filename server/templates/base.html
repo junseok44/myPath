@@ -8,11 +8,57 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'reset.css' %}" />
     <link rel="stylesheet" href="{% static 'index.css' %}" />
+    <link rel="stylesheet" href="{% static 'shared.css' %}" />
   </head>
   <body>
-    <header>this is header</header>
-    {% block content %} {% endblock %}
+    <header>
+      <a href="/">MYPATH</a>
+
+      <span>
+        <a href="{% url 'post:post_list' %}">포스트 목록</a>
+        <a href="{% url 'post:post_write' %}">포스트 작성하기</a>
+      </span>
+      <span>
+        {% if user.is_authenticated %}
+        <span>{{user.username}} 님 안녕하세요!</span>
+        <button>
+          <a href="{% url 'user_logout' %}">logout</a>
+          <a href="{% url 'user_page' id=user.id %}">내 유저 페이지</a>
+          <a href="{% url 'my_page' %}">마이페이지</a>
+        </button>
+        {% else %}
+        <span>anonymous</span>
+        <button>
+          <a href="/user/login">로그인</a>
+          <a href="/user/signup">회원가입</a>
+        </button>
+        {% endif %}
+      </span>
+    </header>
+    {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+      <div class="message {{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %} {% block content %} {% endblock %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var messages = document.querySelector(".messages");
+        if (messages) {
+          setTimeout(function () {
+            messages.classList.add("show"); // Show the message
+            setTimeout(function () {
+              messages.style.top = "-100%"; // Move the message back up
+            }, 1000); // Wait for 3 seconds
+          }, 500); // Delay before showing the message
+        }
+      });
+    </script>
   </body>
 
-  <script src="https://kit.fontawesome.com/6fbcf91afd.js" crossorigin="anonymous"></script>
+  <script
+    src="https://kit.fontawesome.com/6fbcf91afd.js"
+    crossorigin="anonymous"
+  ></script>
 </html>
