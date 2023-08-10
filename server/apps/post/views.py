@@ -27,6 +27,8 @@ def view_post_main(requests):
                         for table in curation__tables:
                             curation__list.append(table.post)
                         allcuration__list.append({"name": curation.name, "list": curation__list})
+                # Review : curation이 없을 때 에러가 발생하는 것 같은데, try except 부분을 일부만 감싸고
+                # Review : DoesNotExist로 에러 케이스 핸들링하는 것이 좋습니다.
                 except:
                         continue
 
@@ -56,6 +58,7 @@ def category_search(request, category_name):
     )
 
 def get_user_by_username(username):
+    # Review : get_or_create를 사용하는 것이 좋을 것 같습니다!
     try:
         print("find user")
         user = User.objects.get(username=username)
@@ -108,6 +111,8 @@ def view_post_write(request):
                     mode=data['mode'],
                 )
             print("post 생성", post)
+
+            # Review : 컨벤션 통일 필요. camelCase or snake_head. 파이썬은 snake_head가 PEP 규칙
 
             #카테고리 불러온후, post와 연결
             cat = Category.objects.get(name=data['category'])
@@ -194,6 +199,9 @@ def view_post_delete(request, id):
 def view_post_edit(request, id):
     if request.method == "POST":
         try:
+            # Review : DB 트랜잭션 신경써야할 것으로 보입니다.
+            # Review : 중도 에러 발생 시, 일부 데이터만 삭제할 수 있는 경우가 발생할 수 있는데
+            # Review : @transaction.atomic 데코레이터를 달아주면 해결될 것 같습니다.
             data = json.loads(request.body)
             post = get_object_or_404(Post, pk=id)
 
@@ -333,7 +341,7 @@ def view_post_edit(request, id):
 
 
 def view_post_detail(requests,pk):
-
+    # Review : 변수명 컨벤션 통일 필요
     post=Post.objects.get(id=pk)
     paths=Path.objects.filter(post=post).order_by("order")
     for path in paths:
@@ -456,6 +464,7 @@ def toggle_like_ajax(request):
             user = request.user
             data = json.loads(request.body)
             post_id = data['postId']
+            # Review : get_or_create
             try:
                 liketable_entry = LikeTable.objects.get(user=user, post_id=post_id)
                 liketable_entry.delete()
