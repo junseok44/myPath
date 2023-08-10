@@ -72,6 +72,7 @@ function addStepNode(targetPathId, id) {
                 <div class="step__edit-modal modal_${id} hidden">
                   <input type="text" class="title" />
                   <textarea class="desc"></textarea>
+                  <input type="file" class='imageInput' />
                   <div>
                     <button type="button" onClick="handleToggleModal('${id}')">취소</button>
                     <button type="button" onclick="handleSaveValue('${id}')">변경</button>
