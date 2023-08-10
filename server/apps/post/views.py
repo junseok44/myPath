@@ -207,7 +207,7 @@ def view_post_edit(request, id):
     if request.method == "POST":
         try:
             data = {}
-            # data['thumbnail'] = request.FILES.get("thumbnail")
+            data['thumbnail'] = request.FILES.get("thumbnail")
             data['paths'] = json.loads(request.POST.get("paths"))
             data['steps'] = json.loads(request.POST.get("steps"))
 
@@ -305,7 +305,8 @@ def view_post_edit(request, id):
             post.title = data['title']
             post.desc = data['desc']
             post.review = data['review']
-
+            if data.get('thumbnail'):
+                post.thumbnail = data.get('thumbnail')
 
             # post category 수정
             category = Category.objects.get(name=data['category'])

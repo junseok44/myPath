@@ -16,6 +16,8 @@
   <textarea type="text" placeholder="설명" name="dsec" id="descInput">
 {{post.desc}}</textarea
   >
+  <span>포스트 이미지 수정</span>
+  <input type="file" id="imageInput" />
   <span>카테고리 선택</span>
   <select id="categorySelect" name="categorySelect">
     {% for cat in categories %}
@@ -424,7 +426,7 @@ const postData = JSON.parse("{{ jsonPost|escapejs }}");
 
 
     const formData = new FormData();
-    // formData.append("thumbnail", imageInput.files[0]);
+    formData.append("thumbnail", imageInput.files[0]);
     formData.append("paths", JSON.stringify(paths));
     formData.append("steps", JSON.stringify(steps));
     formData.append("deletedPaths",JSON.stringify(deletedPaths));
