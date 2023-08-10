@@ -203,9 +203,26 @@ def view_post_delete(request, id):
         return JsonResponse({"msg":"error"},status = 404)
 
 def view_post_edit(request, id):
+
     if request.method == "POST":
         try:
-            data = json.loads(request.body)
+            data = {}
+            # data['thumbnail'] = request.FILES.get("thumbnail")
+            data['paths'] = json.loads(request.POST.get("paths"))
+            data['steps'] = json.loads(request.POST.get("steps"))
+
+            data['deletedPaths'] = json.loads(request.POST.get('deletedPaths'))
+            data['deletedIds'] = json.loads(request.POST.get('deletedIds'))
+            data['title'] = request.POST.get("title")
+            data['desc'] = request.POST.get("desc")
+            data['review'] = request.POST.get("review")
+            data['category'] = request.POST.get("category")
+
+            data['deletedTag'] = request.POST.get("deletedTag")
+            data['addedTag'] = request.POST.get("addedTag")
+            data['mode'] = request.POST.get("mode")
+
+            # data = json.loads(request.body)
             post = get_object_or_404(Post, pk=id)
 
             # 1. 삭제된 path를 삭제한다.
@@ -216,7 +233,7 @@ def view_post_edit(request, id):
                         print("deleted columns"+obj.title)
                         obj.delete()
 
-            # 삭제된 column을 삭제한다.
+            # 삭제된 step을 삭제한다.
             for deletedId in data['deletedIds']:
                 matching_objects = Step.objects.filter(pk=deletedId)
                 if matching_objects.exists():
@@ -225,15 +242,24 @@ def view_post_edit(request, id):
                         obj.delete()
 
             # 1. Create 기존 패스에 추가된 스텝을 추가한다.
-            for item in [data for data in data['steps'] if data['isNew'] == True]:
-                matching_objects = Path.objects.filter(pk=item['pathId'])
+            for step in [data for data in data['steps'] if data['isNew'] == True]:
+                matching_objects = Path.objects.filter(pk=step['pathId'])
                 if matching_objects.exists():
-                    step = Step.objects.create(
-                        path=Path.objects.get(pk=item['pathId']),
-                        title=item['title'],
-                        desc=item['desc'],
-                        order=item['order'],
-                    )
+                    if step.get('image') != None and step.get('image') != "":
+                           step = Step.objects.create(
+                            path=Path.objects.get(pk=step['pathId']),
+                            title=step['title'],
+                            desc=step['desc'],
+                            order=step['order'],
+                            Image=get_image_from_dataUrl(step['image'])
+                        )
+                    else:    
+                        step = Step.objects.create(
+                            path=Path.objects.get(pk=step['pathId']),
+                            title=step['title'],
+                            desc=step['desc'],
+                            order=step['order'],
+                        )
                     print("created into current path", step.title)
 
             # 2. Create 새로운 패스를 추가하고, 그 패스에 해당하는 step도 추가한다.
@@ -241,7 +267,12 @@ def view_post_edit(request, id):
                 newPath = Path.objects.create(
                     post=post, title=path['title'], order=path['order'])
                 for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
-                    newStep = Step.objects.create(path=newPath, title=step['title'], desc=step['desc'],
+                    if step.get('image') != None and step.get('image') != "":
+                        newStep = Step.objects.create(path=newPath, title=step['title'], desc=step['desc'],
+                                                  order=step['order'], Image=get_image_from_dataUrl(step['image'])
+                                                  )
+                    else:
+                        newStep = Step.objects.create(path=newPath, title=step['title'], desc=step['desc'],
                                                   order=step['order']
                                                   )
                     print("created new step in new column", newStep.title)
@@ -265,6 +296,8 @@ def view_post_edit(request, id):
                 myStep.title = step['title']
                 myStep.desc = step['desc']
                 myStep.order = step['order']
+                if step.get('image') != None and step.get('image') != "":
+                    myStep.Image = get_image_from_dataUrl(step['image'])
                 myStep.save()
                 print("edited step", myStep.title)
 

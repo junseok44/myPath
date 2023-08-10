@@ -420,26 +420,30 @@ const postData = JSON.parse("{{ jsonPost|escapejs }}");
   }
   async function handleSubmit(e) {
     e.preventDefault();
-
     if(!titleInput.value || !descInput.value) return;
+
+
+    const formData = new FormData();
+    // formData.append("thumbnail", imageInput.files[0]);
+    formData.append("paths", JSON.stringify(paths));
+    formData.append("steps", JSON.stringify(steps));
+    formData.append("deletedPaths",JSON.stringify(deletedPaths));
+    formData.append("deletedIds", JSON.stringify(deletedIds));
+    formData.append("title", titleInput.value);
+    formData.append("desc", descInput.value);
+    formData.append("review", reviewInput.value);
+    formData.append("category", categorySelect.value);
+    formData.append("deletedTag", JSON.stringify(deletedTag));
+    formData.append("addedTag",JSON.stringify(addedTag));
+    formData.append(
+      "mode",
+      main.classList.contains("column-mode") ? "col" : "row"
+    );
 
     const response = await fetch(`/post/edit/${postData[0].pk}`, {
       method: "POST",
-      body: JSON.stringify({
-        paths: paths,
-        steps: steps,
-        deletedPaths: deletedPaths,
-        deletedIds: deletedIds,
-        title: titleInput.value,
-        desc: descInput.value,
-        review: reviewInput.value,
-        category: categorySelect.value,
-        deletedTag: deletedTag,
-        addedTag: addedTag,
-        mode: "col",
-      }),
+      body: formData,
       headers: {
-        "content-type": "application/json",
         "X-CSRFToken": csrftoken,
       },
     });
@@ -447,10 +451,11 @@ const postData = JSON.parse("{{ jsonPost|escapejs }}");
     console.log(await response.json());
     if(response.status == 200) {
       location.reload()
+      window.location.href = `/post/${postData[0].pk}`;
+
     } else {
       location.reload()
     }
-    // window.location.href = "/post/list";
   }
   
 </script>
