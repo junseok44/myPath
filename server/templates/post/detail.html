@@ -140,12 +140,24 @@
                 // console.log(step_comments_parsed);
                 const stepNode=document.querySelector(`.modal_${step_parsed["pk"]}`);
                 const commentNode=document.querySelector(`.step_comment_${step_parsed["pk"]}`);
-                stepNode.innerHTML = 
+                // console.log(step_parsed["fields"]["Image"])
+                image_url=step_parsed["fields"]["Image"]
+                // console.log(image_null==true)
+                if (image_url){
+                    stepNode.innerHTML = 
                     `<div class="step-${step_parsed["pk"]}">
                         <h3>${step_parsed["fields"]["title"]}<h2>
                         <img src="../media/${step_parsed["fields"]["Image"]}" />
                         <p>${step_parsed["fields"]["desc"]}</p>
                     </div>`;
+                }
+                else{
+                    stepNode.innerHTML = 
+                    `<div class="step-${step_parsed["pk"]}">
+                        <h3>${step_parsed["fields"]["title"]}<h2>
+                        <p>${step_parsed["fields"]["desc"]}</p>
+                    </div>`;
+                }
 
                 commentNode.innerHTML=``;
                 step_comments_parsed.forEach(element => {
