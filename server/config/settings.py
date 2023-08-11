@@ -43,17 +43,6 @@ SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
 AUTH_USER_MODEL = 'user.User'
 
 
-
-
-
-
-
-
-
-
-
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -171,7 +160,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.User'
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.naver.NaverOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
