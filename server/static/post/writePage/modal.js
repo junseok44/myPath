@@ -18,9 +18,12 @@ function handleSaveValue(id) {
   const modal = document.querySelector(`.modal_${id}`);
   const titleForm = modal.querySelector(".title");
   const descForm = modal.querySelector(".desc");
-
+  const ImageInput = modal.querySelector(`.imageInput`);
   const titleNode = document.querySelector(`.step_${id} .title`);
   const descNode = document.querySelector(`.step_${id} .desc`);
+
+  const imageFile = ImageInput.files[0];
+  let imageData;
 
   titleNode.innerText = titleForm.value;
   descNode.innerText = descForm.value;
@@ -30,5 +33,14 @@ function handleSaveValue(id) {
   step = steps.find((step) => step.id == id);
   step.title = titleForm.value;
   step.desc = descForm.value;
+  if (imageFile) {
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      imageData = event.target.result;
+      step.image = imageData;
+      console.log(step);
+    };
+    reader.readAsDataURL(imageFile);
+  }
   step.isEdited = true;
 }

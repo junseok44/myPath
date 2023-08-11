@@ -26,6 +26,15 @@
         <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
       </p>
       <p>{{post.desc}}</p>
+      <p>카테고리:{{post_category}}</p>
+      <ul id="tagList">
+        {% for post_tag in post_tags %}
+        <li>
+            <span>#{{post_tag.tag.name}}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      
       <p>작성자 : {{post.user.username}}</p>
       {% if user.is_authenticated %}
       <button class="like-btn" onclick="likeToggle('{{post.id}}')">
@@ -73,12 +82,15 @@
     </ul>
     <div class="review-container">
         <div class="review-content">{{post.review}}</div>
-        <div class="comment-container">
-            {% for post_comment in post_comments%}
-            <p>{{post_comment.writer}}</p>
-            <p>{{post_comment.text}}</p>
-            {% endfor %}
-            <form action="{%url 'post:post_create_comment' post.id%}" method="POST">
+        <div class="comment-container {{post.id}}">
+                {% for post_comment in post_comments%}
+                <div class="post_comment_{{post_comment.id}}">
+                    <p>{{post_comment.writer}}</p>
+                    <p>{{post_comment.text}}</p>
+                    <button class="post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">댓글 삭제</button>
+                </div>
+                {% endfor %}
+            <form action="{%url 'post:post_create_comment' post.pk%}" method="POST">
                 {%csrf_token%}
                 <input type="text" name="comment" placeholder="댓글을 입력하세요">
                 <input type="submit" value="submit">
@@ -88,7 +100,7 @@
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
-// <!-- csrf token. fetch 요청할때 header에 넣어주면 @exempt 안써도 되요. 밑에 사용례 참고 -->
+<!-- csrf token. fetch 요청할때 header에 넣어주면 @exempt 안써도 되요. 밑에 사용례 참고 -->
 <script>
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -173,6 +185,28 @@
         }
     };
     
+    const requestCommentDelete=new XMLHttpRequest();
+    const deletePostComment=(post_id,comment_id)=>{
+        const url='delete_comment';
+        console.log(url)
+        requestCommentDelete.open("POST",url,true);
+        requestCommentDelete.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+        );
+        requestCommentDelete.send(JSON.stringify({post_id:post_id,comment_id:comment_id}))
+    };
+
+    requestCommentDelete.onreadystatechange=()=>{
+        if(requestCommentDelete.readyState===XMLHttpRequest.DONE){
+            if(requestCommentDelete.status<400){
+                const{comment}=JSON.parse(requestCommentDelete.response);
+                comment_parsed=JSON.parse(comment)[0]
+                commentNode=document.querySelector(`.${comment_parsed["fields"]["post"]} .post_comment_${comment_parsed["pk"]}`);
+                commentNode.remove();
+            }
+        }
+    };
 
 </script>
 

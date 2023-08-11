@@ -15,6 +15,7 @@ urlpatterns = [
     path('post/step',view_step_detail_ajax,name='step_detail'),
     path('post/step/create_comment',view_step_create_comment_ajax,name='step_create_comment'),
     path('post/<uuid:pk>/create_comment',view_post_create_comment,name='post_create_comment'),
+    path('post/delete_comment',view_post_delete_comment_ajax,name='post_delete_comment'),
     path("category/<str:category_name>/", category_search , name='category'),
     path('api/toggleBookMark/', toggle_bookmark_ajax),
     path('api/toggleLike/', toggle_like_ajax),

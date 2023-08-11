@@ -4,11 +4,15 @@ from .forms import CustomUserCreationForm
 from django.contrib import messages
 from apps.user.models import User
 from apps.post.models import Post, BookMarkTable, LikeTable
+from django.shortcuts import redirect
 
 def user_main(request):  
     return render(request, 'user/login.html')
 
 def user_login(request):  
+    if request.user.is_authenticated:
+        return redirect('/')
+    
     if request.method == "POST":
         login_id = request.POST.get('loginId')
         password = request.POST.get('password')
@@ -25,6 +29,9 @@ def user_login(request):
     return render(request, 'user/login.html')
 
 def user_signup(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -35,6 +42,7 @@ def user_signup(request):
         else:
             messages.error(request, "회원가입에 실패하였습니다.")
             return render(request, 'user/signup.html', {'form': form})
+        
     else:
         form = CustomUserCreationForm()
         return render(request, 'user/signup.html', {'form': form})
@@ -47,7 +55,6 @@ def user_logout(request):
 
 
 def view_user_main(requests):
-
     return render(requests, "user/main.html")
 
 def my_page(requests):
