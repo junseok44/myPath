@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css"
+    />
+    <!-- <link rel="stylesheet" href="./OwlCarousel2-2.3.4/" /> -->
+    <style>
+      .item {
+        height: 15rem;
+        border: 1px solid black;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="owl-carousel owl-theme container">
+      <div class="item">Your Content1</div>
+      <div class="item">Your Content2</div>
+      <div class="item">Your Content3</div>
+      <div class="item">Your Content4</div>
+      <div class="item">Your Content5</div>
+      <div class="item">Your Content6</div>
+      <div class="item">Your Content7</div>
+    </div>
+    <div class="owl-carousel owl-theme container">
+      <div class="item">Your Content1</div>
+      <div class="item">Your Content2</div>
+      <div class="item">Your Content3</div>
+      <div class="item">Your Content4</div>
+      <div class="item">Your Content5</div>
+      <div class="item">Your Content6</div>
+      <div class="item">Your Content7</div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./OwlCarousel2-2.3.4/dist/owl.carousel.min.js"></script>
+    <script>
+      $(".owl-carousel").owlCarousel({
+        center: true,
+        loop: true,
+        margin: 10,
+        responsiveClass: true,
+        responsive: {
+          0: {
+            items: 1.3,
+            nav: true,
+          },
+          600: {
+            items: 3,
+            nav: false,
+          },
+          1000: {
+            items: 5.3,
+            nav: true,
+            // loop: false,
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
