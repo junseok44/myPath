@@ -9,6 +9,7 @@ import json
 from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers import serialize
+from django.core.paginator import Paginator
 
 
 User = get_user_model()
@@ -473,16 +474,19 @@ def toggle_like_ajax(request):
 
 
 
+def search(request):
+        if request.method == 'POST':
+                searched = request.POST['searched']        
+                searched_posts = Post.objects.filter(title__contains=searched)
+                return render(request, 'post/searched.html', {'searched': searched, 'searched_posts': searched_posts})
+        else:
+                return render(request, 'post/searched.html', {})
+        
 
-
-
-
-
-
-
-
-
-
-
-
-
+def index(request):
+    page = request.GET.get('page', '1')  # 페이지
+    page_post_list = Post.objects.order_by('-create_date')
+    paginator = Paginator(page_post_list, 6)  # 페이지당 6개씩 보여주기
+    page_obj = paginator.get_page(page)
+    context = {'question_list': page_obj}
+    return render(request, 'pybo/question_list.html', context)
