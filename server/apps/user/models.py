@@ -35,3 +35,5 @@ class User(AbstractUser):
 
     membership = models.CharField(
         max_length=10, choices=membershipRank, default="bronze", blank=False, null=False)
+    
+    kakaoId = models.IntegerField(null=True,blank=True)
