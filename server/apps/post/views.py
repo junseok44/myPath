@@ -365,13 +365,18 @@ def view_post_detail(requests,pk):
     return render(requests,"post/detail.html",context=ctx)
 
 def view_post_create_comment(request,pk):
-    if request.method=="POST" and request.user.is_authenticated:
-        PostComment.objects.create(
-            writer=request.user,
-            post=Post.objects.get(id=pk),
-            text = request.POST['comment']
-        )
-        return redirect(f'/post/{pk}') 
+    if request.method=="POST": 
+        if request.user.is_authenticated:
+            PostComment.objects.create(
+                writer=request.user,
+                post=Post.objects.get(id=pk),
+                text = request.POST['comment']
+            )
+            return redirect(f'/post/{pk}')
+        else:
+            messages.error(request, "댓글 작성을 위해서 로그인해주세요!")
+            return redirect(f'/post/{pk}')
+
     return render(request,"post/detail.html")
 
 @csrf_exempt
@@ -423,14 +428,18 @@ def view_step_create_comment_ajax(request):
     req=json.loads(request.body)
     step_id=req['step_id']
     text=req['text']
-    if request.method=="POST" and request.user.is_authenticated:
-        comment=StepComment.objects.create(
-            writer=request.user,
-            step=get_object_or_404(Step, pk=step_id),
-            text=text,
-        )
-        ctx={'step_id':step_id,'comment_id':comment.id,'writer':comment.writer.username,'text':text}
-        return JsonResponse(ctx)
+    if request.method=="POST":
+        if request.user.is_authenticated:
+            comment=StepComment.objects.create(
+                writer=request.user,
+                step=get_object_or_404(Step, pk=step_id),
+                text=text,
+            )
+            ctx={'step_id':step_id,'comment_id':comment.id,'writer':comment.writer.username,'text':text}
+            return JsonResponse(ctx)
+        else:
+            messages.error(request,"댓글 작성을 위해 로그인해주세요!")
+            return JsonResponse({},status=400)
     else:
         return HttpResponse('Failed: Post requests only.')
 
