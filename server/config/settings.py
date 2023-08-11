@@ -43,17 +43,6 @@ SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
 AUTH_USER_MODEL = 'user.User'
 
 
-
-
-
-
-
-
-
-
-
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -71,7 +60,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.user',
     'apps.post',
-    'apps.comment'
+    'apps.comment',
 ]
 
 MIDDLEWARE = [
@@ -169,3 +158,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'user.User'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_NAVER_KEY = ' '
+SOCIAL_AUTH_NAVER_SECRET = ' '

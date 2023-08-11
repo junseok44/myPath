@@ -67,7 +67,7 @@
             </div>
             <div class="step__comment">
                 <div class="step_comment_{{step.id}}">
-                    
+
                 </div>     
                 <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
                 <button class="comment-create" onclick="onClickStepComment('{{step.id}}')">댓글 쓰기</button>
@@ -82,7 +82,7 @@
     </ul>
     <div class="review-container">
         <div class="review-content">{{post.review}}</div>
-        <div class="comment-container {{post.id}}">
+        <div class="comment-container post_{{post.id}}">
                 {% for post_comment in post_comments%}
                 <div class="post_comment_{{post_comment.id}}">
                     <p>{{post_comment.writer}}</p>
@@ -135,27 +135,47 @@
                     
                 const {step,step_comments}=JSON.parse(requestStepDetail.response);
                 step_parsed=JSON.parse(step)[0];
-                console.log(step_parsed["pk"]);
+                // console.log(step_parsed["pk"]);
                 step_comments_parsed=JSON.parse(step_comments);
-                console.log(step_comments_parsed);
+                // console.log(step_comments_parsed);
                 const stepNode=document.querySelector(`.modal_${step_parsed["pk"]}`);
                 const commentNode=document.querySelector(`.step_comment_${step_parsed["pk"]}`);
-                stepNode.innerHTML = 
+                // console.log(step_parsed["fields"]["Image"])
+                image_url=step_parsed["fields"]["Image"]
+                // console.log(image_null==true)
+                if (image_url){
+                    stepNode.innerHTML = 
                     `<div class="step-${step_parsed["pk"]}">
                         <h3>${step_parsed["fields"]["title"]}<h2>
                         <img src="../media/${step_parsed["fields"]["Image"]}" />
                         <p>${step_parsed["fields"]["desc"]}</p>
                     </div>`;
+                }
+                else{
+                    stepNode.innerHTML = 
+                    `<div class="step-${step_parsed["pk"]}">
+                        <h3>${step_parsed["fields"]["title"]}<h2>
+                        <p>${step_parsed["fields"]["desc"]}</p>
+                    </div>`;
+                }
 
                 commentNode.innerHTML=``;
+
                 step_comments_parsed.forEach(element => {
+                    console.log(element)
                     commentNode.innerHTML+=
-                    `<p>${element["fields"]["text"]}</p>`;
+                    `<div class="step-${step_parsed["pk"]}-${element["pk"]}">
+                        <p>${element["fields"]["writer"]}</p>
+                        <p>${element["fields"]["text"]}</p>
+                        <button class="step-comment-delete" onclick="deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')">댓글 삭제</button>
+                    </div>`;
                 });
                 
             }
         }
     };
+
+    
 
     
     const requestCommentCreate=new XMLHttpRequest();
@@ -174,17 +194,46 @@
     requestCommentCreate.onreadystatechange=()=>{
         if(requestCommentCreate.readyState===XMLHttpRequest.DONE){
             if(requestCommentCreate.status<400){
-                const{step_id,comment_id,text}=JSON.parse(requestCommentCreate.response);
-                // console.log(step_id);
+                const{step_id,comment_id,writer,text}=JSON.parse(requestCommentCreate.response);
+                console.log(writer);
                 const parent=document.querySelector(`.step_comment_${step_id}`);
                 parent.innerHTML += 
-                `<div class="step-comment-${comment_id}">
+                `<div class="step-${step_id}-${comment_id}">
+                    <p>${writer}</p>
                     <p>${text}</p>
+                    <button class="step-comment-delete" onclick="deleteStepComment('${step_id}','${comment_id}')">댓글 삭제</button>
                 </div>`;
+            }
+            else {
+              window.location.reload()
+            }
+        }
+    };
+
+    const requestStepCommentDelete=new XMLHttpRequest();
+    const deleteStepComment=(step_id,comment_id)=>{
+        const url='step/delete_comment';
+        // console.log(url)
+        requestStepCommentDelete.open("POST",url,true);
+        requestStepCommentDelete.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+        );
+        requestStepCommentDelete.send(JSON.stringify({step_id:step_id,comment_id:comment_id}))
+    };
+
+    requestStepCommentDelete.onreadystatechange=()=>{
+        if(requestStepCommentDelete.readyState===XMLHttpRequest.DONE){
+            if(requestStepCommentDelete.status<400){
+                const{comment}=JSON.parse(requestStepCommentDelete.response);
+                comment_parsed=JSON.parse(comment)[0]
+                commentNode=document.querySelector(`.step-${comment_parsed["fields"]["step"]}-${comment_parsed["pk"]}`);
+                commentNode.remove();
             }
         }
     };
     
+    //post comment delete
     const requestCommentDelete=new XMLHttpRequest();
     const deletePostComment=(post_id,comment_id)=>{
         const url='delete_comment';
@@ -202,7 +251,7 @@
             if(requestCommentDelete.status<400){
                 const{comment}=JSON.parse(requestCommentDelete.response);
                 comment_parsed=JSON.parse(comment)[0]
-                commentNode=document.querySelector(`.${comment_parsed["fields"]["post"]} .post_comment_${comment_parsed["pk"]}`);
+                commentNode=document.querySelector(`.post_${comment_parsed["fields"]["post"]} .post_comment_${comment_parsed["pk"]}`);
                 commentNode.remove();
             }
         }
