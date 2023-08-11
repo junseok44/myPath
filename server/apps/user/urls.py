@@ -14,7 +14,6 @@ urlpatterns = [
     path('user_page/<uuid:id>', user_page, name='user_page'),
     path('kakaoRedirect/', kakao_Auth_Redirect, name='kakao_redirect'),
     path('kakaoRedirect/', kakao_Auth_Redirect, name='kakao_redirect'),
-    path('social/', include('social_django.urls', namespace='social')),
 ]
 
 if settings.DEBUG:
