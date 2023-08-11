@@ -160,8 +160,9 @@
                 }
 
                 commentNode.innerHTML=``;
+
                 step_comments_parsed.forEach(element => {
-                    // console.log(element)
+                    console.log(element)
                     commentNode.innerHTML+=
                     `<div class="step-${step_parsed["pk"]}-${element["pk"]}">
                         <p>${element["fields"]["writer"]}</p>
