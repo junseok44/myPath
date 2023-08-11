@@ -3,7 +3,7 @@
 <div class="container">
   <form class="mainsearch" method="POST" action="{% url 'post:search' %}">
     {% csrf_token %}
-    <input class="form-control me-2" type="search" placeholder="Search" name="searched" aria-label="Search">
+    <input class="form-control me-2" type="search" placeholder="전체 검색" name="searched" aria-label="Search">
     <button class="btn btn-outline-success" type="submit"> Search </button>
   </form>
 </div>

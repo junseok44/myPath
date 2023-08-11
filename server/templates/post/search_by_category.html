@@ -1,10 +1,10 @@
-{% extends 'post/main__templates.html' %} {% load static %}
+{% extends 'post/main__category.html' %} {% load static %}
 
 {% block searchcontent %}
 
 {% if searched %}
 
-<h1> "{{ searched }}"에 대한 검색 결과입니다.
+<h1> 태그 내 "{{ searched }}"에 대한 검색 결과입니다.
 </h1>
 <br>
 {% for searched_post in searched_posts %}

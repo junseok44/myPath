@@ -530,6 +530,25 @@ def search(request):
                 return render(request, 'post/searched.html', {})
         
 
+
+def search_by_category(request):
+        if request.method == 'POST':
+                searched = request.POST['searched']     
+
+                #category = Category.objects.get(name=category_name)
+                #category_tables = CategoryTable.objects.filter(category=category)
+
+                #category_posts = []
+                #for tables in category_tables:
+            #        category_posts.append(tables.post)
+                searched_posts = Post.objects.filter(title__contains=searched)
+                return render(request, 'post/search_by_category.html', {'searched': searched, 'searched_posts': searched_posts})
+        
+        else:
+                return render(request, 'post/search_by_category.html', {})
+
+
+
 def index(request):
     page = request.GET.get('page', '1')  # 페이지
     page_post_list = Post.objects.order_by('-create_date')
