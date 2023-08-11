@@ -5,7 +5,7 @@
   <form action="{% url 'user_login' %}" method="post">
     {% csrf_token %}
 
-    <label for="loginId">ID: </label>
+    <label for="loginId">loginID: </label>
     <input type="text" name="loginId" required />
 
     <label for="password">Password: </label>
@@ -24,11 +24,7 @@
     </a>
   </div>
 
-  <div class="naver-login">
-    <a id="naver-login-btn" href="{% url 'social:begin' 'naver' %}">
-      <img src="https://static.nid.naver.com/oauth/small_g_in.PNG" width="222" alt="네이버 로그인" />
-    </a>
-  </div>
+
 
   <p>계정이 없으신가요? <a href="{% url 'user_signup' %}">회원가입</a></p>
 </div>
