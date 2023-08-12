@@ -1,0 +1,161 @@
+.header_container {
+    height: 13vh;
+    margin-left: 50px;
+    margin-top: 15px;
+    font-family: 'Jua', sans-serif;
+    font-size: 18px;
+
+}
+
+.header_line {
+    height: 1px;
+    color: gray;
+}
+
+.header_title {
+    font-size: xxx-large;
+    font-family: 'Gasoek One', sans-serif;
+    color: black;
+    text-decoration: none;
+}
+
+.header_post {}
+
+.header_search_container {
+    width: 650px;
+    float: right;
+}
+
+.header_mainsearch {
+    display: inline;
+    position: relative;
+}
+
+.header_mainsearch_input {
+    height: 28px;
+    width: 40%;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    margin-left: 100px;
+}
+
+.header_mainsearch_btn {
+    background: white;
+    border: white;
+    position: absolute;
+    width: 17px;
+    top: 2px;
+    right: 15px;
+    margin: 0;
+}
+
+.header_postlist {
+    color: rgb(57,
+            57,
+            66);
+    padding-left: 0px;
+    margin-left: 20px;
+    margin-bottom: 30px;
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+
+}
+
+.header_postlist:hover {
+    color: black;
+}
+
+.header_postwrite {
+    color: rgb(57,
+            57,
+            66);
+    padding-left: 20px;
+    margin-left: 0px;
+    margin-bottom: 30px;
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+}
+
+.header_postwrite:hover {
+    color: black;
+}
+
+.header_hi {
+    margin-left: 10px;
+}
+
+
+
+.header_myinform {
+
+    text-align: right;
+    text-decoration: none;
+}
+
+.header_logout {
+    color: rgb(57,
+            57,
+            66);
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+}
+
+.header_logout:hover {
+    color: black;
+}
+
+.header_mypage {
+    color: rgb(57,
+            57,
+            66);
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+}
+
+.header_mypage:hover {
+    color: black;
+}
+
+.header_userpage {
+    color: rgb(57,
+            57,
+            66);
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+}
+
+.header_userpag:hover {
+    color: black;
+}

@@ -1,16 +1,9 @@
 {% extends 'base.html' %} {% block content %}
 
-<div class="container">
-  <form class="mainsearch" method="POST" action="{% url 'post:search' %}">
-    {% csrf_token %}
-    <input class="form-control me-2" type="search" placeholder="전체 검색" name="searched" aria-label="Search">
-    <button class="btn btn-outline-success" type="submit"> Search </button>
-  </form>
-</div>
 {% block searchcontent %} {% endblock %}
 
-<div class="container">
-  <div class="categorycontainer">
+<span class="container">
+  <span class="categorycontainer">
     <ul>
       {% for category in categories %}
       <li>
@@ -18,7 +11,7 @@
       </li>
       {% endfor %}
     </ul>
-  </div>
-</div>
+  </span>
+</span>
 
 {% block mainContent %} {% endblock %} {% endblock %}
