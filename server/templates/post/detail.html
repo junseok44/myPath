@@ -15,7 +15,7 @@
 
       {% if post.user == user %}
       <a href="{% url 'post:post_edit' id=post.id %}">
-        <button>이 포스트 편집하기</button>
+        <button class="btn">이 포스트 편집하기</button>
       </a>
       {% endif %}
       <p>
@@ -56,7 +56,7 @@
           <div>
             <p class="title">{{step.title}}</p>
             <p class="desc">{{step.desc}}</p>
-            <button type="button" onclick="onClickStepDetail('{{step.id}}')">
+            <button class="btn" type="button" onclick="onClickStepDetail('{{step.id}}')">
               더보기
             </button>
           </div>
@@ -70,7 +70,7 @@
 
                 </div>     
                 <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
-                <button class="comment-create" onclick="onClickStepComment('{{step.id}}')">댓글 쓰기</button>
+                <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">댓글 쓰기</button>
             </div>
             
           </div>
@@ -87,13 +87,13 @@
                 <div class="post_comment_{{post_comment.id}}">
                     <p>{{post_comment.writer}}</p>
                     <p>{{post_comment.text}}</p>
-                    <button class="post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">댓글 삭제</button>
+                    <button class=" btn post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">댓글 삭제</button>
                 </div>
                 {% endfor %}
             <form action="{%url 'post:post_create_comment' post.pk%}" method="POST">
                 {%csrf_token%}
                 <input type="text" name="comment" placeholder="댓글을 입력하세요">
-                <input type="submit" value="submit">
+                <input type="submit" value="댓글 쓰기">
             </form>
         </div>
     </div>
@@ -167,7 +167,7 @@
                     `<div class="step-${step_parsed["pk"]}-${element["pk"]}">
                         <p>${element["fields"]["writer"]}</p>
                         <p>${element["fields"]["text"]}</p>
-                        <button class="step-comment-delete" onclick="deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')">댓글 삭제</button>
+                        <button class="btn step-comment-delete" onclick="deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')">댓글 삭제</button>
                     </div>`;
                 });
                 
@@ -201,7 +201,7 @@
                 `<div class="step-${step_id}-${comment_id}">
                     <p>${writer}</p>
                     <p>${text}</p>
-                    <button class="step-comment-delete" onclick="deleteStepComment('${step_id}','${comment_id}')">댓글 삭제</button>
+                    <button class="btn step-comment-delete" onclick="deleteStepComment('${step_id}','${comment_id}')">댓글 삭제</button>
                 </div>`;
             }
             else {
