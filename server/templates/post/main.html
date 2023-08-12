@@ -14,26 +14,46 @@
 
   <div>
     {% for cur in curations %}
-    <div class="main__list">
+    <div class="main__curation">
       <h1>{{cur.name}}</h1>
-      <ul class="main__item-container owl-carousel">
+      <ul class="main__curation-container owl-carousel">
         {% for post in cur.list %}
-        <a href="/post/{{post.id}}">
-          <li class="main__item">
-            {% if post.thumbnail %}
-            <img src="{{post.thumbnail.url}}" alt="my icon" />
-            {% else %}
-            <img src="" />
-            {% endif %}
-            <div class="postname">{{post.title}}</div>
-            <div class="postwriter">{{post.user.username}}</div>
-            <div class="postdetail">{{post.desc}}</div>
-            <button class="">{{post.like_table.count}}</button>
-            <button class="">댓글</button>
-            <button class="">공유</button>
-          </li>
-        </a>
-
+        <li class="main__curation-item">
+          <div class="post__title">Title</div>
+          <div class="post__container">
+            <div class="card__container post-id-{{ post.id }}">
+              <div class="card__header">
+                <div class="card-author-profile-image"></div>
+                <div class="card-title">{{post.title}}</div>
+                <div class="card-author">{{post.user.username}}</div>
+              </div>
+              <div class="card__body">
+                <div class="card-thumbnail">
+                  {% if post.thumbnail %}
+                  <img src="{{post.thumbnail.url}}" alt="my icon" />
+                  {% else %}
+                  <img src="" />
+                  {% endif %}
+                </div>
+                <div class="card-description">{{post.desc}}</div>
+              </div>
+              <div class="card__buttons">
+                <div class="btn like-btn">
+                  <i class="fa-solid fa-heart"></i>
+                  <span>{{post.like_table.count}}</span>
+                </div>
+                <div class="btn reply-btn">
+                  <i class="fa-solid fa-comment-dots"></i>
+                  <span>댓글</span>
+                </div>
+                <div class="btn share-btn">
+                  <i class="fa-solid fa-share-nodes"></i>
+                  <span>공유</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
         {% endfor %}
       </ul>
     </div>
@@ -56,7 +76,7 @@
         items: 1.3,
         nav: true,
       },
-      600: {
+      450: {
         items: 3,
         nav: false,
       },

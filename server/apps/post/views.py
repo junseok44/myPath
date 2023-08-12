@@ -3,7 +3,6 @@ from .models import *
 from apps.comment.models import *
 from django.core.serializers import serialize
 from django.contrib import messages
-# from apps.user.models import User
 from django.contrib.auth import get_user_model
 import json
 from django.http import JsonResponse,HttpResponse
@@ -46,6 +45,7 @@ def category_search(request, category_name):
     category_tables = CategoryTable.objects.filter(category=category)
     categories = Category.objects.all()
     category_posts = []
+
     for tables in category_tables:
            category_posts.append(tables.post)
     return render(
@@ -550,7 +550,6 @@ def toggle_like_ajax(request):
             return JsonResponse({'isLiked': is_Liked, 'like_count': count})
         except:
             return JsonResponse({"msg":"error"},status=404)
-
 
 
 def search(request):
