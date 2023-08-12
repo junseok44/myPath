@@ -31,3 +31,16 @@
 .hidden {
   display: none;
 }
+
+.fa-solid.fa-heart {
+  color: red;
+}
+
+.fa-solid.fa-star {
+  color: #f39c12;
+}
+
+.user-action-btn {
+  display: flex;
+  cursor: pointer;
+}
