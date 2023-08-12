@@ -4,7 +4,7 @@
     <div class="intro-container">
       <div class="intro-title">
         <h2>{{post.title}}</h2>
-        <a href="/">작성자:{{post.user}}</a>
+        
         <span class="user-action-btn">
           {% if user.is_authenticated %}
             {% if post.isLiked %}
@@ -39,7 +39,9 @@
           <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
   
         </span>
-  
+      </div>
+      <div class="intro-writer">
+        <a href="/">작성자:{{post.user}}</a>
         {% if post.user == user %}
         <a href="{% url 'post:post_edit' id=post.id %}">
           <button class="btn">이 포스트 편집하기</button>
@@ -64,15 +66,6 @@
             </li>
             {% endfor %}
           </ul>
-          
-          {% if user.is_authenticated %}
-          <!-- <button class="like-btn" onclick="likeToggle('{{post.id}}')">
-            {% if post.isLiked %} 좋아요취소 {% else %} 좋아요하기 {% endif %}
-          </button> -->
-          <!-- <button class="bookmark-btn" onclick="bookMarkToggle('{{post.id}}')">
-            {% if post.isBookMarked %} 북마크취소 {% else %} 북마크하기 {% endif %}
-          </button> -->
-          {% endif %}
         </div>
       </div>
     </div>
