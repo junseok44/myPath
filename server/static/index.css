@@ -6,7 +6,18 @@
 @import "./post/write.css";
 @import "./post/main.css";
 
+// 이미지 뭉개지는것때문에 임의로 넣었는데
+// 포스트 카드 이미지 조정되었다면 빼도 됩니다.
 img {
   width: 5rem;
   height: 5rem;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+}
+
+a {
+  all: unset;
 }
