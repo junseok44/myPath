@@ -265,6 +265,7 @@ def view_post_edit(request, id):
 
             # 2. Create 새로운 패스를 추가하고, 그 패스에 해당하는 step도 추가한다.
             for path in [path for path in data['paths'] if path['isNew'] == True]:
+                print(path["id"])
                 newPath = Path.objects.create(
                     post=post, title=path['title'], order=path['order'])
                 for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
