@@ -1,3 +1,7 @@
+:root {
+  --border-grey: rgba(189, 195, 199, 0.7);
+}
+
 .messages {
   position: fixed;
   top: 1rem;
@@ -35,4 +39,11 @@
 .message.error {
   background-color: #f2dede;
   color: #a94442;
+}
+
+.center__layout {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
