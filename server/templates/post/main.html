@@ -1,12 +1,22 @@
 {% extends 'post/main__templates.html' %} {% load static %}
 
 <div>
+  {% block stylesheet %}
+  <link
+    rel="stylesheet"
+    href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
+  />
+  {% endblock %}
+</div>
+
+<div>
   {% block mainContent %}
+
   <div>
     {% for cur in curations %}
     <div class="main__list">
       <h1>{{cur.name}}</h1>
-      <ul class="main__item-container">
+      <ul class="main__item-container owl-carousel">
         {% for post in cur.list %}
         <a href="/post/{{post.id}}">
           <li class="main__item">
@@ -31,5 +41,32 @@
     {% endfor %}
   </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'library/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
+<script>
+  $(".owl-carousel").owlCarousel({
+    center: true,
+    loop: true,
+    margin: 10,
+
+    responsiveClass: true,
+    responsive: {
+      0: {
+        items: 1.3,
+        nav: true,
+      },
+      600: {
+        items: 3,
+        nav: false,
+      },
+      1000: {
+        items: 5.3,
+        nav: true,
+        // loop: false,
+      },
+    },
+  });
+</script>
 
 {% endblock %}
