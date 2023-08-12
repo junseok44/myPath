@@ -28,19 +28,9 @@
   width: 150px;
 }
 
-.hidden {
-  display: none;
-}
+// .hidden, .fa-solid-heart, fa-solid-star 관련 스타일링은 static/shared.css로 옮김.
 
-.fa-solid.fa-heart {
-  color: red;
-}
-
-.fa-solid.fa-star {
-  color: #f39c12;
-}
-
-.user-action-btn {
+.detailPage__action-btn {
   display: flex;
   cursor: pointer;
 }

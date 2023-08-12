@@ -18,7 +18,7 @@
       </a>
       {% endif %}
 
-      <span class="user-action-btn">
+      <span class="detailPage__action-btn">
         {% if user.is_authenticated %}
           {% if post.isLiked %}
           <div onclick="likeToggle('{{post.id}}')">
@@ -35,7 +35,7 @@
         <span class="post-likes">{{post.like_table.count}}</span>
       </span>
 
-      <span class="user-action-btn">
+      <span class="detailPage__action-btn">
         {% if user.is_authenticated %}
           {% if post.isBookMarked %}
           <div onclick="bookMarkToggle('{{post.id}}')">
@@ -47,7 +47,7 @@
           </div>
           {% endif %}
         {% else %}
-        <i class="fa-regular fa-heart"></i>
+        <i class="fa-regular fa-star"></i>
         {% endif %}
         <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
 
