@@ -1,104 +1,115 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<div class="detail-container">
-  <div class="intro-container">
-    <div class="intro-title">
-      <h2>{{post.title}}</h2>
-      <a href="/">{{post.user}}</a>
+<div class="detailPage">
+  <div class="detail-container">
+    <div class="intro-container">
+      <div class="intro-title">
+        <h2>{{post.title}}</h2>
+        <a href="/">작성자:{{post.user}}</a>
+        <p>
+          <button class="like-btn" onclick="likeToggle('{{post.id}}')">
+            <span class="post-likes">{{post.like_table.count}}</span>
+          </button> 
+        </p>
+        <p>
+          북마크 수 :
+          <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
+        </p>
+  
+        {% if post.user == user %}
+        <a href="{% url 'post:post_edit' id=post.id %}">
+          <button class="btn">이 포스트 편집하기</button>
+        </a>
+        {% endif %}
+      </div>
+      <div class="intro-content">
+        <div class="intro-thumbnail">
+          {% if post.thumbnail %}
+          <img src="{{post.thumbnail.url}}" />
+          {% else %}
+          <img src="{% static 'noimage.jpg' %}" />
+          {% endif %}
+        </div>
+        <div class="intro-desc">
+          <p>{{post.desc}}</p>
+          <p>카테고리:{{post_category}}</p>
+          <ul id="tagList">
+            {% for post_tag in post_tags %}
+            <li>
+                <span>#{{post_tag.tag.name}}</span>
+            </li>
+            {% endfor %}
+          </ul>
+          
+          {% if user.is_authenticated %}
+          <!-- <button class="like-btn" onclick="likeToggle('{{post.id}}')">
+            {% if post.isLiked %} 좋아요취소 {% else %} 좋아요하기 {% endif %}
+          </button> -->
+          <button class="bookmark-btn" onclick="bookMarkToggle('{{post.id}}')">
+            {% if post.isBookMarked %} 북마크취소 {% else %} 북마크하기 {% endif %}
+          </button>
+          {% endif %}
+        </div>
+      </div>
     </div>
-    <div class="intro-desc">
-      
-      {% if post.thumbnail %}
-      <img src="{{post.thumbnail.url}}" />
-      {% else %}
-      <img src="{% static 'noimage.jpg' %}" />
-      {% endif %}
-
-      {% if post.user == user %}
-      <a href="{% url 'post:post_edit' id=post.id %}">
-        <button class="btn">이 포스트 편집하기</button>
-      </a>
-      {% endif %}
-      <p>
-        좋아요 수 : <span class="post-likes">{{post.like_table.count}}</span>
-      </p>
-      <p>
-        북마크 수 :
-        <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
-      </p>
-      <p>{{post.desc}}</p>
-      <p>카테고리:{{post_category}}</p>
-      <ul id="tagList">
-        {% for post_tag in post_tags %}
-        <li>
-            <span>#{{post_tag.tag.name}}</span>
-        </li>
-        {% endfor %}
-      </ul>
-      
-      <p>작성자 : {{post.user.username}}</p>
-      {% if user.is_authenticated %}
-      <button class="like-btn" onclick="likeToggle('{{post.id}}')">
-        {% if post.isLiked %} 좋아요취소 {% else %} 좋아요하기 {% endif %}
-      </button>
-      <button class="bookmark-btn" onclick="bookMarkToggle('{{post.id}}')">
-        {% if post.isBookMarked %} 북마크취소 {% else %} 북마크하기 {% endif %}
-      </button>
-      {% endif %}
-    </div>
-  </div>
-  <ul class="main-container {{post.mode}}">
-    {% for path in paths %}
-    <li class="path path_{{path.id}}">
-      <p>{{path.title}}</p>
-      <div class="step-container">
-        {% for step in path.steps %}
-        <section class="step step_{{step.id}}">
-          <div>
-            <p class="title">{{step.title}}</p>
-            <p class="desc">{{step.desc}}</p>
-            <button class="btn" type="button" onclick="onClickStepDetail('{{step.id}}')">
-              더보기
-            </button>
-          </div>
-          <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
-            <div class="step__modal modal_{{step.id}}" >
-              <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
+    <ul class="main-container {{post.mode}}">
+      {% for path in paths %}
+      <li class="path path_{{path.id}}">
+        <p>{{path.title}}</p>
+        <div class="step-container">
+          {% for step in path.steps %}
+          <section class="step step_{{step.id}}">
+            <div>
+              <p class="title">{{step.title}}</p>
+              <p class="desc">{{step.desc}}</p>
+              <button class="btn" type="button" onclick="onClickStepDetail('{{step.id}}')">
+                더보기
+              </button>
+            </div>
+            <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
+              <div class="step__modal modal_{{step.id}}" >
+                <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
+                
+              </div>
+              <div class="step__comment">
+                  <div class="step_comment_{{step.id}}">
+  
+                  </div>     
+                  <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
+                  <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">댓글 쓰기</button>
+              </div>
               
             </div>
-            <div class="step__comment">
-                <div class="step_comment_{{step.id}}">
-
-                </div>     
-                <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
-                <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">댓글 쓰기</button>
-            </div>
-            
-          </div>
-        </section>
-        {% endfor %}
-      </div>
-    </li>
-    {% endfor %}
-    </ul>
-    <div class="review-container">
-        <div class="review-content">{{post.review}}</div>
-        <div class="comment-container post_{{post.id}}">
-                {% for post_comment in post_comments%}
-                <div class="post_comment_{{post_comment.id}}">
-                    <p>{{post_comment.writer}}</p>
-                    <p>{{post_comment.text}}</p>
-                    <button class=" btn post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">댓글 삭제</button>
-                </div>
-                {% endfor %}
-            <form action="{%url 'post:post_create_comment' post.pk%}" method="POST">
-                {%csrf_token%}
-                <input type="text" name="comment" placeholder="댓글을 입력하세요">
-                <input type="submit" value="댓글 쓰기">
-            </form>
+          </section>
+          {% endfor %}
         </div>
+      </li>
+      {% endfor %}
+      </ul>
+      <div class="review-container">
+          <div class="review-content">
+            <h5>후기</h5>
+            {{post.review}}
+          </div>
+          <div class="comment-container post_{{post.id}}">
+            <h5>댓글</h5>
+                  {% for post_comment in post_comments%}
+                  <div class="post_comment_{{post_comment.id}}">
+                      <p>{{post_comment.writer}}</p>
+                      <p>{{post_comment.text}}</p>
+                      <button class=" btn post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">댓글 삭제</button>
+                  </div>
+                  {% endfor %}
+              <form action="{%url 'post:post_create_comment' post.pk%}" method="POST">
+                  {%csrf_token%}
+                  <input type="text" name="comment" placeholder="댓글을 입력하세요">
+                  <input type="submit" value="댓글 쓰기">
+              </form>
+          </div>
+      </div>
     </div>
   </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
 <!-- csrf token. fetch 요청할때 header에 넣어주면 @exempt 안써도 되요. 밑에 사용례 참고 -->
 <script>
