@@ -3,7 +3,6 @@ from .models import *
 from apps.comment.models import *
 from django.core.serializers import serialize
 from django.contrib import messages
-# from apps.user.models import User
 from django.contrib.auth import get_user_model
 import json
 from django.http import JsonResponse,HttpResponse
@@ -13,6 +12,7 @@ from django.core.paginator import Paginator
 
 import base64
 from django.core.files.base import ContentFile
+from django.core.paginator import Paginator
 
 User = get_user_model()
 # Create your views here.
@@ -46,16 +46,25 @@ def category_search(request, category_name):
     category_tables = CategoryTable.objects.filter(category=category)
     categories = Category.objects.all()
     category_posts = []
+
     for tables in category_tables:
            category_posts.append(tables.post)
-    return render(
-        request,
-        "post/main__category.html",
-        {
+
+    items_per_page = 6  
+    paginator = Paginator(category_posts, items_per_page)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+
+    ctx = {
             "category_name": category_name,
             "category_posts": category_posts,
             "categories": categories,
-        },
+            "page":page,
+    }
+    return render(
+        request,
+        "post/main__category.html",
+        ctx
     )
 
 def get_user_by_username(username):
@@ -550,7 +559,6 @@ def toggle_like_ajax(request):
             return JsonResponse({'isLiked': is_Liked, 'like_count': count})
         except:
             return JsonResponse({"msg":"error"},status=404)
-
 
 
 def search(request):
