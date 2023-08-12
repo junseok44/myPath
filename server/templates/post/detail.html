@@ -5,15 +5,40 @@
       <div class="intro-title">
         <h2>{{post.title}}</h2>
         <a href="/">작성자:{{post.user}}</a>
-        <p>
-          <button class="like-btn" onclick="likeToggle('{{post.id}}')">
-            <span class="post-likes">{{post.like_table.count}}</span>
-          </button> 
-        </p>
-        <p>
-          북마크 수 :
+        <span class="user-action-btn">
+          {% if user.is_authenticated %}
+            {% if post.isLiked %}
+            <div onclick="likeToggle('{{post.id}}')">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            {% else %}
+            <div onclick="likeToggle('{{post.id}}')">
+              <i class="fa-regular fa-heart"></i>
+            </div>
+            {% endif %}
+          {% else %}
+          <i class="fa-regular fa-heart"></i>
+          {% endif %}
+          <span class="post-likes">{{post.like_table.count}}</span>
+        </span>
+  
+        <span class="user-action-btn">
+          {% if user.is_authenticated %}
+            {% if post.isBookMarked %}
+            <div onclick="bookMarkToggle('{{post.id}}')">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            {% else %}
+            <div onclick="bookMarkToggle('{{post.id}}')">
+              <i class="fa-regular fa-star"></i>
+            </div>
+            {% endif %}
+          {% else %}
+          <i class="fa-regular fa-heart"></i>
+          {% endif %}
           <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
-        </p>
+  
+        </span>
   
         {% if post.user == user %}
         <a href="{% url 'post:post_edit' id=post.id %}">
@@ -278,6 +303,8 @@
 
   const bookmarkCount = document.querySelector(".post-bookmarks");
   const likeCount = document.querySelector(".post-likes");
+  const heartIcon = document.querySelector(".fa-heart")
+  const bookMarkIcon = document.querySelector(".fa-star")
   async function bookMarkToggle(postId) {
     const response = await fetch("/api/toggleBookMark/", {
       method: "POST",
@@ -292,13 +319,13 @@
 
     if (response.ok) {
       const data = await response.json();
-
       if (data.isBookMarked) {
-        bookmarkBtn.innerHTML = "북마크취소";
+        bookMarkIcon.classList.remove("fa-regular")
+        bookMarkIcon.classList.add("fa-solid")
       } else {
-        bookmarkBtn.innerHTML = "북마크하기";
+        bookMarkIcon.classList.remove("fa-solid")
+        bookMarkIcon.classList.add("fa-regular")
       }
-
       bookmarkCount.innerHTML = data["bookMark_count"];
     } else {
       console.error("Error toggling bookmark");
@@ -320,9 +347,11 @@
     if (response.ok) {
       const data = await response.json();
       if (data.isLiked) {
-        likeBtn.innerHTML = "좋아요취소";
+        heartIcon.classList.remove("fa-regular")
+        heartIcon.classList.add("fa-solid")
       } else {
-        likeBtn.innerHTML = "좋아요하기";
+        heartIcon.classList.remove("fa-solid")
+        heartIcon.classList.add("fa-regular")
       }
       likeCount.innerHTML = data["like_count"];
     } else {

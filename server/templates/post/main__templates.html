@@ -1,24 +1,36 @@
 {% extends 'base.html' %} {% block content %}
 
-<div class="container">
-  <form class="mainsearch" method="POST" action="{% url 'post:search' %}">
+<div class="main__templates">
+  <h1 class="main__logo">MYPATH</h1>
+  <form class="main__searchForm" method="POST" action="{% url 'post:search' %}">
     {% csrf_token %}
-    <input class="form-control me-2" type="search" placeholder="Search" name="searched" aria-label="Search">
-    <button class="btn btn-outline-success" type="submit"> Search </button>
+    <input
+      class="form-control"
+      type="search"
+      placeholder="Search"
+      name="searched"
+      aria-label="Search"
+    />
+    <button class="main__search-icon" type="submit">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <button class="btn btn-outline-success main__search-btn" type="submit">Search</button>
   </form>
-</div>
-{% block searchcontent %} {% endblock %}
+  {% block searchcontent %} {% endblock %}
 
-<div class="container">
-  <div class="categorycontainer">
-    <ul>
+  <div class="main__category">
+    <ul class="main__category-list">
       {% for category in categories %}
-      <li>
-        <a href="{% url 'post:category' category_name=category.name %}">{{ category.name }}</a>
+      <li class="main__category-item">
+        <a href="{% url 'post:category' category_name=category.name %}"
+          >{{ category.name }}</a
+        >
       </li>
       {% endfor %}
     </ul>
   </div>
 </div>
+</style>
+
 
 {% block mainContent %} {% endblock %} {% endblock %}

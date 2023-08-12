@@ -1,7 +1,5 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <h1>제작 페이지</h1>
-<!-- 모든아이템은 디버그용임 -->
-<!-- <button onclick="showAllItems()">모든아이템</button> -->
 <button onclick="toggleMode()" class="mode-btn">세로모드로</button>
 <form onsubmit="handleSubmit(event)">
   <span>제목</span>
@@ -167,21 +165,21 @@
 
     const prevPathItem = paths.find((path) => path.id == prevPathId);
     if (prevPathItem) {
-      paths.push({
-        id: id,
-        order: prevPathItem.order + 1,
-        title: `${id.slice(0, 10)}`,
-      });
       paths = paths.map((path) =>
         path.order >= prevPathItem.order + 1
           ? { ...path, order: path.order + 1 }
           : path
       );
+      paths.push({
+        id: id,
+        order: prevPathItem.order + 1,
+        title: ``,
+      });
     } else {
       paths.push({
         id: id,
         order: 1,
-        title: `${id.slice(0, 10)}`,
+        title: ``,
       });
     }
 
@@ -341,7 +339,7 @@
 
     if (response.status == 200) {
       let response123 = await response.json();
-      window.location.href = `/post/edit/${response123.id}`;
+      window.location.href = `/post/${response123.id}`;
     } else {
       location.reload();
     }

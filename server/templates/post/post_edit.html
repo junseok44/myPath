@@ -2,7 +2,6 @@
 
 <h1>edit</h1>
 <button onclick="deletepost('{{post.id}}')">이 포스트 삭제하기</button>
-
 <form class="edit__form" onsubmit="handleSubmit(event)">
   <span>제목</span>
   <input
@@ -258,10 +257,10 @@ const postData = JSON.parse("{{ jsonPost|escapejs }}");
 <script>
 
   function showAllItems() {
-    console.log(steps);
+    // console.log(steps);
     console.log(paths);
-    console.log(deletedTag)
-    console.log(addedTag)
+    // console.log(deletedTag)
+    // console.log(addedTag)
   }
 
   function handleAddPath(prevPathId) {
@@ -272,16 +271,17 @@ const postData = JSON.parse("{{ jsonPost|escapejs }}");
     const prevPathItem = paths.find((path) => path.id == prevPathId);
 
     if (prevPathItem) {
+
     paths = paths.map((path) =>
       path.order >= prevPathItem.order + 1
-      ? { ...path, order: path.order + 1 , isNew: false, isEdited: true}
+      ? { ...path, order: path.order + 1 , isEdited: true}
       : path
   );
 
   paths.push({
     id: id,
     order: prevPathItem.order + 1,
-    title: `${id.slice(0, 10)}`,
+    title: ``,
     isNew: true,
       isEdited: false,
   });
@@ -289,7 +289,7 @@ const postData = JSON.parse("{{ jsonPost|escapejs }}");
   paths.push({
     id: id,
     order: 1,
-    title: `${id.slice(0, 10)}`,
+    title: ``,
     isNew: true,
     isEdited: false,
   });
