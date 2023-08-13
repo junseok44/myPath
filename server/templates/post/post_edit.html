@@ -1,9 +1,11 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
 <h1>edit</h1>
-<button onclick="deletepost('{{post.id}}')">이 포스트 삭제하기</button>
 <form class="edit__form" onsubmit="handleSubmit(event)">
   <div class="writePage__intro">
+    <div class="intro-writer">
+      <button onclick="deletepost('{{post.id}}')" class="btn writePage__btn">이 포스트 삭제하기</button>
+      </div>
     <div class="writePage__title">
       <input
           type="text"
@@ -12,7 +14,6 @@
           id="titleInput"
           value="{{post.title}}"
         />
-   
       <span>카테고리 선택</span>
       <select id="categorySelect" name="categorySelect">
         {% for cat in categories %}
