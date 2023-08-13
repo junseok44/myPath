@@ -67,7 +67,8 @@
   justify-content: flex-start;
   gap: 2rem;
   width: 100%;
-  overflow: auto;
+  overflow-y: visible;
+  overflow-x: auto;
   margin-bottom: 1rem;
   padding-bottom: 2rem;
 }
@@ -118,11 +119,11 @@
 }
 
 .accordion {
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-grey);
   overflow: hidden;
 }
 
-.title {
+.accordion .title {
   background-color: #f1f1f1;
   padding: 10px;
   cursor: pointer;
@@ -131,7 +132,7 @@
   align-items: center;
 }
 
-.title.visible {
+.accordion .title.visible {
   display: flex; /* Show the title when it's visible */
 }
 
@@ -154,4 +155,43 @@
 
 .comment-container h5 {
   margin-bottom: 0.3rem;
+}
+
+.comment {
+  position: relative;
+  padding: 13px 10px;
+  border: 1px solid var(--border-grey);
+}
+
+.comment:not(:last-child) {
+  margin-bottom: 0.3rem;
+}
+
+.comment_writer {
+  padding-bottom: 0.3rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.comment-children {
+  margin-left: 1.5rem;
+}
+
+.comment-children > *:not(:last-child) {
+  margin-bottom: 0.3rem;
+}
+
+.comment-children > *:first-child {
+  margin-top: 0.5rem;
+}
+
+.comment-actions {
+  font-size: 0.7rem;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.comment-actions span:hover {
+  opacity: 0.8;
+  text-decoration: underline;
 }
