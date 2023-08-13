@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<h1>제작 페이지</h1>
-<button onclick="toggleMode()" class="mode-btn">세로모드로</button>
+<h1 class="write-title">제작 페이지</h1>
+<button onclick="toggleMode()" class="btn mode-btn">세로모드로</button>
 <form onsubmit="handleSubmit(event)">
   <span>제목</span>
 
@@ -8,6 +8,7 @@
     type="text"
     placeholder="포스트 제목"
     name="title"
+    class="post-input"
     id="titleInput"
     required
   />
@@ -16,13 +17,23 @@
   <textarea
     type="text"
     placeholder="포스트 설명"
-    name="dsec"
+    name="desc"
+    class="post-input"
     id="descInput"
     required
   ></textarea>
   <span>포스트 이미지</span>
 
-  <input type="file" id="imageInput" />
+  <!-- <div class="btn upload-btn">
+    <label for="imageInput">파일 업로드</label>  
+    <input type="file" name="file" id="imageInput" />
+  </div> -->
+
+  <div class="upload-file">
+    <input class="upload-name" value="첨부파일" placeholder="첨부파일" disabled="disabled">
+    <label for="imageInput">파일 업로드</label> 
+    <input type="file" class="upload-hidden" id="imageInput">
+  </div>
 
   <span>카테고리</span>
 
@@ -34,6 +45,7 @@
   <span>태그</span>
   <input
     type="text"
+    class="post-input"
     id="tagInput"
     placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"
   />
@@ -44,7 +56,7 @@
   </div>
   <hr />
   <ul class="main main-container column-mode">
-    <button type="button" onclick="handleAddPath()" class="add_new-btn">
+    <button type="button" onclick="handleAddPath()" class="btn add_new-btn">
       새로운 패스 추가하기
     </button>
   </ul>
@@ -54,9 +66,10 @@
     type="text"
     name="review"
     placeholder="후기"
+    class="post-input"
     id="reviewInput"
   ></textarea>
-  <button type="submit">내 패스 등록하기</button>
+  <button type="submit" class="btn">내 패스 등록하기</button>
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
@@ -345,5 +358,25 @@
     }
   }
 </script>
+
+<!-- upload-file 첨부파일명 작성 관련 -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      var fileTarget = $('.upload-file .upload-hidden');
+
+      fileTarget.on('change', function(){  // 값이 변경되면
+        if(window.FileReader){  // modern browser
+          var filename = $(this)[0].files[0].name;
+        } 
+        else {  // old IE
+          var filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
+        }
+        
+        // 추출한 파일명 삽입
+        $(this).siblings('.upload-name').val(filename);
+      });
+    }); 
+  </script>
 
 {% endblock %}

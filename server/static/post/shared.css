@@ -45,3 +45,28 @@
   gap: 0.4rem;
   margin-bottom: 0.5rem;
 }
+
+.path-title {
+  font-size: 1.5rem;
+}
+
+.step {
+  min-height: 200px;
+  position: relative;
+  margin-bottom: 1rem;
+  padding: 10px;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+  background-color: white;
+  min-width: 15rem;
+}
+
+.new-comment{
+  padding: 5px;
+  border: solid 1px var(--border-grey);
+  border-radius: 5px;
+}
+
+.new-comment-reply {
+  width: 800px;
+}

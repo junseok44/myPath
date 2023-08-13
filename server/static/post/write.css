@@ -18,13 +18,6 @@
   } */
 }
 
-.step {
-  position: relative;
-  margin-bottom: 1rem;
-  padding: 10px;
-  border: 1px solid black;
-  min-width: 15rem;
-}
 
 .step__edit-modal {
   position: absolute;
@@ -75,4 +68,59 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
   }
+}
+
+.post-input{
+  width: 700px;
+  height: 40px;
+  padding: 10px;
+  border: solid 1px var(--border-grey);
+  border-radius: 5px;
+}
+
+#descInput, #reviewInput {
+  height: 200px;
+}
+
+.write-title {
+  font-size: 2rem;
+}
+
+.upload-btn {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-file .upload-name {
+  width: 700px;
+  height: 25px;
+  padding: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+  color: var(--border-grey);
+}
+
+.upload-file label {
+  height: 25px;
+  padding: 5px;
+  margin-left: 10px;
+  display: inline-block;
+  color: white;
+  vertical-align: middle;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.upload-file input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
 }

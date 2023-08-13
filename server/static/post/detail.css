@@ -7,6 +7,10 @@
   width: 150px;
 }
 
+.intro-container {
+  background-color: aqua;
+}
+
 .detail-container .main-container {
   display: flex;
 }
@@ -28,9 +32,25 @@
   width: 150px;
 }
 
-// .hidden, .fa-solid-heart, fa-solid-star 관련 스타일링은 static/shared.css로 옮김.
+/* .hidden, .fa-solid-heart, fa-solid-star 관련 스타일링은 static/shared.css로 옮김. */
 
 .detailPage__action-btn {
   display: flex;
   cursor: pointer;
+}
+
+.detail-title {
+  font-size: 2rem;
+}
+
+.detail-author{
+  color: var(--secondary-text-color);
+}
+
+#more-btn {
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  background-color: transparent;
+  color: #007DFF;
 }

@@ -1,11 +1,19 @@
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
 :root {
   --border-grey: rgba(189, 195, 199, 0.7);
   --primary-color: #007DFF;
   --secondary-text-color: rgb(120, 120, 120);
 }
 
-* {
+*{
   box-sizing: border-box;
+  font-family: 'SUITE-Regular', sans-serif;
 }
 
 .messages {
@@ -70,6 +78,15 @@
   margin: 0 100px;
 }
 
+.btn {
+  padding: 5px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: white;
+}
+
 .nav-tabs {
   height: 60px;
   margin: 50px 0;
@@ -119,15 +136,13 @@
   grid-template-rows: auto;
   justify-content: center;
   align-items: center;
-  background-color: blue;
-  
 }
 
 .card__container {
   height: 450px;
   margin: 20px 50px;
   background-color: white;
-  border: solid 1px --border-grey;
+  border: solid 1px var(--border-grey);
   border-radius: 5px;
   color: black;
 }
@@ -162,6 +177,7 @@
 
 .card-btns {
   margin: 0 5px;
+  background-color: transparent;
 }
 
 .usercard__container {
@@ -172,7 +188,7 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: white;
-  border: solid 1px --border-grey;
+  border: solid 1px var(--border-grey);
   border-radius: 5px;
   color: black;
 }
