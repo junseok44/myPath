@@ -67,7 +67,8 @@
   justify-content: flex-start;
   gap: 2rem;
   width: 100%;
-  overflow: auto;
+  overflow-y: visible;
+  overflow-x: auto;
   margin-bottom: 1rem;
   padding-bottom: 2rem;
 }
@@ -122,7 +123,7 @@
   overflow: hidden;
 }
 
-.title {
+.accordion .title {
   background-color: #f1f1f1;
   padding: 10px;
   cursor: pointer;
@@ -131,7 +132,7 @@
   align-items: center;
 }
 
-.title.visible {
+.accordion .title.visible {
   display: flex; /* Show the title when it's visible */
 }
 

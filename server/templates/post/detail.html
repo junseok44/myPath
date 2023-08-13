@@ -99,16 +99,19 @@
               </button>
             </div>
             <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
-              <div class="step__modal modal_{{step.id}}" >
+              <div class="step__edit-modal step__modal modal_{{step.id}}" >
                 <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
                 
-              </div>
-              <div class="step__comment">
+
+                <div class="step__comment">
                   <div class="step_comment_{{step.id}}">
   
                   </div>     
                   <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
                   <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">댓글 쓰기</button>
+              </div>
+              <button onclick="onToggleStepDetail('{{step.id}}')">확인</button>
+
               </div>
               
             </div>
@@ -194,25 +197,39 @@
                 step_comments_parsed=JSON.parse(step_comments);
                 // console.log(step_comments_parsed);
                 const stepNode=document.querySelector(`.modal_${step_parsed["pk"]}`);
+                const comment_container = stepNode.querySelector(".step__comment")
                 const commentNode=document.querySelector(`.step_comment_${step_parsed["pk"]}`);
                 // console.log(step_parsed["fields"]["Image"])
                 image_url=step_parsed["fields"]["Image"]
                 // console.log(image_null==true)
-                if (image_url){
-                    stepNode.innerHTML = 
-                    `<div class="step-${step_parsed["pk"]}">
+                const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
+                if(currentStepInfo) {
+                    currentStepInfo.innerHTML =    `
                         <h3>${step_parsed["fields"]["title"]}<h2>
                         <img src="../media/${step_parsed["fields"]["Image"]}" />
                         <p>${step_parsed["fields"]["desc"]}</p>
-                    </div>`;
+                   `;
+                } else {
+                  const stepInfo = document.createElement("div")
+                stepInfo.classList.add(`step-${step_parsed["pk"]}`)
+                if (image_url){
+                    stepInfo.innerHTML = 
+                    `
+                        <h3>${step_parsed["fields"]["title"]}<h2>
+                        <img src="../media/${step_parsed["fields"]["Image"]}" />
+                        <p>${step_parsed["fields"]["desc"]}</p>
+                   `;
                 }
                 else{
-                    stepNode.innerHTML = 
-                    `<div class="step-${step_parsed["pk"]}">
+                    stepInfo.innerHTML = 
+                    `
                         <h3>${step_parsed["fields"]["title"]}<h2>
                         <p>${step_parsed["fields"]["desc"]}</p>
-                    </div>`;
+                   `;
                 }
+                stepNode.insertBefore(stepInfo,comment_container)
+                }
+                
 
                 commentNode.innerHTML=``;
 
@@ -312,6 +329,10 @@
         }
     };
 
+    const onToggleStepDetail = (stepId) => {
+      const modal = document.querySelector(`#step-modal-${stepId}`)
+      modal.classList.add("hidden")
+    }
 </script>
 
 
