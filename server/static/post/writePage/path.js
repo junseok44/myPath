@@ -44,7 +44,7 @@ function addPathNode(prevPathId, id) {
     <div class="step_container ${
       isColumnMode ? "" : " container_row-mode"
     }"></div>
-    <button type="button" class="btn" onclick="handleAddPath('${id}')">패스 +</button>
+    <button type="button" class="btn" onclick="handleAddPath('${id}')">패스+</button>
     `;
   }
   

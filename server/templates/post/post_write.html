@@ -4,8 +4,11 @@
   
   <form onsubmit="handleSubmit(event)">
     
-    <span>포스트 이미지</span>
-    <input type="file" id="imageInput" />
+    <div class="writePage__thumbnail">
+      <span>포스트 이미지</span>
+      <input type="file" id="imageInput" />
+    </div>
+    
     <div class="writePage__intro">
       <div class="writePage__title">
         <span>제목</span>
@@ -61,13 +64,16 @@
       
     </ul>
     <hr />
-  
-    <textarea
+    
+    <div class="writePage__review">
+      <textarea
       type="text"
       name="review"
       placeholder="후기"
       id="reviewInput"
-    ></textarea>
+      ></textarea>
+    </div>
+    
     <button type="submit" class="btn">내 패스 등록하기</button>
   </form>
 </div>

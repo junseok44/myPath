@@ -2,6 +2,10 @@
   height:fit-content;
 }
 
+.writePage__thumbnail{
+  padding-bottom:1rem;
+}
+
 .writePage__intro input{
   width:30%;
   min-height:1.5rem;
@@ -105,6 +109,10 @@
 
 .hidden {
   display: none;
+}
+
+.writePage__review textarea{
+  width:50%;
 }
 
 .pathSelect {
