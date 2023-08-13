@@ -20,19 +20,34 @@ function addPathNode(prevPathId, id) {
   li = document.createElement("li");
   li.classList.add(`path`);
   li.classList.add(`path_${id}`);
-  li.innerHTML += `
-        <input placeholder="패스 이름 입력..." type="text" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
-        <button type="button" onclick="handleAddPath('${id}')">패스 추가하기</button>
-        <button type="button" onclick="handleDeletePath('${id}')">패스 삭제하기</button>
+  if (isColumnMode){
+    li.innerHTML += `
+    <input placeholder="패스 이름 입력..." type="text" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
+    <button type="button" class="btn" onclick="handleAddPath('${id}')">패스 +</button>
+    <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
 
-        <div class="step_container ${
-          isColumnMode ? "" : " container_row-mode"
-        }">
-                </div>
-        <button type="button" onclick="handleAddStep('${id}')" class="item_add-btn">
-              스텝 추가하기
-            </button>
-        `;
+    <div class="step_container ${
+      isColumnMode ? "" : " container_row-mode"
+    }">
+            </div>
+    <button type="button" class="btn" onclick="handleAddStep('${id}')" class="item_add-btn">
+          스텝+
+        </button>
+    `;
+  }
+  else{
+    li.innerHTML += `
+    <input placeholder="패스 이름 입력..." type="text" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
+    <button type="button" class="btn" onclick="handleAddStep('${id}')" class="item_add-btn">스텝+</button>
+    <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
+
+    <div class="step_container ${
+      isColumnMode ? "" : " container_row-mode"
+    }"></div>
+    <button type="button" class="btn" onclick="handleAddPath('${id}')">패스 +</button>
+    `;
+  }
+  
   if (prevPathId) {
     const prevPath = document.querySelector(`.path_${prevPathId}`);
     if (prevPath.nextSibling) {
@@ -56,16 +71,15 @@ function addStepNode(targetPathId, id) {
                 <div>
                   <p class="title"></p>
                   <p class="desc"></p>
-                  <button type="button" onclick="moveItemUp('${id}')">위로 올리기</button>
-                  <button type="button" onclick="moveItemDown('${id}')">밑으로 내리기</button>
-                  <button type="button" onclick="handleDeleteItem('${id}')">삭제하기</button>
                   <button
-                    class="edit-btn"
+                    class="btn edit-btn"
                     type="button"
                     onclick="handleToggleModal('${id}')"
-                  >
-                    편집하기
-                  </button>
+                  ><i class="fa-solid fa-pen-to-square"></i></button>
+                  <button type="button" class="btn" onclick="moveItemUp('${id}')"><i class="fa-solid fa-angles-up"></i></button>
+                  <button type="button" class="btn" onclick="moveItemDown('${id}')"><i class="fa-solid fa-angles-down"></i></button>
+                  <button type="button" class="btn" onclick="handleDeleteItem('${id}')">스텝삭제</button>
+                  
                 </div>
                 <div class="modal__overlay hidden">
 
@@ -74,8 +88,8 @@ function addStepNode(targetPathId, id) {
                   <textarea class="desc"></textarea>
                   <input type="file" class='imageInput' />
                   <div>
-                    <button type="button" onClick="handleToggleModal('${id}')">취소</button>
-                    <button type="button" onclick="handleSaveValue('${id}')">변경</button>
+                    <button type="button" class="btn" onClick="handleToggleModal('${id}')">취소</button>
+                    <button type="button" class="btn" onclick="handleSaveValue('${id}')">등록</button>
                   </div>
                   </div>
                   </div>
