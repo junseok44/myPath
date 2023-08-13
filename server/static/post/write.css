@@ -1,8 +1,13 @@
-.writePage .btn{
+.writePage__btn{
   height:fit-content;
 }
 
-.writePage textarea{
+.writePage__desc textarea{
+  min-width:70%;
+  min-height:5rem;
+}
+
+.writePage__review textarea{
   min-width:70%;
   min-height:5rem;
 }
@@ -37,15 +42,15 @@
 
 .container_row-mode {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 2rem;
 
   @media screen and (max-width: 600px) {
-    display: block;
+    flex-direction: column;
   }
 }
 
-.writePage .main-container{
+.writePage__main{
   min-height:30rem;
 }
 

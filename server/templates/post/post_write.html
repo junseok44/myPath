@@ -3,13 +3,8 @@
   <h1>제작 페이지</h1>
   
   <form onsubmit="handleSubmit(event)">
-    
-    
-    
     <div class="writePage__intro">
-      
-        
-        <div class="writePage__title">
+      <div class="writePage__title">
             <input
               type="text"
               placeholder="포스트 제목"
@@ -24,7 +19,7 @@
               {% endfor %}
             </select>
 
-          </div>
+      </div>
       <div class="writePage__desc">
         <textarea
           type="text"
@@ -47,23 +42,17 @@
         <span>포스트 이미지</span>
         <input type="file" id="imageInput" />
       </div>
-      
-      
     </div>
-    
-  
-    
     <div class="pathSelect">
       <span>패스 선택</span>
       <select id="pathSelect" class="select"></select>
     </div>
     <hr />
-    <button onclick="toggleMode()" class="btn mode-btn">세로모드로</button>
-    <ul class="main main-container column-mode">
-      <button type="button" onclick="handleAddPath()" class="btn add_new-btn">
+    <button onclick="toggleMode()" class="btn mode-btn writePage__btn">세로모드로</button>
+    <ul class="main main-container column-mode writePage__main">
+      <button type="button" onclick="handleAddPath()" class="btn add_new-btn writePage__btn">
         내 패스 만들기
       </button>
-      
     </ul>
     <hr />
     
@@ -76,7 +65,7 @@
       ></textarea>
     </div>
     
-    <button type="submit" class="btn">내 패스 등록하기</button>
+    <button type="submit" class="btn writePage__btn">내 패스 등록하기</button>
   </form>
 </div>
 
@@ -260,7 +249,7 @@
 
     if (main.childElementCount == 0) {
       main.innerHTML = `
-      <button type="button" onclick="handleAddPath()" class="btn add_new-btn">
+      <button type="button" onclick="handleAddPath()" class="btn add_new-btn writePage__btn">
         내 패스 만들기
       </button>
       `;
