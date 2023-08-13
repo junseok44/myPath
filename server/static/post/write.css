@@ -1,3 +1,31 @@
+.writePage .btn{
+  height:fit-content;
+}
+
+.writePage textarea{
+  min-width:70%;
+  min-height:5rem;
+}
+
+.writePage__thumbnail{
+  padding-bottom:1rem;
+}
+
+.writePage__intro input{
+  min-height:1.5rem;
+}
+
+.writePage__title{
+  display:flex;
+  gap:1rem;
+  padding-bottom:1rem;
+}
+
+.writePage__desc{
+  padding-bottom:1rem;
+  /* display:inline-flex; */
+}
+
 .column-mode {
   display: flex;
   gap: 2rem;
@@ -13,30 +41,41 @@
   }
 }
 
+.writePage .main-container{
+  min-height:30rem;
+}
+
 .path {
   /* @media screen and (max-width: 600px) {
     display: none;
   } */
   /* border:1px solid black; */
+  /* position:relative; */
 }
 
 .step {
   position: relative;
   padding: 10px;
   border: 1px solid black;
-  width: 15rem;
+  min-width: 15rem;
+  width:fit-content;
+  text-align: center;
+  
 }
 
 .step__edit-modal {
   position: absolute;
+  height:fit-content;
   top: 0px;
-  left: 100%;
+  left: 110%;
+  bottom:0px;
   padding: 2rem;
   background-color: white;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   z-index: 10;
+  gap:1rem;
   border: 1px solid black;
   @media screen and (max-width: 600px) {
     position: fixed;
@@ -44,6 +83,29 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+}
+
+.container_row-mode .step__edit-modal {
+  position: absolute;
+  height:fit-content;
+  padding: 2rem;
+  background-color: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  gap:1rem;
+  border: 1px solid black;
+  @media screen and (max-width: 600px) {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.step__edit-modal .desc{
+  min-height:3rem;
 }
 
 .hidden {
@@ -56,6 +118,13 @@
     display: block;
   }
 }
+@media screen and (max-width: 450px){
+  .writePage__intro .writePage__title{
+    display:flex;
+    flex-direction: column;
+  }
+}
+
 
 @media screen and (max-width: 600px) {
   .modal__overlay {

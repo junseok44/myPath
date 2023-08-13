@@ -1,63 +1,88 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<h1>제작 페이지</h1>
-<button onclick="toggleMode()" class="mode-btn">세로모드로</button>
-<form onsubmit="handleSubmit(event)">
-  <span>제목</span>
+<div class="writePage">
+  <h1>제작 페이지</h1>
+  
+  <form onsubmit="handleSubmit(event)">
+    
+    <div class="writePage__thumbnail">
+      <span>포스트 이미지</span>
+      <input type="file" id="imageInput" />
+    </div>
+    
+    <div class="writePage__intro">
+      <div class="writePage__title">
+        <div>
+          <span>제목</span>
+          <input
+            type="text"
+            placeholder="포스트 제목"
+            name="title"
+            id="titleInput"
+            required
+          />
+        </div>
+        <div>
+          <span>카테고리</span>
+          <select id="categorySelect" name="categorySelect">
+            {% for cat in categories %}
+            <option value="{{cat.name}}">{{cat.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <span>태그</span>
+          <input
+            type="text"
+            id="tagInput"
+            placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"
+          />
+          <ul id="tagList"></ul>
+        </div>
+      </div>
+      <div class="writePage__desc">
+        <span>내용</span>
+        <textarea
+          type="text"
+          placeholder="포스트 설명"
+          name="dsec"
+          id="descInput"
+          required
+        ></textarea>
+      </div>
+      
+      
+      
+    </div>
+    
+  
+    
+    <div class="pathSelect">
+      <span>패스 선택</span>
+      <select id="pathSelect" class="select"></select>
+    </div>
+    <hr />
+    <button onclick="toggleMode()" class="btn mode-btn">세로모드로</button>
+    <ul class="main main-container column-mode">
+      <button type="button" onclick="handleAddPath()" class="btn add_new-btn">
+        내 패스 만들기
+      </button>
+      
+    </ul>
+    <hr />
+    
+    <div class="writePage__review">
+      <textarea
+      type="text"
+      name="review"
+      placeholder="후기"
+      id="reviewInput"
+      ></textarea>
+    </div>
+    
+    <button type="submit" class="btn">내 패스 등록하기</button>
+  </form>
+</div>
 
-  <input
-    type="text"
-    placeholder="포스트 제목"
-    name="title"
-    id="titleInput"
-    required
-  />
-  <span>내용</span>
-
-  <textarea
-    type="text"
-    placeholder="포스트 설명"
-    name="dsec"
-    id="descInput"
-    required
-  ></textarea>
-  <span>포스트 이미지</span>
-
-  <input type="file" id="imageInput" />
-
-  <span>카테고리</span>
-
-  <select id="categorySelect" name="categorySelect">
-    {% for cat in categories %}
-    <option value="{{cat.name}}">{{cat.name}}</option>
-    {% endfor %}
-  </select>
-  <span>태그</span>
-  <input
-    type="text"
-    id="tagInput"
-    placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"
-  />
-  <ul id="tagList"></ul>
-  <div class="pathSelect">
-    <span>패스 선택</span>
-    <select id="pathSelect" class="select"></select>
-  </div>
-  <hr />
-  <ul class="main main-container column-mode">
-    <button type="button" onclick="handleAddPath()" class="add_new-btn">
-      새로운 패스 추가하기
-    </button>
-  </ul>
-  <hr />
-
-  <textarea
-    type="text"
-    name="review"
-    placeholder="후기"
-    id="reviewInput"
-  ></textarea>
-  <button type="submit">내 패스 등록하기</button>
-</form>
 
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
 
@@ -238,8 +263,8 @@
 
     if (main.childElementCount == 0) {
       main.innerHTML = `
-      <button type="button" onclick="handleAddPath()" class="add_new-btn">
-        새로운 패스 추가하기
+      <button type="button" onclick="handleAddPath()" class="btn add_new-btn">
+        내 패스 만들기
       </button>
       `;
     }

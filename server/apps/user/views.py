@@ -6,6 +6,7 @@ from django.contrib import messages
 from apps.user.models import User
 from apps.post.models import Post, BookMarkTable, LikeTable
 # import request
+# import requests
 
 def user_main(request):  
     return render(request, 'user/login.html')

@@ -1,0 +1,8 @@
+.editPage textarea{
+    min-width:70%;
+    min-height:5rem;
+  }
+
+.editPage #tagList{
+    padding-bottom:1rem;
+}
