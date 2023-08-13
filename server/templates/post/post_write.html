@@ -11,28 +11,33 @@
     
     <div class="writePage__intro">
       <div class="writePage__title">
-        <span>제목</span>
-        <input
-          type="text"
-          placeholder="포스트 제목"
-          name="title"
-          id="titleInput"
-          required
-        />
-        <span>카테고리</span>
-  
-        <select id="categorySelect" name="categorySelect">
-          {% for cat in categories %}
-          <option value="{{cat.name}}">{{cat.name}}</option>
-          {% endfor %}
-        </select>
-        <span>태그</span>
-        <input
-          type="text"
-          id="tagInput"
-          placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"
-        />
-        <ul id="tagList"></ul>
+        <div>
+          <span>제목</span>
+          <input
+            type="text"
+            placeholder="포스트 제목"
+            name="title"
+            id="titleInput"
+            required
+          />
+        </div>
+        <div>
+          <span>카테고리</span>
+          <select id="categorySelect" name="categorySelect">
+            {% for cat in categories %}
+            <option value="{{cat.name}}">{{cat.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <span>태그</span>
+          <input
+            type="text"
+            id="tagInput"
+            placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"
+          />
+          <ul id="tagList"></ul>
+        </div>
       </div>
       <div class="writePage__desc">
         <span>내용</span>

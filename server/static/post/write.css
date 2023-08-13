@@ -2,18 +2,17 @@
   height:fit-content;
 }
 
+.writePage textarea{
+  min-width:70%;
+  min-height:5rem;
+}
+
 .writePage__thumbnail{
   padding-bottom:1rem;
 }
 
 .writePage__intro input{
-  width:30%;
   min-height:1.5rem;
-}
-
-.writePage__intro textarea{
-  width:50%;
-  min-height:5rem;
 }
 
 .writePage__intro .writePage__title{
@@ -23,9 +22,8 @@
 }
 
 .writePage__intro .writePage__desc{
-  display:flex;
-  gap:1rem;
   padding-bottom:1rem;
+  /* display:inline-flex; */
 }
 
 .column-mode {
@@ -59,6 +57,8 @@
   padding: 10px;
   border: 1px solid black;
   min-width: 15rem;
+  width:fit-content;
+  text-align: center;
   
 }
 
@@ -111,16 +111,19 @@
   display: none;
 }
 
-.writePage__review textarea{
-  width:50%;
-}
-
 .pathSelect {
   display: none;
   @media screen and (max-width: 600px) {
     display: block;
   }
 }
+@media screen and (max-width: 450px){
+  .writePage__intro .writePage__title{
+    display:flex;
+    flex-direction: column;
+  }
+}
+
 
 @media screen and (max-width: 600px) {
   .modal__overlay {

@@ -78,7 +78,7 @@ function addStepNode(targetPathId, id) {
                   ><i class="fa-solid fa-pen-to-square"></i></button>
                   <button type="button" class="btn" onclick="moveItemUp('${id}')"><i class="fa-solid fa-angles-up"></i></button>
                   <button type="button" class="btn" onclick="moveItemDown('${id}')"><i class="fa-solid fa-angles-down"></i></button>
-                  <button type="button" class="btn" onclick="handleDeleteItem('${id}')">스텝삭제</button>
+                  <button type="button" class="btn" onclick="handleDeleteItem('${id}')"><i class="fa-solid fa-trash"></i></button>
                   
                 </div>
                 <div class="modal__overlay hidden">
