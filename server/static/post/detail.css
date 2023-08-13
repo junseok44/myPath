@@ -78,7 +78,11 @@
   align-items: flex-start;
 }
 
+
+
+
 .detailPage .main-container .step-container {
+  position:relative;
   display: flex;
   gap: 2rem;
 }
@@ -90,6 +94,12 @@
 .detailPage .step-container img {
   height: 150px;
   width: 150px;
+}
+
+.detailPage .step__edit-modal{
+  position:absolute;
+  top:0px;
+  left:115%;
 }
 
 .hidden {
