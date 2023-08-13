@@ -141,10 +141,36 @@
       <div class="comment-container post_{{post.id}}">
         <h5>댓글</h5>
               {% for post_comment in post_comments%}
-              <div class="post_comment_{{post_comment.id}}">
-                  <p>{{post_comment.writer}}</p>
+              <div class="post_comment_{{post_comment.id}} post_comment">
+                  <p class="post_comment_writer">{{post_comment.writer}}
+                  <span class="post_comment-actions">
+                    {% if user.is_authenticated %}
+                    <span>답글</span>
+                    {% if user == post_comment.writer %}
+                    <span class="post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">삭제</span>    
+                    {% endif %}
+                    {% endif %}
+                  </span>
+                  </p>
                   <p>{{post_comment.text}}</p>
-                  <button class=" btn post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">댓글 삭제</button>
+                  <div class="post_comment-children">
+
+                    {% for childComment in post_comment.parentComment_set.all %}
+                    <div class="post_comment_{{childComment.id}}">
+                    <p class="post_comment_writer">{{childComment.writer}}
+                      <span class="post_comment-actions">
+                        <span class="post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">삭제</span>    
+                      </span>
+                      </p>
+                    <p>{{childComment.text}}</p>
+                    </div>
+                    {% endfor %}
+                    <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="child-comment-input hidden">
+                    {%csrf_token%}
+                    <input type="text" name="comment" placeholder="댓글을 입력하세요">
+                    <input type="submit" value="댓글 쓰기">
+                </form>
+                  </div>
               </div>
               {% endfor %}
           <form action="{%url 'post:post_create_comment' post.pk%}" method="POST">
