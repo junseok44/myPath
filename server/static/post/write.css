@@ -5,6 +5,7 @@
 
 .container_row-mode {
   display: flex;
+  align-items: center;
   gap: 2rem;
 
   @media screen and (max-width: 600px) {
@@ -16,14 +17,15 @@
   /* @media screen and (max-width: 600px) {
     display: none;
   } */
+  /* border:1px solid black; */
 }
 
 .step {
   position: relative;
-  margin-bottom: 1rem;
   padding: 10px;
   border: 1px solid black;
-  min-width: 15rem;
+  width: 15rem;
+
 }
 
 .step__edit-modal {
