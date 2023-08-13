@@ -178,11 +178,11 @@
 }
 
 .comment-children > *:not(:last-child) {
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
 }
 
 .comment-children > *:first-child {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 
 .comment-actions {
