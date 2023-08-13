@@ -1,38 +1,75 @@
+/* 컨테이너 임시로 만들어놨는데,
+이거는 base.html에서 .container로 만들고 모든페이지에
+동일하게 적용할 예정이라 삭제해야될것같습니다. */
 .detailPage .detail-container {
-  width:1000px;
-  margin:auto;
-  margin-top:50px;
+  width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  margin-top: 2rem;
+
+  @media screen and (max-width: 600px) {
+    width: 400px;
+  }
 }
 
-.detailPage .intro-container{
-  width:100%;
+.detailPage .intro-container {
+  width: 100%;
   margin-bottom: 1rem;
 }
 
-.detailPage .intro-title{
-  display:flex;
+.detailPage .intro-title {
+  display: flex;
+}
+.detailPage .intro-title h2 {
+  margin-right: 1rem;
 }
 
-.detailPage .intro-container .intro-content{
-  width:100%;
-  display:flex;
+.detailPage .intro-meta {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.detailPage .intro-writer {
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
+.detailPage .intro-container .intro-content {
+  display: grid;
+  grid-template-columns: 1.5fr 5fr;
+  gap: 1rem;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
 }
 
 .detailPage .intro-container .intro-desc {
-  width:100%;
-  border:1px solid black;
+  width: 100%;
+  border: 1px solid black;
+}
+.detailPage .intro-container .intro-thumbnail {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
 }
 
-.detailPage .intro-container .intro-thumbnail img{
-  height: 150px;
-  width: 150px;
+.detailPage .intro-container .intro-thumbnail img {
+  position: absolute;
+  object-fit: cover;
+  top: 0;
+  left: 0;
 }
 
 .detailPage .main-container {
   display: flex;
-  justify-content:flex-start;
-  gap:2rem;
-  width:100%;
+  justify-content: flex-start;
+  gap: 2rem;
+  width: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  padding-bottom: 2rem;
 }
 
 .row {
@@ -42,7 +79,7 @@
 
 .detailPage .main-container .step-container {
   display: flex;
-  gap:2rem;
+  gap: 2rem;
 }
 
 .col .step-container {
@@ -58,10 +95,13 @@
   display: none;
 }
 
-.detailPage .review-container{
-  border:1px solid black;
-  margin-top:2rem;
-  padding:10px;
+.detailPage .review-container {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.accordion__review {
+  margin-bottom: 1rem;
 }
 
 .fa-solid.fa-heart {
@@ -75,4 +115,43 @@
 .user-action-btn {
   display: flex;
   cursor: pointer;
+}
+
+.accordion {
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
+
+.title {
+  background-color: #f1f1f1;
+  padding: 10px;
+  cursor: pointer;
+  display: none; /* Hide the title by default */
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title.visible {
+  display: flex; /* Show the title when it's visible */
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.content-wrapper {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  box-sizing: border-box; /* Include padding and border in the height calculation */
+  @media screen and (max-width: 600px) {
+    max-height: 0;
+  }
+}
+
+.content {
+  padding: 10px;
+}
+
+.comment-container h5 {
+  margin-bottom: 0.3rem;
 }
