@@ -1,131 +1,143 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-
-<h1>edit</h1>
-<button class="btn" onclick="deletepost('{{post.id}}')">이 포스트 삭제하기</button>
-<form class="edit__form" onsubmit="handleSubmit(event)">
-  <span>제목</span>
-  <input
-    type="text"
-    placeholder="title"
-    name="title"
-    id="titleInput"
-    value="{{post.title}}"
-  />
-  <span>내용</span>
-  <textarea type="text" placeholder="설명" name="dsec" id="descInput">
-{{post.desc}}</textarea
-  >
-  <span>포스트 이미지 수정</span>
-  <input type="file" id="imageInput" />
-  <span>카테고리 선택</span>
-  <select id="categorySelect" name="categorySelect">
-    {% for cat in categories %}
-    <option value="{{cat.name}}" {% if cat.name == currentCategory %} selected {% endif %}>{{cat.name}}</option>
-    {% endfor %}
-  </select>
-  <span>태그추가</span>
-  <input
-  type="text"
-  id="tagInput"
-  placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"
-/>
-  <p>모든태그</p>
-  <ul id="tagList">    
-   {% for tagtable in post.tag_table.all %}
-    <li class="tag tag_{{tagtable.tag.name}}">#{{tagtable.tag.name}}
-      <span class="btn close-button" onclick="deleteTag('{{tagtable.tag.name}}')">
-        x
-      </span>
-
-    </li>
-    {% endfor %}
-  </ul>
-  <hr />
-
-  <div class="pathSelect">
-    <span>패스 선택</span>
-    <select id="pathSelect" class="select"></select>
-  </div>
-
-  <ul class="main 
-  {% if post.mode == 'col' %} column-mode {% else %} {% endif %}
-  ">
-    {% if paths|length == 0 %}
-    <button type="button" class="btn" onclick="handleAddPath()" class="add_new-btn">
-      새로운 패스 추가하기
-    </button>
-    {% endif %}
-    {% for path in paths %}
-    <li class="path path_{{path.id}}">
-      <input placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
-      <button type="button" class="btn" onclick="handleAddPath('{{path.id}}') ">
-        패스 추가하기
+<div class="editPage">
+  <h1>edit</h1>
+  <button class="btn" onclick="deletepost('{{post.id}}')">이 포스트 삭제하기</button>
+  <form class="edit__form" onsubmit="handleSubmit(event)">
+    <div class="writePage__thumbnail">
+      <span>포스트 이미지 수정</span>
+      <input type="file" id="imageInput" />
+    </div>
+    <div class="writePage__intro">
+      <div class="writePage__title">
+        <span>제목</span>
+        <input
+          type="text"
+          placeholder="title"
+          name="title"
+          id="titleInput"
+          value="{{post.title}}"
+        />
+        <div>
+          <span>카테고리 선택</span>
+          <select id="categorySelect" name="categorySelect">
+            {% for cat in categories %}
+            <option value="{{cat.name}}" {% if cat.name == currentCategory %} selected {% endif %}>{{cat.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div>
+        <ul id="tagList">    
+          모든 태그
+         {% for tagtable in post.tag_table.all %}
+          <li class="tag tag_{{tagtable.tag.name}}">#{{tagtable.tag.name}}
+            <span class="btn close-button" onclick="deleteTag('{{tagtable.tag.name}}')">
+              x
+            </span>
+          </li>
+          <span>태그추가</span>
+          <input
+          type="text"
+          id="tagInput"
+          placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="writePage__desc">
+        <span>내용</span>
+        <textarea type="text" placeholder="설명" name="dsec" id="descInput">
+        {{post.desc}}</textarea
+        >
+      </div>
+    </div>
+    <hr />
+  
+    <div class="pathSelect">
+      <span>패스 선택</span>
+      <select id="pathSelect" class="select"></select>
+    </div>
+  
+    <ul class="main 
+    {% if post.mode == 'col' %} column-mode {% else %} {% endif %}
+    ">
+      {% if paths|length == 0 %}
+      <button type="button" class="btn" onclick="handleAddPath()" class="add_new-btn">
+        새로운 패스 추가하기
       </button>
-      <button type="button" class="btn" onclick="handleDeletePath('{{path.id}}')">
-        이 패스 삭제하기
-      </button>
-      <div class="step_container   {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}
-      ">
-        {% for step in path.steps %}
-        <section class="step step_{{step.id}}">
-          <div>
-            <p class="title">{{step.title}}</p>
-            <p class="desc">{{step.desc}}</p>
-            <button type="button" class="btn" onclick="moveItemUp('{{step.id}}')">
-              위로 올리기
-            </button>
-            <button type="button" class="btn" onclick="moveItemDown('{{step.id}}')">밑으로 내리기</button>
-            <button type="button" class="btn" onclick="handleDeleteItem('{{step.id}}')">
-              삭제하기
-            </button>
-            <button
-              class="btn edit-btn"
-              type="button"
-              onclick="handleToggleModal('{{step.id}}')"
-            >
-              편집하기
-            </button>
-          </div>
-          <div class="modal__overlay hidden">
-            <div class="step__edit-modal modal_{{step.id}} hidden">
-              <input type="text" class="title" />
-              <textarea class="desc"></textarea>
-              <input type="file"  class='imageInput'/>
-              <div>
-                <button type="button" class="btn" onClick="handleToggleModal('{{step.id}}')">
-                  취소
-                </button>
-                <button type="button" class="btn" onclick="handleSaveValue('{{step.id}}')">
-                  변경
-                </button>
+      {% endif %}
+      {% for path in paths %}
+      <li class="path path_{{path.id}}">
+        <input placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
+        <button type="button" class="btn" onclick="handleAddPath('{{path.id}}') ">
+          패스+
+        </button>
+        <button type="button" class="btn" onclick="handleDeletePath('{{path.id}}')">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+        <div class="step_container   {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}
+        ">
+          {% for step in path.steps %}
+          <section class="step step_{{step.id}}">
+            <div>
+              <p class="title">{{step.title}}</p>
+              <p class="desc">{{step.desc}}</p>
+              <button
+                class="btn edit-btn"
+                type="button"
+                onclick="handleToggleModal('{{step.id}}')"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button type="button" class="btn" onclick="moveItemUp('{{step.id}}')">
+                <i class="fa-solid fa-angles-up"></i>
+              </button>
+              <button type="button" class="btn" onclick="moveItemDown('{{step.id}}')"><i class="fa-solid fa-angles-down"></i></button>
+              <button type="button" class="btn" onclick="handleDeleteItem('{{step.id}}')">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+            <div class="modal__overlay hidden">
+              <div class="step__edit-modal modal_{{step.id}} hidden">
+                <input type="text" class="title" />
+                <textarea class="desc"></textarea>
+                <input type="file"  class='imageInput'/>
+                <div>
+                  <button type="button" class="btn" onClick="handleToggleModal('{{step.id}}')">
+                    취소
+                  </button>
+                  <button type="button" class="btn" onclick="handleSaveValue('{{step.id}}')">
+                    변경
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+  
+          
+          </section>
+  
+          {% endfor %}
+        </div>
+        <button
+          type="button"
+          class="btn" 
+          onclick="handleAddStep('{{path.id}}')"
+          class="item_add-btn"
+        >
+          스텝+
+        </button>
+      </li>
+      {% endfor %}
+    </ul>
+    <hr />
+    <span>후기</span>
+  
+    <textarea   placeholder="후기" id="reviewInput">{{post.review}}</textarea>
+  
+    <button type="button" class="btn" onclick="handleFormCancel()">취소하기</button>
+    <button type="submit" class="btn" >변경하기</button>
+  </form>
+</div>
 
-        
-        </section>
-
-        {% endfor %}
-      </div>
-      <button
-        type="button"
-        class="btn" 
-        onclick="handleAddStep('{{path.id}}')"
-        class="item_add-btn"
-      >
-        밑에 스텝 추가하기
-      </button>
-    </li>
-    {% endfor %}
-  </ul>
-  <hr />
-  <span>후기</span>
-
-  <textarea   placeholder="후기" id="reviewInput">{{post.review}}</textarea>
-
-  <button type="button" class="btn" onclick="handleFormCancel()">취소하기</button>
-  <button type="submit" class="btn" >변경하기</button>
-</form>
 <!-- uuid -->
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
 
@@ -396,7 +408,7 @@ const postData = JSON.parse("{{ jsonPost|escapejs }}");
     if (main.childElementCount == 0) {
       main.innerHTML = `
       <button type="button" onclick="handleAddPath()" class="add_new-btn">
-      옆에 새로운 패스 추가하기
+      패스+
       </button>
       `;
     }

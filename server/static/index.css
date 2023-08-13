@@ -4,6 +4,7 @@
 @import "./post/shared.css";
 @import "./post/detail.css";
 @import "./post/write.css";
+@import "./post/edit.css";
 @import "./post/main.css";
 
 // 이미지 뭉개지는것때문에 임의로 넣었는데

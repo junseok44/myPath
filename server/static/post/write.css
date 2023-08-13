@@ -15,13 +15,13 @@
   min-height:1.5rem;
 }
 
-.writePage__intro .writePage__title{
+.writePage__title{
   display:flex;
   gap:1rem;
   padding-bottom:1rem;
 }
 
-.writePage__intro .writePage__desc{
+.writePage__desc{
   padding-bottom:1rem;
   /* display:inline-flex; */
 }
