@@ -26,6 +26,10 @@
   /* display:inline-flex; */
 }
 
+.writePage__tag{
+  padding-bottom:1rem;
+}
+
 .column-mode {
   display: flex;
   gap: 2rem;
@@ -118,10 +122,16 @@
     display: block;
   }
 }
+
 @media screen and (max-width: 450px){
-  .writePage__intro .writePage__title{
-    display:flex;
-    flex-direction: column;
+  .writePage__intro span{
+    display:none;
+  }
+}
+
+@media screen and (max-width: 450px){
+  .writePage__tag input{
+    width:70%;
   }
 }
 
