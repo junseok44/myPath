@@ -141,9 +141,9 @@
       <div class="comment-container post_{{post.id}}">
         <h5>댓글</h5>
               {% for post_comment in post_comments%}
-              <div class="post_comment_{{post_comment.id}} post_comment">
-                  <p class="post_comment_writer">{{post_comment.writer}}
-                  <span class="post_comment-actions">
+              <div class="post_comment_{{post_comment.id}} comment">
+                  <p class="comment_writer">{{post_comment.writer}}
+                  <span class="comment-actions">
                     {% if user.is_authenticated %}
                     <span>답글</span>
                     {% if user == post_comment.writer %}
@@ -153,12 +153,11 @@
                   </span>
                   </p>
                   <p>{{post_comment.text}}</p>
-                  <div class="post_comment-children">
-
+                  <div class="comment-children">
                     {% for childComment in post_comment.parentComment_set.all %}
                     <div class="post_comment_{{childComment.id}}">
-                    <p class="post_comment_writer">{{childComment.writer}}
-                      <span class="post_comment-actions">
+                    <p class="comment_writer">{{childComment.writer}}
+                      <span class="comment-actions">
                         <span class="post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">삭제</span>    
                       </span>
                       </p>
@@ -262,12 +261,19 @@
                 step_comments_parsed.forEach(element => {
                     console.log(element)
                     commentNode.innerHTML+=
-                    `<div class="step-${step_parsed["pk"]}-${element["pk"]}">
-                        <p>${element["fields"]["writer"]}</p>
+                    `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
+                        <p class="comment_writer">${element["fields"]["writer"]}
+                          <span class="comment-actions">
+                        {% if user.is_authenticated %}
+                        <span class="step-comment-delete" onclick="deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')">삭제</span>
+                        {% endif %}
+                        </span>
+                          </p>
+                       
                         <p>${element["fields"]["text"]}</p>
-                        <button class="btn step-comment-delete" onclick="deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')">댓글 삭제</button>
                     </div>`;
                 });
+                // <button class="btn step-comment-delete" onclick="deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')">댓글 삭제</button>
                 
             }
         }
@@ -293,14 +299,21 @@
         if(requestCommentCreate.readyState===XMLHttpRequest.DONE){
             if(requestCommentCreate.status<400){
                 const{step_id,comment_id,writer,text}=JSON.parse(requestCommentCreate.response);
-                console.log(writer);
                 const parent=document.querySelector(`.step_comment_${step_id}`);
                 parent.innerHTML += 
-                `<div class="step-${step_id}-${comment_id}">
-                    <p>${writer}</p>
+                `<div class="step-${step_id}-${comment_id} comment">
+                    <p class="comment_writer">${writer}
+                      <span class="comment-actions">
+                        {% if user.is_authenticated %}
+                        <span class="step-comment-delete" onclick="deleteStepComment('${step_id}','${comment_id}')">삭제</span>
+                        {% endif %}
+                        </span>
+                      </p>
                     <p>${text}</p>
-                    <button class="btn step-comment-delete" onclick="deleteStepComment('${step_id}','${comment_id}')">댓글 삭제</button>
                 </div>`;
+
+
+
             }
             else {
               window.location.reload()

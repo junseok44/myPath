@@ -157,41 +157,41 @@
   margin-bottom: 0.3rem;
 }
 
-.post_comment {
+.comment {
   position: relative;
   padding: 13px 10px;
   border: 1px solid var(--border-grey);
 }
 
-.post_comment:not(:last-child) {
+.comment:not(:last-child) {
   margin-bottom: 0.3rem;
 }
 
-.post_comment_writer {
+.comment_writer {
   padding-bottom: 0.3rem;
   font-weight: 700;
   font-size: 0.8rem;
 }
 
-.post_comment-children {
+.comment-children {
   margin-left: 1.5rem;
 }
 
-.post_comment-children > *:not(:last-child) {
+.comment-children > *:not(:last-child) {
   margin-bottom: 0.3rem;
 }
 
-.post_comment-children > *:first-child {
+.comment-children > *:first-child {
   margin-top: 0.5rem;
 }
 
-.post_comment-actions {
+.comment-actions {
   font-size: 0.7rem;
   cursor: pointer;
   font-weight: normal;
 }
 
-.post_comment-actions span:hover {
+.comment-actions span:hover {
   opacity: 0.8;
   text-decoration: underline;
 }
