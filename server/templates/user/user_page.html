@@ -6,12 +6,12 @@
     rel="stylesheet"
     href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
   />
+  <link rel="stylesheet" href="{% static 'user/userpage.css' %}" />
   {% endblock %}
 </div>
 
 {% block content %}
-
-<div class="container">
+<div class="userPage">
   <div class="userinfo__title">{{user.membership}} {{user.username}}</div>
   <div class="userinfo__container owl-carousel">
     <div class="usercard__container">
@@ -27,7 +27,6 @@
       <div class="usercard__body"></div>
     </div>
   </div>
-  <hr />
   <div class="post__title">{{user.username}}의 패스들</div>
   <div class="post__container">
     {% for post in posts %}
@@ -74,7 +73,7 @@
         nav: false,
       },
       1000: {
-        items: 5.2,
+        items: 3.3,
         // loop: false,
       },
     },
