@@ -78,9 +78,6 @@
   align-items: flex-start;
 }
 
-
-
-
 .detailPage .main-container .step-container {
   position:relative;
   display: flex;
@@ -92,14 +89,25 @@
 }
 
 .detailPage .step-container img {
-  height: 150px;
-  width: 150px;
+  width:100%;
+}
+
+.detailPage .step-container .step-detail {
+  max-height:200px;
+  overflow:auto;
 }
 
 .detailPage .step__edit-modal{
   position:absolute;
-  top:0px;
-  left:115%;
+}
+
+.detailPage .step__edit-modal .step__comment{
+  max-height:100px;
+  overflow:auto;
+}
+
+.detailPage .modal__overlay .new__comment{
+  display:inherit;
 }
 
 .hidden {

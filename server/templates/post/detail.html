@@ -107,10 +107,15 @@
                   <div class="step_comment_{{step.id}}">
   
                   </div>     
+                  
+                </div>
+                <hr>
+                <div class="new__comment">
                   <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
-                  <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">댓글 쓰기</button>
-              </div>
-              <button onclick="onToggleStepDetail('{{step.id}}')">확인</button>
+                  <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
+                </div>
+              
+                <button onclick="onToggleStepDetail('{{step.id}}')">확인</button>
 
               </div>
               
@@ -229,30 +234,46 @@
                 // console.log(image_null==true)
                 const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
                 if(currentStepInfo) {
-                    currentStepInfo.innerHTML =    `
-                        <h3>${step_parsed["fields"]["title"]}<h2>
-                        <img src="../media/${step_parsed["fields"]["Image"]}" />
-                        <p>${step_parsed["fields"]["desc"]}</p>
-                   `;
+                  if (image_url){
+                      stepInfo.innerHTML = 
+                      `<h3>${step_parsed["fields"]["title"]}<h3>
+                      <hr>
+                      <div class="step-detail">
+                          <img src="../media/${step_parsed["fields"]["Image"]}" />
+                          <p>${step_parsed["fields"]["desc"]}</p>
+                          <hr>
+                    </div>`;
+                  }
+                  else{
+                      stepInfo.innerHTML = 
+                      `<h3>${step_parsed["fields"]["title"]}<h3>
+                      <hr>
+                      <div class="step-detail">
+                          <p>${step_parsed["fields"]["desc"]}</p>
+                      </div>`;
+                  }
                 } else {
                   const stepInfo = document.createElement("div")
-                stepInfo.classList.add(`step-${step_parsed["pk"]}`)
-                if (image_url){
-                    stepInfo.innerHTML = 
-                    `
-                        <h3>${step_parsed["fields"]["title"]}<h2>
-                        <img src="../media/${step_parsed["fields"]["Image"]}" />
-                        <p>${step_parsed["fields"]["desc"]}</p>
-                   `;
-                }
-                else{
-                    stepInfo.innerHTML = 
-                    `
-                        <h3>${step_parsed["fields"]["title"]}<h2>
-                        <p>${step_parsed["fields"]["desc"]}</p>
-                   `;
-                }
-                stepNode.insertBefore(stepInfo,comment_container)
+                  stepInfo.classList.add(`step-${step_parsed["pk"]}`)
+                  if (image_url){
+                      stepInfo.innerHTML = 
+                      `<h3>${step_parsed["fields"]["title"]}<h3>
+                      <hr>
+                      <div class="step-detail">
+                          <img src="../media/${step_parsed["fields"]["Image"]}" />
+                          <p>${step_parsed["fields"]["desc"]}</p>
+                          <hr>
+                    </div>`;
+                  }
+                  else{
+                      stepInfo.innerHTML = 
+                      `<h3>${step_parsed["fields"]["title"]}<h3>
+                      <hr>
+                      <div class="step-detail">
+                          <p>${step_parsed["fields"]["desc"]}</p>
+                      </div>`;
+                  }
+                  stepNode.insertBefore(stepInfo,comment_container)
                 }
                 
 
