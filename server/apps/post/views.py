@@ -423,7 +423,22 @@ def view_post_detail(requests,pk):
 def view_post_create_comment(request,pk):
     if request.method=="POST": 
         if request.user.is_authenticated:
-            PostComment.objects.create(
+            if request.POST['comment'] == "":
+                messages.error(request, "공백은 입력하실수 없습니다.")
+                return redirect(f'/post/{pk}')
+
+            parentId = request.POST.get("parentCommentId")
+            if parentId is not None:
+                print(parentId)
+                parentComment = get_object_or_404(PostComment,pk=parentId)
+                print(parentComment)
+                PostComment.objects.create(
+                writer=request.user,
+                post=Post.objects.get(id=pk),
+                text = request.POST['comment'],
+                parentComment=parentComment)
+            else:
+                PostComment.objects.create(
                 writer=request.user,
                 post=Post.objects.get(id=pk),
                 text = request.POST['comment']
@@ -442,9 +457,8 @@ def view_post_delete_comment_ajax(request):
     comment_id=req['comment_id']
     post=Post.objects.get(id=post_id)
     comment=PostComment.objects.get(post=post, id=comment_id)
-    
-
     if request.method=="POST" and request.user.is_authenticated:
+        print(comment, request.user, comment.writer)
         if(request.user==comment.writer):
             comment_json=serialize('json', [comment])
             comment.delete()

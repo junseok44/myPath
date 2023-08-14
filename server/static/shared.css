@@ -1,19 +1,20 @@
 @font-face {
-    font-family: 'SUITE-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
+  font-family: "SUITE-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
 }
 
 :root {
-  --border-grey: rgba(189, 195, 199, 0.7);
-  --primary-color: #007DFF;
+  --border-grey: #e3e3e3;
+  --primary-color: #007dff;
   --secondary-text-color: rgb(120, 120, 120);
 }
 
 *{
   box-sizing: border-box;
-  font-family: 'SUITE-Regular', sans-serif;
+  font-family: "SUITE-Regular", sans-serif;
 }
 
 .messages {
@@ -89,8 +90,8 @@
 
 .nav-tabs {
   height: 60px;
-  margin: 50px 0;
   display: flex;
+  margin-bottom: 1rem;
   flex-direction: row;
   align-items: center;
   background-color: #3c763d;
@@ -105,16 +106,15 @@
   justify-content: center;
   align-items: center;
   background-color: white;
-  color: rgb(120, 120, 120)
-  
+  color: rgb(120, 120, 120);
 }
 
-.nav-item:hover{
+.nav-item:hover {
   cursor: pointer;
 }
 
 .nav-item:active {
-  color: var(--primary-color)
+  color: var(--primary-color);
 }
 
 .nav-item:active::after {
@@ -125,22 +125,31 @@
   left: calc(50% - 20px);
 }
 
-.post__title, .userinfo__title {
+.post__title,
+.userinfo__title {
   font-size: 2rem;
-  margin: 40px 0 10px
+  margin: 0 0 1rem 0;
 }
 
-.post__container, .userinfo__container {
+.post__container,
+.userinfo__container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
+  gap: 1rem;
+  @media screen and (max-width: 800px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (max-width: 450px) {
+    display: block;
+  }
   justify-content: center;
   align-items: center;
 }
 
 .card__container {
   height: 450px;
-  margin: 20px 50px;
   background-color: white;
   border: solid 1px var(--border-grey);
   border-radius: 5px;
@@ -156,7 +165,7 @@
 }
 
 .card-author {
-  color: rgb(120, 120, 120)
+  color: rgb(120, 120, 120);
 }
 
 .card-thumbnail {
@@ -182,8 +191,7 @@
 
 .usercard__container {
   height: 300px;
-  padding: 30px;
-  margin: 20px 50px;
+  padding: 1.7rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -194,7 +202,7 @@
 }
 
 .usercard__header {
-  color: var(--secondary-text-color)
+  color: var(--secondary-text-color);
 }
 
 .usercard__body {
@@ -202,4 +210,28 @@
   display: flex;
   justify-content: end;
   align-items: flex-end;
+}
+
+.responsive-container {
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 450px) {
+  .responsive-container {
+    width: 90%;
+  }
+}
+
+@media (min-width: 451px) and (max-width: 800px) {
+  .responsive-container {
+    width: 600px;
+  }
+}
+
+@media (min-width: 801px) {
+  .responsive-container {
+    width: 1440px;
+  }
 }

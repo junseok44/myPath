@@ -1,49 +1,228 @@
-.intro-container .intro-desc {
+/* 컨테이너 임시로 만들어놨는데,
+이거는 base.html에서 .container로 만들고 모든페이지에
+동일하게 적용할 예정이라 삭제해야될것같습니다. */
+
+.detailPage .intro-container {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.detailPage .intro-title {
   display: flex;
 }
-
-.intro-container .intro-desc img {
-  height: 150px;
-  width: 150px;
+.detailPage .intro-title h2 {
+  margin-right: 1rem;
 }
 
-.intro-container {
-  background-color: aqua;
+.detailPage .intro-meta {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.intro-writer {
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
+.detailPage .intro-container .intro-content {
+  display: grid;
+  grid-template-columns: 1.5fr 5fr;
+  gap: 1rem;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
+}
+
+.detailPage .intro-container .intro-desc {
+  width: 100%;
+  border: 1px solid var(--border-grey);
+}
+.detailPage .intro-container .intro-thumbnail {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
+  border: 1px solid var(--border-grey);
+}
+
+.detailPage .intro-container .intro-thumbnail img {
+  position: absolute;
+  object-fit: cover;
+  top: 0;
+  left: 0;
 }
 
 .detail-container .main-container {
   display: flex;
+  justify-content: flex-start;
+  gap: 2rem;
+  width: 100%;
+  overflow-y: visible;
+  overflow-x: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 2rem;
 }
 
 .row {
   flex-direction: column;
+  align-items: flex-start;
 }
 
-.detail-container .main-container .step-container {
+.detailPage .main-container .step-container {
+  position: relative;
   display: flex;
+  gap: 2rem;
 }
 
 .col .step-container {
   flex-direction: column;
 }
 
-.step-container img {
-  height: 150px;
-  width: 150px;
+.detailPage .step-container img {
+  width: 100%;
 }
 
-/* .hidden, .fa-solid-heart, fa-solid-star 관련 스타일링은 static/shared.css로 옮김. */
+.detailPage .step-container .step-detail {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.detailPage .step__edit-modal {
+  position: absolute;
+}
+
+.detailPage .step__edit-modal .step__comment {
+  max-height: 100px;
+  overflow: auto;
+}
+
+.detailPage .modal__overlay .new__comment {
+  display: inherit;
+}
+
+.hidden {
+  display: none;
+}
+
+.detailPage__review-title {
+  @media screen and (max-width: 450px) {
+    display: none;
+  }
+}
+
+.detailPage .review-container {
+  border: 1px solid var(--border-grey);
+  padding: 10px;
+}
+
+.accordion__review {
+  margin-bottom: 1rem;
+}
+
+.fa-solid.fa-heart {
+  color: red;
+}
+
+.fa-solid.fa-star {
+  color: #f39c12;
+}
 
 .detailPage__action-btn {
   display: flex;
   cursor: pointer;
 }
 
+.accordion {
+  overflow: hidden;
+
+  @media screen and (max-width: 450px) {
+    border: 1px solid var(--border-grey);
+  }
+}
+
+.accordion .title {
+  background-color: #f1f1f1;
+  padding: 10px;
+  cursor: pointer;
+  display: none; /* Hide the title by default */
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion .title.visible {
+  display: flex; /* Show the title when it's visible */
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.content-wrapper {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  box-sizing: border-box; /* Include padding and border in the height calculation */
+  @media screen and (max-width: 600px) {
+    max-height: 0;
+  }
+}
+
+.content {
+  padding: 10px;
+}
+
+.comment-container h5 {
+  margin-bottom: 0.3rem;
+}
+
+.comment {
+  position: relative;
+  padding: 13px 10px;
+  border: 1px solid var(--border-grey);
+}
+
+.comment {
+  margin-bottom: 0.3rem;
+}
+
+.comment_writer {
+  padding-bottom: 0.3rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.comment-children {
+  margin-left: 1.5rem;
+}
+
+.comment-children > *:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.comment-children > *:first-child {
+  margin-top: 1rem;
+}
+
+.comment-actions {
+  font-size: 0.7rem;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.comment-actions span:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
 .detail-title {
   font-size: 2rem;
 }
 
-.detail-author{
+.detailPage__subtitle {
+  margin-bottom: 0.5rem;
+}
+
+.detail-author {
   color: var(--secondary-text-color);
 }
 
@@ -52,5 +231,5 @@
   flex-direction: center;
   align-items: center;
   background-color: transparent;
-  color: #007DFF;
+  color: #007dff;
 }

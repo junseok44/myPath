@@ -1,23 +1,35 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %}
 
-<div class="userinfo__title">{{user.membership}} {{user.username}}</div>
-<div class="userinfo__container">
-  <div class="usercard__container">
-    <div class="usercard__header">자기소개</div>
-    <div class="usercard__body">{{user.intro}}</div>
-  </div>
-  <div class="usercard__container">
-    <div class="usercard__header">작성한 Path의 수</div>
-    <div class="usercard__body">{{posts_count}}</div>
-  </div>
-  <div class="usercard__container">
-    <div class="usercard__header">좋아요 지수</div>
-    <div class="usercard__body"></div>
-  </div>
+<div>
+  {% block stylesheet %}
+  <link
+    rel="stylesheet"
+    href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
+  />
+  <link rel="stylesheet" href="{% static 'user/userpage.css' %}" />
+  {% endblock %}
 </div>
-<div class="post__title">{{user.username}}의 패스들</div>
-<div class="post__container">
-  {% for post in posts %}
+
+{% block content %}
+<div class="userPage">
+  <div class="userinfo__title">{{user.membership}} {{user.username}}</div>
+  <div class="userinfo__container owl-carousel">
+    <div class="usercard__container">
+      <div class="usercard__header">자기소개</div>
+      <div class="usercard__body">{{user.intro}}</div>
+    </div>
+    <div class="usercard__container">
+      <div class="usercard__header">작성한 Path의 수</div>
+      <div class="usercard__body">{{posts_count}}</div>
+    </div>
+    <div class="usercard__container">
+      <div class="usercard__header">좋아요 지수</div>
+      <div class="usercard__body"></div>
+    </div>
+  </div>
+  <div class="post__title">{{user.username}}의 패스들</div>
+  <div class="post__container">
+    {% for post in posts %}
     <div class="card__container post-id-{{ post.id }}">
       <div class="card__header">
         <div class="card-author-profile-image"></div>
@@ -27,18 +39,45 @@
       <div class="card__body">
         <div class="card-thumbnail">
           {% if post.thumbnail != null and post.image.url != "" %}
-            <img src="{{post.thumbnail}}" alt="대체 텍스트">    
+          <img src="{{post.thumbnail}}" alt="대체 텍스트" />
           {% endif %}
         </div>
         <div class="card-description">{{post.desc}}</div>
       </div>
       <div class="card__buttons">
-        <div class="btn like-btn card-btns"><i class="fa-solid fa-heart"></i></div>
-        <div class="btn reply-btn card-btns"><i class="fa-solid fa-comment-dots"></i></div>
-        <div class="btn share-btn card-btns"><i class="fa-solid fa-share-nodes"></i></div>
+        <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
+        <div class="btn reply-btn">
+          <i class="fa-solid fa-comment-dots"></i>
+        </div>
+        <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
       </div>
     </div>
-  {% endfor %}
+    {% endfor %}
+  </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'library/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
+<script>
+  $(".owl-carousel").owlCarousel({
+    loop: true,
+    margin: 10,
+
+    responsiveClass: true,
+    responsive: {
+      0: {
+        items: 1.15,
+      },
+      600: {
+        items: 3,
+        nav: false,
+      },
+      1000: {
+        items: 3.3,
+        // loop: false,
+      },
+    },
+  });
+</script>
 
 {% endblock %}

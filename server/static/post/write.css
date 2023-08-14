@@ -1,3 +1,40 @@
+.writePage__btn {
+  height: fit-content;
+}
+
+.writePage__desc textarea {
+  min-width: 70%;
+  min-height: 5rem;
+}
+
+.writePage__review textarea {
+  min-width: 70%;
+  min-height: 5rem;
+}
+
+.writePage__thumbnail {
+  padding-bottom: 1rem;
+}
+
+.writePage__intro input {
+  min-height: 1.5rem;
+}
+
+.writePage__title {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+
+.writePage__desc {
+  padding-bottom: 1rem;
+  /* display:inline-flex; */
+}
+
+.writePage__tag {
+  padding-bottom: 1rem;
+}
+
 .column-mode {
   display: flex;
   gap: 2rem;
@@ -5,30 +42,67 @@
 
 .container_row-mode {
   display: flex;
+  align-items: flex-start;
   gap: 2rem;
 
   @media screen and (max-width: 600px) {
-    display: block;
+    flex-direction: column;
   }
+}
+
+.writePage__main {
+  min-height: 30rem;
 }
 
 .path {
   /* @media screen and (max-width: 600px) {
     display: none;
   } */
+  /* border:1px solid black; */
+  /* position:relative; */
 }
 
+.step {
+  position: relative;
+  padding: 10px;
+  border: 1px solid black;
+  min-width: 15rem;
+  width: fit-content;
+  text-align: center;
+}
 
 .step__edit-modal {
   position: absolute;
+  height: fit-content;
   top: 0px;
-  left: 100%;
+  left: 110%;
+  bottom: 0px;
   padding: 2rem;
   background-color: white;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   z-index: 10;
+  gap: 1rem;
+  border: 1px solid black;
+  @media screen and (max-width: 600px) {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.container_row-mode .step__edit-modal {
+  position: absolute;
+  height: fit-content;
+  padding: 2rem;
+  background-color: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  gap: 1rem;
   border: 1px solid black;
   @media screen and (max-width: 600px) {
     position: fixed;
@@ -36,6 +110,10 @@
     left: 50%;
     transform: translateX(-50%);
   }
+}
+
+.step__edit-modal .desc {
+  min-height: 3rem;
 }
 
 .hidden {
@@ -46,6 +124,18 @@
   display: none;
   @media screen and (max-width: 600px) {
     display: block;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .writePage__intro span {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .writePage__tag input {
+    width: 70%;
   }
 }
 
@@ -70,7 +160,7 @@
   }
 }
 
-.post-input{
+.post-input {
   width: 700px;
   height: 40px;
   padding: 10px;
@@ -78,7 +168,8 @@
   border-radius: 5px;
 }
 
-#descInput, #reviewInput {
+#descInput,
+#reviewInput {
   height: 200px;
 }
 
