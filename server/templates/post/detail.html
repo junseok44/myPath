@@ -78,7 +78,13 @@
             </div>
           </div>
         </div>
-        <ul class="main main-container {{post.mode}}">
+        <div class="detailPage__pathSelect">
+          <span>패스 선택</span>
+          <select id="pathSelect" class="select"></select>
+          <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a>
+        </div>
+        <hr />
+        <ul class="main main-container {{post.mode}} detailPage__main">
           {% for path in paths %}
             <li class="path path_{{path.id}}">
             <div class="path_title">{{path.title}}</div>
