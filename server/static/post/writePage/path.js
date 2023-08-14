@@ -24,9 +24,9 @@ function addPathNode(prevPathId, id) {
     li.innerHTML += `
     <span class="path_intro">
     <input placeholder="패스 이름 입력..." type="text" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
+    <button type="button" class="btn path-add-btn" onclick="handleAddPath('${id}')">패스 +</button>
     <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
     </span>
-    <button type="button" class="btn path-add-btn" onclick="handleAddPath('${id}')">패스 +</button>
     <div class="step_container ${isColumnMode ? "" : " container_row-mode"}">
             </div>
     <button type="button" class="btn step-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">
@@ -35,14 +35,16 @@ function addPathNode(prevPathId, id) {
     `;
   } else {
     li.innerHTML += `
+    <span class="path_intro">
     <input placeholder="패스 이름 입력..." type="text" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
-    <button type="button" class="btn path-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">스텝+</button>
+    <button type="button" class="btn step-add-btn" onclick="handleAddPath('${id}')">패스+</button>
     <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
-
+    </span>
     <div class="step_container ${
       isColumnMode ? "" : " container_row-mode"
     }"></div>
-    <button type="button" class="btn step-add-btn" onclick="handleAddPath('${id}')">패스+</button>
+    <button type="button" class="btn path-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">스텝+</button>
+
     `;
   }
 
