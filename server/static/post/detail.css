@@ -1,16 +1,6 @@
 /* 컨테이너 임시로 만들어놨는데,
 이거는 base.html에서 .container로 만들고 모든페이지에
 동일하게 적용할 예정이라 삭제해야될것같습니다. */
-.detailPage .detail-container {
-  width: 1440px;
-  margin: 0 auto;
-  box-sizing: border-box;
-  margin-top: 2rem;
-
-  @media screen and (max-width: 600px) {
-    width: 400px;
-  }
-}
 
 .detailPage .intro-container {
   width: 100%;
@@ -46,13 +36,14 @@
 
 .detailPage .intro-container .intro-desc {
   width: 100%;
-  border: 1px solid black;
+  border: 1px solid var(--border-grey);
 }
 .detailPage .intro-container .intro-thumbnail {
   position: relative;
   width: 100%;
   padding-bottom: 100%;
   overflow: hidden;
+  border: 1px solid var(--border-grey);
 }
 
 .detailPage .intro-container .intro-thumbnail img {
@@ -62,13 +53,14 @@
   left: 0;
 }
 
-.detailPage .main-container {
+.detail-container .main-container {
   display: flex;
   justify-content: flex-start;
   gap: 2rem;
   width: 100%;
   overflow-y: visible;
   overflow-x: auto;
+  margin-top: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 2rem;
 }
@@ -96,8 +88,14 @@
   display: none;
 }
 
+.detailPage__review-title {
+  @media screen and (max-width: 450px) {
+    display: none;
+  }
+}
+
 .detailPage .review-container {
-  border: 1px solid black;
+  border: 1px solid var(--border-grey);
   padding: 10px;
 }
 
@@ -119,8 +117,11 @@
 }
 
 .accordion {
-  border: 1px solid var(--border-grey);
   overflow: hidden;
+
+  @media screen and (max-width: 450px) {
+    border: 1px solid var(--border-grey);
+  }
 }
 
 .accordion .title {
@@ -163,7 +164,7 @@
   border: 1px solid var(--border-grey);
 }
 
-.comment:not(:last-child) {
+.comment:not(:last-of-type) {
   margin-bottom: 0.3rem;
 }
 
@@ -194,4 +195,19 @@
 .comment-actions span:hover {
   opacity: 0.8;
   text-decoration: underline;
+}
+.detail-title {
+  font-size: 2rem;
+}
+
+.detail-author {
+  color: var(--secondary-text-color);
+}
+
+#more-btn {
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  background-color: transparent;
+  color: #007dff;
 }
