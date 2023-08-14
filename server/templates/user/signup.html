@@ -1,19 +1,29 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'user/login_templates.html' %} {% block formContent %}
 
-<div class="signup">
-  <h1>로그인</h1>
+<div class="signup auth-container">
+  <h1>회원가입</h1>
   <form action="{% url 'user_signup' %}" method="post">
-    {% csrf_token %} {{ form.loginId.label_tag }} {{ form.loginId }}
+    {% csrf_token %}
+    <span
+      ><p class="auth__label">loginId</p>
+      {{ form.loginId }}
+    </span>
+    <span
+      ><p class="auth__label">username</p>
+      {{ form.username }}
+    </span>
+    <span>
+      <p class="auth__label">password</p>
+      {{ form.password1 }}
+    </span>
+    <span
+      ><p class="auth__label">password confirmation</p>
+      {{ form.password2 }}
+    </span>
 
-    <p>{{ form.username.label_tag }} {{ form.username }}</p>
-    {{ form.email.label_tag }} {{ form.email }} {{ form.password1.label_tag }}
-    {{ form.password1 }} {{ form.password2.label_tag }} {{ form.password2 }}
-    <p>{{ form.intro.label_tag }} {{ form.intro }}</p>
-    <p></p>
-
-    <button type="submit">등록</button>
+    <button type="submit">가입하기</button>
   </form>
-  <p>이미 계정이 있나요? <a href="{% url 'user_login' %}">Login</a></p>
+  <p>이미 계정이 있나요? <a href="{% url 'user_login' %}">로그인</a></p>
   {% if form.errors %}
   <div class="errors">
     <ul>

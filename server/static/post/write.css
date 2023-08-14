@@ -1,0 +1,217 @@
+.writePage__btn {
+  height: fit-content;
+}
+
+.writePage__desc textarea {
+  min-width: 70%;
+  min-height: 5rem;
+}
+
+.writePage__review textarea {
+  min-width: 70%;
+  min-height: 5rem;
+}
+
+.writePage__thumbnail {
+  padding-bottom: 1rem;
+}
+
+.writePage__intro input {
+  min-height: 1.5rem;
+}
+
+.writePage__title {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+
+.writePage__desc {
+  padding-bottom: 1rem;
+  /* display:inline-flex; */
+}
+
+.writePage__tag {
+  padding-bottom: 1rem;
+}
+
+.column-mode {
+  display: flex;
+  gap: 2rem;
+}
+
+.container_row-mode {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+.writePage__main {
+  min-height: 30rem;
+}
+
+.path {
+  /* @media screen and (max-width: 600px) {
+    display: none;
+  } */
+  /* border:1px solid black; */
+  /* position:relative; */
+}
+
+.step {
+  position: relative;
+  padding: 10px;
+  border: 1px solid black;
+  min-width: 15rem;
+  width: fit-content;
+  text-align: center;
+}
+
+.step__edit-modal {
+  position: absolute;
+  height: fit-content;
+  top: 0px;
+  left: 110%;
+  bottom: 0px;
+  padding: 2rem;
+  background-color: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  gap: 1rem;
+  border: 1px solid black;
+  @media screen and (max-width: 600px) {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.container_row-mode .step__edit-modal {
+  position: absolute;
+  height: fit-content;
+  padding: 2rem;
+  background-color: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  gap: 1rem;
+  border: 1px solid black;
+  @media screen and (max-width: 600px) {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.step__edit-modal .desc {
+  min-height: 3rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.pathSelect {
+  display: none;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .writePage__intro span {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .writePage__tag input {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+  }
+
+  .modal__overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.post-input {
+  width: 700px;
+  height: 40px;
+  padding: 10px;
+  border: solid 1px var(--border-grey);
+  border-radius: 5px;
+}
+
+#descInput,
+#reviewInput {
+  height: 200px;
+}
+
+.write-title {
+  font-size: 2rem;
+}
+
+.upload-btn {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-file .upload-name {
+  width: 700px;
+  height: 25px;
+  padding: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+  color: var(--border-grey);
+}
+
+.upload-file label {
+  height: 25px;
+  padding: 5px;
+  margin-left: 10px;
+  display: inline-block;
+  color: white;
+  vertical-align: middle;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.upload-file input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}

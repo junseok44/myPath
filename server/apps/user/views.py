@@ -5,6 +5,8 @@ from .forms import CustomUserCreationForm
 from django.contrib import messages
 from apps.user.models import User
 from apps.post.models import Post, BookMarkTable, LikeTable
+# import request
+# import requests
 
 def user_main(request):  
     return render(request, 'user/login.html')
@@ -16,7 +18,7 @@ def user_login(request):
     if request.method == "POST":
         login_id = request.POST.get('loginId')
         password = request.POST.get('password')
-        user = authenticate(request, username=login_id, password=password)
+        user = authenticate(request, loginId=login_id, password=password)
         
         if user is not None:
             auth_login(request, user) 
@@ -36,7 +38,7 @@ def user_signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth_login(request, user)  
+            auth_login(request, user, backend='apps.user.backends.LoginIDBackend') 
             messages.success(request, "성공적인 회원가입 & 로그인입니다!")
             return redirect('/')
         else:
@@ -83,7 +85,7 @@ def kakao_Auth_Redirect(request):
         content = {
             "grant_type": "authorization_code",
             "client_id": " ",
-            "redirect_url": "http://localhost:8000/user/kakaoRedirect",
+            "redirect_uri": " ",
             "code": code,
         }
         token_res = requests.post("https://kauth.kakao.com/oauth/token", headers=headers, data=content)
@@ -120,6 +122,7 @@ def kakao_Auth_Redirect(request):
             print("Kakao API에서 토큰 발급에 실패했습니다.")
 
     return redirect("/")
+
 
 
 def naver_Auth_Redirect(request):

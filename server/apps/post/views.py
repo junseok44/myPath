@@ -3,7 +3,6 @@ from .models import *
 from apps.comment.models import *
 from django.core.serializers import serialize
 from django.contrib import messages
-# from apps.user.models import User
 from django.contrib.auth import get_user_model
 import json
 from django.http import JsonResponse,HttpResponse
@@ -13,6 +12,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 import base64
 from django.core.files.base import ContentFile
+from django.core.paginator import Paginator
 
 User = get_user_model()
 # Create your views here.
@@ -46,16 +46,25 @@ def category_search(request, category_name):
     category_tables = CategoryTable.objects.filter(category=category)
     categories = Category.objects.all()
     category_posts = []
+
     for tables in category_tables:
            category_posts.append(tables.post)
-    return render(
-        request,
-        "post/main__category.html",
-        {
+
+    items_per_page = 6  
+    paginator = Paginator(category_posts, items_per_page)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+
+    ctx = {
             "category_name": category_name,
             "category_posts": category_posts,
             "categories": categories,
-        },
+            "page":page,
+    }
+    return render(
+        request,
+        "post/main__category.html",
+        ctx
     )
 
 def get_user_by_username(username):
@@ -265,6 +274,7 @@ def view_post_edit(request, id):
 
             # 2. Create 새로운 패스를 추가하고, 그 패스에 해당하는 step도 추가한다.
             for path in [path for path in data['paths'] if path['isNew'] == True]:
+                print(path["id"])
                 newPath = Path.objects.create(
                     post=post, title=path['title'], order=path['order'])
                 for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
@@ -413,7 +423,22 @@ def view_post_detail(requests,pk):
 def view_post_create_comment(request,pk):
     if request.method=="POST": 
         if request.user.is_authenticated:
-            PostComment.objects.create(
+            if request.POST['comment'] == "":
+                messages.error(request, "공백은 입력하실수 없습니다.")
+                return redirect(f'/post/{pk}')
+
+            parentId = request.POST.get("parentCommentId")
+            if parentId is not None:
+                print(parentId)
+                parentComment = get_object_or_404(PostComment,pk=parentId)
+                print(parentComment)
+                PostComment.objects.create(
+                writer=request.user,
+                post=Post.objects.get(id=pk),
+                text = request.POST['comment'],
+                parentComment=parentComment)
+            else:
+                PostComment.objects.create(
                 writer=request.user,
                 post=Post.objects.get(id=pk),
                 text = request.POST['comment']
@@ -432,9 +457,8 @@ def view_post_delete_comment_ajax(request):
     comment_id=req['comment_id']
     post=Post.objects.get(id=post_id)
     comment=PostComment.objects.get(post=post, id=comment_id)
-    
-
     if request.method=="POST" and request.user.is_authenticated:
+        print(comment, request.user, comment.writer)
         if(request.user==comment.writer):
             comment_json=serialize('json', [comment])
             comment.delete()
@@ -549,7 +573,6 @@ def toggle_like_ajax(request):
             return JsonResponse({'isLiked': is_Liked, 'like_count': count})
         except:
             return JsonResponse({"msg":"error"},status=404)
-
 
 
 def search(request):
