@@ -101,24 +101,17 @@
             <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
               <div class="step__edit-modal step__modal modal_{{step.id}}" >
                 <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
-                
-
                 <div class="step__comment">
                   <div class="step_comment_{{step.id}}">
-  
-                  </div>     
-                  
+                  </div>      
                 </div>
                 <hr>
                 <div class="new__comment">
                   <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
                   <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
                 </div>
-              
                 <button onclick="onToggleStepDetail('{{step.id}}')">확인</button>
-
               </div>
-              
             </div>
           </section>
           {% endfor %}
@@ -126,7 +119,6 @@
       </li>
       {% endfor %}
     </ul>
-
 
     <div class="accordion accordion__review">
       <div class="title" onclick="toggleAccordion('accordion2')">

@@ -1,24 +1,23 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div class="writePage">
   <h1>제작 페이지</h1>
-  
+
   <form onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <div class="writePage__title">
-            <input
-              type="text"
-              placeholder="포스트 제목"
-              name="title"
-              id="titleInput"
-              required
-            />
-            <span>카테고리</span>
-            <select id="categorySelect" name="categorySelect">
-              {% for cat in categories %}
-              <option value="{{cat.name}}">{{cat.name}}</option>
-              {% endfor %}
-            </select>
-
+        <input
+          type="text"
+          placeholder="포스트 제목"
+          name="title"
+          id="titleInput"
+          required
+        />
+        <span>카테고리</span>
+        <select id="categorySelect" name="categorySelect">
+          {% for cat in categories %}
+          <option value="{{cat.name}}">{{cat.name}}</option>
+          {% endfor %}
+        </select>
       </div>
       <div class="writePage__desc">
         <textarea
@@ -48,27 +47,36 @@
       <select id="pathSelect" class="select"></select>
     </div>
     <hr />
-    <button onclick="toggleMode()" class="btn mode-btn writePage__btn">세로모드로</button>
+    <button
+      type="button"
+      onclick="toggleMode()"
+      class="btn mode-btn writePage__btn"
+    >
+      세로모드로
+    </button>
     <ul class="main main-container column-mode writePage__main">
-      <button type="button" onclick="handleAddPath()" class="btn add_new-btn writePage__btn">
+      <button
+        type="button"
+        onclick="handleAddPath()"
+        class="btn add_new-btn writePage__btn"
+      >
         내 패스 만들기
       </button>
     </ul>
     <hr />
-    
+
     <div class="writePage__review">
       <textarea
-      type="text"
-      name="review"
-      placeholder="후기"
-      id="reviewInput"
+        type="text"
+        name="review"
+        placeholder="후기"
+        id="reviewInput"
       ></textarea>
     </div>
-    
+
     <button type="submit" class="btn writePage__btn">내 패스 등록하기</button>
   </form>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
 
