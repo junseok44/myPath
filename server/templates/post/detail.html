@@ -78,11 +78,10 @@
             </div>
           </div>
         </div>
-
-        <ul class="main-container {{post.mode}}">
+        <ul class="main main-container {{post.mode}}">
           {% for path in paths %}
             <li class="path path_{{path.id}}">
-              <p>{{path.title}}</p>
+            <div class="path_title">{{path.title}}</div>
               <div class="step-container">
                 {% for step in path.steps %}
                   <section class="step step_{{step.id}}">
@@ -178,6 +177,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
+<script src="{% static 'post/writePage/responsivePath.js' %}"></script>
 <!-- csrf token. fetch 요청할때 header에 넣어주면 @exempt 안써도 되요. 밑에 사용례 참고 -->
 <script>
   function getCookie(name) {
@@ -508,6 +508,14 @@
 
     // Add more accordions as needed
   });
+</script>
+
+<!-- 메인 핸들러 -->
+<script>
+
+  updateSelectOptions();
+  //changeDisplay(id);
+
 </script>
 
 {% endblock %}
