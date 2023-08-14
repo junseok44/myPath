@@ -1,185 +1,168 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 
-<h1>edit</h1>
-<form class="edit__form" onsubmit="handleSubmit(event)">
-  <div class="writePage__intro">
-    <div class="intro-writer">
-      <button onclick="deletepost('{{post.id}}')" class="btn writePage__btn">이 포스트 삭제하기</button>
+  <h1>edit</h1>
+  <form class="edit__form" onsubmit="handleSubmit(event)">
+    <div class="writePage__intro">
+      <div class="intro-writer">
+        <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn">이 포스트 삭제하기</button>
       </div>
-    <div class="writePage__title">
-      <input
-          type="text"
-          placeholder="title"
-          name="title"
-          id="titleInput"
-          value="{{post.title}}"
-        />
-      <span>카테고리 선택</span>
-      <select id="categorySelect" name="categorySelect">
-        {% for cat in categories %}
-        <option value="{{cat.name}}" {% if cat.name == currentCategory %} selected {% endif %}>{{cat.name}}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="writePage__desc">
-      <textarea type="text" placeholder="설명" name="dsec" id="descInput">
-      {{post.desc}}</textarea>
-    </div>
-    <div class="writePage__tag">
-      <span>태그추가</span>
-        <input
-        type="text"
-        id="tagInput"
-        placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"
-        />
+      <div class="writePage__title">
+        <input type="text" placeholder="title" name="title" id="titleInput" value="{{post.title}}"/>
+        <span>카테고리 선택</span>
+        <select id="categorySelect" name="categorySelect">
+          {% for cat in categories %}
+            <option value="{{cat.name}}" {% if cat.name == currentCategory %} selected="selected" {% endif %}>{{cat.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="writePage__desc">
+        <textarea type="text" placeholder="설명" name="dsec" id="descInput">
+          {{post.desc}}</textarea>
+      </div>
+      <div class="writePage__tag">
+        <span>태그추가</span>
+        <input type="text" id="tagInput" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
         <p>모든태그</p>
-        <ul id="tagList">    
-        {% for tagtable in post.tag_table.all %}
-          <li class="tag tag_{{tagtable.tag.name}}">#{{tagtable.tag.name}}
-            <span class="close-button" onclick="deleteTag('{{tagtable.tag.name}}')">
-              x
-            </span>
+        <ul id="tagList">
+          {% for tagtable in post.tag_table.all %}
+            <li class="tag tag_{{tagtable.tag.name}}">#{{tagtable.tag.name}}
+              <span class="close-button" onclick="deleteTag('{{tagtable.tag.name}}')">
+                x
+              </span>
 
-          </li>
+            </li>
           {% endfor %}
         </ul>
+      </div>
+      <div class="writePage__thumbnail">
+        <span>포스트 이미지 수정</span>
+        <input type="file" id="imageInput"/>
+      </div>
     </div>
-    <div class="writePage__thumbnail">
-      <span>포스트 이미지 수정</span>
-      <input type="file" id="imageInput" />
+    <div class="pathSelect">
+      <span>패스 선택</span>
+      <select id="pathSelect" class="select"></select>
     </div>
-  </div>
-  <div class="pathSelect">
-    <span>패스 선택</span>
-    <select id="pathSelect" class="select"></select>
-  </div>
-  <hr />
+    <hr/>
 
-  <ul class="main 
+    <ul class="main
   {% if post.mode == 'col' %} column-mode {% else %} {% endif %}
   writePage__main">
-    {% if paths|length == 0 %}
-    <button type="button" onclick="handleAddPath()" class="add_new-btn">
-      새로운 패스 추가하기
-    </button>
-    {% endif %}
-    {% for path in paths %}
-    <li class="path path_{{path.id}}">
-      <input placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
-      <button type="button" onclick="handleAddPath('{{path.id}}') ">
-        패스+
-      </button>
-      <button type="button" onclick="handleDeletePath('{{path.id}}')">
-        <i class="fa-solid fa-trash"></i>
-      </button>
-      <div class="step_container   {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}
-      ">
-        {% for step in path.steps %}
-        <section class="step step_{{step.id}}">
-          <div>
-            <p class="title">{{step.title}}</p>
-            <p class="desc">{{step.desc}}</p>
-            <button
-              class="edit-btn"
-              type="button"
-              onclick="handleToggleModal('{{step.id}}')"
-            >
-            <i class="fa-solid fa-pen-to-square"></i>
+      {% if paths.length == 0 %}
+        <button type="button" onclick="handleAddPath()" class="add_new-btn">
+          새로운 패스 추가하기
+        </button>
+      {% endif %}
+      {% for path in paths %}
+        <li class="path path_{{path.id}}">
+          <span class="path_intro">
+            <input placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
+            <button class="btn step-add-btn" type="button" onclick="handleAddPath('{{path.id}}') ">
+              패스+
             </button>
-            <button type="button" onclick="moveItemUp('{{step.id}}')">
-              <i class="fa-solid fa-angles-up"></i>
-            </button>
-            <button type="button" onclick="moveItemDown('{{step.id}}')"><i class="fa-solid fa-angles-down"></i></button>
-            <button type="button" onclick="handleDeleteItem('{{step.id}}')">
+            <button class="btn" type="button" onclick="handleDeletePath('{{path.id}}')">
               <i class="fa-solid fa-trash"></i>
             </button>
-            
+          </span>
+          <div class="step_container   {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
+            {% for step in path.steps %}
+              <section class="step step_{{step.id}}">
+                <div>
+                  <p class="title">{{step.title}}</p>
+                  <p class="desc">{{step.desc}}</p>
+                  <div class="step-btn-container">
+                    <button class="edit-btn btn" type="button" onclick="handleToggleModal('{{step.id}}')">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button class="btn" type="button" onclick="moveItemUp('{{step.id}}')">
+                      <i class="fa-solid fa-angles-up"></i>
+                    </button>
+                    <button class="btn" type="button" onclick="moveItemDown('{{step.id}}')">
+                      <i class="fa-solid fa-angles-down"></i>
+                    </button>
+                    <button class="btn" type="button" onclick="handleDeleteItem('{{step.id}}')">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+
+                </div>
+                <div class="modal__overlay hidden">
+                  <div class="step__edit-modal modal_{{step.id}} hidden">
+                    <input type="text" class="title"/>
+                    <textarea class="desc"></textarea>
+                    <input type="file" class='imageInput'/>
+                    <div>
+                      <button type="button" onclick="handleToggleModal('{{step.id}}')">
+                        취소
+                      </button>
+                      <button type="submit" onclick="handleSaveValue('{{step.id}}')">
+                        변경
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </section>
+
+            {% endfor %}
           </div>
-          <div class="modal__overlay hidden">
-            <div class="step__edit-modal modal_{{step.id}} hidden">
-              <input type="text" class="title" />
-              <textarea class="desc"></textarea>
-              <input type="file"  class='imageInput'/>
-              <div>
-                <button type="button" onClick="handleToggleModal('{{step.id}}')">
-                  취소
-                </button>
-                <button type="button" onclick="handleSaveValue('{{step.id}}')">
-                  변경
-                </button>
-              </div>
-            </div>
-          </div>
+          <button class="item_add-btn btn" type="button" onclick="handleAddStep('{{path.id}}')">
+            스텝+
+          </button>
+        </li>
+      {% endfor %}
+    </ul>
+    <hr/>
+    <div class="writePage__review">
+      <p>후기</p>
+      <textarea placeholder="후기" id="reviewInput">{{post.review}}</textarea>
+    </div>
 
-        
-        </section>
+    <button type="button" onclick="handleFormCancel()">취소하기</button>
+    <button type="submit">변경하기</button>
+  </form>
+  <!-- uuid -->
+  <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
 
-        {% endfor %}
-      </div>
-      <button
-        type="button"
-        onclick="handleAddStep('{{path.id}}')"
-        class="item_add-btn"
-      >
-        스텝+
-      </button>
-    </li>
-    {% endfor %}
-  </ul>
-  <hr />
-  <div class="writePage__review">
-    <p>후기</p>
-    <textarea   placeholder="후기" id="reviewInput">{{post.review}}</textarea>
-  </div>
-  
+  <!-- 삭제기능 -->
+  <script>
+    async function deletepost(id) {
+      const response = await fetch(`/post/delete/${id}`, {
+        method: "POST",
+        body: JSON.stringify({id: id}),
+        headers: {
+          "content-type": "application/json",
+          "X-CSRFToken": csrftoken
+        }
+      });
 
-  <button type="button" onclick="handleFormCancel()">취소하기</button>
-  <button type="submit">변경하기</button>
-</form>
-<!-- uuid -->
-<script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
-
-<!-- 삭제기능 -->
-<script>
-  async function deletepost(id) {
-    const response = await fetch(`/post/delete/${id}`, {
-      method: "POST",
-      body: JSON.stringify({
-        id: id
-      }),
-      headers: {
-        "content-type": "application/json",
-        "X-CSRFToken": csrftoken,
-      },
-    });
-
-    if(response.status ==200) {
-      window.location.href = "/post/list";
+      if (response.status == 200) {
+        window.location.href = "/post/list";
+      }
     }
-  }
-</script>
+  </script>
 
+  <!-- 태그기능 -->
+  <script>
+    // JavaScript code
+    const tagList = []; // Array to store tags
+    {% for tagtable in post.tag_table.all %}
+    tagList.push("{{ tagtable.tag.name }}");
+    {% endfor %}
+    let deletedTag = [];
+    let addedTag = [];
 
-
-<!-- 태그기능 -->
-<script>
-  // JavaScript code
-  const tagList = []; // Array to store tags
-  {% for tagtable in post.tag_table.all %}
-      tagList.push("{{ tagtable.tag.name }}");
-  {% endfor %}
-  let deletedTag = []
-  let addedTag = []
-
-  function addTag(tag) {
-    if (!tagList.includes(tag)) {
+    function addTag(tag) {
+    if(!tagList.includes(tag)) {
       tagList.push(tag);
       addedTag.push(tag)
       updateTagList();
     }
-  }
+    }
 
-  function deleteTag(tag) {
+    function deleteTag(tag) {
     const index = tagList.indexOf(tag);
     if (index !== -1) {
       tagList.splice(index, 1);
@@ -188,7 +171,7 @@
     }
   }
 
-  function updateTagList() {
+    function updateTagList() {
     const tagListElement = document.getElementById("tagList");
     tagListElement.innerHTML = ""; // Clear the current list
 
@@ -196,7 +179,9 @@
       const li = document.createElement("li");
       const closeButton = document.createElement("span");
       closeButton.innerText = "x";
-      closeButton.classList.add("close-button");
+      closeButton
+        .classList
+        .add("close-button");
       closeButton.onclick = () => deleteTag(tag);
 
       li.innerText = "#" + tag;
@@ -206,270 +191,288 @@
     });
   }
 
-  document.getElementById("tagInput").addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault(); // Prevent form submission
-      const tagInput = event.target.value.trim();
-      if (tagInput !== "") {
-        addTag(tagInput);
-        event.target.value = "";
+  document
+    .getElementById("tagInput")
+    .addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault(); // Prevent form submission
+        const tagInput = event
+          .target
+          .value
+          .trim();
+        if (tagInput !== "") {
+          addTag(tagInput);
+          event.target.value = "";
+        }
       }
-    }
-  });
-</script>
-
-<script src="{% static 'post/writePage/responsivePath.js' %}"></script>
-<script src="{% static 'post/writePage/path.js' %}"></script>
-<script src="{% static 'post/writePage/modal.js' %}"></script>
-<script src="{% static 'post/writePage/csrftoken.js' %}"></script>
-
-<!-- 변수선언 -->
-<script>
-
-const postData = JSON.parse("{{ jsonPost|escapejs }}");
-  const pathData = JSON.parse("{{ jsonPaths|escapejs }}");
-  const stepData = JSON.parse("{{ jsonSteps|escapejs }}");
-
-  let paths = [];
-  let steps = [];
-  let deletedIds = [];
-  let deletedPaths = [];
-
-  const main = document.querySelector(".main");
-  const descInput = document.querySelector("#descInput");
-  const categorySelect = document.querySelector("#categorySelect");
-
-  for (let path of pathData) {
-    let newPath = {
-      ...path.fields,
-      id: path.pk,
-      isNew: false,
-      isEdited: true,
-    };
-    paths.push(newPath);
-  }
-
-  for (let instance of stepData) {
-    let item = {
-      ...instance.fields,
-      id: instance.pk,
-      isNew: false,
-      isEdited: false,
-    };
-
-    item["pathId"] = item["path"];
-    delete item["path"];
-    steps.push(item);
-  }
-
-</script>
-
-<!-- 메인 핸들러 -->
-<script>
-
-  function showAllItems() {
-    // console.log(steps);
-    console.log(paths);
-    // console.log(deletedTag)
-    // console.log(addedTag)
-  }
-
-  function handleAddPath(prevPathId) {
-
-    let id = uuid.v4()
-    addPathNode(prevPathId, id)
-  
-    const prevPathItem = paths.find((path) => path.id == prevPathId);
-
-    if (prevPathItem) {
-
-    paths = paths.map((path) =>
-      path.order >= prevPathItem.order + 1
-      ? { ...path, order: path.order + 1 , isEdited: true}
-      : path
-  );
-
-  paths.push({
-    id: id,
-    order: prevPathItem.order + 1,
-    title: ``,
-    isNew: true,
-      isEdited: false,
-  });
-} else {
-  paths.push({
-    id: id,
-    order: 1,
-    title: ``,
-    isNew: true,
-    isEdited: false,
-  });
-}
-
-    updateSelectOptions()
-    changeDisplay(id);
-  }
-
-  function handleAddStep(targetPathId) {
-    let id = uuid.v4();
-    addStepNode(targetPathId, id)
-
-    steps.push({
-      id,
-      pathId: targetPathId,
-      order: steps.filter((step) => step.pathId == targetPathId).length + 1,
-      isNew: true,
-      isEdited: false,
-      title: "",
-      desc: "",
     });
-  }
+  </script>
 
-  function handleDeleteItem(stepId) {
-    const step = document.querySelector(`.step_${stepId}`);
-    step.parentNode.removeChild(step);
+  <script src="{% static 'post/writePage/responsivePath.js' %}"></script>
+  <script src="{% static 'post/writePage/path.js' %}"></script>
+  <script src="{% static 'post/writePage/modal.js' %}"></script>
+  <script src="{% static 'post/writePage/csrftoken.js' %}"></script>
 
-    steps = steps.filter((step) => step.id !== stepId);
-    deletedIds.push(stepId);
+  <!-- 변수선언 -->
+  <script>
+    const postData = JSON.parse("{{ jsonPost|escapejs }}");
+    const pathData = JSON.parse("{{ jsonPaths|escapejs }}");
+    const stepData = JSON.parse("{{ jsonSteps|escapejs }}");
 
-  }
+    let paths = [];
+    let steps = [];
+    let deletedIds = [];
+    let deletedPaths = [];
 
-  function moveItemUp(stepId) {
-    const targetStep = steps.find((step) => step.id == stepId);
-    const pathId = targetStep.pathId;
-    const target = document.querySelector(`.step_${stepId}`);
-    const container = document.querySelector(`.path_${pathId} .step_container`);
-    const previousNode = target.previousElementSibling;
-    if (!previousNode) return;
-
-    container.removeChild(target);
-    container.insertBefore(target, previousNode);
-    
-    const movedStep = steps.find(
-      (step) => step.pathId == pathId && step.order == targetStep.order - 1
-    );
-    // targetStep은 order를 -1 . movedStep은 order를 1.
-    steps = steps.map((step) => {
-      if (step.id == movedStep.id) return { ...step, order: step.order + 1, isEdited: true };
-      else if (step.id === targetStep.id)
-        return { ...step, order: step.order - 1, isEdited: true };
-      else return step;
-    });
-  }
-
-  function moveItemDown(stepId) {
-    const targetStep = steps.find((step) => step.id == stepId);
-    const pathId = targetStep.pathId;
-    const target = document.querySelector(`.step_${stepId}`);
-    const container = document.querySelector(`.path_${pathId} .step_container`);
-    const nextNode = target.nextElementSibling;
-
-    if (!nextNode) return;
-    const next_nextNode = nextNode.nextElementSibling;
-    container.removeChild(target);
-
-    if (next_nextNode) {
-      container.insertBefore(target, next_nextNode);
-
-    } else {
-      container.appendChild(target);
-      console.log("append last");
-    }
-
-    const movedStep = steps.find(
-      (step) => step.pathId == pathId && step.order == targetStep.order + 1
-    );
-
-    steps = steps.map((step) => {
-      if (step.id == movedStep.id) return { ...step, order: step.order - 1, isEdited: true };
-      else if (step.id === targetStep.id)
-        return { ...step, order: step.order + 1, isEdited: true };
-      else return step;
-    });
-  }
-
-  function handleDeletePath(targetPathId) {
     const main = document.querySelector(".main");
-    const target = main.querySelector(`.path_${targetPathId}`);
+    const descInput = document.querySelector("#descInput");
+    const categorySelect = document.querySelector("#categorySelect");
 
-    var optionElements = selectElement.getElementsByTagName("option");
-    var specificOptionIndex = Array.from(selectElement.options).findIndex(
-      function (option) {
-        return option.value === targetPathId;
+    for (let path of pathData) {
+      let newPath = {
+        ...path.fields,
+        id: path.pk,
+        isNew: false,
+        isEdited: true
+      };
+      paths.push(newPath);
+    }
+
+    for (let instance of stepData) {
+      let item = {
+        ...instance.fields,
+        id: instance.pk,
+        isNew: false,
+        isEdited: false
+      };
+
+      item["pathId"] = item["path"];
+      delete item["path"];
+      steps.push(item);
+    }
+  </script>
+
+  <!-- 메인 핸들러 -->
+  <script>
+    function showAllItems() {
+      // console.log(steps);
+      console.log(paths);
+      // console.log(deletedTag)
+      // console.log(addedTag)
+    }
+
+    function handleAddPath(prevPathId) {
+
+      let id = uuid.v4()
+      addPathNode(prevPathId, id)
+
+      const prevPathItem = paths.find((path) => path.id == prevPathId);
+
+      if (prevPathItem) {
+
+        paths = paths.map(
+          (path) => path.order >= prevPathItem.order + 1
+          ? {
+            ...path,
+            order: path.order + 1,
+            isEdited: true
+          }
+          : path);
+
+        paths.push({
+          id: id,
+          order: prevPathItem.order + 1,
+          title: ``,
+          isNew: true,
+          isEdited: false
+        });
+      } else {
+        paths.push({id: id, order: 1, title: ``, isNew: true, isEdited: false});
       }
-    );
-    var targetOption = selectElement.options[specificOptionIndex - 1];
 
-    main.removeChild(target);
+      updateSelectOptions()
+      changeDisplay(id);
+    }
 
-    if (main.childElementCount == 0) {
-      main.innerHTML = `
+    function handleAddStep(targetPathId) {
+      let id = uuid.v4();
+      addStepNode(targetPathId, id)
+
+      steps.push({
+        id,
+        pathId: targetPathId,
+        order: steps
+          .filter((step) => step.pathId == targetPathId)
+          .length + 1,
+        isNew: true,
+        isEdited: false,
+        title: "",
+        desc: ""
+      });
+    }
+
+    function handleDeleteItem(stepId) {
+      const step = document.querySelector(`.step_${stepId}`);
+      step
+        .parentNode
+        .removeChild(step);
+
+      steps = steps.filter((step) => step.id !== stepId);
+      deletedIds.push(stepId);
+
+    }
+
+    function moveItemUp(stepId) {
+      const targetStep = steps.find((step) => step.id == stepId);
+      const pathId = targetStep.pathId;
+      const target = document.querySelector(`.step_${stepId}`);
+      const container = document.querySelector(`.path_${pathId} .step_container`);
+      const previousNode = target.previousElementSibling;
+      if (!previousNode) 
+        return;
+      
+      container.removeChild(target);
+      container.insertBefore(target, previousNode);
+
+      const movedStep = steps.find((step) => step.pathId == pathId && step.order == targetStep.order - 1);
+      // targetStep은 order를 -1 . movedStep은 order를 1.
+      steps = steps.map((step) => {
+        if (step.id == movedStep.id) 
+          return {
+            ...step,
+            order: step.order + 1,
+            isEdited: true
+          };
+        else if (step.id === targetStep.id) 
+          return {
+            ...step,
+            order: step.order - 1,
+            isEdited: true
+          };
+        else 
+          return step;
+        }
+      );
+    }
+
+    function moveItemDown(stepId) {
+      const targetStep = steps.find((step) => step.id == stepId);
+      const pathId = targetStep.pathId;
+      const target = document.querySelector(`.step_${stepId}`);
+      const container = document.querySelector(`.path_${pathId} .step_container`);
+      const nextNode = target.nextElementSibling;
+
+      if (!nextNode) 
+        return;
+      const next_nextNode = nextNode.nextElementSibling;
+      container.removeChild(target);
+
+      if (next_nextNode) {
+        container.insertBefore(target, next_nextNode);
+
+      } else {
+        container.appendChild(target);
+        console.log("append last");
+      }
+
+      const movedStep = steps.find((step) => step.pathId == pathId && step.order == targetStep.order + 1);
+
+      steps = steps.map((step) => {
+        if (step.id == movedStep.id) 
+          return {
+            ...step,
+            order: step.order - 1,
+            isEdited: true
+          };
+        else if (step.id === targetStep.id) 
+          return {
+            ...step,
+            order: step.order + 1,
+            isEdited: true
+          };
+        else 
+          return step;
+        }
+      );
+    }
+
+    function handleDeletePath(targetPathId) {
+      const main = document.querySelector(".main");
+      const target = main.querySelector(`.path_${targetPathId}`);
+
+      var optionElements = selectElement.getElementsByTagName("option");
+      var specificOptionIndex = Array
+        .from(selectElement.options)
+        .findIndex(function (option) {
+          return option.value === targetPathId;
+        });
+      var targetOption = selectElement.options[specificOptionIndex - 1];
+
+      main.removeChild(target);
+
+      if (main.childElementCount == 0) {
+        main.innerHTML = `
       <button type="button" onclick="handleAddPath()" class="add_new-btn">
       옆에 새로운 패스 추가하기
       </button>
       `;
+      }
+      deletedPaths.push(targetPathId);
+      paths = paths.filter((path) => path.id == targetPathId);
+      steps = steps.filter((step) => step.pathId !== targetPathId);
+
+      updateSelectOptions();
+
+      changeDisplay(targetOption.value);
+
     }
-    deletedPaths.push(targetPathId);
-    paths = paths.filter((path) => path.id == targetPathId);
-    steps = steps.filter((step) => step.pathId !== targetPathId);
+  </script>
 
-    updateSelectOptions();
+  <!-- form submit -->
+  <script>
+    function handleFormCancel() {
 
-    changeDisplay(targetOption.value);
-
-
-  }
-
-</script>
-
-
-
-<!-- form submit -->
-<script>
-  function handleFormCancel() {
-
-    // TODO 정말로 취소하시겠습닉까/??
-    window.location.href = "/post/list"
-  }
-  async function handleSubmit(e) {
-    e.preventDefault();
-    if(!titleInput.value || !descInput.value) return;
-
-
-    const formData = new FormData();
-    formData.append("thumbnail", imageInput.files[0]);
-    formData.append("paths", JSON.stringify(paths));
-    formData.append("steps", JSON.stringify(steps));
-    formData.append("deletedPaths",JSON.stringify(deletedPaths));
-    formData.append("deletedIds", JSON.stringify(deletedIds));
-    formData.append("title", titleInput.value);
-    formData.append("desc", descInput.value);
-    formData.append("review", reviewInput.value);
-    formData.append("category", categorySelect.value);
-    formData.append("deletedTag", JSON.stringify(deletedTag));
-    formData.append("addedTag",JSON.stringify(addedTag));
-    formData.append(
-      "mode",
-      main.classList.contains("column-mode") ? "col" : "row"
-    );
-
-    const response = await fetch(`/post/edit/${postData[0].pk}`, {
-      method: "POST",
-      body: formData,
-      headers: {
-        "X-CSRFToken": csrftoken,
-      },
-    });
-
-    console.log(await response.json());
-    if(response.status == 200) {
-      location.reload()
-      window.location.href = `/post/${postData[0].pk}`;
-
-    } else {
-      location.reload()
+      // TODO 정말로 취소하시겠습닉까/??
+      window.location.href = "/post/list"
     }
-  }
-  
-</script>
+    async function handleSubmit(e) {
+      e.preventDefault();
+      if (!titleInput.value || !descInput.value) 
+        return;
+      
+      const formData = new FormData();
+      formData.append("thumbnail", imageInput.files[0]);
+      formData.append("paths", JSON.stringify(paths));
+      formData.append("steps", JSON.stringify(steps));
+      formData.append("deletedPaths", JSON.stringify(deletedPaths));
+      formData.append("deletedIds", JSON.stringify(deletedIds));
+      formData.append("title", titleInput.value);
+      formData.append("desc", descInput.value);
+      formData.append("review", reviewInput.value);
+      formData.append("category", categorySelect.value);
+      formData.append("deletedTag", JSON.stringify(deletedTag));
+      formData.append("addedTag", JSON.stringify(addedTag));
+      formData.append(
+        "mode", main.classList.contains("column-mode")
+        ? "col"
+        : "row");
+
+      const response = await fetch(`/post/edit/${postData[0].pk}`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "X-CSRFToken": csrftoken
+        }
+      });
+
+      console.log(await response.json());
+      if (response.status == 200) {
+        location.reload()
+        window.location.href = `/post/${postData[0].pk}`;
+
+      } else {
+        location.reload()
+      }
+    }
+  </script>
 {% endblock %}
