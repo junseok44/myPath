@@ -55,7 +55,7 @@
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .fa-solid.fa-heart {
@@ -175,9 +175,15 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: white;
-  border: solid 1px --border-grey;
+  border: 1px solid var(--border-grey);
   border-radius: 5px;
   color: black;
+}
+
+.usercard__container.add {
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
 }
 
 .usercard__header {

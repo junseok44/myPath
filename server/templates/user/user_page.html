@@ -26,6 +26,18 @@
       <div class="usercard__header">좋아요 지수</div>
       <div class="usercard__body"></div>
     </div>
+    <div class="usercard__container add">
+      <!-- <div class="userPage__add-btn">
+        <i class="fa-solid fa-plus"></i>
+      </div> -->
+      <form class="userPage__add-form">
+        <h1>카드 추가</h1>
+        <input placeholder="나를 소개하는 제목을 입력해주세요!"/ >
+        <input placeholder="링크를 첨부해주세요!" />
+        <textarea placeholder="설명을 덧붙여주세요!"></textarea>
+        <button class="btn">확인</button>
+      </form>
+    </div>
   </div>
   <div class="post__title">{{user.username}}의 패스들</div>
   <div class="post__container">
@@ -56,21 +68,33 @@
   </div>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Handler when the DOM is fully loaded
+    const addBtn = document.querySelector(".userPage__add-btn");
+    const addForm = document.querySelector(".userPage__add-form");
+    addBtn.parentElement.onclick = () => {
+      addBtn.classList.toggle("hidden");
+      addForm.classList.toggle("hidden");
+    }
+
+    };
+  });
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="{% static 'library/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
 <script>
   $(".owl-carousel").owlCarousel({
     loop: true,
     margin: 10,
-
     responsiveClass: true,
+    nav: false,
     responsive: {
       0: {
         items: 1.15,
       },
       600: {
         items: 3,
-        nav: false,
       },
       1000: {
         items: 3.3,
