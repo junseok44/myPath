@@ -1,6 +1,9 @@
 #tagList {
   list-style: none;
   padding: 0;
+  max-width: 100%;
+  overflow-x: scroll;
+  display: flex;
 }
 
 #tagList li {
@@ -9,6 +12,7 @@
   background-color: #f0f0f0;
   padding: 5px 10px;
   border-radius: 20px;
+  white-space: nowrap;
 }
 
 #tagList li span {
@@ -68,4 +72,12 @@
 
 .new-comment-reply {
   width: 800px;
+}
+
+.main-container {
+  @media screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }

@@ -20,34 +20,32 @@ function addPathNode(prevPathId, id) {
   li = document.createElement("li");
   li.classList.add(`path`);
   li.classList.add(`path_${id}`);
-  if (isColumnMode){
+  if (isColumnMode) {
     li.innerHTML += `
+    <span class="path_intro">
     <input placeholder="패스 이름 입력..." type="text" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
-    <button type="button" class="btn" onclick="handleAddPath('${id}')">패스 +</button>
     <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
-
-    <div class="step_container ${
-      isColumnMode ? "" : " container_row-mode"
-    }">
+    </span>
+    <button type="button" class="btn path-add-btn" onclick="handleAddPath('${id}')">패스 +</button>
+    <div class="step_container ${isColumnMode ? "" : " container_row-mode"}">
             </div>
-    <button type="button" class="btn" onclick="handleAddStep('${id}')" class="item_add-btn">
+    <button type="button" class="btn step-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">
           스텝+
         </button>
     `;
-  }
-  else{
+  } else {
     li.innerHTML += `
     <input placeholder="패스 이름 입력..." type="text" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
-    <button type="button" class="btn" onclick="handleAddStep('${id}')" class="item_add-btn">스텝+</button>
+    <button type="button" class="btn path-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">스텝+</button>
     <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
 
     <div class="step_container ${
       isColumnMode ? "" : " container_row-mode"
     }"></div>
-    <button type="button" class="btn" onclick="handleAddPath('${id}')">패스+</button>
+    <button type="button" class="btn step-add-btn" onclick="handleAddPath('${id}')">패스+</button>
     `;
   }
-  
+
   if (prevPathId) {
     const prevPath = document.querySelector(`.path_${prevPathId}`);
     if (prevPath.nextSibling) {
@@ -71,6 +69,7 @@ function addStepNode(targetPathId, id) {
                 <div>
                   <p class="title"></p>
                   <p class="desc"></p>
+                  <div class="step-btn-container">
                   <button
                     class="btn edit-btn"
                     type="button"
@@ -79,7 +78,7 @@ function addStepNode(targetPathId, id) {
                   <button type="button" class="btn" onclick="moveItemUp('${id}')"><i class="fa-solid fa-angles-up"></i></button>
                   <button type="button" class="btn" onclick="moveItemDown('${id}')"><i class="fa-solid fa-angles-down"></i></button>
                   <button type="button" class="btn" onclick="handleDeleteItem('${id}')"><i class="fa-solid fa-trash"></i></button>
-                  
+                  </div>
                 </div>
                 <div class="modal__overlay hidden">
 
