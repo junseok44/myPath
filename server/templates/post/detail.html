@@ -231,7 +231,7 @@
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
         if (currentStepInfo) {
           if (image_url) {
-            stepInfo.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
+            stepNode.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
                       <hr>
                       <div class="step-detail">
                           <img src="../media/${step_parsed["fields"]["Image"]}" />
@@ -239,7 +239,7 @@
                           <hr>
                     </div>`;
           } else {
-            stepInfo.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
+            stepNode.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
                       <hr>
                       <div class="step-detail">
                           <p>${step_parsed["fields"]["desc"]}</p>
@@ -267,7 +267,7 @@
           }
           stepNode.insertBefore(stepInfo, comment_container)
         }
-
+        console.log(commentNode);
         commentNode.innerHTML = ``;
 
         step_comments_parsed.forEach((element) => {
