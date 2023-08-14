@@ -114,12 +114,28 @@
 }
 
 .detailPage .step__edit-modal .step__comment {
-  max-height: 100px;
+  position:absolute;
+  bottom:5rem;
+  left:1rem;
+  right:1rem;
+  max-height: 10rem;
   overflow: auto;
 }
 
 .detailPage .modal__overlay .new__comment {
   display: inherit;
+  position:absolute;
+  bottom:1rem;
+  left:1rem;
+  right:1rem;
+  max-height: 100px;
+  overflow: auto;
+}
+
+.detailPage .modal__overlay .done{
+  position:absolute;
+  bottom:1rem;
+  right:1rem;
 }
 
 .hidden {

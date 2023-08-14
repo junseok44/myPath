@@ -101,12 +101,15 @@
                     <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
                       <div class="step__edit-modal step__modal modal_{{step.id}}">
                         <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
-
-                        <div class="new__comment">
-                          <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
-                          <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
+                        <div class="step__comment">
+                          <div class="step_comment_{{step.id}}">
+                          </div>
                         </div>
-                        <button onclick="onToggleStepDetail('{{step.id}}')">확인</button>
+                        <div class="new__comment">
+                            <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
+                            <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
+                        </div>
+                        <button onclick="onToggleStepDetail('{{step.id}}')" class="btn done">확인</button>
                       </div>
                     </div>
                   </section>
@@ -229,9 +232,10 @@
         image_url = step_parsed["fields"]["Image"]
         // console.log(image_null==true)
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
+        const stepInfo = document.createElement("div")
         if (currentStepInfo) {
           if (image_url) {
-            stepNode.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
+            stepInfo.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
                       <hr>
                       <div class="step-detail">
                           <img src="../media/${step_parsed["fields"]["Image"]}" />
@@ -239,14 +243,14 @@
                           <hr>
                     </div>`;
           } else {
-            stepNode.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
+            stepInfo.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
                       <hr>
                       <div class="step-detail">
                           <p>${step_parsed["fields"]["desc"]}</p>
                       </div>`;
           }
         } else {
-          const stepInfo = document.createElement("div")
+          
           stepInfo
             .classList
             .add(`step-${step_parsed["pk"]}`)
