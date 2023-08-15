@@ -2,15 +2,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'reset.css' %}" />
-    <link rel="stylesheet" href="{% static 'index.css' %}" />
-    <link rel="stylesheet" href="{% static 'shared.css' %}" />
-    {% block stylesheet %} {% endblock %}
+    <link rel="stylesheet" href="{% static 'reset.css' %}"/>
+    <link rel="stylesheet" href="{% static 'index.css' %}"/>
+    <link rel="stylesheet" href="{% static 'shared.css' %}"/>
+    {% block stylesheet %}{% endblock %}
   </head>
+
   <body>
     <header>
       <a href="/">MYPATH</a>
@@ -21,37 +23,40 @@
       </span>
       <span>
         {% if user.is_authenticated %}
-        <span>{{user.username}} 님 안녕하세요!</span>
-        <button>
-          <a href="{% url 'user_logout' %}">logout</a>
-          <a href="{% url 'user_page' id=user.id %}">내 유저 페이지</a>
-          <a href="{% url 'my_page' %}">마이페이지</a>
-        </button>
+          <span>{{user.username}}
+            님 안녕하세요!</span>
+          <button>
+            <a href="{% url 'user_logout' %}">logout</a>
+            <a href="{% url 'user_page' id=user.id %}">내 유저 페이지</a>
+            <a href="{% url 'my_page' %}">마이페이지</a>
+          </button>
         {% else %}
-        <span>anonymous</span>
-        <button>
-          <a href="/user/login">로그인</a>
-          <a href="/user/signup">회원가입</a>
-        </button>
+          <span>anonymous</span>
+          <button>
+            <a href="/user/login">로그인</a>
+            <a href="/user/signup">회원가입</a>
+          </button>
         {% endif %}
       </span>
     </header>
     {% if messages %}
-    <div class="messages">
-      {% for message in messages %}
-      <div class="message {{ message.tags }}">{{ message }}</div>
-      {% endfor %}
-    </div>
-    {% endif %} 
-    <div class="container">
-      {% block content %} {% endblock %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="responsive-container">
+      {% block content %}{% endblock %}
     </div>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var messages = document.querySelector(".messages");
         if (messages) {
           setTimeout(function () {
-            messages.classList.add("show"); // Show the message
+            messages
+              .classList
+              .add("show"); // Show the message
             setTimeout(function () {
               messages.style.top = "-100%"; // Move the message back up
             }, 1000); // Wait for 3 seconds
@@ -61,8 +66,6 @@
     </script>
   </body>
 
-  <script
-    src="https://kit.fontawesome.com/6fbcf91afd.js"
-    crossorigin="anonymous"
-  ></script>
+  <script src="https://kit.fontawesome.com/6fbcf91afd.js" crossorigin="anonymous"></script>
+
 </html>

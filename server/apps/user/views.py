@@ -5,7 +5,18 @@ from .forms import CustomUserCreationForm
 from django.contrib import messages
 from apps.user.models import User
 from apps.post.models import Post, BookMarkTable, LikeTable
-# import request
+import requests
+import os
+from django.http import JsonResponse
+from urllib.parse import parse_qs
+from json.decoder import JSONDecodeError
+
+KAKAO_CLIENT_ID=os.environ.get("KAKAO_CLIENT_ID")
+KAKAO_REDIRECT_URL="http://localhost:8000/user/kakaoRedirect"
+
+GOOGLE_CLIENT_ID=os.environ.get("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET=os.environ.get("GOOGLE_CLIENT_SECRET")
+GOOGLE_CALLBACK_URL = "http://localhost:8000/user/googleRedirect"
 
 def user_main(request):  
     return render(request, 'user/login.html')
@@ -27,7 +38,11 @@ def user_login(request):
             messages.error(request, "실패한 로그인입니다!")
             return render(request, 'user/login.html', {'error': 'Invalid credentials.'})
     
-    return render(request, 'user/login.html')
+    ctx = {
+        "KAKAO_CLIENT_ID":KAKAO_CLIENT_ID,
+        "KAKAO_REDIRECT_URL":KAKAO_REDIRECT_URL,
+    }
+    return render(request, 'user/login.html', ctx)
 
 def user_signup(request):
     if request.user.is_authenticated:
@@ -83,8 +98,8 @@ def kakao_Auth_Redirect(request):
         }
         content = {
             "grant_type": "authorization_code",
-            "client_id": " ",
-            "redirect_uri": " ",
+            "client_id": KAKAO_CLIENT_ID,
+            "redirect_uri": KAKAO_REDIRECT_URL,
             "code": code,
         }
         token_res = requests.post("https://kauth.kakao.com/oauth/token", headers=headers, data=content)
@@ -104,13 +119,13 @@ def kakao_Auth_Redirect(request):
                 properties = profile_data.get('properties')
                 if properties and 'nickname' in properties:
                     username = properties['nickname']
-                    kakao_id = profile_data.get('id')
-
+                    kakao_id = str(profile_data.get('id'))
                     user, created = User.objects.get_or_create(kakaoId=kakao_id)
                     if created:
                         user.username = username
+                        user.loginId = kakao_id
+                        user.password = kakao_id
                         user.save()
-
                     auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     return redirect("/")
                 else:
@@ -123,6 +138,44 @@ def kakao_Auth_Redirect(request):
     return redirect("/")
 
 
+def google_Auth_Start(request):
+    scope = " https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid"
+    return redirect(f"https://accounts.google.com/o/oauth2/v2/auth?client_id={GOOGLE_CLIENT_ID}&response_type=code&redirect_uri={GOOGLE_CALLBACK_URL}&scope={scope}")
+
+
+# 현재 구글에서 닉네임이 안들어와서, 이메일의 일부를 수정했습니다.
+def google_Auth_Redirect(request):
+    code = request.GET.get("code")
+    token_req = requests.post(
+        f"https://oauth2.googleapis.com/token?client_id={GOOGLE_CLIENT_ID}&client_secret={GOOGLE_CLIENT_SECRET}&code={code}&grant_type=authorization_code&redirect_uri={GOOGLE_CALLBACK_URL}")
+    token_req_json = token_req.json()
+    error = token_req_json.get("error")
+    if error is not None:
+        raise JSONDecodeError(error)
+    access_token = token_req_json.get('access_token')
+    profile_req = requests.get(
+        f"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={access_token}")
+    profile_req_status = profile_req.status_code
+    if profile_req_status != 200:
+        messages.error(request, "로그인에 실패했습니다! 다시 시도해주세요.")
+        return redirect("/")
+    profile_req_json = profile_req.json()
+    userId = str(profile_req_json.get('user_id',''))
+    if not userId:
+        messages.error(request, "로그인에 실패했습니다! 다시 시도해주세요.")
+        return redirect("/")
+    email = profile_req_json['email']
+    username = email.split("@")[0]
+    if len(username) > 9:
+        username = username[:9] + "@"  # Take the first 10 characters
+    else:
+        username = username + "@"
+    hasUser = User.objects.filter(googleId=userId).exists()
+    if not hasUser:
+        user = User.objects.create(googleId=userId, username=username, loginId=userId, password=userId)
+    user = User.objects.get(googleId=userId)
+    auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')        
+    return redirect("/")
 
 def naver_Auth_Redirect(request):
     code = request.GET.get('code', None)

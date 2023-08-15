@@ -1,79 +1,75 @@
-.column-mode {
+.writePage > h1 {
+  margin-bottom: 1rem;
+}
+
+.writePage__review textarea {
+  margin-bottom: 1rem;
+}
+
+.writePage__intro {
   display: flex;
-  gap: 2rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
 }
 
-.container_row-mode {
+.writePage__titleBox {
   display: flex;
-  align-items: center;
-  gap: 2rem;
-
   @media screen and (max-width: 600px) {
-    display: block;
-  }
-}
-
-.path {
-  /* @media screen and (max-width: 600px) {
-    display: none;
-  } */
-  /* border:1px solid black; */
-}
-
-.step {
-  position: relative;
-  padding: 10px;
-  border: 1px solid black;
-  width: 15rem;
-}
-
-.step__edit-modal {
-  position: absolute;
-  top: 0px;
-  left: 100%;
-  padding: 2rem;
-  background-color: white;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  z-index: 10;
-  border: 1px solid black;
-  @media screen and (max-width: 600px) {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-
-.hidden {
-  display: none;
-}
-
-.pathSelect {
-  display: none;
-  @media screen and (max-width: 600px) {
-    display: block;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .modal__overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 2;
-  }
-
-  .modal__overlay::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
   }
 }
+
+.writePage__meta {
+  display: flex;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+}
+
+.writePage__tag {
+  /* padding-bottom: 1rem; */
+  display: flex;
+  flex: 1;
+}
+
+.writePage__desc {
+  margin-bottom: 1rem;
+}
+
+.writePage__controlBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mode-btn {
+  white-space: nowrap;
+}
+
+.writePage__thumbnail {
+  display: flex;
+}
+
+.writePage__main {
+  min-height: 30rem;
+}
+
+.labelfor {
+  font-size: 0.9rem;
+  margin-right: 0.4rem;
+  white-space: nowrap;
+}
+
+/* 반응형 라벨 다 없애기 */
+@media screen and (max-width: 450px) {
+  .writePage__intro .labelfor {
+    display: none;
+  }
+}
+
+/* 여기서부터 재사용 -> post/shared.css로 옮길 예정. */
