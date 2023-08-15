@@ -60,7 +60,7 @@
     </div>
     <hr />
 
-    <ul class="main-container col-mode writePage__main">
+    <ul class="main-container writePage__main">
       <button
         type="button"
         onclick="handleAddPath()"
@@ -150,7 +150,7 @@
   checkmode();
 
   function checkmode() {
-    if (main.classList.contains(".col-mode")) {
+    if (main.classList.contains("col-mode")) {
       modeBtn.innerText = "가로모드로 바꾸기";
       return "col";
     } else {
@@ -164,7 +164,7 @@
     for (let item of allContainer) {
       item.classList.toggle("container_row-mode");
     }
-    main.classList.toggle(".col-mode");
+    main.classList.toggle("col-mode");
     checkmode();
   }
 </script>
@@ -364,7 +364,7 @@
     formData.append("category", categorySelect.value);
     formData.append(
       "mode",
-      main.classList.contains(".col-mode") ? "col" : "row"
+      main.classList.contains("col-mode") ? "col" : "row"
     );
 
     // const main = document.querySelector(".main");

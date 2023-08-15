@@ -5,3 +5,8 @@
 .editPage__delete{
   text-align: right;
 }
+
+.step-content{
+  position:relative;
+}
+

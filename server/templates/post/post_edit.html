@@ -49,7 +49,7 @@
     </div>
     <hr/>
     
-    <ul class="main-container {{post.mode}}-mode writePage__main">
+    <ul class="main-container writePage__main">
       {% if paths.length == 0 %}
         <button type="button" onclick="handleAddPath()" class="add_new-btn">
           새로운 패스 추가하기
@@ -70,7 +70,7 @@
           <div class="step_container {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
             {% for step in path.steps %}
               <section class="step step_{{step.id}}">
-                <div>
+                <div class="step-content">
                   <p class="title">{{step.title}}</p>
                   <p class="desc">{{step.desc}}</p>
                   <div class="step-btn-container">

@@ -24,7 +24,7 @@ function addPathNode(prevPathId, id) {
     li.innerHTML += `
     <span class="path_intro">
     <input placeholder="패스 이름 입력..." type="text" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
-    <button type="button" class="btn path-add-btn" onclick="handleAddPath('${id}')">패스 +</button>
+    <button type="button" class="btn path-add-btn" onclick="handleAddPath('${id}')">패스+</button>
     <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
     </span>
     <div class="step_container ${isColumnMode ? "" : " container_row-mode"}">
@@ -68,7 +68,7 @@ function addStepNode(targetPathId, id) {
   section.classList.add(`step`);
   section.classList.add(`step_${id}`);
   section.innerHTML = `
-                <div>
+                <div class="step-content">
                   <p class="title"></p>
                   <p class="desc"></p>
                   <div class="step-btn-container">
