@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views 
-from .views import user_main, user_login, user_signup, view_user_main, my_page, user_page, user_logout, kakao_Auth_Redirect, naver_Auth_Redirect
+from .views import *
 
 urlpatterns = [
     path('main/', user_main, name='user_main'),
@@ -12,7 +12,8 @@ urlpatterns = [
     path('',view_user_main,name='user_main'),
     path('my_page', my_page, name='my_page'),
     path('user_page/<uuid:id>', user_page, name='user_page'),
-    path('kakaoRedirect/', kakao_Auth_Redirect, name='kakao_redirect'),
+    path('googleLoginStart', google_Auth_Start, name="google_start"),
+    path('googleRedirect/', google_Auth_Redirect, name="google_redirect"),
     path('kakaoRedirect/', kakao_Auth_Redirect, name='kakao_redirect'),
 ]
 
