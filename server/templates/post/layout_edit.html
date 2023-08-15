@@ -1,7 +1,13 @@
 <div class="editPage">
+    <div class="editPage__delete">
+        <button class="btn writePage__btn"></button>
+        <!-- 포스트 삭제 버튼 -->
+    </div>
     <!-- form -->
     <div class="writePage__intro">
-        <!-- 제목 -->
+        <p class="writePage__title">
+            <!-- 제목 -->
+        </p>
     </div>
     <div class="writePage__meta">
         <span class="labelfor">카테고리</span>
@@ -19,14 +25,14 @@
         <!-- 포스트 설명 -->
     </div>
     <div class="writePage__controlBox">
-        <div class="pathSelect">
+        <div class="editPage__pathSelect">
             <!-- 패스 선택 -->
         </div>
     </div>
     <hr/>
-    <button class="btn writePage__btn"></button>
-    <!-- 포스트 삭제 버튼 -->
-    <ul class="main {% if post.mode == 'col' %} column-mode {% else %} {% endif % }writePage__main">
+    
+    
+    <ul class="main-container {{post.mode}}-mode writePage__main">
         <button class="add_new-btn">
             <!-- 새로운 패스 추가 버튼 -->
         </button>

@@ -84,7 +84,7 @@
       <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a>
     </div>
     <hr />
-    <ul class="main {{post.mode}} detailPage__main">
+    <ul class="main-container {{post.mode}}-mode detailPage__main">
       {% for path in paths %}
       <li class="path path_{{path.id}}">
         <div class="path_title">{{path.title}}</div>

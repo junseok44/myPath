@@ -163,7 +163,7 @@
 }
 
 .pathSelect {
-  display: none;
+  /* display: none; */
   @media screen and (max-width: 600px) {
     display: block;
   }
@@ -231,7 +231,7 @@
   }
 }
 
-.column-mode {
+.col-mode {
   @media screen and (min-width: 600px) {
     display: flex;
     gap: 4rem;

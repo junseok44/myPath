@@ -10,12 +10,12 @@ function handleChangePathTitle(e, pathId) {
 }
 
 function addPathNode(prevPathId, id) {
-  const main = document.querySelector(".main");
+  const main = document.querySelector(".main-container");
   const NewBtn = document.querySelector(".add_new-btn");
   if (NewBtn) {
     NewBtn.parentNode.removeChild(NewBtn);
   }
-  let isColumnMode = main.classList.contains("column-mode");
+  let isColumnMode = main.classList.contains(".col-mode");
 
   li = document.createElement("li");
   li.classList.add(`path`);

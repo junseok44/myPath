@@ -3,11 +3,15 @@
 {% block content %}
 
 <div class="editPage">
-  <h1>edit</h1>
+  <!-- <h1>edit</h1> -->
+  <div class="editPage__delete">
+    <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn">이 포스트 삭제하기</button>
+  </div>
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
-     
-      <input type="text" placeholder="title" name="title" id="titleInput" value="{{post.title}}"/>
+      <p class="writePage__title">
+        <input type="text" placeholder="title" name="title" id="titleInput" value="{{post.title}}"/>
+      </p>
       <div class="writePage__meta">
         <span class="labelfor">카테고리</span>
         <select id="categorySelect" name="categorySelect">
@@ -24,7 +28,6 @@
             <span class="close-button" onclick="deleteTag('{{tagtable.tag.name}}')">
               x
             </span>
-
           </li>
         {% endfor %}
       </ul>
@@ -32,30 +35,27 @@
         <span class="labelfor">썸네일 수정</span>
         <input type="file" id="imageInput"/>
       </div>
+     
     </div>
-    
     <div class="writePage__desc">
       <textarea type="text" placeholder="설명" name="desc" id="descInput">
         {{post.desc}}</textarea>
     </div>
     <div class="writePage__controlBox">
-
-      <div class="pathSelect">
+      <div class="editPage__pathSelect">
         <span>패스 선택</span>
         <select id="pathSelect" class="select"></select>
       </div>
     </div>
     <hr/>
-    <div class="intro-writer">
-      <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn">이 포스트 삭제하기</button>
-    </div>
-    <hr/>
-    <ul class="main {% if post.mode == 'col' %} column-mode {% else %} {% endif % }writePage__main">
+    
+    <ul class="main-container {{post.mode}}-mode writePage__main">
       {% if paths.length == 0 %}
         <button type="button" onclick="handleAddPath()" class="add_new-btn">
           새로운 패스 추가하기
         </button>
       {% endif %}
+      
       {% for path in paths %}
         <li class="path path_{{path.id}}">
           <span class="path_intro">
@@ -67,7 +67,7 @@
               <i class="fa-solid fa-trash"></i>
             </button>
           </span>
-          <div class="step_container   {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
+          <div class="step_container {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
             {% for step in path.steps %}
               <section class="step step_{{step.id}}">
                 <div>
@@ -114,13 +114,12 @@
           </button>
         </li>
       {% endfor %}
-    </ul>
+    </ul> 
     <hr/>
     <h5 class="detailPage__subtitle">후기</h5>
     <div class="writePage__review">
       <textarea placeholder="후기" id="reviewInput">{{post.review}}</textarea>
     </div>
-
     <button type="button" onclick="handleFormCancel()">취소하기</button>
     <button type="submit">변경하기</button>
   </form>
@@ -226,7 +225,7 @@
     let deletedIds = [];
     let deletedPaths = [];
 
-    const main = document.querySelector(".main");
+    const main = document.querySelector(".main-container");
     const descInput = document.querySelector("#descInput");
     const categorySelect = document.querySelector("#categorySelect");
 
@@ -262,6 +261,8 @@
       // console.log(deletedTag)
       // console.log(addedTag)
     }
+
+    updateSelectOptions();
 
     function handleAddPath(prevPathId) {
 
@@ -399,7 +400,7 @@
     }
 
     function handleDeletePath(targetPathId) {
-      const main = document.querySelector(".main");
+      const main = document.querySelector(".main-container");
       const target = main.querySelector(`.path_${targetPathId}`);
 
       var optionElements = selectElement.getElementsByTagName("option");
@@ -477,4 +478,5 @@
       }
     }
   </script>
+
 {% endblock %}
