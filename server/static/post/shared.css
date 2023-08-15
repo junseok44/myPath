@@ -1,3 +1,5 @@
+/* 제작 & 편집 & 디테일의 태그 디자인 */
+
 #tagList {
   list-style: none;
   padding: 0;
@@ -20,6 +22,8 @@
   margin-left: 5px;
   font-weight: bold;
 }
+
+/* 카테고리 페이지의 페이지네이션 */
 
 .pagination {
   position: absolute;
@@ -50,10 +54,6 @@
   margin-bottom: 0.5rem;
 }
 
-.path-title {
-  font-size: 1.5rem;
-}
-
 .step {
   min-height: 200px;
   position: relative;
@@ -74,6 +74,7 @@
   width: 800px;
 }
 
+/* 메인부분 모바일로 한줄 배열될때 중앙으로 가도록. */
 .main-container {
   @media screen and (max-width: 600px) {
     display: flex;

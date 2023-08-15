@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 
+<div class="editPage">
   <h1>edit</h1>
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
@@ -125,6 +126,7 @@
     <button type="button" onclick="handleFormCancel()">취소하기</button>
     <button type="submit">변경하기</button>
   </form>
+</div>
   <!-- uuid -->
   <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
 

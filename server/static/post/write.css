@@ -2,18 +2,7 @@
   margin-bottom: 1rem;
 }
 
-.writePage__btn {
-  height: fit-content;
-}
-
-.writePage__desc textarea {
-  min-width: 70%;
-  min-height: 5rem;
-}
-
 .writePage__review textarea {
-  min-width: 70%;
-  min-height: 5rem;
   margin-bottom: 1rem;
 }
 
@@ -28,24 +17,8 @@
   }
 }
 
-.writePage__intro input {
-  min-height: 1.5rem;
-  gap: 1rem;
-
-  @media screen and (max-width: 600px) {
-    display: block;
-  }
-}
-
-#titleInput {
-  @media screen and (max-width: 600px) {
-    width: 100%;
-  }
-}
-
-.flexBox {
+.writePage__titleBox {
   display: flex;
-
   @media screen and (max-width: 600px) {
     width: 100%;
   }
@@ -58,24 +31,14 @@
   }
 }
 
-#tagInput {
-  @media screen and (max-width: 600px) {
-    flex: 1;
-  }
+.writePage__tag {
+  /* padding-bottom: 1rem; */
+  display: flex;
+  flex: 1;
 }
 
 .writePage__desc {
-  padding-bottom: 1rem;
-}
-
-#reviewInput,
-#descInput {
-  width: 100%;
-  max-height: 10rem;
-
-  @media screen and (max-width: 600px) {
-    max-height: 3rem;
-  }
+  margin-bottom: 1rem;
 }
 
 .writePage__controlBox {
@@ -88,53 +51,53 @@
   white-space: nowrap;
 }
 
-#categorySelect {
-  margin-right: 0.5rem;
-}
-
-.writePage__tag {
-  /* padding-bottom: 1rem; */
-  display: flex;
-  flex: 1;
-}
-
-.column-mode {
-  @media screen and (min-width: 600px) {
-    display: flex;
-    gap: 4rem;
-    align-items: flex-start;
-  }
-}
-
 .writePage__thumbnail {
   display: flex;
-}
-
-.container_row-mode {
-  display: flex;
-  align-items: flex-start;
-
-  @media screen and (max-width: 600px) {
-    flex-direction: column;
-  }
-  @media screen and (min-width: 601px) {
-    display: inline-flex;
-  }
-}
-
-.main-container {
 }
 
 .writePage__main {
   min-height: 30rem;
 }
 
-.step {
-  position: relative;
-  padding: 10px;
-  min-width: 15rem;
-  width: fit-content;
-  text-align: center;
+.labelfor {
+  font-size: 0.9rem;
+  margin-right: 0.4rem;
+  white-space: nowrap;
+}
+
+/* 반응형 라벨 다 없애기 */
+@media screen and (max-width: 450px) {
+  .writePage__intro .labelfor {
+    display: none;
+  }
+}
+
+/* 여기서부터 재사용 -> post/shared.css로 옮길 예정. */
+
+#reviewInput,
+#descInput {
+  width: 100%;
+  min-height: 7rem;
+
+  @media screen and (max-width: 600px) {
+    max-height: 5rem;
+  }
+}
+
+#titleInput {
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+}
+
+#categorySelect {
+  margin-right: 0.5rem;
+}
+
+#tagInput {
+  @media screen and (max-width: 600px) {
+    flex: 1;
+  }
 }
 
 .path {
@@ -145,49 +108,38 @@
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0.3rem;
-  max-width: 15rem;
 }
 
 .path_intro > input {
   flex: 1;
 }
 
-/* .path-add-btn {
-  position: absolute;
-  top: 103%;
-}
-
-.step-add-btn {
-  @media screen and (min-width: 601px) {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-}
-
-.column-mode .path-add-btn {
-  position: absolute;
-  left: 103%;
-  top: 0;
-}
-
-.column-mode .step-add-btn {
-  position: relative;
-  left: 40%;
-  top: 5%;
-  transform: none;
-} */
-
 .path-add-btn,
 .step-add-btn {
   white-space: nowrap;
 }
 
-.step-btn-container {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
+.post-input {
+  width: 700px;
+  height: 40px;
+  padding: 10px;
+  border: solid 1px var(--border-grey);
+  border-radius: 5px;
+}
+
+.column-mode {
+  @media screen and (min-width: 600px) {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+  }
+}
+
+.pathSelect {
+  display: none;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
 }
 
 .step__edit-modal {
@@ -231,38 +183,19 @@
   }
 }
 
-.step__edit-modal .desc {
-  min-height: 3rem;
-}
+.container_row-mode {
+  display: flex;
+  align-items: flex-start;
 
-.hidden {
-  display: none;
-}
-
-.pathSelect {
-  display: none;
   @media screen and (max-width: 600px) {
-    display: block;
+    flex-direction: column;
+  }
+  @media screen and (min-width: 601px) {
+    display: inline-flex;
   }
 }
 
-.labelfor {
-  font-size: 0.9rem;
-  margin-right: 0.4rem;
-  white-space: nowrap;
-}
-
-@media screen and (max-width: 450px) {
-  .writePage__intro .labelfor {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 450px) {
-  .writePage__tag input {
-    width: 70%;
-  }
-}
+/* 모달 반응형 주기 위함. */
 @media screen and (max-width: 600px) {
   .modal__overlay {
     position: fixed;
@@ -284,22 +217,14 @@
   }
 }
 
-.post-input {
-  width: 700px;
-  height: 40px;
-  padding: 10px;
-  border: solid 1px var(--border-grey);
-  border-radius: 5px;
+.step-btn-container {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-#descInput,
-#reviewInput {
-  height: 200px;
-}
-
-.write-title {
-  font-size: 2rem;
-}
+/* 버튼 관련 컴포넌트 */
 
 .upload-btn {
   width: 100px;
