@@ -91,10 +91,9 @@
 .nav-tabs {
   height: 60px;
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   flex-direction: row;
   align-items: center;
-  background-color: #3c763d;
   border: solid 1px --border-grey;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -123,6 +122,10 @@
   background: var(--primary-color);
   bottom: 0;
   left: calc(50% - 20px);
+}
+
+.tab-pane {
+  margin-bottom: 2rem;
 }
 
 .post__title,
@@ -209,6 +212,13 @@
 
 .usercard__header {
   color: var(--secondary-text-color);
+}
+
+.usercard__header-controls {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
 }
 
 .usercard__body {

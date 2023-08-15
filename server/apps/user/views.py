@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth import login, authenticate
 from .forms import CustomUserCreationForm
 from django.contrib import messages
-from apps.user.models import User
+from apps.user.models import User, UserCard
 from apps.post.models import Post, BookMarkTable, LikeTable
 import requests
 import os
@@ -63,23 +63,25 @@ def user_signup(request):
         form = CustomUserCreationForm()
         return render(request, 'user/signup.html', {'form': form})
 
-
 def user_logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
         return redirect("/")
 
-
-def view_user_main(requests):
-    return render(requests, "user/main.html")
-
 def my_page(requests):
+
+    if not requests.user.is_authenticated:
+        return redirect("/")
+
     user_id = requests.user.id
     my_posts = Post.objects.filter(user=user_id).values()
     my_likes = LikeTable.objects.filter(user=user_id).select_related('post')
     my_bookmarks = BookMarkTable.objects.filter(user=user_id).select_related('post')
+    user = User.objects.get(id=user_id)
+    posts_count = Post.objects.filter(user=user_id).count()
+    userCards = UserCard.objects.filter(writer=requests.user)
 
-    ctx = {'my_posts': my_posts, 'my_likes': my_likes, 'my_bookmarks': my_bookmarks}
+    ctx = {'my_posts': my_posts, 'my_likes': my_likes, 'my_bookmarks': my_bookmarks,'user': user, "posts_count":posts_count, "userCards": userCards}
     return render(requests, "user/my_page.html", ctx)
 
 def user_page(requests, id):
@@ -89,6 +91,62 @@ def user_page(requests, id):
 
     ctx = {'user': user, 'posts': posts, 'posts_count': posts_count, "id": id} 
     return render(requests, "user/user_page.html", ctx)
+
+
+def user_card_add(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        title = request.POST.get("title")
+        link = request.POST.get("link")
+        desc = request.POST.get("desc")
+
+        if len(title) > 20:
+            messages.error(request,"소개는 20자 이내로 입력해주세요!")
+            return redirect("/user/my_page")
+        if len(title) > 100:
+            messages.error(request,"설명은 100자 이내로 입력해주세요!")
+            return redirect("/user/my_page")
+
+        UserCard.objects.create(title=title,link=link,desc=desc, writer=request.user)
+        messages.success(request, "유저카드를 추가했어요!")
+        return redirect("/user/my_page")
+
+    return redirect("/user/my_page")
+
+
+def user_card_edit(request,id):
+    card = get_object_or_404(UserCard, id=id)
+
+    if request.method == "POST":
+        title = request.POST.get("title")
+        link = request.POST.get("link")
+        desc = request.POST.get("desc")
+
+        if len(title) > 20:
+            messages.error(request, "소개는 20자 이내로 입력해주세요!")
+            return redirect("/user/my_page")
+        if len(desc) > 100:
+            messages.error(request, "설명은 100자 이내로 입력해주세요!")
+            return redirect("/user/my_page")
+
+        card.title = title
+        card.link = link
+        card.desc = desc
+        card.save()
+
+        messages.success(request, "유저카드를 수정했어요!")
+        return redirect("/user/my_page")
+
+    return redirect("/user/my_page")
+
+def user_card_delete(request, id):
+    card = get_object_or_404(UserCard, id=id)
+
+    if request.method == "POST":
+        card.delete()
+        messages.success(request, "유저카드를 삭제했어요!")
+        return redirect("/user/my_page")
+
+    return redirect("/user/my_page")
 
 def kakao_Auth_Redirect(request):
     code = request.GET.get('code', None)
