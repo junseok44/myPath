@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
+from django.db import transaction
+
 from .models import *
 from apps.comment.models import *
 from django.core.serializers import serialize
@@ -87,6 +89,7 @@ def get_image_from_dataUrl(dataUrl):
 
     return image_data
 
+@transaction.atomic
 def view_post_write(request):
     if request.method == "POST":
         try:
@@ -204,6 +207,8 @@ def view_post_list(request):
 
 def view_post_delete(request, id):
     try:
+        print("삭제")
+        print(id)
         deletedPost = Post.objects.get(pk=id)
         deletedPost.delete()
         messages.success(request, '성공적으로 삭제되었습니다.')
@@ -212,6 +217,7 @@ def view_post_delete(request, id):
         messages.error(request, 'delete failed')
         return JsonResponse({"msg":"error"},status = 404)
 
+@transaction.atomic
 def view_post_edit(request, id):
 
     if request.method == "POST":
@@ -234,7 +240,7 @@ def view_post_edit(request, id):
 
             # data = json.loads(request.body)
             post = get_object_or_404(Post, pk=id)
-
+            print(post)
             # 1. 삭제된 path를 삭제한다.
             for deletedId in data['deletedPaths']:
                 matching_objects = Path.objects.filter(pk=deletedId)
@@ -292,6 +298,7 @@ def view_post_edit(request, id):
             #update
             # 기존 path 중에서 수정된것을 반영한다.
             for path in [path for path in data['paths'] if path['isEdited'] == True and path['isNew'] == False]:
+                print(path)
                 matching_objects = Path.objects.filter(pk=path['id'])
                 if matching_objects.exists():
                     for obj in matching_objects:
