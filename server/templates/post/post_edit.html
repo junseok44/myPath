@@ -35,24 +35,22 @@
     </div>
     
     <div class="writePage__desc">
-      <textarea type="text" placeholder="설명" name="dsec" id="descInput">
+      <textarea type="text" placeholder="설명" name="desc" id="descInput">
         {{post.desc}}</textarea>
     </div>
     <div class="writePage__controlBox">
 
-    <div class="pathSelect">
-      <span>패스 선택</span>
-      <select id="pathSelect" class="select"></select>
+      <div class="pathSelect">
+        <span>패스 선택</span>
+        <select id="pathSelect" class="select"></select>
+      </div>
     </div>
     <hr/>
     <div class="intro-writer">
       <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn">이 포스트 삭제하기</button>
     </div>
-  </div>
-  <hr/>
-    <ul class="main
-  {% if post.mode == 'col' %} column-mode {% else %} {% endif %}
-  writePage__main">
+    <hr/>
+    <ul class="main {% if post.mode == 'col' %} column-mode {% else %} {% endif % }writePage__main">
       {% if paths.length == 0 %}
         <button type="button" onclick="handleAddPath()" class="add_new-btn">
           새로운 패스 추가하기

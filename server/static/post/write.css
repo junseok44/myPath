@@ -17,7 +17,7 @@
   }
 }
 
-.writePage__titleBox {
+.writePage__title {
   display: flex;
   @media screen and (max-width: 600px) {
     width: 100%;
