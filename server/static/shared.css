@@ -229,25 +229,33 @@
 }
 
 .responsive-container {
-  max-width: 100%;
-  margin: 0 auto;
-  box-sizing: border-box;
+  width: 90%; /* Default width for 450px or less */
+  max-width: 1320px; /* Maximum width for 1400px or more */
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 3.5rem;
 }
 
-@media (max-width: 450px) {
+@media (min-width: 450px) {
   .responsive-container {
-    width: 90%;
+    width: 430px; /* Width for 450px to 768px */
   }
 }
 
-@media (min-width: 451px) and (max-width: 800px) {
+@media (min-width: 768px) {
   .responsive-container {
-    width: 600px;
+    width: 720px; /* Width for 768px to 992px */
   }
 }
 
-@media (min-width: 801px) {
+@media (min-width: 992px) {
   .responsive-container {
-    width: 1440px;
+    width: 960px; /* Width for 992px to 1200px */
+  }
+}
+
+@media (min-width: 1200px) {
+  .responsive-container {
+    width: 1140px; /* Width for 1200px to 1400px */
   }
 }
