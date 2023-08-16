@@ -94,23 +94,23 @@
   /* position: absolute; */
 }
 
-.row .modal__overlay{
+.row .modal__overlay {
   position: absolute;
   top: 15rem;
   left: 0px;
-  right:0px;
-  height:fit-content;
-  
+  right: 0px;
+  height: fit-content;
+
   /* height:30rem; */
   z-index: 1000;
 }
 
-.row .step__edit-modal{
-  position:absolute;
+.row .step__edit-modal {
+  position: absolute;
   /* top: 15rem; */
   left: 0px;
-  right:0px;
-  height:fit-content;
+  right: 0px;
+  height: fit-content;
 }
 
 .detailPage .step__edit-modal .step__comment {
@@ -122,9 +122,9 @@
   display: inherit;
 }
 
-.hidden {
+/* .hidden {
   display: none;
-}
+} */
 
 .detailPage__review-title {
   @media screen and (max-width: 450px) {

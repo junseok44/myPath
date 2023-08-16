@@ -56,21 +56,33 @@
   </div>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Handler when the DOM is fully loaded
+    const addBtn = document.querySelector(".userPage__add-btn");
+    const addForm = document.querySelector(".userPage__add-form");
+    addBtn.parentElement.onclick = () => {
+      addBtn.classList.toggle("hidden");
+      addForm.classList.toggle("hidden");
+    }
+
+    };
+  });
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="{% static 'library/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
 <script>
   $(".owl-carousel").owlCarousel({
     loop: true,
     margin: 10,
-
     responsiveClass: true,
+    nav: false,
     responsive: {
       0: {
         items: 1.15,
       },
       600: {
         items: 3,
-        nav: false,
       },
       1000: {
         items: 3.3,

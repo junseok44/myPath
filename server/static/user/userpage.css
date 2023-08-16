@@ -2,21 +2,38 @@
   margin-bottom: 2rem;
 }
 
-/* .userPage {
+.userPage__add-btn {
+  z-index: 10;
+}
+
+#userPage__add-form {
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 1rem;
 }
 
-.userPage__post-container {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+#userPage__add-form textarea {
+  flex: 1;
+}
 
-  @media screen and (max-width: 800px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media screen and (max-width: 450px) {
-    grid-template-columns: 1fr;
-  }
+/* .userPage__delete-form {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
 } */
+
+.userPage__cardForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+*/ .userPage__cardForm.hide {
+  display: none;
+}
+
+.btn-unset {
+  all: unset;
+  cursor: pointer;
+}
