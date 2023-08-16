@@ -142,6 +142,8 @@
       <h5 class="detailPage__subtitle">댓글</h5>
       <div class="comment-container post_{{post.id}}">
         {% for post_comment in post_comments%}
+        {% if post_comment.parentComment is None %}
+
         <div class="post_comment_{{post_comment.id}} comment">
           <p class="comment_writer">
             {{post_comment.writer}}
@@ -178,6 +180,7 @@
             </form>
           </div>
         </div>
+        {% endif %}
         {% endfor %}
         <form action="{%url 'post:post_create_comment' post.pk%}" method="POST">
           {%csrf_token%}
