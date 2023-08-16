@@ -33,9 +33,9 @@
           <i class="fa-solid fa-link"></i>
         </a>
         {% endif %}
-        <button class="btn-unset" onclick="toggleEditForm('{{card.id}}')">
+        <!-- <button class="btn-unset" onclick="toggleEditForm('{{card.id}}')">
           <i class="fa-solid fa-pen"></i>
-        </button>
+        </button> -->
       <form method="POST" action='{% url 'user_card_delete' id=card.id %}' class="userPage__delete-form">
       {% csrf_token %}
       <button class="btn-unset" type="submit">
