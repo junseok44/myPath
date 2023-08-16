@@ -15,7 +15,7 @@ function addPathNode(prevPathId, id) {
   if (NewBtn) {
     NewBtn.parentNode.removeChild(NewBtn);
   }
-  let isColumnMode = main.classList.contains(".col-mode");
+  let isColumnMode = main.classList.contains("col-mode");
 
   li = document.createElement("li");
   li.classList.add(`path`);
@@ -69,14 +69,10 @@ function addStepNode(targetPathId, id) {
   section.classList.add(`step_${id}`);
   section.innerHTML = `
                 <div class="step-content">
-                  <p class="title"></p>
-                  <p class="desc"></p>
+                  <input onchange="handleChangeStepTitle('${id}')" type="text" class="title" placeholder="제목을 입력하세요" / >
+                  <textarea onchange="handleChangeStepDesc('${id}')" class="desc" placeholder="내용을 입력하세요" ></textarea>
+                  <input type="file" class="imageInput" onchange="handleChangeStepImage('${id}')" />
                   <div class="step-btn-container">
-                  <button
-                    class="btn edit-btn"
-                    type="button"
-                    onclick="handleToggleModal('${id}')"
-                  ><i class="fa-solid fa-pen-to-square"></i></button>
                   <button type="button" class="btn" onclick="moveItemUp('${id}')"><i class="fa-solid fa-angles-up"></i></button>
                   <button type="button" class="btn" onclick="moveItemDown('${id}')"><i class="fa-solid fa-angles-down"></i></button>
                   <button type="button" class="btn" onclick="handleDeleteItem('${id}')"><i class="fa-solid fa-trash"></i></button>
