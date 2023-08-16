@@ -17,7 +17,11 @@
       </div>
       <div class="writePage__meta">
         <label class="labelfor">카테고리</label>
-        <select class="writePage-input" id="categorySelect" name="categorySelect">
+        <select
+          class="writePage-input"
+          id="categorySelect"
+          name="categorySelect"
+        >
           {% for cat in categories %}
           <option value="{{cat.name}}">{{cat.name}}</option>
           {% endfor %}
@@ -34,9 +38,14 @@
 
       <div class="writePage__thumbnail upload-file">
         <span class="labelfor">썸네일</span>
-        <input class="upload-name" value="첨부파일" placeholder="첨부파일" disabled="disabled">
-        <label for="imageInput">파일 업로드</label> 
-        <input type="file" class="upload-hidden" id="imageInput">
+        <input
+          class="upload-name"
+          value="첨부파일"
+          placeholder="첨부파일"
+          disabled="disabled"
+        />
+        <label for="imageInput">파일 업로드</label>
+        <input type="file" class="upload-hidden" id="imageInput" />
       </div>
     </div>
     <div class="writePage__desc">
@@ -46,7 +55,8 @@
         placeholder="포스트 설명"
         name="desc"
         id="descInput"
-        required="required">
+        required="required"
+      >
       </textarea>
     </div>
     <div class="writePage__controlBox">
@@ -63,7 +73,6 @@
       </button>
     </div>
     <hr />
-
     <ul class="main-container writePage__main">
       <button
         type="button"
@@ -74,7 +83,6 @@
       </button>
     </ul>
     <hr />
-
     <div class="writePage__review">
       <textarea
         class="writePage-input"
@@ -347,6 +355,46 @@
         };
       else return step;
     });
+  }
+
+  function handleChangeStepTitle(stepId) {
+    const stepNode = document.querySelector(`.step_${stepId}`);
+    const titleInput = stepNode.querySelector(".title");
+
+    const step = steps.find((step) => step.id == stepId);
+    step.title = titleInput.value;
+    step.isEdited = true;
+
+    console.log(step);
+  }
+
+  function handleChangeStepDesc(stepId) {
+    const stepNode = document.querySelector(`.step_${stepId}`);
+    const descInput = stepNode.querySelector(".desc");
+
+    const step = steps.find((step) => step.id == stepId);
+    step.desc = descInput.value;
+    step.isEdited = true;
+
+    console.log(step);
+  }
+
+  function handleChangeStepImage(stepId) {
+    const stepNode = document.querySelector(`.step_${stepId}`);
+    const imageInput = stepNode.querySelector(".imageInput");
+    const imageFile = imageInput.files[0];
+    const step = steps.find((step) => step.id == stepId);
+
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        imageData = event.target.result;
+        step.image = imageData;
+      };
+      reader.readAsDataURL(imageFile);
+    }
+    step.isEdited = true;
+    console.log(step);
   }
 
   async function handleSubmit(e) {
