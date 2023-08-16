@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% load my_filters %} 
+{% block content %}
 <div>
   {% block stylesheet %}
   <link
@@ -56,7 +57,7 @@
       </div>
       <div class="usercard__header">
         {% if card.link %}
-        <a href='{{card.link}}' target="blank" class="auth-link">
+        <a href='{{card.link|add_protocol}}' target="blank" class="auth-link">
           {{card.title}}
         </a>
         {% else %}
@@ -71,7 +72,7 @@
         <input
           value="{{card.link}}"
           name="link"
-          placeholder="관련 링크가 있나요? ex) 블로그 링크, SNS 링크"
+          placeholder="관련 링크가 있나요?,,블로그 링크, SNS 링크 등"
         />
         <textarea
           value="{{card.desc}}"
