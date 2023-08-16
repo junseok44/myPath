@@ -28,3 +28,26 @@
 .auth__label {
   margin-bottom: 0.3rem;
 }
+
+.auth-link {
+  color: var(--primary-color);
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.login h2 {
+  font-size: 30px;
+}
+
+.login-input {
+  width: 200px;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+}
+
+#login-btn, #signup-btn {
+  width: 200px;
+}
+

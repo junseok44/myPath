@@ -7,16 +7,32 @@
   margin-bottom: 1rem;
 }
 
+.datailPage__category {
+  color: var(--primary-color);
+  font-weight: 600%;
+  margin-bottom: 1rem;
+}
+
 .detailPage__title {
   display: flex;
+  margin-right: 0.5rem;
+  margin-bottom: 2rem;
 }
+
 .detailPage__title h2 {
+  font-size: 2.5rem;
   margin-right: 1rem;
+}
+
+.detailPage__action-btn {
+  display: flex;
+  align-items: flex-end;
+  margin-right: 0.2rem;
 }
 
 .detailPage__meta {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   margin-bottom: 1rem;
 }
 
@@ -197,6 +213,7 @@
 
 .detailPage .review-container {
   border: 1px solid var(--border-grey);
+  border-radius: 5px;
   padding: 10px;
 }
 
@@ -243,9 +260,10 @@
 }
 
 .content-wrapper {
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  box-sizing: border-box; /* Include padding and border in the height calculation */
   @media screen and (max-width: 600px) {
     max-height: 0;
   }

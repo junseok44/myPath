@@ -12,9 +12,24 @@
   --secondary-text-color: rgb(120, 120, 120);
 }
 
-* {
+*{
   box-sizing: border-box;
   font-family: "SUITE-Regular", sans-serif;
+}
+
+/* 임시 폰트 강제 적용 */
+div, p, form, label, input, select, h1, h2, h3 {
+  font-family: "SUITE-Regular", sans-serif !important;
+}
+
+.container {
+  padding: 0 150px;
+}
+
+@media (max-width: 450px) {
+  .container {
+    padding: 0;
+  }
 }
 
 .messages {

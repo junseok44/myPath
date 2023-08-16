@@ -3,9 +3,11 @@
 {% block content %}
   <div class="detailPage">
     <div class="detailPage__intro">
+      
       <div class="detailPage__title">
+        
         <h2>{{post.title}}</h2>
-        <span class="detailPage__action-btn">
+        <span class="detailPage__action-btn" id="detailPage-likeBtn">
           {% if user.is_authenticated %}
           {% if post.isLiked %}
           <div onclick="likeToggle('{{post.id}}')">
@@ -21,7 +23,7 @@
           {% endif %}
           <span class="post-likes">{{post.like_table.count}}</span>
         </span>
-        <span class="detailPage__action-btn">
+        <span class="detailPage__action-btn" id="detailPage-bookmarkBtn">
           {% if user.is_authenticated %}
           {% if post.isBookMarked %}
           <div onclick="bookMarkToggle('{{post.id}}')">
@@ -39,7 +41,7 @@
         </span>
       </div>
       <div class="detailPage__meta">
-        <p>카테고리:{{post_category}}</p>
+        <div class="datailPage__category">{{post_category}}</div>
         <ul id="tagList">
           {% for post_tag in post_tags %}
           <li>
@@ -49,11 +51,13 @@
         </ul>
       </div>
       <div class="detailPage__writer">
-        <a href="/">작성자:{{post.user}}</a>
+        작성자: <a clas href="/">{{post.user}}</a>
         {% if post.user == user %}
-        <a href="{% url 'post:post_edit' id=post.id %}">
-          <button class="btn">이 포스트 편집하기</button>
-        </a>
+        <button class="btn">
+          <a href="{% url 'post:post_edit' id=post.id %}">
+            이 포스트 편집하기
+          </a>
+        </button>
         {% endif %}
       </div>
       
@@ -119,7 +123,7 @@
       {% endfor %}
     </ul>
     <div class="detailPage__review">
-      <h5 class=".detailPage__review-title detailPage__subtitle">후기</h5>
+      <h5 class="detailPage__review-title detailPage__subtitle">후기</h5>
       <div class="accordion accordion__review">
         <div class="review-title" onclick="toggleAccordion('accordion2')">
           후기
