@@ -67,7 +67,7 @@
               <i class="fa-solid fa-trash"></i>
             </button>
           </span>
-          <div class="step_container {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
+          <div class="step-container {{{% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}}}">
             {% for step in path.steps %}
               <section class="step step_{{step.id}}">
                 <div class="step-content">
@@ -87,8 +87,12 @@
                       <i class="fa-solid fa-trash"></i>
                     </button>
                   </div>
-
                 </div>
+              </section>
+              {% endfor %}
+          </div>
+            
+            {% for step in path.steps %}
                 <div class="modal__overlay hidden">
                   <div class="step__edit-modal modal_{{step.id}} hidden">
                     <input type="text" class="title"/>
@@ -104,11 +108,7 @@
                     </div>
                   </div>
                 </div>
-
-              </section>
-
             {% endfor %}
-          </div>
           <button class="item_add-btn btn" type="button" onclick="handleAddStep('{{path.id}}')">
             스텝+
           </button>
