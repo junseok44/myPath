@@ -27,48 +27,46 @@
  
     {% for card in userCards %}
     <div class="usercard__container card__{{card.id}}">
-      <div class="usercard__header">{{card.title}}
-        <form method="POST" action='{% url 'user_card_delete' id=card.id %}' class="userPage__delete-form">
-          {% csrf_token %}
-          <button class="btn-unset" type="submit">
-            <i class="fa-solid fa-x"></i>
-          </button>
-        </form>
-        <div class="usercard__header-controls">
-          <span>
-            {% if card.link %}
-            <a href='{{card.link}}' target="blank" class="btn-unset">
-              <i class="fa-solid fa-link"></i>
-            </a>
-            {% endif %}
-            <button class="btn-unset" onclick="toggleEditForm('{{card.id}}')">
-              <i class="fa-solid fa-pen"></i>
-            </button>
-          </span>
-       
-        </div>
+      <div class="usercard__header-controls">
+        {% if card.link %}
+        <a href='{{card.link}}' target="blank" class="btn-unset">
+          <i class="fa-solid fa-link"></i>
+        </a>
+        {% endif %}
+        <button class="btn-unset" onclick="toggleEditForm('{{card.id}}')">
+          <i class="fa-solid fa-pen"></i>
+        </button>
+      <form method="POST" action='{% url 'user_card_delete' id=card.id %}' class="userPage__delete-form">
+      {% csrf_token %}
+      <button class="btn-unset" type="submit">
+        <i class="fa-solid fa-x"></i>
+      </button>
+    </form>
       </div>
-     
-      <form method="POST" action='{% url 'user_card_edit' id=card.id %}' class="hidden userPage__cardForm">
-        {% csrf_token %} 
-        <h2>내용 수정</h2>
-        <input value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
-        <input
-          value="{{card.link}}"
-          name="link"
-          placeholder="관련 링크가 있나요? ex) 블로그 링크, SNS 링크"
-        />
-        <textarea
-          value="{{card.desc}}"
-          required
-          name="desc"
-          placeholder="설명을 덧붙여주세요! (100자 이내)"
-        ></textarea>
-        <button type="submit" class="btn">확인</button>
-      </form>
+      <div class="usercard__header">{{card.title}} 
+      </div>
       <div class="usercard__body">{{card.desc}}</div>
+        <form method="POST" action='{% url 'user_card_edit' id=card.id %}' id="editForm__{{card.id}}" class="userPage__cardForm hidden">
+          {% csrf_token %} 
+          <h2>내용 수정</h2>
+          <input value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
+          <input
+            value="{{card.link}}"
+            name="link"
+            placeholder="관련 링크가 있나요? ex) 블로그 링크, SNS 링크"
+          />
+          <textarea
+            value="{{card.desc}}"
+            required
+            name="desc"
+            placeholder="설명을 덧붙여주세요! (100자 이내)"
+          ></textarea>
+          <button type="submit" class="btn">확인</button>
+        </form>
     </div> 
+
       {% endfor %}
+ 
   <div class="usercard__container add">
     <button type="button" class="userPage__add-btn btn-unset">
       <i class="fa-solid fa-plus"></i>
@@ -92,7 +90,6 @@
     </form>
   </div>
 </div>
-
   <ul class="nav nav-tabs">
     <li class="nav-item" onclick="change_tab_color(e)">
       <a
@@ -243,8 +240,8 @@
   }
 
   function toggleEditForm (cardId)  {
-    let form = document.querySelector(`.card__${cardId} .userPage__cardForm`)
-    console.log(form);
+    const form = document.querySelector(`#editForm__special`)
+    alert(form);
     form.classList.toggle("hidden")
   }
 </script>

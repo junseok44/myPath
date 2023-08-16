@@ -17,17 +17,20 @@
   flex: 1;
 }
 
-.userPage__delete-form {
+/* .userPage__delete-form {
   position: absolute;
   top: 2rem;
   right: 2rem;
-}
+} */
 
 .userPage__cardForm {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 1rem;
+}
+*/ .userPage__cardForm.hide {
+  display: none;
 }
 
 .btn-unset {

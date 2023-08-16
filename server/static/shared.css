@@ -202,6 +202,7 @@
   border: 1px solid var(--border-grey);
   border-radius: 5px;
   color: black;
+  position: relative;
 }
 
 .usercard__container.add {
@@ -215,9 +216,12 @@
 }
 
 .usercard__header-controls {
-  width: 100%;
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
   display: inline-flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 0.3rem;
   margin-top: 0.5rem;
 }
 
