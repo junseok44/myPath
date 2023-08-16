@@ -36,6 +36,11 @@
 .btn-unset {
   all: unset;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-unset:hover {
+  color: black;
 }
 
 .userPage__carousel-btn {
@@ -51,4 +56,13 @@
 }
 .userPage__ml {
   margin-left: 0.3rem;
+}
+
+.userPage__editBtns {
+  display: flex;
+  gap: 1rem;
+}
+
+.userPage__editBtns button {
+  flex: 1;
 }

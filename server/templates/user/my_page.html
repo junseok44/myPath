@@ -30,7 +30,7 @@
         {% endif %}
         <form action="/user/userIntro" method="post" class="userPage__intro-form hidden">
           {% csrf_token %}
-          <textarea name="intro" placeholder="소개를 입력하세요...">{{user.intro}}</textarea>
+          <textarea name="intro" placeholder="소개를 입력하세요..." class="writePage-input">{{user.intro}}</textarea>
           <button type="submit" class="btn">작성하기</button>
         </form>
       </div>
@@ -68,20 +68,25 @@
       <form method="POST" action='{% url 'user_card_edit' id=card.id %}' id="editForm__{{card.id}}" class="userPage__cardForm hidden">
         {% csrf_token %} 
         <h2>내용 수정</h2>
-        <input value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? (10자 이내)"/ >
+        <input class="writePage-input" value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? (10자 이내)"/ >
         <input
+        class="writePage-input"
           value="{{card.link}}"
           name="link"
           placeholder="관련 링크가 있나요?,,블로그 링크, SNS 링크 등"
         />
         <textarea
+        class="writePage-input"
           value="{{card.desc}}"
           required
           name="desc"
           placeholder="설명을 덧붙여주세요! (100자 이내)"
         ></textarea>
-        <button type="submit" class="btn">확인</button>
-      <button type="button" class="btn" onclick="onCancelEditForm()">취소</button>
+        <div class="userPage__editBtns">
+          <button type="button" class="btn" onclick="onCancelEditForm()">취소</button>
+          <button type="submit" class="btn">확인</button>
+        </div>
+    
       </form>
     </div> 
     
@@ -94,18 +99,22 @@
     <form method="POST" action='{% url 'user_card_add' %}' id="userPage__add-form" class="hidden">
       {% csrf_token %} 
       <h2>유저 카드 추가</h2>
-      <input required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
-      <input
+      <input class="writePage-input" required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
+      <input class="writePage-input" 
         name="link"
         placeholder="관련 링크가 있나요? ex) 블로그 링크, SNS 링크"
       />
       <textarea
+      class="writePage-input"
         required
         name="desc"
         placeholder="설명을 덧붙여주세요! (100자 이내)"
       ></textarea>
-      <button type="submit" class="btn">확인</button>
-      <button type="button" class="btn" onclick="onClickAddBtn()">취소</button>
+      <div class="userPage__editBtns">
+        <button type="button" class="btn" onclick="onClickAddBtn()">취소</button>
+        <button type="submit" class="btn">확인</button>
+      </div>
+ 
 
     </form>
   </div>

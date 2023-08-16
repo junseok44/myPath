@@ -254,6 +254,10 @@ h3 {
   margin-top: 0.5rem;
 }
 
+.usercard__header-controls i {
+  color: var(--secondary-text-color);
+}
+
 .usercard__body {
   height: 180px;
   display: flex;

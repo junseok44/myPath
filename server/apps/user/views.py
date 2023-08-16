@@ -92,7 +92,6 @@ def user_page(requests, id):
     ctx = {'user': user, 'posts': posts, 'posts_count': posts_count, "id": id, "user_cards": user_cards} 
     return render(requests, "user/user_page.html", ctx)
 
-
 def user_card_add(request):
     if request.method == "POST" and request.user.is_authenticated:
         title = request.POST.get("title")
@@ -151,7 +150,7 @@ def user_card_delete(request, id):
 def user_intro_update(request):
     if request.method == 'POST':
         intro = request.POST.get('intro')
-        print(intro)
+        
         request.user.intro = intro
         request.user.save()
         return redirect('/user/my_page')  # Redirect to the same page after submission
