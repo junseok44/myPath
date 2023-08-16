@@ -430,6 +430,15 @@
       changeDisplay(targetOption.value);
 
     }
+    document.addEventListener("DOMContentLoaded", function() {
+      const titleInput = document.querySelector('.title');
+      titleInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+        }
+      });
+    });
+
   </script>
 
   <script>
@@ -485,6 +494,7 @@
       e.preventDefault();
       if (!titleInput.value || !descInput.value) 
         return;
+
       
       const formData = new FormData();
       formData.append("thumbnail", imageInput.files[0]);
