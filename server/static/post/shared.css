@@ -183,7 +183,6 @@
 /* 모달관련 css */
 .modal__overlay{
   position: absolute;
-  left:0px;
 }
 
 .col-mode .modal__overlay {  

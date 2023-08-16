@@ -110,6 +110,7 @@
 .row-mode .step__edit-modal{
   position:absolute;
   /* top: 15rem; */
+  top:1rem;
   left: 0px;
   right:0px;
   /* min-height:500px; */

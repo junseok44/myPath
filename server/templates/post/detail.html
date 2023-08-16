@@ -230,7 +230,8 @@
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
         const comment_container = stepNode.querySelector(".step__comment")
         const commentNode = document.querySelector(`.step_comment_${step_parsed["pk"]}`);
-        // console.log(step_parsed["fields"]["Image"])
+        console.log(step_parsed["fields"]["Image"]);
+        console.log(step_parsed["fields"]);
         image_url = step_parsed["fields"]["Image"]
         // console.log(image_null==true)
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)

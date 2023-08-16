@@ -59,6 +59,11 @@
   min-height: 1000px;
 }
 
+.container_row-mode .modal__overlay{
+  position:absolute;
+  left:0px;
+}
+
 .labelfor {
   font-size: 0.9rem;
   margin-right: 0.4rem;
