@@ -99,8 +99,8 @@ def user_card_add(request):
         link = request.POST.get("link")
         desc = request.POST.get("desc")
 
-        if len(title) > 20:
-            messages.error(request,"소개는 20자 이내로 입력해주세요!")
+        if len(title) > 10:
+            messages.error(request,"소개는 10자 이내로 입력해주세요!")
             return redirect("/user/my_page")
         if len(title) > 100:
             messages.error(request,"설명은 100자 이내로 입력해주세요!")
@@ -121,8 +121,8 @@ def user_card_edit(request,id):
         link = request.POST.get("link")
         desc = request.POST.get("desc")
 
-        if len(title) > 20:
-            messages.error(request, "소개는 20자 이내로 입력해주세요!")
+        if len(title) > 10:
+            messages.error(request, "제목은 10자 이내로 입력해주세요!")
             return redirect("/user/my_page")
         if len(desc) > 100:
             messages.error(request, "설명은 100자 이내로 입력해주세요!")
@@ -147,6 +147,18 @@ def user_card_delete(request, id):
         return redirect("/user/my_page")
 
     return redirect("/user/my_page")
+
+def user_intro_update(request):
+    if request.method == 'POST':
+        intro = request.POST.get('intro')
+        print(intro)
+        request.user.intro = intro
+        request.user.save()
+        return redirect('/user/my_page')  # Redirect to the same page after submission
+    
+    return redirect("/user/my_page")
+
+
 
 def kakao_Auth_Redirect(request):
     code = request.GET.get('code', None)

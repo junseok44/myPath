@@ -12,6 +12,7 @@ urlpatterns = [
     path('my_page', my_page, name='my_page'),
     path('user_page/<uuid:id>', user_page, name='user_page'),
     path('addCard',user_card_add, name="user_card_add"),
+    path('userIntro', user_intro_update, name="user_intro_update"),
     path('deleteCard/<int:id>',user_card_delete,name="user_card_delete"),
     path('updateCard/<int:id>',user_card_edit,name="user_card_edit"),
     path('googleLoginStart', google_Auth_Start, name="google_start"),
