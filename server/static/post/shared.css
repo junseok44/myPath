@@ -67,6 +67,7 @@
 
 /* 메인부분 모바일로 한줄 배열될때 중앙으로 가도록. */
 .main-container {
+  min-height:600px;
   @media screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;
@@ -147,42 +148,65 @@
 
 .step {
   min-height: 200px;
-  position: relative;
+  position: static;
   padding: 10px;
   border: 1px solid var(--border-grey);
   border-radius: 5px;
   background-color: white;
-  min-width: 15rem;
+  width: 15rem;
 }
 
-.step-btn-container {
+.col-mode .step-btn-container {
   position: absolute;
-  bottom: 1rem;
+  /* top:5rem; */
   left: 50%;
   transform: translateX(-50%);
 }
 
+.step-btn-container {
+  /* position: absolute; */
+  /* top:5rem; */
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
+  text-align:center;
+}
+
+
+
 .pathSelect {
-  display: none;
+  /* display: none; */
   @media screen and (max-width: 600px) {
     display: block;
   }
 }
 
 /* 모달관련 css */
-.modal__overlay {
+.modal__overlay{
   position: absolute;
+}
+
+.col-mode .modal__overlay {  
   top: 0px;
-  left: 110%;
-  bottom: 0px;
+  /* left: 110%; */
+  left:17rem;
+  bottom:0px;
   z-index: 1000;
+  @media screen and (max-width: 600px) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 10px;
+      min-height: 10px;
+      z-index: 2;
+    }
 }
 
 .step__edit-modal {
   position: absolute;
+  min-width: 800px;
+  min-height: 600px;
   top: 1rem;
   bottom: 0px;
-  min-width: 50rem;
   padding: 2rem;
   background-color: white;
   display: flex;
@@ -190,12 +214,12 @@
   z-index: 10;
   gap: 1rem;
   border: 1px solid black;
-  @media screen and (max-width: 600px) {
+  /* @media screen and (max-width: 600px) {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
+  } */
 }
 
 .container_row-mode .step__edit-modal {
@@ -213,6 +237,8 @@
   border: 1px solid black;
   @media screen and (max-width: 600px) {
     position: fixed;
+    min-height:0px;
+    min-width:0px;
     top: 50%;
     left: 50%;
     transform: translateX(-50%);
@@ -231,7 +257,7 @@
   }
 }
 
-.column-mode {
+.col-mode {
   @media screen and (min-width: 600px) {
     display: flex;
     gap: 4rem;
