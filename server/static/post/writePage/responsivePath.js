@@ -1,5 +1,5 @@
 let responsiveWidth = 600;
-const listElement = document.querySelector(".main");
+const listElement = document.querySelector(".main-container");
 const selectElement = document.getElementById("pathSelect");
 
 function updateSelectOptions() {

@@ -2,183 +2,188 @@
 {% load static %}
 {% block content %}
   <div class="detailPage">
-    <div class="detail-container">
-      <div class="intro-container">
-        <div class="intro-title">
-          <h2>{{post.title}}</h2>
-          <span class="detailPage__action-btn">
-            {% if user.is_authenticated %}
-              {% if post.isLiked %}
-                <div onclick="likeToggle('{{post.id}}')">
-                  <i class="fa-solid fa-heart"></i>
-                </div>
-              {% else %}
-                <div onclick="likeToggle('{{post.id}}')">
-                  <i class="fa-regular fa-heart"></i>
-                </div>
-              {% endif %}
-            {% else %}
-              <i class="fa-regular fa-heart"></i>
-            {% endif %}
-            <span class="post-likes">{{post.like_table.count}}</span>
-          </span>
-          <span class="detailPage__action-btn">
-            {% if user.is_authenticated %}
-              {% if post.isBookMarked %}
-                <div onclick="bookMarkToggle('{{post.id}}')">
-                  <i class="fa-solid fa-star"></i>
-                </div>
-              {% else %}
-                <div onclick="bookMarkToggle('{{post.id}}')">
-                  <i class="fa-regular fa-star"></i>
-                </div>
-              {% endif %}
-            {% else %}
-              <i class="fa-regular fa-star"></i>
-            {% endif %}
-            <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
-          </span>
-        </div>
-        <div class="intro-meta">
-          <p>카테고리:{{post_category}}</p>
-          <ul id="tagList">
-            {% for post_tag in post_tags %}
-              <li>
-                <span>#{{post_tag.tag.name}}</span>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-        <div class="intro-writer">
-          <a href="/">작성자:{{post.user}}</a>
-          {% if post.user == user %}
-            <a href="{% url 'post:post_edit' id=post.id %}">
-              <button class="btn">이 포스트 편집하기</button>
-            </a>
+    <div class="detailPage__intro">
+      <div class="detailPage__title">
+        <h2>{{post.title}}</h2>
+        <span class="detailPage__action-btn">
+          {% if user.is_authenticated %}
+          {% if post.isLiked %}
+          <div onclick="likeToggle('{{post.id}}')">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          {% else %}
+          <div onclick="likeToggle('{{post.id}}')">
+            <i class="fa-regular fa-heart"></i>
+          </div>
           {% endif %}
-        </div>
-
-        <div class="accordion">
-          <div class="title" onclick="toggleAccordion('accordion1')">
-            패스 소개
-            <span class="arrow">▼</span>
+          {% else %}
+          <i class="fa-regular fa-heart"></i>
+          {% endif %}
+          <span class="post-likes">{{post.like_table.count}}</span>
+        </span>
+        <span class="detailPage__action-btn">
+          {% if user.is_authenticated %}
+          {% if post.isBookMarked %}
+          <div onclick="bookMarkToggle('{{post.id}}')">
+            <i class="fa-solid fa-star"></i>
           </div>
-          <div class="content-wrapper" id="accordion1">
-            <div class="intro-content">
-              <div class="intro-thumbnail">
-                {% if post.thumbnail %}
-                  <img src="{{post.thumbnail.url}}"/>
-                {% else %}
-                  <img src="{% static 'noimage.jpg' %}"/>
-                {% endif %}
-              </div>
-              <div class="intro-desc">
-                <p>{{post.desc}}</p>
-              </div>
-            </div>
+          {% else %}
+          <div onclick="bookMarkToggle('{{post.id}}')">
+            <i class="fa-regular fa-star"></i>
           </div>
-        </div>
-        <div class="detailPage__pathSelect">
-          <span>패스 선택</span>
-          <select id="pathSelect" class="select"></select>
-          <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a>
-        </div>
-        <hr />
-        <ul class="main main-container {{post.mode}} detailPage__main">
-          {% for path in paths %}
-            <li class="path path_{{path.id}}">
-            <div class="path_title">{{path.title}}</div>
-              <div class="step-container">
-                {% for step in path.steps %}
-                  <section class="step step_{{step.id}}">
-                    <div>
-                      <p class="title">{{step.title}}</p>
-                      <p class="desc">{{step.desc}}</p>
-                      <button class="btn" type="button" onclick="onClickStepDetail('{{step.id}}')">
-                        더보기
-                      </button>
-                    </div>
-                    <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
-                      <div class="step__edit-modal step__modal modal_{{step.id}}">
-                        <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
-
-                        <div class="new__comment">
-                          <input type="text" class="new-comment" placeholder="댓글을 입력하세요"/>
-                          <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
-                        </div>
-                        <button onclick="onToggleStepDetail('{{step.id}}')">확인</button>
-                      </div>
-                    </div>
-                  </section>
-                {% endfor %}
-              </div>
-            </li>
+          {% endif %}
+          {% else %}
+          <i class="fa-regular fa-star"></i>
+          {% endif %}
+          <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
+        </span>
+      </div>
+      <div class="detailPage__meta">
+        <p>카테고리:{{post_category}}</p>
+        <ul id="tagList">
+          {% for post_tag in post_tags %}
+          <li>
+            <span>#{{post_tag.tag.name}}</span>
+          </li>
           {% endfor %}
         </ul>
-
-        <h5 class="detailPage__review-title detailPage__subtitle">후기</h5>
-        <div class="accordion accordion__review">
-          <div class="title" onclick="toggleAccordion('accordion2')">
-            후기
-            <span class="arrow">▼</span>
-          </div>
-          <div class="content-wrapper" id="accordion2">
-            <div class="review-container">
-              <div class="review-content">
-                {{post.review}}
-              </div>
+      </div>
+      <div class="detailPage__writer">
+        <a href="/">작성자:{{post.user}}</a>
+        {% if post.user == user %}
+        <a href="{% url 'post:post_edit' id=post.id %}">
+          <button class="btn">이 포스트 편집하기</button>
+        </a>
+        {% endif %}
+      </div>
+      
+      <div class="accordion">
+        <div class="title" onclick="toggleAccordion('accordion1')">
+          패스 소개
+          <span class="arrow">▼</span>
+        </div>
+        <div class="content-wrapper" id="accordion1">
+          <div class="intro-content">
+            <div class="detailPage__thumbnail">
+              {% if post.thumbnail %}
+              <img src="{{post.thumbnail.url}}" />
+              {% else %}
+              <img src="{% static 'noimage.jpg' %}" />
+              {% endif %}
+            </div>
+            <div class="detailPage__desc">
+              <p>{{post.desc}}</p>
             </div>
           </div>
         </div>
-
       </div>
-
+    </div>
+    <div class="detailPage__pathSelect">
+      <span>패스 선택</span>
+      <select id="pathSelect" class="select"></select>
+      <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a>
+    </div>
+    <hr />
+    <ul class="main-container {{post.mode}}-mode detailPage__main">
+      {% for path in paths %}
+      <li class="path path_{{path.id}}">
+        <div class="path_title">{{path.title}}</div>
+        <div class="step-container">
+          {% for step in path.steps %}
+          <section class="step step_{{step.id}}">
+            <div class="step-content">
+              <p class="title">{{step.title}}</p>
+              <p class="desc">{{step.desc}}</p>
+              <button class="btn" type="button" onclick="onClickStepDetail('{{step.id}}')">
+                더보기
+              </button>
+            </div>
+            <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
+              <div class="step__edit-modal step__modal modal_{{step.id}}">
+                <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
+                <div class="step__comment">
+                  <div class="step_comment_{{step.id}}">
+                  </div>
+                </div>
+                <div class="new__comment">
+                  <input type="text" class="new-comment" placeholder="댓글을 입력하세요" />
+                  <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
+                </div>
+                <button onclick="onToggleStepDetail('{{step.id}}')" class="btn done">확인</button>
+              </div>
+            </div>
+          </section>
+          {% endfor %}
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="detailPage__review">
+      <h5 class=".detailPage__review-title detailPage__subtitle">후기</h5>
+      <div class="accordion accordion__review">
+        <div class="review-title" onclick="toggleAccordion('accordion2')">
+          후기
+          <span class="arrow">▼</span>
+        </div>
+        <div class="content-wrapper" id="accordion2">
+          <div class="review-container">
+            <div class="review-content">
+              {{post.review}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="detailPage__comment">
       <h5 class="detailPage__subtitle">댓글</h5>
       <div class="comment-container post_{{post.id}}">
         {% for post_comment in post_comments%}
-          <div class="post_comment_{{post_comment.id}} comment">
-            <p class="comment_writer">
-              {{post_comment.writer}}
-              {% if user.is_authenticated %}
+        <div class="post_comment_{{post_comment.id}} comment">
+          <p class="comment_writer">
+            {{post_comment.writer}}
+            {% if user.is_authenticated %}
+            <span class="comment-actions">
+              <span onclick="onToggleWriteBox('{{post_comment.id}}')">답글</span>
+              {% if user == post_comment.writer %}
+              <span class="post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">삭제</span>
+              {% endif %}
+            </span>
+            {% endif %}
+          </p>
+          <p>{{post_comment.text}}</p>
+          <div class="comment-children">
+            {% for childComment in post_comment.postcomment_set.all %}
+            <div class="post_comment_{{childComment.id}}">
+              <p class="comment_writer">
+                {{childComment.writer}}
                 <span class="comment-actions">
-                  <span onclick="onToggleWriteBox('{{post_comment.id}}')">답글</span>
-                  {% if user == post_comment.writer %}
-                    <span class="post-comment-delete" onclick="deletePostComment('{{post.id}}','{{post_comment.id}}')">삭제</span>
+                  {% if childComment.writer == request.user %}
+                  <span class="post-comment-delete"
+                    onclick="deletePostComment('{{post.id}}','{{childComment.id}}')">삭제</span>
                   {% endif %}
                 </span>
-              {% endif %}
-            </p>
-            <p>{{post_comment.text}}</p>
-            <div class="comment-children">
-              {% for childComment in post_comment.postcomment_set.all %}
-                <div class="post_comment_{{childComment.id}}">
-                  <p class="comment_writer">
-                    {{childComment.writer}}
-                    <span class="comment-actions">
-                      {% if childComment.writer == request.user %}
-                        <span class="post-comment-delete" onclick="deletePostComment('{{post.id}}','{{childComment.id}}')">삭제</span>
-                      {% endif %}
-                    </span>
-                  </p>
-                  <p>{{childComment.text}}</p>
-                </div>
-              {% endfor %}
-              <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="child-comment-input hidden">
-                {%csrf_token%}
-                <input type="hidden" name="parentCommentId" value="{{post_comment.id}}"/>
-                <input type="text" name="comment" placeholder="댓글을 입력하세요"/>
-                <input type="submit" value="댓글 쓰기"/>
-              </form>
+              </p>
+              <p>{{childComment.text}}</p>
             </div>
+            {% endfor %}
+            <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="child-comment-input hidden">
+              {%csrf_token%}
+              <input type="hidden" name="parentCommentId" value="{{post_comment.id}}" />
+              <input type="text" name="comment" placeholder="댓글을 입력하세요" />
+              <input type="submit" value="댓글 쓰기" />
+            </form>
           </div>
+        </div>
         {% endfor %}
         <form action="{%url 'post:post_create_comment' post.pk%}" method="POST">
           {%csrf_token%}
-          <input type="text" name="comment" placeholder="댓글을 입력하세요"/>
-          <input type="submit" value="댓글 쓰기"/>
+          <input type="text" name="comment" placeholder="댓글을 입력하세요" />
+          <input type="submit" value="댓글 쓰기" />
         </form>
       </div>
     </div>
+    
+
   </div>
 </div>
 
@@ -225,10 +230,12 @@
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
         const comment_container = stepNode.querySelector(".step__comment")
         const commentNode = document.querySelector(`.step_comment_${step_parsed["pk"]}`);
-        // console.log(step_parsed["fields"]["Image"])
+        console.log(step_parsed["fields"]["Image"]);
+        console.log(step_parsed["fields"]);
         image_url = step_parsed["fields"]["Image"]
         // console.log(image_null==true)
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
+        const stepInfo = document.createElement("div")
         if (currentStepInfo) {
           if (image_url) {
             stepInfo.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
@@ -246,7 +253,7 @@
                       </div>`;
           }
         } else {
-          const stepInfo = document.createElement("div")
+          
           stepInfo
             .classList
             .add(`step-${step_parsed["pk"]}`)
@@ -267,7 +274,7 @@
           }
           stepNode.insertBefore(stepInfo, comment_container)
         }
-
+        console.log(commentNode);
         commentNode.innerHTML = ``;
 
         step_comments_parsed.forEach((element) => {
