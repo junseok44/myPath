@@ -1,0 +1,215 @@
+.header_container {
+    height: 13vh;
+    /* font-family: 'Jua', sans-serif; */
+    font-size: 18px;
+}
+
+.header_element_container {}
+
+.header_postedit_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header_container:visited {
+    color: black;
+}
+
+.header_line {
+    height: 1px;
+    color: gray;
+    display: flex;
+    align-items: center;
+}
+
+.header_title {
+    font-size: xxx-large;
+    /* font-family: 'Gasoek One', sans-serif; */
+    color: black;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+}
+
+.header_post {
+    display: flex;
+    justify-content: center;
+}
+
+.header_search_container {
+    width: 80vh;
+    /* float: right; */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header_mainsearch {
+    /* display: inline;
+    position: relative; */
+    display: flex;
+    align-items: center;
+}
+
+.header_mainsearch_input {
+    height: 28px;
+    width: 20vh;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.header_mainsearch_btn {
+    background: white;
+    border: white;
+    /* position: absolute; */
+    width: 17px;
+    /* top: 2px;
+    right: 15px; */
+}
+
+.header_postlist {
+    color: rgb(57,
+            57,
+            66);
+    /* padding-left: 0px; */
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+
+}
+
+.header_postlist:hover {
+    color: black;
+}
+
+.header_postwrite {
+    color: rgb(57,
+            57,
+            66);
+    padding-left: 20px;
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+}
+
+.header_postwrite:hover {
+    color: black;
+}
+
+.header_hi {}
+
+
+
+.header_myinform {
+
+    /* text-align: right; */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.header_login {
+    color: rgb(57,
+            57,
+            66);
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+}
+
+.header_signup {
+    color: rgb(57,
+            57,
+            66);
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+}
+
+.header_login:hover {
+    color: black;
+}
+
+
+.header_signup:hover {
+    color: black;
+}
+
+
+.header_logout {
+    color: rgb(57,
+            57,
+            66);
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+}
+
+.header_logout:hover {
+    color: black;
+}
+
+.header_mypage {
+    color: rgb(57,
+            57,
+            66);
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+}
+
+.header_mypage:hover {
+    color: black;
+}
+
+.header_userpage {
+    color: rgb(57,
+            57,
+            66);
+    text-decoration: none;
+
+    padding: 3px;
+    border: 1px solid;
+    border-color: rgb(57,
+            57,
+            66);
+    border-radius: 7px;
+}
+
+.header_userpag:hover {
+    color: black;
+}
