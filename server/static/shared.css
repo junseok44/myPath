@@ -140,6 +140,7 @@ h3 {
   color: var(--primary-color);
 }
 
+/* 밑에꺼는 지금 적용이 안되는 상태입니다. 확인하고 지워주세용 */
 .nav-item:active {
   color: var(--primary-color);
 }
@@ -173,7 +174,7 @@ h3 {
   }
 
   @media screen and (max-width: 450px) {
-    display: block;
+    grid-template-columns: 1fr;
   }
   justify-content: center;
   align-items: center;
