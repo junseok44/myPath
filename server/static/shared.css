@@ -136,6 +136,10 @@ h3 {
   cursor: pointer;
 }
 
+.nav-item.active {
+  color: var(--primary-color);
+}
+
 .nav-item:active {
   color: var(--primary-color);
 }
@@ -146,10 +150,6 @@ h3 {
   background: var(--primary-color);
   bottom: 0;
   left: calc(50% - 20px);
-}
-
-.nav-link.active {
-  color: var(--primary-color);
 }
 
 .tab-pane {

@@ -300,7 +300,6 @@ editButtons.forEach(editBtn => {
   function change_tab_color(e) {
     var taps = document.querySelectorAll(".nav-item");
     taps.forEach(function (tap, i) {
-      console.log(tap,e.currentTarget);
       if (e.currentTarget == tap) {
         tap.classList.add("active");
       } else {
