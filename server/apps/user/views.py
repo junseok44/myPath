@@ -88,8 +88,8 @@ def user_page(requests, id):
     user = User.objects.get(id=id)
     posts = Post.objects.filter(user=user.id).values()
     posts_count = Post.objects.filter(user=user.id).count()
-
-    ctx = {'user': user, 'posts': posts, 'posts_count': posts_count, "id": id} 
+    user_cards = UserCard.objects.filter(writer=user)
+    ctx = {'user': user, 'posts': posts, 'posts_count': posts_count, "id": id, "user_cards": user_cards} 
     return render(requests, "user/user_page.html", ctx)
 
 
@@ -157,7 +157,6 @@ def user_intro_update(request):
         return redirect('/user/my_page')  # Redirect to the same page after submission
     
     return redirect("/user/my_page")
-
 
 
 def kakao_Auth_Redirect(request):
