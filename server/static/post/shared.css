@@ -1,5 +1,6 @@
 /* 제작 & 편집 & 디테일의 태그 디자인 */
 
+/* 태그 */
 #tagList {
   list-style: none;
   padding: 0;
@@ -79,7 +80,7 @@
 #reviewInput,
 #descInput {
   width: 100%;
-  min-height: 7rem;
+  min-height: 10rem;
 
   @media screen and (max-width: 600px) {
     max-height: 5rem;
@@ -294,36 +295,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.upload-file .upload-name {
-  width: 700px;
-  height: 25px;
-  padding: 10px;
-  display: inline-block;
-  vertical-align: middle;
-  border: 1px solid var(--border-grey);
-  border-radius: 5px;
-  color: var(--border-grey);
-}
-
-.upload-file label {
-  height: 25px;
-  padding: 5px;
-  margin-left: 10px;
-  display: inline-block;
-  color: white;
-  vertical-align: middle;
-  border-radius: 5px;
-  background-color: var(--primary-color);
-  cursor: pointer;
-}
-
-.upload-file input[type="file"] {
-  position: absolute;
-  width: 0;
-  height: 0;
-  padding: 0;
-  overflow: hidden;
-  border: 0;
 }

@@ -1,10 +1,10 @@
 .writePage > h1 {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .writePage__review textarea {
   margin-bottom: 1rem;
-}
+} 
 
 .writePage__intro {
   display: flex;
@@ -24,6 +24,20 @@
   }
 }
 
+.writePage-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+  
+}
+
+@media screen and (max-width: 600px) {
+  .writePage-input {
+    width: 100%
+  }
+}
+
 .writePage__meta {
   display: flex;
   @media screen and (max-width: 600px) {
@@ -38,7 +52,7 @@
 }
 
 .writePage__desc {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .writePage__controlBox {
@@ -68,6 +82,39 @@
   font-size: 0.9rem;
   margin-right: 0.4rem;
   white-space: nowrap;
+}
+
+/* thumbnail 이미지 업로드 관련 */
+.upload-file .upload-name {
+  width: 700px;
+  height: 25px;
+  padding: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+  color: var(--border-grey);
+}
+
+.upload-file label {
+  height: 25px;
+  padding: 5px;
+  margin-left: 10px;
+  display: inline-block;
+  color: white;
+  vertical-align: middle;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.upload-file input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
 }
 
 /* 반응형 라벨 다 없애기 */

@@ -17,6 +17,11 @@
   font-family: "SUITE-Regular", sans-serif;
 }
 
+/* 임시 폰트 강제 적용 */
+div, p, form, label, input, select, h1, h2, h3 {
+  font-family: "SUITE-Regular", sans-serif !important;
+}
+
 .container {
   padding: 0 150px;
 }
