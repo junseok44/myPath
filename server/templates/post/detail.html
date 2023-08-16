@@ -205,6 +205,16 @@
         .shift();
     }
 </script>
+<script>
+
+  function showInitialPath(){
+    const paths=document.querySelectorAll(".path");
+    paths.forEach((item)=>(item.style.display="none"));
+    paths[0].style.display="block";
+  }
+
+  showInitialPath();
+</script>
 
 <script>
   // var clicked=0;
@@ -234,8 +244,8 @@
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
         const comment_container = stepNode.querySelector(".step__comment")
         const commentNode = document.querySelector(`.step_comment_${step_parsed["pk"]}`);
-        console.log(step_parsed["fields"]["Image"]);
-        console.log(step_parsed["fields"]);
+        // console.log(step_parsed["fields"]["Image"]);
+        // console.log(step_parsed["fields"]);
         image_url = step_parsed["fields"]["Image"]
         // console.log(image_null==true)
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
@@ -278,11 +288,11 @@
           }
           stepNode.insertBefore(stepInfo, comment_container)
         }
-        console.log(commentNode);
+        // console.log(commentNode);
         commentNode.innerHTML = ``;
 
         step_comments_parsed.forEach((element) => {
-          console.log(element);
+          // console.log(element);
           commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
                         <p class="comment_writer">${element["fields"]["writer"]}
                           <span class="comment-actions">
@@ -358,7 +368,7 @@
   const requestCommentDelete = new XMLHttpRequest();
   const deletePostComment = (post_id, comment_id) => {
     const url = "delete_comment";
-    console.log(url);
+    // console.log(url);
     requestCommentDelete.open("POST", url, true);
     requestCommentDelete.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     requestCommentDelete.send(JSON.stringify({post_id: post_id, comment_id: comment_id}));
@@ -392,7 +402,7 @@
   };
 
   const onAddChildrenComment = async (postId, parentCommentId) => {
-    console.log(postId, parentCommentId);
+    // console.log(postId, parentCommentId);
     const response = await fetch(`/post/${postId}/create_comment`, {
       method: "POST",
       headers: {
@@ -530,6 +540,11 @@
 <!-- 메인 핸들러 -->
 <script>
 
+  
+  // const paths=document.querySelectorAll(".path");
+  // console.log(paths[0].style);
+  // paths.forEach((item)=>(item.style.display=none));
+  // paths[0].style.display=block;
   updateSelectOptions();
   //changeDisplay(id);
 
