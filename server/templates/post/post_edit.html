@@ -4,9 +4,7 @@
 
 <div class="editPage">
   <!-- <h1>edit</h1> -->
-  <div class="editPage__delete">
-    <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn">이 포스트 삭제하기</button>
-  </div>
+  
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <p class="writePage__title">
@@ -67,7 +65,7 @@
               <i class="fa-solid fa-trash"></i>
             </button>
           </span>
-          <div class="step-container {{{% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}}}">
+          <div class="step-container {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
             {% for step in path.steps %}
               <section class="step step_{{step.id}}">
                 <div class="step-content">
@@ -89,7 +87,7 @@
                   </div>
                 </div>
               </section>
-              {% endfor %}
+            {% endfor %}
           </div>
             
             {% for step in path.steps %}

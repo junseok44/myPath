@@ -2,8 +2,12 @@
     <div class="detailPage__intro">
         <div class="detailPage__title">
             <!-- 제목 -->
-            <!-- 좋아요 -->
-            <!-- 북마크 -->
+            <span class="detailPage__action-btn">
+                <!-- 좋아요 -->
+            </span>
+            <span class="detailPage__action-btn">
+                <!-- 북마크 -->
+            </span>
         </div>
         <div class="detailPage__meta">
             <!-- 카테고리 -->
@@ -12,6 +16,7 @@
         <div class="detailPage__writer">
             <!-- 작성자 -->
             <!-- 포스트 편집하기 -->
+            <!-- 포스트 삭제하기 -->
         </div>
         <div class="accordion">
             <!-- 반응형 -->
@@ -35,19 +40,21 @@
             <div class="path_title"></div>
             <div class="step-container">
                 <section class="step step_{{step.id}}">
-                    <!-- 제목 -->
-                    <!-- 내용 -->
-                    <!-- 더보기버튼 -->
-                </section>
-                <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
-                    <div class="step__edit-modal step__modal modal_{{step.id}}"></div>
-                    <div class="step__comment">
-                        <div class="step_comment_{{step.id}}">
-                        </div>
+                    <div class="step-content">
+                        <!-- 제목 -->
+                        <!-- 내용 -->
+                        <!-- 더보기버튼 -->
                     </div>
-                    <div class="new__comment"></div>
-                    <!-- 확인버튼(댓글등록) -->
+                </section>
+            </div>
+            <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
+                <div class="step__edit-modal step__modal modal_{{step.id}}"></div>
+                <div class="step__comment">
+                    <div class="step_comment_{{step.id}}">
+                    </div>
                 </div>
+                <div class="new__comment"></div>
+                <!-- 확인버튼(댓글등록) -->
             </div>
         </li>
     </ul>

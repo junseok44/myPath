@@ -148,12 +148,12 @@
 
 .step {
   min-height: 200px;
+  width: 15rem;
   position: static;
   padding: 10px;
   border: 1px solid var(--border-grey);
   border-radius: 5px;
   background-color: white;
-  width: 15rem;
 }
 
 .col-mode .step-btn-container {
@@ -173,19 +173,20 @@
 
 
 
-.pathSelect {
-  /* display: none; */
+/* .pathSelect {
+  display: none;
   @media screen and (max-width: 600px) {
     display: block;
   }
-}
+} */
 
 /* 모달관련 css */
 .modal__overlay{
   position: absolute;
 }
 
-.col-mode .modal__overlay {  
+.col-mode .modal__overlay {
+  position:absolute;  
   top: 0px;
   /* left: 110%; */
   left:17rem;
@@ -253,7 +254,7 @@
     flex-direction: column;
   }
   @media screen and (min-width: 601px) {
-    display: inline-flex;
+    /* display: inline-flex; */
   }
 }
 
@@ -281,8 +282,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 1500px;
+    height: 1500px;
     background-color: rgba(0, 0, 0, 0.6);
   }
 }
