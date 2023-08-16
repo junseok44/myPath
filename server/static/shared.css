@@ -17,6 +17,16 @@
   font-family: "SUITE-Regular", sans-serif;
 }
 
+.container {
+  padding: 0 150px;
+}
+
+@media (max-width: 450px) {
+  .container {
+    padding: 0;
+  }
+}
+
 .messages {
   position: fixed;
   top: 1rem;

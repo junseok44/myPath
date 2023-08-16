@@ -21,9 +21,9 @@
       {{ form.password2 }}
     </span>
 
-    <button type="submit">가입하기</button>
+    <button class="btn" id="signup-btn" type="submit">가입하기</button>
   </form>
-  <p>이미 계정이 있나요? <a href="{% url 'user_login' %}">로그인</a></p>
+  <p>이미 계정이 있나요? <a class="auth-link" href="{% url 'user_login' %}">로그인</a></p>
   {% if form.errors %}
   <div class="errors">
     <ul>

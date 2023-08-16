@@ -7,7 +7,7 @@
     <form onsubmit="handleSubmit(event)">
       <div class="writePage__intro">
         <div class="writePage__title">
-          <input type="text" placeholder="포스트 제목" name="title" id="titleInput" required="required"/>
+          <input class="post-input" type="text" placeholder="포스트 제목" name="title" id="titleInput" required="required"/>
           <span>카테고리</span>
           <select id="categorySelect" name="categorySelect">
             {% for cat in categories %}
@@ -16,17 +16,23 @@
           </select>
         </div>
         <div class="writePage__desc">
-          <textarea type="text" placeholder="포스트 설명" name="dsec" id="descInput" required="required"></textarea>
+          <textarea class="post-input" type="text" placeholder="포스트 설명" name="dsec" id="descInput" required="required"></textarea>
         </div>
         <div class="writePage__tag">
           <span>태그</span>
           <ul id="tagList"></ul>
-          <input type="text" id="tagInput" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
+          <input class="post-input" type="text" id="tagInput" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
         </div>
         <div class="writePage__thumbnail">
           <span>포스트 이미지</span>
-          <input type="file" id="imageInput"/>
+          <div class="upload-file">
+            <input class="upload-name" value="첨부파일" placeholder="첨부파일" disabled="disabled">
+            <label for="imageInput">파일 업로드</label> 
+            <input type="file" class="upload-hidden" id="imageInput">
+          </div>
+          <!-- <input type="file" id="imageInput"/> -->
         </div>
+          
       </div>
       <div class="pathSelect">
         <span>패스 선택</span>

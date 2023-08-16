@@ -8,14 +8,14 @@
       {% csrf_token %}
       <span>
         <p class="auth__label">아이디</p>
-        <input type="text" name="loginId" required />
+        <input class="login-input" type="text" name="loginId" required />
       </span>
       <span>
         <p class="auth__label">비밀번호</p>
-        <input type="password" name="password" required />
+        <input class="login-input" type="password" name="password" required />
       </span>
 
-      <button type="submit">로그인</button>
+      <button class="btn" id="login-btn" type="submit">로그인</button>
     </form>
 
     <div class="kakao-login">
@@ -28,7 +28,7 @@
       </a>
     </div>
 
-    <p>계정이 없으신가요? <a href="{% url 'user_signup' %}">회원가입</a></p>
+    <p>계정이 없으신가요? <a class="auth-link" href="{% url 'user_signup' %}">회원가입</a></p>
   </div>
   <script
     src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"
