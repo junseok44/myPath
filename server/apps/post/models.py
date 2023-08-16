@@ -20,6 +20,8 @@ class Post(models.Model):
     review = models.CharField(max_length=500, blank=True, default='')
     thumbnail = models.ImageField(upload_to="post/", blank=True, null=True)
 
+    def __str__(self):
+        return self.title
 
 class Path(models.Model):
     id = models.UUIDField(

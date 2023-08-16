@@ -54,6 +54,7 @@
 }
 
 .detail-container .main-container {
+  /* position:relative; */
   display: flex;
   justify-content: flex-start;
   gap: 2rem;
@@ -71,7 +72,7 @@
 }
 
 .detailPage .main-container .step-container {
-  position: relative;
+  /* position: relative; */
   display: flex;
   gap: 2rem;
 }
@@ -90,7 +91,26 @@
 }
 
 .detailPage .step__edit-modal {
+  /* position: absolute; */
+}
+
+.row .modal__overlay{
   position: absolute;
+  top: 15rem;
+  left: 0px;
+  right:0px;
+  height:fit-content;
+  
+  /* height:30rem; */
+  z-index: 1000;
+}
+
+.row .step__edit-modal{
+  position:absolute;
+  /* top: 15rem; */
+  left: 0px;
+  right:0px;
+  height:fit-content;
 }
 
 .detailPage .step__edit-modal .step__comment {

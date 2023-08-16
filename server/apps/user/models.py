@@ -26,14 +26,15 @@ class User(AbstractUser):
             "unique": "A user with that loginId already exists.",
         },
     )
-
+    
     username = models.CharField(max_length=10, unique=True)
-
-    email = models.EmailField(_('email address'), unique=True)
 
     intro = models.CharField(max_length=300)
 
     membership = models.CharField(
         max_length=10, choices=membershipRank, default="bronze", blank=False, null=False)
     
-    kakaoId = models.IntegerField(null=True,blank=True)
+    kakaoId = models.CharField(null=True,blank=True, max_length=30)
+    googleId = models.CharField(null=True,blank=True, max_length=30)
+    naverId = models.CharField(null=True,blank=True, max_length=30)
+

@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
+from django.db import transaction
+
 from .models import *
 from apps.comment.models import *
 from django.core.serializers import serialize
@@ -8,7 +10,7 @@ import json
 from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers import serialize
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 import base64
 from django.core.files.base import ContentFile
@@ -87,6 +89,7 @@ def get_image_from_dataUrl(dataUrl):
 
     return image_data
 
+@transaction.atomic
 def view_post_write(request):
     if request.method == "POST":
         try:
@@ -204,6 +207,8 @@ def view_post_list(request):
 
 def view_post_delete(request, id):
     try:
+        print("삭제")
+        print(id)
         deletedPost = Post.objects.get(pk=id)
         deletedPost.delete()
         messages.success(request, '성공적으로 삭제되었습니다.')
@@ -212,6 +217,7 @@ def view_post_delete(request, id):
         messages.error(request, 'delete failed')
         return JsonResponse({"msg":"error"},status = 404)
 
+@transaction.atomic
 def view_post_edit(request, id):
 
     if request.method == "POST":
@@ -234,7 +240,7 @@ def view_post_edit(request, id):
 
             # data = json.loads(request.body)
             post = get_object_or_404(Post, pk=id)
-
+            print(post)
             # 1. 삭제된 path를 삭제한다.
             for deletedId in data['deletedPaths']:
                 matching_objects = Path.objects.filter(pk=deletedId)
@@ -292,6 +298,7 @@ def view_post_edit(request, id):
             #update
             # 기존 path 중에서 수정된것을 반영한다.
             for path in [path for path in data['paths'] if path['isEdited'] == True and path['isNew'] == False]:
+                print(path)
                 matching_objects = Path.objects.filter(pk=path['id'])
                 if matching_objects.exists():
                     for obj in matching_objects:
@@ -576,13 +583,47 @@ def toggle_like_ajax(request):
 
 
 def search(request):
+        post_list = Post.objects.all()
+        # page=request.GET.get('page')
+
+        # paginator = Paginator(post_list, 6)
+
+        # try:
+        #     page_obj = paginator.page(page) 
+        # except PageNotAnInteger:
+        #     page =1
+        #     page_obj = paginator.page(page)
+        # except EmptyPage:
+        #     page = paginator.num_pages
+        #     page_obj = paginator.page(page)
+
+                        
         if request.method == 'POST':
                 searched = request.POST['searched']        
                 searched_posts = Post.objects.filter(title__contains=searched)
-                return render(request, 'post/searched.html', {'searched': searched, 'searched_posts': searched_posts})
+                return render(request, 'post/searched.html', {'searched': searched, 'searched_posts': searched_posts,})
         else:
                 return render(request, 'post/searched.html', {})
         
+
+
+def search_by_category(request):
+        if request.method == 'POST':
+                searched = request.POST['searched']     
+
+                #category = Category.objects.get(name=category_name)
+                #category_tables = CategoryTable.objects.filter(category=category)
+
+                #category_posts = []
+                #for tables in category_tables:
+            #        category_posts.append(tables.post)
+                searched_posts = Post.objects.filter(title__contains=searched)
+                return render(request, 'post/search_by_category.html', {'searched': searched, 'searched_posts': searched_posts})
+        
+        else:
+                return render(request, 'post/search_by_category.html', {})
+
+
 
 def index(request):
     page = request.GET.get('page', '1')  # 페이지

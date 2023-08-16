@@ -19,6 +19,10 @@ function updateSelectOptions() {
       }
     }
     option.textContent = pathTitle;
+    if(typeof pathTitle=="undefined"){
+      option.textContent=listItem.querySelector(".path_title").innerHTML;
+      console.log(pathTitle);
+    }
     selectElement.appendChild(option);
     index++;
   }
