@@ -157,6 +157,15 @@ h3 {
   margin-bottom: 2rem;
 }
 
+/* 공통 컴포넌트: input, textarea */
+.writePage-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+}
+
+/* 공통 컴포넌트: 포스트 카드, 유저 카드 관련 */
 .post__title,
 .userinfo__title {
   font-size: 2rem;
@@ -221,9 +230,11 @@ h3 {
   background-color: transparent;
 }
 
+/* 유저카드	 */
 .usercard__container {
+  width: 280px;
   height: 300px;
-  padding: 1.7rem;
+  padding: 25px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -242,6 +253,7 @@ h3 {
 
 .usercard__header {
   color: var(--secondary-text-color);
+  font-size: 1.1rem;
 }
 
 .usercard__header-controls {
@@ -259,12 +271,52 @@ h3 {
 }
 
 .usercard__body {
+  width: 100%;
   height: 180px;
   display: flex;
   justify-content: end;
   align-items: flex-end;
 }
 
+.usercard__content {
+  max-width: 100%;
+  max-height: 180px;
+  overflow-y: auto;
+  word-wrap:break-word;
+}
+
+.usercard__content::-webkit-scrollbar {
+  display: none;
+}
+
+/* .userPage__intro-guide {
+  max-width: 100%;
+  max-height: 180px;
+  overflow-y: auto;
+  word-wrap:break-word;
+}
+
+.userPage__intro-guide::-webkit-scrollbar {
+  display: none;
+  width: 5px;  
+} */
+
+/* 스크롤바의 색상 */
+/* .userPage__intro-guide::-webkit-scrollbar-thumb {
+  height: 20px;
+  background: var(--border-grey); 
+  border-radius: 10px;
+} */
+
+/*스크롤바 뒷 배경 색상*/
+/* .userPage__intro-guide::-webkit-scrollbar-track {
+  background: transparent;  
+} */
+
+
+
+
+/* 반응형 컨테이너 관련 */
 .responsive-container {
   width: 90%; /* Default width for 450px or less */
   max-width: 1320px; /* Maximum width for 1400px or more */
