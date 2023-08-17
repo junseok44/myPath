@@ -84,13 +84,25 @@
 
 #kakao-login {
   color: rgb(0, 0, 0, 0.85);
-  background-color: #FEE500;
+  background-color: #fee500;
 }
 
 #google-login {
   margin-top: 5px;
   color: black;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
+}
+
+.login_logo {
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-right: 0.3rem;
+}
+
+.login_logo.google {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-right: 0.8rem;
 }
 
 /* 회원가입 관련 */
@@ -104,7 +116,7 @@
 
 .signup-input-box {
   height: 25%;
-  padding: 10px
+  padding: 10px;
 }
 
 .signup-input-box:nth-child(1),
