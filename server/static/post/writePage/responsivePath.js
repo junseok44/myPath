@@ -7,22 +7,26 @@ function updateSelectOptions() {
   const listItems = listElement.querySelectorAll(".path");
   let index = 1;
   for (const listItem of listItems) {
-    let title = listItem.querySelector(".path_title").innerHTML;
+    let title = listItem.querySelector(".path_title").value;
     const pathTitle = title !== "" ? title : `이름없는 패스${index}`;
     const option = document.createElement("option");
     const classNames = listItem.className.split(" ");
     for (const className of classNames) {
       if (className.startsWith("path_")) {
-        // Remove "step_" from the class name to get the "id"
         option.value = className.slice(5);
         break;
       }
     }
     option.textContent = pathTitle;
-    // if (typeof pathTitle == "undefined") {
-    //   option.textContent = listItem.querySelector(".path_title").innerHTML;
-    //   console.log(pathTitle);
-    // }
+
+    // detail 페이지일때는 이렇게.
+    if (typeof pathTitle == "undefined") {
+      if (listItem.querySelector(".path_title").innerHTML == "") {
+        option.textContent = `이름없는 패스${index}`;
+      } else {
+        option.textContent = listItem.querySelector(".path_title").innerHTML;
+      }
+    }
     selectElement.appendChild(option);
     index++;
   }

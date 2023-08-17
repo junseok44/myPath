@@ -212,41 +212,11 @@
     }
 </script>
 
-<script>
-  async function deletepost(id) {
-      const response = await fetch(`/post/delete/${id}`, {
-        method: "POST",
-        body: JSON.stringify({id: id}),
-        headers: {
-          "content-type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken")
-        }
-      });
-
-      if (response.status == 200) {
-        window.location.href = "/";
-      }
-    }
-
-
-  </script>
-
-<script>
-
-  function showInitialPath(){
-    const paths=document.querySelectorAll(".path");
-    console.log(paths[0].classList);
-    paths.forEach((item)=>(item.classList.add("hidden")));
-    console.log(paths[0].classList);
-    paths[0].classList.remove("hidden");
-  }
-  showInitialPath();
-</script>
-
+<!-- ajax 요청 관련 스크립트 -->
 <script>
   // var clicked=0;
   const requestStepDetail = new XMLHttpRequest();
-  onClickStepDetail = (step_id) => {
+  const onClickStepDetail = (step_id) => {
     var element = document.getElementById(`step-modal-${step_id}`);
     element
       .classList
@@ -441,7 +411,52 @@
 
     if (response.ok) {}
   };
+
+
+
+  async function deletepost(id) {
+      const response = await fetch(`/post/delete/${id}`, {
+        method: "POST",
+        body: JSON.stringify({id: id}),
+        headers: {
+          "content-type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken")
+        }
+      });
+
+      if (response.status == 200) {
+        window.location.href = "/";
+      }
+    }
+
+
+
 </script>
+
+
+<!-- 최초 패스 보여주기 관련 스크립트 -->
+<script>
+  function showInitialPath(){
+    const paths=document.querySelectorAll(".path");
+    console.log(paths[0].classList);
+    paths.forEach((item)=>(item.classList.add("hidden")));
+    console.log(paths[0].classList);
+    paths[0].classList.remove("hidden");
+
+    // 모달도 보이도록 추가.
+
+    if(window.innerWidth >= 600) {
+      const firstModal = paths[0].querySelectorAll(".modal__overlay")[0];
+    console.log(firstModal.id.slice(10));
+    onClickStepDetail(firstModal.id.slice(11));
+    firstModal.classList.remove("hidden")
+    }
+   
+  }
+  showInitialPath();
+</script>
+
+
 
 <!-- 북마크, 좋아요 관련 스크립트 -->
 <script>
