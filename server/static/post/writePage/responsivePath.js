@@ -59,16 +59,17 @@ function changeDisplay(id) {
 }
 
 const listItems = listElement.querySelectorAll(".path");
+// console.log(listItems);
 
 if (window.innerWidth <= responsiveWidth) {
   listItems.forEach((item) => (item.style.display = "none"));
   listItems[0].style.display = "block";
   updateSelectOptions();
 } else {
-  listItems.forEach((item) => (item.style.display = "block"));
+  // listItems.forEach((item) => (item.style.display = "block"));
 }
 
-// 개발용 이벤트 리스너.
+// 개발용 이벤트 리스너. 
 window.addEventListener("resize", () => {
   const listItems = listElement.querySelectorAll(".path");
   if (window.innerWidth <= responsiveWidth) {
@@ -76,6 +77,6 @@ window.addEventListener("resize", () => {
     listItems[0].style.display = "block";
     updateSelectOptions();
   } else {
-    listItems.forEach((item) => (item.style.display = "block"));
+    // listItems.forEach((item) => (item.style.display = "block"));
   }
 });

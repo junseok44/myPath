@@ -53,16 +53,15 @@
       <div class="detailPage__writer">
         작성자: <a clas href="/">{{post.user}}</a>
         {% if post.user == user %}
-        <button class="btn">
-          <a href="{% url 'post:post_edit' id=post.id %}">
-            이 포스트 편집하기
-          </a>
-        </button>
+        <a href="{% url 'post:post_edit' id=post.id %}">
+          <button class="btn">이 포스트 편집하기</button>
+        </a>
+        <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn" >이 포스트 삭제하기</button>
         {% endif %}
       </div>
       
       <div class="accordion">
-        <div class="title" onclick="toggleAccordion('accordion1')">
+        <div class="review__title" onclick="toggleAccordion('accordion1')">
           패스 소개
           <span class="arrow">▼</span>
         </div>
@@ -85,14 +84,16 @@
     <div class="detailPage__pathSelect">
       <span>패스 선택</span>
       <select id="pathSelect" class="select"></select>
-      <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a>
+      <!-- <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a> -->
     </div>
     <hr />
     <ul class="main-container {{post.mode}}-mode detailPage__main">
+      
       {% for path in paths %}
       <li class="path path_{{path.id}}">
         <div class="path_title">{{path.title}}</div>
         <div class="step-container">
+          
           {% for step in path.steps %}
           <section class="step step_{{step.id}}">
             <div class="step-content">
@@ -102,23 +103,25 @@
                 더보기
               </button>
             </div>
-            <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
-              <div class="step__edit-modal step__modal modal_{{step.id}}">
-                <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
-                <div class="step__comment">
-                  <div class="step_comment_{{step.id}}">
-                  </div>
-                </div>
-                <div class="new__comment">
-                  <input type="text" class="new-comment" placeholder="댓글을 입력하세요" />
-                  <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
-                </div>
-                <button onclick="onToggleStepDetail('{{step.id}}')" class="btn done">확인</button>
-              </div>
-            </div>
           </section>
           {% endfor %}
         </div>
+        {% for step in path.steps %}
+        <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
+          <div class="step__edit-modal step__modal modal_{{step.id}}">
+            <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
+            <div class="step__comment">
+              <div class="step_comment_{{step.id}}">
+              </div>
+            </div>
+            <div class="new__comment">
+              <input type="text" class="new-comment" placeholder="댓글을 입력하세요" />
+              <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
+            </div>
+            <button onclick="onToggleStepDetail('{{step.id}}')" class="btn done">확인</button>
+          </div>
+        </div>
+        {% endfor %}
       </li>
       {% endfor %}
     </ul>
@@ -210,6 +213,37 @@
 </script>
 
 <script>
+  async function deletepost(id) {
+      const response = await fetch(`/post/delete/${id}`, {
+        method: "POST",
+        body: JSON.stringify({id: id}),
+        headers: {
+          "content-type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken")
+        }
+      });
+
+      if (response.status == 200) {
+        window.location.href = "/";
+      }
+    }
+
+
+  </script>
+
+<script>
+
+  function showInitialPath(){
+    const paths=document.querySelectorAll(".path");
+    console.log(paths[0].classList);
+    paths.forEach((item)=>(item.classList.add("hidden")));
+    console.log(paths[0].classList);
+    paths[0].classList.remove("hidden");
+  }
+  showInitialPath();
+</script>
+
+<script>
   // var clicked=0;
   const requestStepDetail = new XMLHttpRequest();
   onClickStepDetail = (step_id) => {
@@ -237,8 +271,8 @@
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
         const comment_container = stepNode.querySelector(".step__comment")
         const commentNode = document.querySelector(`.step_comment_${step_parsed["pk"]}`);
-        console.log(step_parsed["fields"]["Image"]);
-        console.log(step_parsed["fields"]);
+        // console.log(step_parsed["fields"]["Image"]);
+        // console.log(step_parsed["fields"]);
         image_url = step_parsed["fields"]["Image"]
         // console.log(image_null==true)
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
@@ -281,11 +315,11 @@
           }
           stepNode.insertBefore(stepInfo, comment_container)
         }
-        console.log(commentNode);
+        // console.log(commentNode);
         commentNode.innerHTML = ``;
 
         step_comments_parsed.forEach((element) => {
-          console.log(element);
+          // console.log(element);
           commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
                         <p class="comment_writer">${element["fields"]["writer"]}
                           <span class="comment-actions">
@@ -361,7 +395,7 @@
   const requestCommentDelete = new XMLHttpRequest();
   const deletePostComment = (post_id, comment_id) => {
     const url = "delete_comment";
-    console.log(url);
+    // console.log(url);
     requestCommentDelete.open("POST", url, true);
     requestCommentDelete.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     requestCommentDelete.send(JSON.stringify({post_id: post_id, comment_id: comment_id}));
@@ -395,7 +429,7 @@
   };
 
   const onAddChildrenComment = async (postId, parentCommentId) => {
-    console.log(postId, parentCommentId);
+    // console.log(postId, parentCommentId);
     const response = await fetch(`/post/${postId}/create_comment`, {
       method: "POST",
       headers: {
@@ -533,6 +567,11 @@
 <!-- 메인 핸들러 -->
 <script>
 
+  
+  // const paths=document.querySelectorAll(".path");
+  // console.log(paths[0].style);
+  // paths.forEach((item)=>(item.style.display=none));
+  // paths[0].style.display=block;
   updateSelectOptions();
   //changeDisplay(id);
 

@@ -96,7 +96,7 @@
     <button type="button" class="userPage__add-btn btn-unset">
       <i class="fa-solid fa-plus"></i>
     </button>
-    <form method="POST" action='{% url 'user_card_add' %}' id="userPage__add-form" class="hidden">
+    <form method="POST" action='{% url 'user_card_add' %}' class="userPage__add-form hidden">
       {% csrf_token %} 
       <h2>유저 카드 추가</h2>
       <input class="writePage-input" required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
@@ -276,7 +276,7 @@ editButtons.forEach(editBtn => {
 
 <script>
   const addBtn = document.querySelector(".userPage__add-btn");
-  const addForm = document.querySelector("#userPage__add-form");
+  const addForm = document.querySelector(".userPage__add-form");
   const onClickAddBtn = () => {
     addBtn.classList.toggle("hidden");
     addForm.classList.toggle("hidden");

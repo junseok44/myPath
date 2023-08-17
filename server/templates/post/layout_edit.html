@@ -1,8 +1,4 @@
 <div class="editPage">
-    <div class="editPage__delete">
-        <button class="btn writePage__btn"></button>
-        <!-- 포스트 삭제 버튼 -->
-    </div>
     <!-- form -->
     <div class="writePage__intro">
         <p class="writePage__title">
@@ -46,36 +42,37 @@
             <!-- 패스 삭제 버튼 -->
             <div class="step_container   {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
                 <section class="step step_{{step.id}}">
-                    <p class="title">
-                        <!-- 스텝 이름 -->
-                    </p>
-                    <p class="desc">
-                        <!-- 스텝 설명 -->
-                    </p>
-                    <div class="step-btn-container">
-                        <button class="edit-btn btn">
-                            <!-- 편집버튼 -->
-                        </button> 
-                        <!-- 위로 올리기 버튼 -->
-                        <!-- 아래로 내리기 버튼 -->
-                        <!-- 스텝 삭제 버튼 -->
+                    <div class="step-content">
+                        <p class="title">
+                            <!-- 스텝 이름 -->
+                        </p>
+                        <p class="desc">
+                            <!-- 스텝 설명 -->
+                        </p>
+                        <div class="step-btn-container">
+                            <button class="edit-btn btn">
+                                <!-- 편집버튼 -->
+                            </button> 
+                            <!-- 위로 올리기 버튼 -->
+                            <!-- 아래로 내리기 버튼 -->
+                            <!-- 스텝 삭제 버튼 -->
+                        </div>
                     </div>
-                    <div class="modal__overlay hidden">
-                        <div class="step__edit-modal modal_{{step.id}} hidden">
-                            <!-- 제목 -->
-                            <!-- 설명 -->
-                            <div>
-                                <!-- 취소버튼 -->
-                                <!-- 변경버튼 -->
-                            </div>
-                        </div> 
-                    </div>
-                </section>  
+                </section>
             </div>
-            <div class="item_add-btn">
+            <div class="modal__overlay hidden">
+                <div class="step__edit-modal modal_{{step.id}} hidden">
+                    <!-- 제목 -->
+                    <!-- 설명 -->
+                    <div>
+                        <!-- 취소버튼 -->
+                        <!-- 변경버튼 -->
+                    </div>
+                </div>
+            </div>
+            <button class="item_add-btn">
                 <!-- 스텝+ -->
-            </div>
-
+            </button>
         </li>
     </ul>
     <hr/>
