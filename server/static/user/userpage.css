@@ -29,11 +29,40 @@
   width: 100%;
   gap: 1rem;
 }
-*/ .userPage__cardForm.hide {
+.userPage__cardForm.hide {
   display: none;
 }
 
 .btn-unset {
   all: unset;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-unset:hover {
+  color: black;
+}
+
+.userPage__carousel-btn {
+  margin-top: 0.3rem;
+}
+
+.userPage__carousel-btn:first-child {
+  margin-right: 0.3rem;
+}
+
+.userPage__mr {
+  margin-right: 0.3rem;
+}
+.userPage__ml {
+  margin-left: 0.3rem;
+}
+
+.userPage__editBtns {
+  display: flex;
+  gap: 1rem;
+}
+
+.userPage__editBtns button {
+  flex: 1;
 }

@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% load my_filters %} 
+{% block content %}
 <div>
   {% block stylesheet %}
   <link
@@ -12,59 +13,83 @@
 
 <div class="myPage">
   <div class="userinfo__title">{{user.membership}} {{user.username}}</div>
+
   <div class="userinfo__container owl-carousel">
+  
     <div class="usercard__container">
-      <div class="usercard__header">자기소개</div>
+      <div class="usercard__header">자기소개
+        <button class="userPage__intro-edit btn-unset userPage__ml"><i class="fa-solid fa-pen"></i></button>
+      </div>
       <div class="usercard__body">
         {% if user.intro == "" %}
-        <p>작성된 자기소개가 없습니다. {% else %} {{user.intro}} {% endif %}</p>
+        <p class="userPage__intro-guide">작성된 자기소개가 없습니다.</p>
+          {% else %} 
+        <p class="userPage__intro-guide">
+          {{user.intro}}
+        </p>
+        {% endif %}
+        <form action="/user/userIntro" method="post" class="userPage__intro-form hidden">
+          {% csrf_token %}
+          <textarea name="intro" placeholder="소개를 입력하세요..." class="writePage-input">{{user.intro}}</textarea>
+          <button type="submit" class="btn">작성하기</button>
+        </form>
       </div>
     </div>
     <div class="usercard__container">
       <div class="usercard__header">작성한 Path의 수</div>
       <div class="usercard__body">{{posts_count}}</div>
     </div>
+
  
     {% for card in userCards %}
     <div class="usercard__container card__{{card.id}}">
       <div class="usercard__header-controls">
-        {% if card.link %}
-        <a href='{{card.link}}' target="blank" class="btn-unset">
-          <i class="fa-solid fa-link"></i>
-        </a>
-        {% endif %}
-        <!-- <button class="btn-unset" onclick="toggleEditForm('{{card.id}}')">
+        
+        <button class="btn-unset userPage__mr" onclick="toggleEditForm('{{card.id}}')">
           <i class="fa-solid fa-pen"></i>
-        </button> -->
+        </button>
       <form method="POST" action='{% url 'user_card_delete' id=card.id %}' class="userPage__delete-form">
       {% csrf_token %}
       <button class="btn-unset" type="submit">
         <i class="fa-solid fa-x"></i>
       </button>
-    </form>
+      </form>
       </div>
-      <div class="usercard__header">{{card.title}} 
+      <div class="usercard__header">
+        {% if card.link %}
+        <a href='{{card.link|add_protocol}}' target="blank" class="auth-link">
+          {{card.title}}
+        </a>
+        {% else %}
+        {{card.title}}
+        {% endif %}
       </div>
       <div class="usercard__body">{{card.desc}}</div>
-        <form method="POST" action='{% url 'user_card_edit' id=card.id %}' id="editForm__{{card.id}}" class="userPage__cardForm hidden">
-          {% csrf_token %} 
-          <h2>내용 수정</h2>
-          <input value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
-          <input
-            value="{{card.link}}"
-            name="link"
-            placeholder="관련 링크가 있나요? ex) 블로그 링크, SNS 링크"
-          />
-          <textarea
-            value="{{card.desc}}"
-            required
-            name="desc"
-            placeholder="설명을 덧붙여주세요! (100자 이내)"
-          ></textarea>
+      <form method="POST" action='{% url 'user_card_edit' id=card.id %}' id="editForm__{{card.id}}" class="userPage__cardForm hidden">
+        {% csrf_token %} 
+        <h2>내용 수정</h2>
+        <input class="writePage-input" value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? (10자 이내)"/ >
+        <input
+        class="writePage-input"
+          value="{{card.link}}"
+          name="link"
+          placeholder="관련 링크가 있나요?,,블로그 링크, SNS 링크 등"
+        />
+        <textarea
+        class="writePage-input"
+          value="{{card.desc}}"
+          required
+          name="desc"
+          placeholder="설명을 덧붙여주세요! (100자 이내)"
+        ></textarea>
+        <div class="userPage__editBtns">
+          <button type="button" class="btn" onclick="onCancelEditForm()">취소</button>
           <button type="submit" class="btn">확인</button>
-        </form>
+        </div>
+    
+      </form>
     </div> 
-
+    
       {% endfor %}
  
   <div class="usercard__container add">
@@ -74,24 +99,28 @@
     <form method="POST" action='{% url 'user_card_add' %}' id="userPage__add-form" class="hidden">
       {% csrf_token %} 
       <h2>유저 카드 추가</h2>
-      <input required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
-      <input
+      <input class="writePage-input" required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
+      <input class="writePage-input" 
         name="link"
         placeholder="관련 링크가 있나요? ex) 블로그 링크, SNS 링크"
       />
       <textarea
+      class="writePage-input"
         required
         name="desc"
         placeholder="설명을 덧붙여주세요! (100자 이내)"
       ></textarea>
-      <button type="submit" class="btn">확인</button>
-      <button type="button" class="btn" onclick="onClickAddBtn()">취소</button>
+      <div class="userPage__editBtns">
+        <button type="button" class="btn" onclick="onClickAddBtn()">취소</button>
+        <button type="submit" class="btn">확인</button>
+      </div>
+ 
 
     </form>
   </div>
 </div>
   <ul class="nav nav-tabs">
-    <li class="nav-item" onclick="change_tab_color(e)">
+    <li class="nav-item" onclick="change_tab_color(event)">
       <a
         class="nav-link active"
         id="my-posts-tab"
@@ -100,18 +129,18 @@
         >나의 패스</a
       >
     </li>
-    <li class="nav-item" onclick="change_tab_color(e)">
+    <li class="nav-item" onclick="change_tab_color(event)">
       <a class="nav-link" id="my-likes-tab" data-toggle="tab" href="#my-likes"
-        >내가 좋아요 한 패스</a
+        >좋아요 한 패스</a
       >
     </li>
-    <li class="nav-item" onclick="change_tab_color(e)">
+    <li class="nav-item" onclick="change_tab_color(event)">
       <a
         class="nav-link"
         id="my-bookmarks-tab"
         data-toggle="tab"
         href="#my-bookmarks"
-        >내가 북마크 한 패스</a
+        >북마크 한 패스</a
       >
     </li>
   </ul>
@@ -226,6 +255,26 @@
 </div>
 
 <script>
+
+  const editButtons = document.querySelectorAll(".userPage__intro-edit");
+
+// Attach individual event listeners to each button
+editButtons.forEach(editBtn => {
+  editBtn.addEventListener("click", event => {
+    const cardContainer = editBtn.closest(".usercard__container");
+    const guide = cardContainer.querySelector(".userPage__intro-guide");
+    const form = cardContainer.querySelector(".userPage__intro-form");
+    
+    guide.classList.toggle("hidden");
+    form.classList.toggle("hidden");
+  });
+});
+
+
+</script>
+
+
+<script>
   const addBtn = document.querySelector(".userPage__add-btn");
   const addForm = document.querySelector("#userPage__add-form");
   const onClickAddBtn = () => {
@@ -240,15 +289,26 @@
   }
 
   function toggleEditForm (cardId)  {
-    const form = document.querySelector(`#editForm__special`)
-    alert(form);
+    const form = document.querySelector(`#editForm__${cardId}`)
+    const card = document.querySelector(`.card__${cardId}`)
+    const body = card.querySelector(".usercard__body")
+    const title = card.querySelector(".usercard__header")
+    const controls = card.querySelector(".usercard__header-controls")
+    card.removeChild(body)
+    card.removeChild(title)
+    card.removeChild(controls)
+
     form.classList.toggle("hidden")
+  }
+
+  function onCancelEditForm() {
+    location.reload()
   }
 </script>
 
 <script>
   function change_tab_color(e) {
-    var taps = document.querySelectorAll(".nav-items");
+    var taps = document.querySelectorAll(".nav-item");
     taps.forEach(function (tap, i) {
       if (e.currentTarget == tap) {
         tap.classList.add("active");
@@ -290,20 +350,20 @@
 <script src="{% static 'library/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
 <script>
   $(".owl-carousel").owlCarousel({
-    loop: true,
     margin: 10,
     responsiveClass: true,
-    nav: false,
+    nav: true,
+    navText: ['<button class="btn userPage__carousel-btn">이전으로</button>', '<button class="btn userPage__carousel-btn">다음으로</button>'],
     responsive: {
       0: {
-        items: 1.15,
+        items: 1,
       },
       600: {
         items: 3,
       },
       1000: {
-        items: 3.3,
-        // loop: false,
+        items: 4,
+        nav: true,
       },
     },
   });

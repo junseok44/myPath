@@ -12,13 +12,21 @@
   --secondary-text-color: rgb(120, 120, 120);
 }
 
-*{
+* {
   box-sizing: border-box;
   font-family: "SUITE-Regular", sans-serif;
 }
 
 /* 임시 폰트 강제 적용 */
-div, p, form, label, input, select, h1, h2, h3 {
+div,
+p,
+form,
+label,
+input,
+select,
+h1,
+h2,
+h3 {
   font-family: "SUITE-Regular", sans-serif !important;
 }
 
@@ -109,8 +117,9 @@ div, p, form, label, input, select, h1, h2, h3 {
   margin-bottom: 2rem;
   flex-direction: row;
   align-items: center;
-  border: solid 1px --border-grey;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* var 붙여주고 (안붙어있어서) boxshadow 제거해주었습니다 */
+  border: solid 1px var(--border-grey);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 .nav-item {
@@ -127,6 +136,11 @@ div, p, form, label, input, select, h1, h2, h3 {
   cursor: pointer;
 }
 
+.nav-item.active {
+  color: var(--primary-color);
+}
+
+/* 밑에꺼는 지금 적용이 안되는 상태입니다. 확인하고 지워주세용 */
 .nav-item:active {
   color: var(--primary-color);
 }
@@ -160,7 +174,7 @@ div, p, form, label, input, select, h1, h2, h3 {
   }
 
   @media screen and (max-width: 450px) {
-    display: block;
+    grid-template-columns: 1fr;
   }
   justify-content: center;
   align-items: center;
@@ -238,6 +252,10 @@ div, p, form, label, input, select, h1, h2, h3 {
   align-items: center;
   gap: 0.3rem;
   margin-top: 0.5rem;
+}
+
+.usercard__header-controls i {
+  color: var(--secondary-text-color);
 }
 
 .usercard__body {

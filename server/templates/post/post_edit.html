@@ -4,13 +4,14 @@
 
 <div class="editPage">
   <!-- <h1>edit</h1> -->
+  <button onclick="showAllItems()">allitems</button>
   <div class="editPage__delete">
     <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn">이 포스트 삭제하기</button>
   </div>
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <p class="writePage__title">
-        <input type="text" placeholder="title" name="title" id="titleInput" value="{{post.title}}"/>
+        <input maxlength="20" type="text" placeholder="title" name="title" id="titleInput" value="{{post.title}}"/>
       </p>
       <div class="writePage__meta">
         <span class="labelfor">카테고리</span>
@@ -38,8 +39,7 @@
      
     </div>
     <div class="writePage__desc">
-      <textarea type="text" placeholder="설명" name="desc" id="descInput">
-        {{post.desc}}</textarea>
+      <textarea maxlength="500" type="text" placeholder="설명" name="desc" id="descInput">{{post.desc}}</textarea>
     </div>
     <div class="writePage__controlBox">
       <div class="editPage__pathSelect">
@@ -59,7 +59,7 @@
       {% for path in paths %}
         <li class="path path_{{path.id}}">
           <span class="path_intro">
-            <input placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
+            <input maxlength="10" placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
             <button class="btn step-add-btn" type="button" onclick="handleAddPath('{{path.id}}') ">
               패스+
             </button>
@@ -71,8 +71,8 @@
             {% for step in path.steps %}
               <section class="step step_{{step.id}}">
                 <div class="step-content">
-                  <input class="title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
-                  <textarea class="desc" onchange="handleChangeStepDesc('{{step.id}}')">{{step.desc}}</textarea>
+                  <input maxlength="20" class="title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
+                  <textarea maxlength="500" class="desc" onchange="handleChangeStepDesc('{{step.id}}')">{{step.desc}}</textarea>
                   <input type="file" class="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
                   <!-- <p class="title">{{step.title}}</p>
                   <p class="desc">{{step.desc}}</p> -->
@@ -119,7 +119,7 @@
     <hr/>
     <h5 class="detailPage__subtitle">후기</h5>
     <div class="writePage__review">
-      <textarea placeholder="후기" id="reviewInput">{{post.review}}</textarea>
+      <textarea maxlength="500" placeholder="후기" id="reviewInput">{{post.review}}</textarea>
     </div>
     <button type="button" onclick="handleFormCancel()">취소하기</button>
     <button type="submit">변경하기</button>
@@ -257,7 +257,7 @@
   <!-- 메인 핸들러 -->
   <script>
     function showAllItems() {
-      // console.log(steps);
+      console.log(steps);
       console.log(paths);
       // console.log(deletedTag)
       // console.log(addedTag)
@@ -450,7 +450,6 @@
     step.title = titleInput.value;
     step.isEdited = true;
 
-    console.log(step);
   }
 
   function handleChangeStepDesc(stepId) {
@@ -461,7 +460,6 @@
     step.desc = descInput.value;
     step.isEdited = true;
 
-    console.log(step);
   }
 
   function handleChangeStepImage(stepId) {
@@ -479,7 +477,6 @@
       reader.readAsDataURL(imageFile);
     }
     step.isEdited = true;
-    console.log(step);
   }
   </script>
 

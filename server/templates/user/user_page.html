@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %}
+{% extends 'base.html' %} {% load static %} {% load my_filters %}
 
 <div>
   {% block stylesheet %}
@@ -12,7 +12,16 @@
 
 {% block content %}
 <div class="userPage">
-  <div class="userinfo__title">{{user.membership}} {{user.username}}</div>
+  <div class="userinfo__title">
+    {{user.membership}} {{user.username}}
+    <span>
+      {% if user.is_authenticated and user == request.user%}
+      <a href="{% url 'my_page' %}">
+        <button class="btn">내 정보 수정하기</button>
+      </a>
+      {% endif %}
+    </span>
+  </div>
   <div class="userinfo__container owl-carousel">
     <div class="usercard__container">
       <div class="usercard__header">자기소개</div>
@@ -22,10 +31,19 @@
       <div class="usercard__header">작성한 Path의 수</div>
       <div class="usercard__body">{{posts_count}}</div>
     </div>
-    <div class="usercard__container">
-      <div class="usercard__header">좋아요 지수</div>
-      <div class="usercard__body"></div>
+
+    {% for card in user_cards %}
+    <div class="usercard__container card__{{card.id}}">
+      <div class="usercard__header">
+        {% if card.link %}
+        <a href="{{card.link|add_protocol}}" target="_blank" class="auth-link">
+          {{card.title}}
+        </a>
+        {% else %} {{card.title}} {% endif %}
+      </div>
     </div>
+
+    {% endfor %}
   </div>
   <div class="post__title">{{user.username}}의 패스들</div>
   <div class="post__container">

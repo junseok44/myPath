@@ -2,11 +2,13 @@
 
 <div class="writePage">
   <h1>제작 페이지</h1>
+  <button onclick="showAllItems()">allitems</button>
   <form onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <div class="writePage__title">
         <label class="labelfor">제목</label>
         <input
+          maxlength="20"
           class="writePage-input"
           type="text"
           placeholder="포스트 제목"
@@ -50,14 +52,14 @@
     </div>
     <div class="writePage__desc">
       <textarea
+        maxlength="500"
         class="writePage-input"
         type="text"
         placeholder="포스트 설명"
         name="desc"
         id="descInput"
         required="required"
-      >
-      </textarea>
+      ></textarea>
     </div>
     <div class="writePage__controlBox">
       <div class="pathSelect">
@@ -85,6 +87,7 @@
     <hr />
     <div class="writePage__review">
       <textarea
+        maxlength="500"
         class="writePage-input"
         type="text"
         name="review"
