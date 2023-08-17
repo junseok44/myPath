@@ -15,7 +15,7 @@ function addPathNode(prevPathId, id) {
   if (NewBtn) {
     NewBtn.parentNode.removeChild(NewBtn);
   }
-  let isColumnMode = main.classList.contains(".col-mode");
+  let isColumnMode = main.classList.contains("col-mode");
 
   li = document.createElement("li");
   li.classList.add(`path`);
