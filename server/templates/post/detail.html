@@ -105,9 +105,21 @@
           {% for step in path.steps %}
           <section class="step step_{{step.id}}">
             <div class="step-content">
-              <p class="title">{{step.title}}</p>
-              <p class="desc">{{step.desc}}</p>
-              <button class="btn" type="button" onclick="onClickStepDetail('{{step.id}}')">
+              <p class="title">
+                {% if step.title == "" %}
+                제목이 없어요.
+                {% else %}
+                {{step.title}}
+                {% endif %}
+              </p>
+              <p class="desc">
+                {% if step.desc == "" %}
+                설명이 없어요.
+                {% else %}
+                {{step.desc}}
+                {% endif %}
+              </p>
+              <button class="btn detailPage__detailBtn" type="button" onclick="onClickStepDetail('{{step.id}}')">
                 더보기
               </button>
             </div>
