@@ -54,7 +54,7 @@
         <a href="{% url 'post:post_edit' id=post.id %}">
           <button class="btn">이 포스트 편집하기</button>
         </a>
-        <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn">이 포스트 삭제하기</button>
+        <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn" >이 포스트 삭제하기</button>
         
         {% endif %}
       </div>
@@ -207,6 +207,25 @@
         .shift();
     }
 </script>
+
+<script>
+  async function deletepost(id) {
+      const response = await fetch(`/post/delete/${id}`, {
+        method: "POST",
+        body: JSON.stringify({id: id}),
+        headers: {
+          "content-type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken")
+        }
+      });
+
+      if (response.status == 200) {
+        window.location.href = "/";
+      }
+    }
+
+
+  </script>
 
 <script>
 
