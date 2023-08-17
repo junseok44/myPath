@@ -87,7 +87,7 @@ h3 {
 }
 
 .hidden {
-  display: none !important;
+  display: none;
 }
 
 .fa-solid.fa-heart {
