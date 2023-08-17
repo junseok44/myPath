@@ -1,5 +1,5 @@
 let responsiveWidth = 600;
-const listElement = document.querySelector(".main");
+const listElement = document.querySelector(".main-container");
 const selectElement = document.getElementById("pathSelect");
 
 function updateSelectOptions() {
@@ -19,6 +19,10 @@ function updateSelectOptions() {
       }
     }
     option.textContent = pathTitle;
+    if(typeof pathTitle=="undefined"){
+      option.textContent=listItem.querySelector(".path_title").innerHTML;
+      console.log(pathTitle);
+    }
     selectElement.appendChild(option);
     index++;
   }
@@ -55,16 +59,17 @@ function changeDisplay(id) {
 }
 
 const listItems = listElement.querySelectorAll(".path");
+// console.log(listItems);
 
 if (window.innerWidth <= responsiveWidth) {
   listItems.forEach((item) => (item.style.display = "none"));
   listItems[0].style.display = "block";
   updateSelectOptions();
 } else {
-  listItems.forEach((item) => (item.style.display = "block"));
+  // listItems.forEach((item) => (item.style.display = "block"));
 }
 
-// 개발용 이벤트 리스너.
+// 개발용 이벤트 리스너. 
 window.addEventListener("resize", () => {
   const listItems = listElement.querySelectorAll(".path");
   if (window.innerWidth <= responsiveWidth) {
@@ -72,6 +77,6 @@ window.addEventListener("resize", () => {
     listItems[0].style.display = "block";
     updateSelectOptions();
   } else {
-    listItems.forEach((item) => (item.style.display = "block"));
+    // listItems.forEach((item) => (item.style.display = "block"));
   }
 });

@@ -25,20 +25,9 @@ environ.Env.read_env(BASE_DIR / "../.env")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
-
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
-
-def get_env_variable(key):
-    try:
-        print("getting secret key")
-        return secrets[key]
-    except KeyError:
-        error_msg = f"Set the {key} environment variable"
-        raise Exception(error_msg)
-
-SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
+# secrets.json 안에 있는 secret key를 env 파일로 옮길것.
+# 형식은 DJANGO_SECRET_KEY=그 값 
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 AUTH_USER_MODEL = 'user.User'
 
@@ -161,6 +150,7 @@ AUTH_USER_MODEL = 'user.User'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    'apps.user.backends.LoginIDBackend',
 )
 
 SOCIAL_AUTH_NAVER_KEY = ' '

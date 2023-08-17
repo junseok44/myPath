@@ -1,6 +1,12 @@
+/* 제작 & 편집 & 디테일의 태그 디자인 */
+
+/* 태그 */
 #tagList {
   list-style: none;
   padding: 0;
+  max-width: 100%;
+  overflow-x: scroll;
+  display: flex;
 }
 
 #tagList li {
@@ -9,10 +15,349 @@
   background-color: #f0f0f0;
   padding: 5px 10px;
   border-radius: 20px;
+  white-space: nowrap;
 }
 
 #tagList li span {
   cursor: pointer;
   margin-left: 5px;
   font-weight: bold;
+}
+
+/* 카테고리 페이지의 페이지네이션 */
+
+.pagination {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pagination a {
+  all: unset;
+  cursor: pointer;
+}
+
+.pagination a:hover {
+  opacity: 0.7;
+}
+
+.pagination li.active {
+  font-weight: 700;
+}
+
+.pagination-numbers {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+/* 모달 관련 */
+.new-comment {
+  padding: 5px;
+  border: solid 1px var(--border-grey);
+  border-radius: 5px;
+}
+
+.new-comment-reply {
+  width: 800px;
+}
+
+/* 메인부분 모바일로 한줄 배열될때 중앙으로 가도록. */
+.main-container {
+  min-height: 600px;
+  @media screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* 제작, 편집페이지 공통 컴포넌트 반응형 작업 */
+#reviewInput,
+#descInput {
+  width: 100%;
+  min-height: 10rem;
+
+  @media screen and (max-width: 600px) {
+    max-height: 5rem;
+  }
+}
+
+#titleInput {
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+}
+
+#categorySelect {
+  margin-right: 0.5rem;
+}
+
+#tagInput {
+  @media screen and (max-width: 600px) {
+    flex: 1;
+  }
+}
+
+/* 패스 관련 css */
+.path {
+  position: relative;
+}
+
+.path_intro {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+  max-width: 15rem;
+}
+
+.path_intro > input {
+  flex: 1;
+}
+
+.path-add-btn,
+.step-add-btn {
+  white-space: nowrap;
+}
+
+.post-input {
+  width: 700px;
+  height: 40px;
+  position: relative;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--border-grey);
+}
+
+/* 스탭관련 css */
+.step-container {
+  position: static;
+}
+
+/* 밑에꺼가 도은누나가 만든거, 위에꺼가 우리가 쓰던거. 밑에서 작업 계속해줘용. */
+/* .step {
+  position: relative;
+  position: static;
+  padding: 10px;
+  border: solid 1px var(--border-grey);
+  border-radius: 5px;
+} */
+
+.step {
+  min-height: 200px;
+  width: 15rem;
+  position: relative;
+  padding: 10px;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+  background-color: white;
+}
+
+.col-mode .step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  background-image: url("../left-arrow-angle.png"); /* Set the image path */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-size: contain; /* Scale the image to fit within the element */
+  transform: translateX(-50%) rotate(270deg); /* Rotate the arrow 90 degrees */
+}
+
+.row-mode .step:not(:first-child)::before {
+  content: "";
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 0.5rem);
+  width: 1rem;
+  height: 1rem;
+  background-image: url("../left-arrow-angle.png"); /* Set the image path */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-size: contain; /* Scale the image to fit within the element */
+  transform: translateY(-50%) rotate(180deg); /* Set the trans */
+}
+
+.col-mode .step-btn-container {
+  position: absolute;
+  /* top:5rem; */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.step-btn-container {
+  /* position: absolute; */
+  /* top:5rem; */
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
+  text-align: center;
+}
+
+/* .pathSelect {
+  display: none;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
+} */
+
+/* 모달관련 css */
+.modal__overlay {
+  position: absolute;
+}
+
+.col-mode .modal__overlay {
+  position: absolute;
+  top: 0px;
+  /* left: 110%; */
+  left: 17rem;
+  bottom: 0px;
+  z-index: 1000;
+  @media screen and (max-width: 600px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 10px;
+    min-height: 10px;
+    z-index: 2;
+  }
+}
+
+.step__edit-modal {
+  position: absolute;
+  min-width: 800px;
+  min-height: 600px;
+  top: 1rem;
+  bottom: 0px;
+  padding: 2rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  gap: 1rem;
+  border: 1px solid black;
+  /* @media screen and (max-width: 600px) {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } */
+}
+
+.container_row-mode .step__edit-modal {
+  position: absolute;
+  height: fit-content;
+  top: 15rem;
+  bottom: 0px;
+  padding: 2rem;
+  background-color: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  gap: 1rem;
+  border: 1px solid black;
+  @media screen and (max-width: 600px) {
+    position: fixed;
+    min-height: 0px;
+    min-width: 0px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.container_row-mode {
+  display: flex;
+  align-items: flex-start;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+  }
+  @media screen and (min-width: 601px) {
+    /* display: inline-flex; */
+  }
+}
+
+.col-mode {
+  @media screen and (min-width: 600px) {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+  }
+}
+
+/* 모달 반응형 주기 위함. */
+@media screen and (max-width: 600px) {
+  .modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+  }
+
+  .modal__overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1500px;
+    height: 1500px;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* 버튼 관련 컴포넌트 */
+
+/* 댓글 관련 컴포넌트 */
+.comment-container {
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+}
+
+/* thumbnail 이미지 업로드 관련 */
+.upload-btn {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-file .upload-name {
+  width: 700px;
+  height: 25px;
+  padding: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+  color: var(--border-grey);
+}
+
+.upload-file label {
+  height: 25px;
+  padding: 5px;
+  margin-left: 10px;
+  display: inline-block;
+  color: white;
+  vertical-align: middle;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.upload-file input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
 }

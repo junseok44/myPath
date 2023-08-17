@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% load static %}
+
+<div>
+  {% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'user/auth.css' %}" />
+
+  {% endblock %}
+</div>
+{% block content %}
+
+<div class="center__layout">{% block formContent %} {% endblock %}</div>
+{% endblock %}

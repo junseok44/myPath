@@ -1,8 +1,28 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% load my_filters %}
 
-<div class="container">
-  <div class="userinfo__title">{{user.membership}} {{user.username}}</div>
-  <div class="userinfo__container">
+<div>
+  {% block stylesheet %}
+  <link
+    rel="stylesheet"
+    href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
+  />
+  <link rel="stylesheet" href="{% static 'user/userpage.css' %}" />
+  {% endblock %}
+</div>
+
+{% block content %}
+<div class="userPage">
+  <div class="userinfo__title">
+    {{user.membership}} {{user.username}}
+    <span>
+      {% if user.is_authenticated and user == request.user%}
+      <a href="{% url 'my_page' %}">
+        <button class="btn">내 정보 수정하기</button>
+      </a>
+      {% endif %}
+    </span>
+  </div>
+  <div class="userinfo__container owl-carousel">
     <div class="usercard__container">
       <div class="usercard__header">자기소개</div>
       <div class="usercard__body">{{user.intro}}</div>
@@ -11,37 +31,83 @@
       <div class="usercard__header">작성한 Path의 수</div>
       <div class="usercard__body">{{posts_count}}</div>
     </div>
-    <div class="usercard__container">
-      <div class="usercard__header">좋아요 지수</div>
-      <div class="usercard__body"></div>
+
+    {% for card in user_cards %}
+    <div class="usercard__container card__{{card.id}}">
+      <div class="usercard__header">
+        {% if card.link %}
+        <a href="{{card.link|add_protocol}}" target="_blank" class="auth-link">
+          {{card.title}}
+        </a>
+        {% else %} {{card.title}} {% endif %}
+      </div>
     </div>
+
+    {% endfor %}
   </div>
-  <hr />
   <div class="post__title">{{user.username}}의 패스들</div>
   <div class="post__container">
     {% for post in posts %}
-      <div class="card__container post-id-{{ post.id }}">
-        <div class="card__header">
-          <div class="card-author-profile-image"></div>
-          <div class="card-title">{{post.title}}</div>
-          <div class="card-author">{{post.user}}</div>
-        </div>
-        <div class="card__body">
-          <div class="card-thumbnail">
-            {% if post.thumbnail != null and post.image.url != "" %}
-              <img src="{{post.thumbnail}}" alt="대체 텍스트">    
-            {% endif %}
-          </div>
-          <div class="card-description">{{post.desc}}</div>
-        </div>
-        <div class="card__buttons">
-          <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
-          <div class="btn reply-btn"><i class="fa-solid fa-comment-dots"></i></div>
-          <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
-        </div>
+    <div class="card__container post-id-{{ post.id }}">
+      <div class="card__header">
+        <div class="card-author-profile-image"></div>
+        <div class="card-title">{{post.title}}</div>
+        <div class="card-author">{{post.user}}</div>
       </div>
+      <div class="card__body">
+        <div class="card-thumbnail">
+          {% if post.thumbnail != null and post.image.url != "" %}
+          <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+          {% endif %}
+        </div>
+        <div class="card-description">{{post.desc}}</div>
+      </div>
+      <div class="card__buttons">
+        <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
+        <div class="btn reply-btn">
+          <i class="fa-solid fa-comment-dots"></i>
+        </div>
+        <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
+      </div>
+    </div>
     {% endfor %}
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Handler when the DOM is fully loaded
+    const addBtn = document.querySelector(".userPage__add-btn");
+    const addForm = document.querySelector(".userPage__add-form");
+    addBtn.parentElement.onclick = () => {
+      addBtn.classList.toggle("hidden");
+      addForm.classList.toggle("hidden");
+    }
+
+    };
+  });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'library/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
+<script>
+  $(".owl-carousel").owlCarousel({
+    loop: true,
+    margin: 10,
+    responsiveClass: true,
+    nav: false,
+    responsive: {
+      0: {
+        items: 1.15,
+      },
+      600: {
+        items: 3,
+      },
+      1000: {
+        items: 3.3,
+        // loop: false,
+      },
+    },
+  });
+</script>
 
 {% endblock %}
