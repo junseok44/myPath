@@ -15,82 +15,67 @@
   {% block stylesheet %}{% endblock %}
 </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link rel="stylesheet" href="{% static 'reset.css' %}" />
-  <link rel="stylesheet" href="{% static 'index.css' %}" />
-  <link rel="stylesheet" href="{% static 'shared.css' %}" />
-  <link rel="stylesheet" href="{% static 'user/base.css' %}" />
-
-  {% block stylesheet %}{% endblock %}
-</head>
 
 <body>
-  <div class="responsive-container">
+  <span class="largeheader">
     <header class="header_container">
       <a href="/" class="header_title">
         MYPATH</a>
 
-      <span class="header_element_container">
 
-        <span class="header_postedit_container">
-          <a class="header_postlist" href="{% url 'post:post_list' %}">
-            <i class="fa-solid fa-file-lines"></i>
-          </a>
-          <a class="header_postwrite" href="{% url 'post:post_write' %}">
-            <i class="fa-solid fa-pen-to-square"></i>
-          </a>
-        </span>
-        <span class="header_post">
-          <span class="header_search_container">
-            <span>
-              <form class="header_mainsearch" method="POST" action="{% url 'post:search' %}">
-                {% csrf_token %}
-                <input class="header_mainsearch_input" type="search" placeholder="전체 검색" name="searched"
-                  aria-label="Search">
-                <button class="header_mainsearch_btn" type="submit">
-                  <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-              </form>
-            </span>
 
-            <span>
-              {% if user.is_authenticated %}
-              <span class="header_hi">{{user.username}}님 안녕하세요!</span>
-              <span class="header_myinform">
-                <a class="header_logout" href="{% url 'user_logout' %}">
-                  <i class="fa-solid fa-right-from-bracket"></i>
-                </a>
-                <a class="header_mypage" href="{% url 'my_page' %}">
-                  <i class="fa-solid fa-book-bookmark"></i>
-                </a>
-                <a class="header_userpage" href="{% url 'user_page' id=user.id %}">
-                  <i class="fa-solid fa-user"></i>
-                </a>
-              </span>
-              {% else %}
-              <span>anonymous</span>
-              <span>
-                <a class="header_login" href="/user/login">
-                  <i class="fa-solid fa-right-to-bracket"></i>
-                </a>
-                <a class="header_signup" href="/user/signup">
-                  <i class="fa-solid fa-user-plus"></i>
-                </a>
-              </span>
-              {% endif %}
-            </span>
 
-          </span>
+      <span class="header_postedit_container">
+        <a class="header_postlist" href="{% url 'post:post_list' %}">
+          <i class="fa-solid fa-file-lines"></i>
+        </a>
+        <a class="header_postwrite" href="{% url 'post:post_write' %}">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+      </span>
 
-        </span>
+      {% if user.is_authenticated %}
+      <span class="header_hi">{{user.username}}님 안녕하세요!</span>
+      <span class="header_hi2">&nbsp{{user.username}}&nbsp</span>
+      <span class="header_myinform">
+        <a class="header_logout" href="{% url 'user_logout' %}">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+        <a class="header_mypage" href="{% url 'my_page' %}">
+          <i class="fa-solid fa-book-bookmark"></i>
+        </a>
+        <a class="header_userpage" href="{% url 'user_page' id=user.id %}">
+          <i class="fa-solid fa-user"></i>
+        </a>
+      </span>
+      {% else %}
+      <span class="header_loginuser">anonymous</span>
+      <span class="header_login_container">
+        <a class="header_login" href="/user/login">
+          <i class="fa-solid fa-right-to-bracket"></i>
+        </a>
+        <a class="header_signup" href="/user/signup">
+          <i class="fa-solid fa-user-plus"></i>
+        </a>
+      </span>
+      {% endif %}
+
+
+
+
+      <span class="header_search_container">
+        <form class="header_mainsearch" method="POST" action="{% url 'post:search' %}">
+          {% csrf_token %}
+          <input class="header_mainsearch_input" type="search" placeholder="전체 검색" name="searched" aria-label="Search">
+          <button class="header_mainsearch_btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
 
       </span>
-      </span>
-      <hr class="header_line">
-  </div>
+    </header>
+  </span>
+
   <div class="responsive-container">
 
     {% block content %}{% endblock %}
@@ -118,31 +103,7 @@
     });
   </script>
 </body>
-{% block content %}{% endblock %}
-</div>
-{% if messages %}
-<div class="messages">
-  {% for message in messages %}
-  <div class="message {{ message.tags }}">{{ message }}</div>
-  {% endfor %}
-</div>
-{% endif %}
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var messages = document.querySelector(".messages");
-    if (messages) {
-      setTimeout(function () {
-        messages
-          .classList
-          .add("show"); // Show the message
-        setTimeout(function () {
-          messages.style.top = "-100%"; // Move the message back up
-        }, 1000); // Wait for 3 seconds
-      }, 500); // Delay before showing the message
-    }
-  });
-</script>
-</body>
+
 
 <script src="https://kit.fontawesome.com/6fbcf91afd.js" crossorigin="anonymous"></script>
 

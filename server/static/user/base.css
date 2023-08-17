@@ -1,18 +1,24 @@
 .header_container {
+    width: -webkit-fill-available;
     height: 100px;
     /* font-family: 'Jua', sans-serif; */
     font-size: 18px;
     position: fixed;
     display: flex;
     background-color: white;
+    z-index: 10;
 
 }
+
+.largeheader {}
 
 .categorycontainer {
     border-bottom-style: solid;
     border-bottom-color: gray;
     border-width: 1px;
+
 }
+
 
 .header_element_container {}
 
@@ -35,6 +41,7 @@
 
 .header_loginuser {
     display: flex;
+    padding: 10px;
 }
 
 .header_title {
@@ -51,7 +58,7 @@
 
 
 .header_search_container {
-    width: 20vw;
+    width: 40vw;
     float: right;
     display: flex;
     align-items: center;
@@ -117,10 +124,12 @@
 .header_hi {
     display: flex;
     align-items: center;
+    padding: 10px;
 }
 
 .header_hi2 {
     display: none;
+    padding: 10px;
 }
 
 .header_myinform {
@@ -212,25 +221,39 @@
 
     .header_hi {
         display: none;
+        padding: 10px;
     }
 
     .header_hi2 {
         display: flex;
         align-items: center;
+        padding: 10px;
     }
 }
 
 @media (max-width: 450px) {
     .header_hi {
         display: none;
+        padding: 10px;
     }
 
     .header_hi2 {
         display: none;
+        padding: 10px;
     }
 
     .header_postedit_container {
         display: flex;
         align-items: center;
     }
+
+    .header_loginuser {
+        display: none;
+    }
+}
+
+
+.header_login_container {
+    display: flex;
+    align-self: center;
 }
