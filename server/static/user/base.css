@@ -289,3 +289,17 @@
     display: flex;
     align-self: center;
 }
+
+/* footer */
+
+.footer_contianer {
+    font-size: 15px;
+    background-color: #007dff;
+    color: blanchedalmond;
+    text-align: center;
+}
+
+.footer_contents {
+    padding-left: 50px;
+    margin-left: 50px;
+}
