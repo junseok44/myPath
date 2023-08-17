@@ -3,14 +3,14 @@
 <div>
   {% block formContent %}
   <div class="login auth-container">
-    <h2>Login</h2>
-    <form action="{% url 'user_login' %}" method="post" class="login__form">
+    <h2>로그인</h2>
+    <form action="{% url 'user_login' %}" method="post" class="auth__form">
       {% csrf_token %}
-      <div class="auth__box">
-        <div class="auth-text-box">
+      <div class="login__box">
+        <div class="login-input-box">
           <input class="auth-input" id="inputId" type="text" name="loginId" placeholder="ID" required />
         </div>
-        <div class="auth-text-box">
+        <div class="login-input-box">
           <input class="auth-input" id="inputPw" type="password" name="password" placeholder="PASSWORD" required />
         </div>
       </div>
@@ -86,9 +86,6 @@
     const inputId = document.getElementById('inputId');
     const inputPw = document.getElementById('inputPw');
     const loginBtn = document.getElementById('login-btn');
-
-    console.log(inputId)
-    console.log(inputPw)
     
     inputId.addEventListener('keyup', validateLogin);
     inputPw.addEventListener('keyup', validateLogin);
