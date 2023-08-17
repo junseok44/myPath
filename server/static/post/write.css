@@ -4,7 +4,7 @@
 
 .writePage__review textarea {
   margin-bottom: 1rem;
-} 
+}
 
 .writePage__intro {
   display: flex;
@@ -29,12 +29,11 @@
   padding: 10px;
   border: 1px solid var(--border-grey);
   border-radius: 5px;
-  
 }
 
 @media screen and (max-width: 600px) {
   .writePage-input {
-    width: 100%
+    width: 100%;
   }
 }
 
@@ -73,9 +72,49 @@
   min-height: 1000px;
 }
 
-.container_row-mode .modal__overlay{
-  position:absolute;
-  left:0px;
+.container_row-mode .modal__overlay {
+  position: absolute;
+  left: 0px;
+}
+
+.step_container {
+  @media screen and (min-width: 600px) {
+    overflow-x: scroll;
+  }
+}
+
+.col-mode .step_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* 가로모드 */
+.writePage .main-container:not(.col-mode) .step:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 0.5rem);
+  width: 1rem;
+  height: 1rem;
+  background-image: url("../left-arrow-angle.png"); /* Set the image path */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-size: contain; /* Scale the image to fit within the element */
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.writePage .col-mode .step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  background-image: url("../left-arrow-angle.png"); /* Set the image path */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-size: contain; /* Scale the image to fit within the element */
+  transform: translateX(-50%) rotate(270deg);
 }
 
 .labelfor {

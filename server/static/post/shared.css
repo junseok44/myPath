@@ -69,6 +69,7 @@
 /* 메인부분 모바일로 한줄 배열될때 중앙으로 가도록. */
 .main-container {
   min-height: 600px;
+  overflow-x: scroll;
   @media screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;
@@ -171,7 +172,6 @@
 }
 
 .row-mode .step:not(:first-child)::before {
-  content: "";
   content: "";
   position: absolute;
   top: 50%;
@@ -276,7 +276,7 @@
 .container_row-mode {
   display: flex;
   align-items: flex-start;
-
+  gap: 2rem;
   @media screen and (max-width: 600px) {
     flex-direction: column;
   }
