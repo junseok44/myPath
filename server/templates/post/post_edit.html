@@ -4,7 +4,7 @@
 
 <div class="editPage">
   <!-- <h1>edit</h1> -->
-  
+  <!-- <div onclick="showAllItems()">모든아이템</div> -->
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <p class="writePage__title">
@@ -432,7 +432,8 @@
       `;
       }
       deletedPaths.push(targetPathId);
-      paths = paths.filter((path) => path.id == targetPathId);
+      // 누구야 이거 느낌표 빼놓은거...
+      paths = paths.filter((path) => path.id !== targetPathId);
       steps = steps.filter((step) => step.pathId !== targetPathId);
 
       updateSelectOptions();

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 from django.contrib import messages
 from apps.user.models import User, UserCard
@@ -21,7 +22,7 @@ GOOGLE_CALLBACK_URL = "http://localhost:8000/user/googleRedirect"
 def user_main(request):  
     return render(request, 'user/login.html')
 
-def user_login(request):  
+def user_login(request):
     if request.user.is_authenticated:
         return redirect('/')
     
@@ -68,10 +69,8 @@ def user_logout(request):
         auth_logout(request)
         return redirect("/")
 
+@login_required(login_url="/user/login")
 def my_page(requests):
-
-    if not requests.user.is_authenticated:
-        return redirect("/")
 
     user_id = requests.user.id
     my_posts = Post.objects.filter(user=user_id).values()
@@ -111,11 +110,14 @@ def user_card_add(request):
 
     return redirect("/user/my_page")
 
-
 def user_card_edit(request,id):
     card = get_object_or_404(UserCard, id=id)
 
+        
     if request.method == "POST":
+        if request.user != card.writer:
+            return redirect("/user/my_page")
+        
         title = request.POST.get("title")
         link = request.POST.get("link")
         desc = request.POST.get("desc")
@@ -141,6 +143,8 @@ def user_card_delete(request, id):
     card = get_object_or_404(UserCard, id=id)
 
     if request.method == "POST":
+        if request.user != card.writer:
+            return redirect("/user/my_page")
         card.delete()
         messages.success(request, "유저카드를 삭제했어요!")
         return redirect("/user/my_page")
@@ -150,13 +154,11 @@ def user_card_delete(request, id):
 def user_intro_update(request):
     if request.method == 'POST':
         intro = request.POST.get('intro')
-        
         request.user.intro = intro
         request.user.save()
         return redirect('/user/my_page')  # Redirect to the same page after submission
     
     return redirect("/user/my_page")
-
 
 def kakao_Auth_Redirect(request):
     code = request.GET.get('code', None)
@@ -204,7 +206,6 @@ def kakao_Auth_Redirect(request):
             print("Kakao API에서 토큰 발급에 실패했습니다.")
 
     return redirect("/")
-
 
 def google_Auth_Start(request):
     scope = " https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid"
