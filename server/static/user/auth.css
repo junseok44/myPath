@@ -2,52 +2,92 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  /* border: 1px solid var(--border-grey); */
   padding: 25px 15px;
   min-width: 15vw;
 }
 
-.auth-container form {
-  width: 75%;
+.auth-container h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.auth__box {
+  width: 300px;
+  height: 100px;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-grey);
+  border-radius: 10px;
+}
+
+.auth-text-box {
+  height: 50%;
+  padding: 10px;
+}
+
+.auth-text-box:nth-child(1) {
+  border-bottom: 1px solid var(--border-grey);
+}
+
+.auth-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  display: block;
+  font-size: 15px;
+}
+
+.auth-btn-disabled {
+  box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.1);
+  background-color: var(--border-grey);
+  width: 300px;
+  height: 40px;
+}
+
+.auth-btn-active {
+  background-color: var(--primary-color);
+}
+
+/* #login-btn, #signup-btn {
+  width: 300px;
+  height: 40px;
+} */
+
+/* 소셜 로그인 관련 */
+.social__auth {
+  margin: 1.5rem 0;
+}
+
+.social-auth-btn {
+  width: 300px;
+  height: 40px;
+  margin-top: 2px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  font-size: 0.8rem;
+  box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
-.auth-container form span {
-  width: 100%;
+#kakao-login {
+  color: rgb(0, 0, 0, 0.85);
+  background-color: #FEE500;
 }
 
-.auth-container form input {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.auth__label {
-  margin-bottom: 0.3rem;
+#google-login {
+  margin-top: 5px;
+  color: black;
+  background-color: #FFFFFF;
 }
 
 .auth-link {
+  margin-left: 10px;
   color: var(--primary-color);
 }
 
 .auth-link:hover {
   text-decoration: underline;
-}
-
-.login h2 {
-  font-size: 30px;
-}
-
-.login-input {
-  width: 200px;
-  border: 1px solid var(--border-grey);
-  border-radius: 5px;
-}
-
-#login-btn, #signup-btn {
-  width: 200px;
+  cursor: pointer;
 }
 
