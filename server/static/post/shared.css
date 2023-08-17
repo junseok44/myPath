@@ -199,12 +199,13 @@
   text-align: center;
 }
 
-/* .pathSelect {
+.editPage__pathSelect,
+.pathSelect {
   display: none;
   @media screen and (max-width: 600px) {
     display: block;
   }
-} */
+}
 
 /* 모달관련 css */
 .modal__overlay {
