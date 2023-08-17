@@ -17,13 +17,10 @@
 
 
 <body>
-  <span class="largeheader">
+  <span class="container">
     <header class="header_container">
       <a href="/" class="header_title">
         MYPATH</a>
-
-
-
 
       <span class="header_postedit_container">
         <a class="header_postlist" href="{% url 'post:post_list' %}">
@@ -59,9 +56,6 @@
         </a>
       </span>
       {% endif %}
-
-
-
 
       <span class="header_search_container">
         <form class="header_mainsearch" method="POST" action="{% url 'post:search' %}">
@@ -102,6 +96,17 @@
       }
     });
   </script>
+  <footer>
+    <nav>
+      <a href='' target='_blank'><i class="fa-brands fa-instagram"></i></a>
+      <a href='' target='_blank'><i class="fa-solid fa-arrow-up"></i></a>
+    </nav>
+    <p>
+      <span>저자 : cocoder</span><br />
+      <span>이메일 : cocoder16@gmail.com</span><br />
+      <span>Copyright 2020. cocoder. All Rights Reserved.</span>
+    </p>
+  </footer>
 </body>
 
 
