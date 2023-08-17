@@ -1,7 +1,17 @@
 .header_container {
-    height: 13vh;
+    height: 100px;
     /* font-family: 'Jua', sans-serif; */
     font-size: 18px;
+    position: fixed;
+    display: flex;
+    background-color: white;
+
+}
+
+.categorycontainer {
+    border-bottom-style: solid;
+    border-bottom-color: gray;
+    border-width: 1px;
 }
 
 .header_element_container {}
@@ -23,23 +33,26 @@
     align-items: center;
 }
 
+.header_loginuser {
+    display: flex;
+}
+
 .header_title {
-    font-size: xxx-large;
+    width: 33vw;
+    font-size: xx-large;
     /* font-family: 'Gasoek One', sans-serif; */
     color: black;
     text-decoration: none;
     display: flex;
+    align-items: center;
+
     justify-content: center;
 }
 
-.header_post {
-    display: flex;
-    justify-content: center;
-}
 
 .header_search_container {
-    width: 80vh;
-    /* float: right; */
+    width: 20vw;
+    float: right;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -55,7 +68,7 @@
 
 .header_mainsearch_input {
     height: 28px;
-    width: 20vh;
+    width: 25vh;
     border: 1px solid #bbb;
     border-radius: 8px;
     padding: 10px 12px;
@@ -72,19 +85,14 @@
 }
 
 .header_postlist {
-    color: rgb(57,
-            57,
-            66);
+    color: rgb(57, 57, 66);
     /* padding-left: 0px; */
     text-decoration: none;
 
     padding: 3px;
     border: 1px solid;
-    border-color: rgb(57,
-            57,
-            66);
+    border-color: rgb(57, 57, 66);
     border-radius: 7px;
-
 }
 
 .header_postlist:hover {
@@ -92,17 +100,13 @@
 }
 
 .header_postwrite {
-    color: rgb(57,
-            57,
-            66);
+    color: rgb(57, 57, 66);
     padding-left: 20px;
     text-decoration: none;
 
     padding: 3px;
     border: 1px solid;
-    border-color: rgb(57,
-            57,
-            66);
+    border-color: rgb(57, 57, 66);
     border-radius: 7px;
 }
 
@@ -110,43 +114,44 @@
     color: black;
 }
 
-.header_hi {}
+.header_hi {
+    display: flex;
+    align-items: center;
+}
 
-
+.header_hi2 {
+    display: none;
+}
 
 .header_myinform {
-
     /* text-align: right; */
     text-decoration: none;
     display: flex;
     align-items: center;
 }
 
+.header_loginuser {
+    display: flex;
+    align-items: center;
+}
+
 .header_login {
-    color: rgb(57,
-            57,
-            66);
+    color: rgb(57, 57, 66);
     text-decoration: none;
 
     padding: 3px;
     border: 1px solid;
-    border-color: rgb(57,
-            57,
-            66);
+    border-color: rgb(57, 57, 66);
     border-radius: 7px;
 }
 
 .header_signup {
-    color: rgb(57,
-            57,
-            66);
+    color: rgb(57, 57, 66);
     text-decoration: none;
 
     padding: 3px;
     border: 1px solid;
-    border-color: rgb(57,
-            57,
-            66);
+    border-color: rgb(57, 57, 66);
     border-radius: 7px;
 }
 
@@ -154,23 +159,17 @@
     color: black;
 }
 
-
 .header_signup:hover {
     color: black;
 }
 
-
 .header_logout {
-    color: rgb(57,
-            57,
-            66);
+    color: rgb(57, 57, 66);
     text-decoration: none;
 
     padding: 3px;
     border: 1px solid;
-    border-color: rgb(57,
-            57,
-            66);
+    border-color: rgb(57, 57, 66);
     border-radius: 7px;
 }
 
@@ -179,16 +178,12 @@
 }
 
 .header_mypage {
-    color: rgb(57,
-            57,
-            66);
+    color: rgb(57, 57, 66);
     text-decoration: none;
 
     padding: 3px;
     border: 1px solid;
-    border-color: rgb(57,
-            57,
-            66);
+    border-color: rgb(57, 57, 66);
     border-radius: 7px;
 }
 
@@ -197,19 +192,45 @@
 }
 
 .header_userpage {
-    color: rgb(57,
-            57,
-            66);
+    color: rgb(57, 57, 66);
     text-decoration: none;
 
     padding: 3px;
     border: 1px solid;
-    border-color: rgb(57,
-            57,
-            66);
+    border-color: rgb(57, 57, 66);
     border-radius: 7px;
 }
 
 .header_userpag:hover {
     color: black;
+}
+
+@media (max-width: 767px) {
+    .header_mainsearch {
+        display: none;
+    }
+
+    .header_hi {
+        display: none;
+    }
+
+    .header_hi2 {
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media (max-width: 450px) {
+    .header_hi {
+        display: none;
+    }
+
+    .header_hi2 {
+        display: none;
+    }
+
+    .header_postedit_container {
+        display: flex;
+        align-items: center;
+    }
 }
