@@ -175,8 +175,8 @@
             <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="child-comment-input hidden">
               {%csrf_token%}
               <input type="hidden" name="parentCommentId" value="{{post_comment.id}}" />
-              <input type="text" name="comment" placeholder="댓글을 입력하세요" />
-              <input type="submit" value="댓글 쓰기" />
+              <input class="writePage-input" type="text" name="comment" placeholder="답글을 입력하세요" />
+              <input class="btn" type="submit" value="답글 쓰기" />
             </form>
           </div>
         </div>
@@ -184,8 +184,8 @@
         {% endfor %}
         <form action="{%url 'post:post_create_comment' post.pk%}" method="POST">
           {%csrf_token%}
-          <input type="text" name="comment" placeholder="댓글을 입력하세요" />
-          <input type="submit" value="댓글 쓰기" />
+          <input class="writePage-input" type="text" name="comment" placeholder="댓글을 입력하세요" />
+          <input class="btn" type="submit" value="댓글 쓰기" />
         </form>
       </div>
     </div>
