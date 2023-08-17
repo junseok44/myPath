@@ -23,16 +23,16 @@ function addPathNode(prevPathId, id) {
   if (isColumnMode) {
     li.innerHTML += `
     <span class="path_intro">
-    <input maxlength="10" placeholder="패스 이름 입력..." type="text" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
+    <input maxlength="10" placeholder="패스 이름 입력..." type="text" class="writePage-input path_title" onchange="handleChangePathTitle(event,'${id}')">
     <button type="button" class="btn path-add-btn" onclick="handleAddPath('${id}')">패스+</button>
     <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
     </span>
-    <div class="step_container ${isColumnMode ? "" : " container_row-mode"}">
+    <div class="step_container ${isColumnMode ? '' : ' container_row-mode'}">
             </div>
     <button type="button" class="btn step-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">
           스텝+
         </button>
-    `;
+    `
   } else {
     li.innerHTML += `
     <span class="path_intro">
@@ -69,8 +69,8 @@ function addStepNode(targetPathId, id) {
   section.classList.add(`step_${id}`);
   section.innerHTML = `
                 <div class="step-content">
-                  <input maxlength="20" onchange="handleChangeStepTitle('${id}')" type="text" class="title" placeholder="제목을 입력하세요..." / >
-                  <textarea maxlength="500" onchange="handleChangeStepDesc('${id}')" class="desc" placeholder="내용을 입력하세요..." ></textarea>
+                  <input maxlength="20" onchange="handleChangeStepTitle('${id}')" type="text" class="writePage-input title" placeholder="제목을 입력하세요..." / >
+                  <textarea maxlength="500" onchange="handleChangeStepDesc('${id}')" class="writePage-input desc" placeholder="내용을 입력하세요..." ></textarea>
                   <input type="file" class="imageInput" onchange="handleChangeStepImage('${id}')" />
                   <div class="step-btn-container">
                   <button type="button" class="btn" onclick="moveItemUp('${id}')"><i class="fa-solid fa-angles-up"></i></button>
@@ -90,6 +90,6 @@ function addStepNode(targetPathId, id) {
                   </div>
                   </div>
                   </div>
-          `;
+          `
   stepContainer.appendChild(section);
 }

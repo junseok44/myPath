@@ -291,9 +291,48 @@
 
 /* 버튼 관련 컴포넌트 */
 
+/* 댓글 관련 컴포넌트 */
+.comment-container{
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+}
+
+/* thumbnail 이미지 업로드 관련 */
 .upload-btn {
   width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.upload-file .upload-name {
+  width: 700px;
+  height: 25px;
+  padding: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+  color: var(--border-grey);
+}
+
+.upload-file label {
+  height: 25px;
+  padding: 5px;
+  margin-left: 10px;
+  display: inline-block;
+  color: white;
+  vertical-align: middle;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.upload-file input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
 }

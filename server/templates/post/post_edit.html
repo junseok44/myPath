@@ -8,17 +8,17 @@
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <p class="writePage__title">
-        <input maxlength="20" type="text" placeholder="title" name="title" id="titleInput" value="{{post.title}}"/>
+        <input class="writePage-input" maxlength="20" type="text" placeholder="title" name="title" id="titleInput" value="{{post.title}}"/>
       </p>
       <div class="writePage__meta">
         <span class="labelfor">카테고리</span>
-        <select id="categorySelect" name="categorySelect">
+        <select class="writePage-input" id="categorySelect" name="categorySelect">
           {% for cat in categories %}
             <option value="{{cat.name}}" {% if cat.name == currentCategory %} selected="selected" {% endif %}>{{cat.name}}</option>
           {% endfor %}
         </select>
         <label class="labelfor">태그</label>
-        <input type="text" id="tagInput" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
+        <input class="writePage-input" type="text" id="tagInput" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
       </div>
       <ul id="tagList">
         {% for tagtable in post.tag_table.all %}
@@ -29,19 +29,31 @@
           </li>
         {% endfor %}
       </ul>
-      <div class="writePage__thumbnail">
+      {% comment %} <div class="writePage__thumbnail">
         <span class="labelfor">썸네일 수정</span>
         <input type="file" id="imageInput"/>
+      </div> {% endcomment %}
+      
+      <div class="writePage__thumbnail upload-file">
+        <span class="labelfor">썸네일 수정</span>
+        <input
+          class="upload-name"
+          value="첨부파일"
+          placeholder="첨부파일"
+          disabled="disabled"
+        />
+        <label for="imageInput">파일 업로드</label>
+        <input type="file" class="upload-hidden" id="imageInput" />
       </div>
-     
+
     </div>
     <div class="writePage__desc">
-      <textarea maxlength="500" type="text" placeholder="설명" name="desc" id="descInput">{{post.desc}}</textarea>
+      <textarea class="writePage-input" maxlength="500" type="text" placeholder="설명" name="desc" id="descInput">{{post.desc}}</textarea>
     </div>
     <div class="writePage__controlBox">
       <div class="editPage__pathSelect">
         <span>패스 선택</span>
-        <select id="pathSelect" class="select"></select>
+        <select id="pathSelect" class="writePage-input select"></select>
       </div>
     </div>
     <hr/>
@@ -56,7 +68,7 @@
       {% for path in paths %}
         <li class="path path_{{path.id}}">
           <span class="path_intro">
-            <input maxlength="10" placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
+            <input maxlength="10" placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="writePage-input path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
             <button class="btn step-add-btn" type="button" onclick="handleAddPath('{{path.id}}') ">
               패스+
             </button>
@@ -69,8 +81,8 @@
             {% for step in path.steps %}
               <section class="step step_{{step.id}}">
                 <div class="step-content">
-                  <input maxlength="20" class="title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
-                  <textarea maxlength="500" class="desc" onchange="handleChangeStepDesc('{{step.id}}')">{{step.desc}}</textarea>
+                  <input maxlength="20" class="writePage-input title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
+                  <textarea maxlength="500" class=" writePage-input desc" onchange="handleChangeStepDesc('{{step.id}}')">{{step.desc}}</textarea>
                   <input type="file" class="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
                   <!-- <p class="title">{{step.title}}</p>
                   <p class="desc">{{step.desc}}</p> -->
