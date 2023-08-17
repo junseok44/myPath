@@ -199,12 +199,13 @@
   text-align: center;
 }
 
-/* .pathSelect {
+.editPage__pathSelect,
+.pathSelect {
   display: none;
   @media screen and (max-width: 600px) {
     display: block;
   }
-} */
+}
 
 /* 모달관련 css */
 .modal__overlay {
@@ -230,7 +231,7 @@
 
 .step__edit-modal {
   position: absolute;
-  min-width: 800px;
+  /* min-width: 800px; */
   min-height: 600px;
   top: 1rem;
   bottom: 0px;
