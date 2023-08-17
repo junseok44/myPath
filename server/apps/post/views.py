@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
 from django.db import transaction
-
+from django.contrib.auth.decorators import login_required
 from .models import *
 from apps.comment.models import *
 from django.core.serializers import serialize
@@ -90,6 +90,7 @@ def get_image_from_dataUrl(dataUrl):
     return image_data
 
 @transaction.atomic
+@login_required(login_url="/user/login")
 def view_post_write(request):
     if request.method == "POST":
         try:
@@ -217,6 +218,7 @@ def view_post_delete(request, id):
         return JsonResponse({"msg":"error"},status = 404)
 
 @transaction.atomic
+@login_required(login_url="/user/login")
 def view_post_edit(request, id):
 
     if request.method == "POST":
@@ -472,9 +474,6 @@ def view_post_delete_comment_ajax(request):
     else:
         return HttpResponse('Failed: Post requests only.')
 
-    
-     
-
 @csrf_exempt
 def view_step_detail_ajax(request):
     req = json.loads(request.body)
@@ -535,7 +534,6 @@ def view_step_delete_comment_ajax(request):
             return JsonResponse({'comment':comment_json})
     else:
         return HttpResponse('Failed: Post requests only.')
-
 
 def toggle_bookmark_ajax(request):
     if request.method == 'POST' and request.user.is_authenticated:
@@ -604,8 +602,6 @@ def search(request):
         else:
                 return render(request, 'post/searched.html', {})
         
-
-
 def search_by_category(request):
         if request.method == 'POST':
                 searched = request.POST['searched']     
@@ -621,8 +617,6 @@ def search_by_category(request):
         
         else:
                 return render(request, 'post/search_by_category.html', {})
-
-
 
 def index(request):
     page = request.GET.get('page', '1')  # 페이지
