@@ -8,7 +8,7 @@
     /* background: linear-gradient(to bottom, #007dff, white); */
     background-color: #007dff;
     z-index: 10;
-    color: white;
+    color: blanchedalmond;
     border-bottom-style: solid;
     border-bottom-color: gray;
     border-width: 1px;
@@ -19,7 +19,6 @@
     border-bottom-style: solid;
     border-bottom-color: gray;
     border-width: 1px;
-
 }
 
 
