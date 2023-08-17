@@ -7,7 +7,7 @@ function updateSelectOptions() {
   const listItems = listElement.querySelectorAll(".path");
   let index = 1;
   for (const listItem of listItems) {
-    let title = listItem.querySelector(".path_title").value;
+    let title = listItem.querySelector(".path_title").innerHTML;
     const pathTitle = title !== "" ? title : `이름없는 패스${index}`;
     const option = document.createElement("option");
     const classNames = listItem.className.split(" ");
@@ -19,10 +19,10 @@ function updateSelectOptions() {
       }
     }
     option.textContent = pathTitle;
-    if(typeof pathTitle=="undefined"){
-      option.textContent=listItem.querySelector(".path_title").innerHTML;
-      console.log(pathTitle);
-    }
+    // if (typeof pathTitle == "undefined") {
+    //   option.textContent = listItem.querySelector(".path_title").innerHTML;
+    //   console.log(pathTitle);
+    // }
     selectElement.appendChild(option);
     index++;
   }
@@ -69,7 +69,7 @@ if (window.innerWidth <= responsiveWidth) {
   // listItems.forEach((item) => (item.style.display = "block"));
 }
 
-// 개발용 이벤트 리스너. 
+// 개발용 이벤트 리스너.
 window.addEventListener("resize", () => {
   const listItems = listElement.querySelectorAll(".path");
   if (window.innerWidth <= responsiveWidth) {
