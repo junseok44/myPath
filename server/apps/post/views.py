@@ -4,7 +4,7 @@ from django.db import transaction
 from .models import *
 from apps.comment.models import *
 from django.core.serializers import serialize
-from django.contrib import messages
+from django.contrib import messages 
 from django.contrib.auth import get_user_model
 import json
 from django.http import JsonResponse,HttpResponse
@@ -104,7 +104,6 @@ def view_post_write(request):
             data['category'] = request.POST.get("category")
             data['mode'] = request.POST.get("mode")
 
-            # 로그인 기능 구현이 안되어서, 일단 임시로 유저 생성.
             if not request.user.is_authenticated:
                 messages.error(request, '글을 쓰시려면 로그인해야해요!')
                 return JsonResponse({"error": "errormessage"}, status=500) 
