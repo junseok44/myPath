@@ -69,7 +69,7 @@
 /* 메인부분 모바일로 한줄 배열될때 중앙으로 가도록. */
 .main-container {
   min-height: 600px;
-  overflow-x: scroll;
+  overflow-x: auto;
   @media screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;
@@ -127,6 +127,7 @@
 
 /* 패스 관련 css */
 .path {
+  min-width: 240px;
   position: relative;
   animation: fadeRight 0.5s ease forwards;
 }
