@@ -1,4 +1,4 @@
-let responsiveWidth = 600;
+let responsiveWidth = 900;
 const listElement = document.querySelector(".main-container");
 const selectElement = document.getElementById("pathSelect");
 
@@ -49,9 +49,12 @@ selectElement.addEventListener("change", () => {
 });
 
 function changeDisplay(id) {
+  console.log("변경" + id);
+  console.log(window.innerWidth);
   if (window.innerWidth <= responsiveWidth) {
     var optionElements = selectElement.getElementsByTagName("option");
     for (var i = 0; i < optionElements.length; i++) {
+      console.log(optionElements[i].value);
       if (optionElements[i].value === `${id}`) {
         optionElements[i].selected = true;
         var changeEvent = new Event("change", { bubbles: true });

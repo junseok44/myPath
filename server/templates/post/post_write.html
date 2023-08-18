@@ -225,6 +225,7 @@
     }
 
     updateSelectOptions();
+    console.log(id);
     changeDisplay(id);
   }
 
@@ -264,6 +265,7 @@
   }
 
   function handleDeletePath(targetPathId) {
+    console.log("deletePath", targetPathId);
     const main = document.querySelector(".main-container");
     const target = main.querySelector(`.path_${targetPathId}`);
 
@@ -285,11 +287,11 @@
       `;
     }
 
-    paths = paths.filter((path) => path.id == targetPathId);
+    paths = paths.filter((path) => path.id !== targetPathId);
     steps = steps.filter((step) => step.pathId !== targetPathId);
 
     updateSelectOptions();
-
+    console.log(targetOption.value);
     changeDisplay(targetOption.value);
   }
 
