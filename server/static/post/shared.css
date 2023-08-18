@@ -9,6 +9,10 @@
   display: flex;
 }
 
+#tagList::-webkit-scrollbar {
+  display: none;
+}
+
 #tagList li {
   display: inline-block;
   margin: 5px;
@@ -20,8 +24,8 @@
 
 #tagList li span {
   cursor: pointer;
-  margin-left: 5px;
-  font-weight: bold;
+  margin-left: 3px;
+  font-size: 0.9rem;
 }
 
 /* 카테고리 페이지의 페이지네이션 */
