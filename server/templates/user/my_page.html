@@ -15,45 +15,46 @@
   <div class="userinfo__title">{{user.membership}} {{user.username}}</div>
 
   <div class="userinfo__container owl-carousel">
-  
     <div class="usercard__container">
       <div class="usercard__header">자기소개
         <button class="userPage__intro-edit btn-unset userPage__ml"><i class="fa-solid fa-pen"></i></button>
       </div>
       <div class="usercard__body">
-        {% if user.intro == "" %}
-        <p class="userPage__intro-guide">작성된 자기소개가 없습니다.</p>
+        <div class="usercard__content">
+          {% if user.intro == "" %}
+          <div class="userdivage__intro-guide">작성된 자기소개가 없습니다.</div>
           {% else %} 
-        <p class="userPage__intro-guide">
-          {{user.intro}}
-        </p>
-        {% endif %}
-        <form action="/user/userIntro" method="post" class="userPage__intro-form hidden">
-          {% csrf_token %}
-          <textarea name="intro" placeholder="소개를 입력하세요..." class="writePage-input">{{user.intro}}</textarea>
-          <button type="submit" class="btn">작성하기</button>
-        </form>
+          <div class="userPage__intro-guide">{{user.intro}}</div>
+          {% endif %}
+          <form action="/user/userIntro" method="post" class="userPage__intro-form hidden">
+            {% csrf_token %}
+            <textarea name="intro" placeholder="소개를 입력하세요..." class="writePage-input" id="userPage__intro-input">{{user.intro}}</textarea>
+            <button type="submit" class="btn">작성하기</button>
+          </form>
+        </div>
       </div>
     </div>
     <div class="usercard__container">
       <div class="usercard__header">작성한 Path의 수</div>
-      <div class="usercard__body">{{posts_count}}</div>
+      <div class="usercard__body">
+        <div class="usercard__content">
+          {{posts_count}}
+        </div>
+      </div>
     </div>
 
- 
     {% for card in userCards %}
     <div class="usercard__container card__{{card.id}}">
       <div class="usercard__header-controls">
-        
         <button class="btn-unset userPage__mr" onclick="toggleEditForm('{{card.id}}')">
           <i class="fa-solid fa-pen"></i>
         </button>
-      <form method="POST" action='{% url 'user_card_delete' id=card.id %}' class="userPage__delete-form">
-      {% csrf_token %}
-      <button class="btn-unset" type="submit">
-        <i class="fa-solid fa-x"></i>
-      </button>
-      </form>
+        <form method="POST" action='{% url 'user_card_delete' id=card.id %}' class="userPage__delete-form">
+          {% csrf_token %}
+          <button class="btn-unset" type="submit">
+            <i class="fa-solid fa-x"></i>
+          </button>
+        </form>
       </div>
       <div class="usercard__header">
         {% if card.link %}
@@ -64,7 +65,11 @@
         {{card.title}}
         {% endif %}
       </div>
-      <div class="usercard__body">{{card.desc}}</div>
+      <div class="usercard__body">
+        <div class="usercard__content">
+          {{card.desc}}
+        </div>
+      </div>
       <form method="POST" action='{% url 'user_card_edit' id=card.id %}' id="editForm__{{card.id}}" class="userPage__cardForm hidden">
         {% csrf_token %} 
         <h2>내용 수정</h2>
@@ -91,14 +96,14 @@
     </div> 
     
       {% endfor %}
- 
+
   <div class="usercard__container add">
     <button type="button" class="userPage__add-btn btn-unset">
       <i class="fa-solid fa-plus"></i>
     </button>
     <form method="POST" action='{% url 'user_card_add' %}' class="userPage__add-form hidden">
       {% csrf_token %} 
-      <h2>유저 카드 추가</h2>
+      <h3>유저 카드 추가</h3>
       <input class="writePage-input" required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
       <input class="writePage-input" 
         name="link"
@@ -114,8 +119,6 @@
         <button type="button" class="btn" onclick="onClickAddBtn()">취소</button>
         <button type="submit" class="btn">확인</button>
       </div>
- 
-
     </form>
   </div>
 </div>

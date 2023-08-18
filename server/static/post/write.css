@@ -24,14 +24,6 @@
   }
 }
 
-.writePage-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border-grey);
-  border-radius: 5px;
-  
-}
-
 @media screen and (max-width: 600px) {
   .writePage-input {
     width: 100%
