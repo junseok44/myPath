@@ -30,7 +30,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 1rem;
+  top: calc(100% + 1rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,6 +69,7 @@
 /* 메인부분 모바일로 한줄 배열될때 중앙으로 가도록. */
 .main-container {
   min-height: 600px;
+  overflow-x: auto;
   @media screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;
@@ -103,9 +104,32 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeRight {
+  from {
+    opacity: 0;
+    transform: transformX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: transformX(0);
+  }
+}
+
 /* 패스 관련 css */
 .path {
+  min-width: 240px;
   position: relative;
+  animation: fadeRight 0.5s ease forwards;
 }
 
 .path_intro {
@@ -155,6 +179,8 @@
   border: 1px solid var(--border-grey);
   border-radius: 5px;
   background-color: white;
+  min-width: 15rem;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 .col-mode .step:not(:last-child)::before {
@@ -171,7 +197,6 @@
 }
 
 .row-mode .step:not(:first-child)::before {
-  content: "";
   content: "";
   position: absolute;
   top: 50%;
@@ -242,6 +267,10 @@
   z-index: 10;
   gap: 1rem;
   border: 1px solid black;
+  @media screen and (min-width: 600px) {
+    animation: fadeIn 0.5s ease forwards;
+  }
+
   /* @media screen and (max-width: 600px) {
     position: fixed;
     top: 50%;
@@ -276,7 +305,7 @@
 .container_row-mode {
   display: flex;
   align-items: flex-start;
-
+  gap: 2rem;
   @media screen and (max-width: 600px) {
     flex-direction: column;
   }
