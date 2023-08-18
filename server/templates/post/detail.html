@@ -51,7 +51,7 @@
         </ul>
       </div>
       <div class="detailPage__writer">
-        작성자: <a clas href="/">{{post.user}}</a>
+        <a clas href="{% url 'user_page' id=post.user.id %}" class="auth-link">작성자: {{post.user}}</a>
         {% if post.user == user %}
         <a href="{% url 'post:post_edit' id=post.id %}">
           <button class="btn">이 포스트 편집하기</button>
@@ -206,7 +206,7 @@
         </div>
         {% endif %}
         {% endfor %}
-        <form action="{%url 'post:post_create_comment' post.pk%}" method="POST">
+        <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="comment-form">
           {%csrf_token%}
           <input class="writePage-input" type="text" name="comment" placeholder="댓글을 입력하세요" />
           <input class="btn" type="submit" value="댓글 쓰기" />
@@ -576,7 +576,6 @@
     const titleElement = document
       .querySelector(`#${accordionId}`)
       .previousElementSibling;
-
     if (window.innerWidth <= 600) {
       titleElement
         .classList

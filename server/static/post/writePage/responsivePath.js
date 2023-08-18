@@ -49,7 +49,6 @@ selectElement.addEventListener("change", () => {
 });
 
 function changeDisplay(id) {
-  console.log("변경" + id);
   console.log(window.innerWidth);
   if (window.innerWidth <= responsiveWidth) {
     var optionElements = selectElement.getElementsByTagName("option");

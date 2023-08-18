@@ -264,9 +264,9 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  z-index: 10;
+  z-index: 1000;
   gap: 1rem;
-  border: 1px solid black;
+  border: 1px solid var(--border-grey);
   @media screen and (min-width: 600px) {
     animation: fadeIn 0.5s ease forwards;
   }
