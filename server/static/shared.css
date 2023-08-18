@@ -10,6 +10,8 @@
   --border-grey: #e3e3e3;
   --primary-color: #007dff;
   --secondary-text-color: rgb(120, 120, 120);
+  --grey: #f5f5f7;
+  --header-height: 4rem;
 }
 
 * {
@@ -322,7 +324,6 @@ h3 {
   max-width: 1320px; /* Maximum width for 1400px or more */
   margin-left: auto;
   margin-right: auto;
-  padding-top: 3.5rem;
 }
 
 @media (min-width: 450px) {
@@ -347,4 +348,8 @@ h3 {
   .responsive-container {
     width: 1140px; /* Width for 1200px to 1400px */
   }
+}
+
+.content_padding {
+  padding-top: 6rem;
 }
