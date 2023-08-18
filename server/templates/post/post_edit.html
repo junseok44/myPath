@@ -420,8 +420,10 @@
         .findIndex(function (option) {
           return option.value === targetPathId;
         });
+      if(specificOptionIndex == 0){
+        specificOptionIndex = 2;
+      }
       var targetOption = selectElement.options[specificOptionIndex - 1];
-
       main.removeChild(target);
 
       if (main.childElementCount == 0) {
@@ -435,10 +437,8 @@
       // 누구야 이거 느낌표 빼놓은거...
       paths = paths.filter((path) => path.id !== targetPathId);
       steps = steps.filter((step) => step.pathId !== targetPathId);
-
       updateSelectOptions();
-
-      changeDisplay(targetOption.value);
+      if(targetOption) changeDisplay(targetOption.value);
 
     }
     document.addEventListener("DOMContentLoaded", function() {

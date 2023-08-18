@@ -275,6 +275,9 @@
         return option.value === targetPathId;
       }
     );
+    if (specificOptionIndex == 0) {
+      specificOptionIndex = 2;
+    }
     var targetOption = selectElement.options[specificOptionIndex - 1];
 
     main.removeChild(target);
@@ -291,8 +294,7 @@
     steps = steps.filter((step) => step.pathId !== targetPathId);
 
     updateSelectOptions();
-    console.log(targetOption.value);
-    changeDisplay(targetOption.value);
+    if (targetOption) changeDisplay(targetOption.value);
   }
 
   function moveItemUp(stepId) {
