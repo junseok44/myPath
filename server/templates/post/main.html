@@ -13,12 +13,15 @@
     <div>
       {% for cur in curations %}
         <div class="main__curation">
-          <h1>{{cur.name}}</h1>
+          <div class="main__curation-title">
+            <h1>{{cur.name}}</h1>
+          </div>
           <ul class="main__curation-container owl-carousel">
             {% for post in cur.list %}
               <li class="main__curation-item">
                 <div class="card__container post-id-{{ post.id }}">
-                  <div class="card__header">
+                  <a href="{% url 'post:post_detail' pk=post.id %}">
+                    <div class="card__header">
                     <div class="card-author-profile-image"></div>
                     <div class="card-title">{{post.title}}</div>
                     <div class="card-author">{{post.user.username}}</div>
@@ -34,19 +37,20 @@
                     <div class="card-description">{{post.desc}}</div>
                   </div>
                   <div class="card__buttons">
-                    <div class="btn like-btn">
+                    <div class="like-btn">
                       <i class="fa-solid fa-heart"></i>
                       <span>{{post.like_table.count}}</span>
                     </div>
-                    <div class="btn reply-btn">
+                    <div class="reply-btn">
                       <i class="fa-solid fa-comment-dots"></i>
                       <span>댓글</span>
                     </div>
-                    <div class="btn share-btn">
+                    <div class="share-btn">
                       <i class="fa-solid fa-share-nodes"></i>
                       <span>공유</span>
                     </div>
                   </div>
+                  </a>
                 </div>
               </li>
             {% endfor %}
