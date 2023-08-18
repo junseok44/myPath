@@ -239,36 +239,45 @@
 </script>
 
 <!-- ajax 요청 관련 스크립트 -->
-<script>
-  // var clicked=0;
-  const requestStepDetail = new XMLHttpRequest();
-  const onClickStepDetail = (step_id) => {
-    var element = document.getElementById(`step-modal-${step_id}`);
-    element
-      .classList
-      .toggle("hidden");
 
-    //url은 post/step
+
+<!-- 모든 패스의 첫번째 모달 데이터를 ajax로 불러오기 위해서는 동기처리가 필요하므로 onClickStepDetail 함수를 새롭게 정의함 -->
+<script>
+const requestStepDetail = new XMLHttpRequest();
+
+const sendStepDetailRequest = (step_id) => {
+  return new Promise((resolve, reject) => {
     const url = "step";
     requestStepDetail.open("POST", url, true);
     requestStepDetail.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    var data = JSON.stringify({step_id: step_id});
+    var data = JSON.stringify({ step_id: step_id });
+    requestStepDetail.onreadystatechange = () => {
+      if (requestStepDetail.readyState === XMLHttpRequest.DONE) {
+        if (requestStepDetail.status < 400) {
+          resolve(JSON.parse(requestStepDetail.response));
+        } else {
+          reject(new Error("Request failed"));
+        }
+      }
+    };
     requestStepDetail.send(data);
-  };
-  requestStepDetail.onreadystatechange = () => {
-    if (requestStepDetail.readyState === XMLHttpRequest.DONE) {
-      if (requestStepDetail.status < 400) {
+  });
+};
 
-        const {step, step_comments} = JSON.parse(requestStepDetail.response);
-        step_parsed = JSON.parse(step)[0];
-        // console.log(step_parsed["pk"]);
+const onClickStepDetail = async (step_id) => {
+  return new Promise(async (resolve, reject) => {
+    var element = document.getElementById(`step-modal-${step_id}`);
+    element.classList.toggle("hidden");
+
+    try {
+      const { step, step_comments } = await sendStepDetailRequest(step_id);
+      // Process the response here
+
+      step_parsed = JSON.parse(step)[0];
         step_comments_parsed = JSON.parse(step_comments);
-        // console.log(step_comments_parsed);
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
         const comment_container = stepNode.querySelector(".step__comment")
         const commentNode = document.querySelector(`.step_comment_${step_parsed["pk"]}`);
-        // console.log(step_parsed["fields"]["Image"]);
-        // console.log(step_parsed["fields"]);
         image_url = step_parsed["fields"]["Image"]
         // console.log(image_null==true)
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
@@ -311,7 +320,6 @@
           }
           stepNode.insertBefore(stepInfo, comment_container)
         }
-        // console.log(commentNode);
         commentNode.innerHTML = ``;
         commentNode.innerHTML += `<div class="modal__comment-title">댓글</div>`;
         step_comments_parsed.forEach((element) => {
@@ -328,10 +336,106 @@
                         <p>${element["fields"]["text"]}</p>
                     </div>`;
         });
-        // <button class="btn step-comment-delete" onclick="deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')">댓글 삭제</button>
-      }
+
+
+      resolve(); // Resolve the promise after processing
+    } catch (error) {
+      reject(error); // Reject the promise in case of an error
     }
-  };
+  });
+};
+
+</script>
+
+
+<script>
+  // var clicked=0;
+  // const requestStepDetail = new XMLHttpRequest();
+  // const onClickStepDetail = (step_id) => {
+  //   var element = document.getElementById(`step-modal-${step_id}`);
+  //   element
+  //     .classList
+  //     .toggle("hidden");
+
+  //   //url은 post/step
+  //   const url = "step";
+  //   requestStepDetail.open("POST", url, true);
+  //   requestStepDetail.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  //   var data = JSON.stringify({step_id: step_id});
+  //   requestStepDetail.send(data);
+  //   console.log("send data");
+  // };
+  // requestStepDetail.onreadystatechange = () => {
+  //   if (requestStepDetail.readyState === XMLHttpRequest.DONE) {
+  //     if (requestStepDetail.status < 400) {
+  //       console.log("receive data");
+  //       const {step, step_comments} = JSON.parse(requestStepDetail.response);
+  //       step_parsed = JSON.parse(step)[0];
+  //       step_comments_parsed = JSON.parse(step_comments);
+  //       const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
+  //       const comment_container = stepNode.querySelector(".step__comment")
+  //       const commentNode = document.querySelector(`.step_comment_${step_parsed["pk"]}`);
+  //       image_url = step_parsed["fields"]["Image"]
+  //       // console.log(image_null==true)
+  //       const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
+  //       const stepInfo = document.createElement("div")
+  //       if (currentStepInfo) {
+  //         if (image_url) {
+  //           stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
+  //                     <hr>
+  //                     <div class="step-detail">
+  //                         <img src="../media/${step_parsed["fields"]["Image"]}" />
+  //                         <p>${step_parsed["fields"]["desc"]}</p>
+  //                         <hr>
+  //                   </div>`;
+  //         } else {
+  //           stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
+  //                     <hr>
+  //                     <div class="step-detail">
+  //                         <p>${step_parsed["fields"]["desc"]}</p>
+  //                     </div>`;
+  //         }
+  //       } else {
+          
+  //         stepInfo
+  //           .classList
+  //           .add(`step-${step_parsed["pk"]}`)
+  //         if (image_url) {
+  //           stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
+  //                     <hr>
+  //                     <div class="step-detail">
+  //                         <img src="../media/${step_parsed["fields"]["Image"]}" />
+  //                         <p>${step_parsed["fields"]["desc"]}</p>
+  //                         <hr>
+  //                   </div>`;
+  //         } else {
+  //           stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
+  //                     <hr>
+  //                     <div class="step-detail">
+  //                         <p>${step_parsed["fields"]["desc"]}</p>
+  //                     </div>`;
+  //         }
+  //         stepNode.insertBefore(stepInfo, comment_container)
+  //       }
+  //       commentNode.innerHTML = ``;
+  //       commentNode.innerHTML += `<div class="modal__comment-title">댓글</div>`;
+  //       step_comments_parsed.forEach((element) => {
+  //         // console.log(element);
+  //         commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
+  //                       <p class="comment_writer">${element["fields"]["writer"]}
+  //                         <span class="comment-actions">
+  //                       {% if user.is_authenticated %}
+  //                       <span class="step-comment-delete" onclick="deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')">삭제</span>
+  //                       {% endif %}
+  //                       </span>
+  //                         </p>
+                       
+  //                       <p>${element["fields"]["text"]}</p>
+  //                   </div>`;
+  //       });
+  //     }
+  //   }
+  // };
 
   const requestCommentCreate = new XMLHttpRequest();
   const onClickStepComment = (step_id) => {
@@ -465,24 +569,35 @@
 
 <!-- 최초 패스 보여주기 관련 스크립트 -->
 <script>
+
+const fetchStepAndShowModal = async (step_id) => {
+  await onClickStepDetail(step_id);
+  const modal = document.getElementById(`step-modal-${step_id}`);
+  modal.classList.remove("hidden");
+};
+
+const showModalsSequentially = async () => {
+  const paths = document.querySelectorAll(".path"); // Change to your actual selector
+  for (const path of paths) {
+    let firstModal = path.querySelectorAll(".modal__overlay")[0];
+    await fetchStepAndShowModal(firstModal.id.slice(11));
+  }
+};
+
   function showInitialPath(){
     const paths=document.querySelectorAll(".path");
-    console.log(paths[0].classList);
     paths.forEach((item)=>(item.classList.add("hidden")));
-    console.log(paths[0].classList);
     paths[0].classList.remove("hidden");
 
     // 모달도 보이도록 추가.
 
     if(window.innerWidth >= 600) {
-      const firstModal = paths[0].querySelectorAll(".modal__overlay")[0];
-    console.log(firstModal.id.slice(10));
-    onClickStepDetail(firstModal.id.slice(11));
-    firstModal.classList.remove("hidden")
+      showModalsSequentially().catch(error => console.error("Error:", error));
     }
    
   }
   showInitialPath();
+
 </script>
 
 
