@@ -1,35 +1,92 @@
 {% extends 'post/main__templates.html' %} {% load static %}
 
 <div>
-  {% block mainContent %}
-  <div>
-    {% for cur in curations %}
-    <div class="main__list">
-      <h1>{{cur.name}}</h1>
-      <ul class="main__item-container">
-        {% for post in cur.list %}
-        <a href="/post/{{post.id}}">
-          <li class="main__item">
-            {% if post.thumbnail %}
-            <img src="{{post.thumbnail.url}}" alt="my icon" />
-            {% else %}
-            <img src="" />
-            {% endif %}
-            <div class="postname">{{post.title}}</div>
-            <div class="postwriter">{{post.user.username}}</div>
-            <div class="postdetail">{{post.desc}}</div>
-            <button class="">{{post.like_table.count}}</button>
-            <button class="">댓글</button>
-            <button class="">공유</button>
-          </li>
-        </a>
+  {% block stylesheet %}
+  <link
+    rel="stylesheet"
+    href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
+  />
+  {% endblock %}
+</div>
 
-        {% endfor %}
-      </ul>
+<div>
+  {% block mainContent %}
+
+    <div>
+      {% for cur in curations %}
+        <div class="main__curation">
+          <div class="main__curation-title">
+            <h1>{{cur.name}}</h1>
+          </div>
+          <ul class="main__curation-container owl-carousel">
+            {% for post in cur.list %}
+              <li class="main__curation-item">
+                <div class="card__container post-id-{{ post.id }}">
+                  <a href="{% url 'post:post_detail' pk=post.id %}">
+                    <div class="card__header">
+                    <div class="card-author-profile-image"></div>
+                    <div class="card-title">{{post.title}}</div>
+                    <div class="card-author">{{post.user.username}}</div>
+                  </div>
+                  <div class="card__body">
+                    <div class="card-thumbnail">
+                      {% if post.thumbnail %}
+                        <img src="{{post.thumbnail.url}}" alt="my icon"/>
+                      {% else %}
+                        <img src=""/>
+                      {% endif %}
+                    </div>
+                    <div class="card-description">{{post.desc}}</div>
+                  </div>
+                  <div class="card__buttons">
+                    <div class="like-btn">
+                      <i class="fa-solid fa-heart"></i>
+                      <span>{{post.like_table.count}}</span>
+                    </div>
+                    <div class="reply-btn">
+                      <i class="fa-solid fa-comment-dots"></i>
+                      <span>댓글</span>
+                    </div>
+                    <div class="share-btn">
+                      <i class="fa-solid fa-share-nodes"></i>
+                      <span>공유</span>
+                    </div>
+                  </div>
+                  </a>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
     </div>
 
-    {% endfor %}
   </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'library/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
+<script>
+  $(".owl-carousel").owlCarousel({
+    center: false,
+    loop: true,
+    margin: 15,
+
+    responsiveClass: true,
+    responsive: {
+      0: {
+        items: 1.15,
+      },
+      600: {
+        items: 3,
+        nav: false,
+      },
+      1000: {
+        items: 4.3,
+        // loop: false,
+      },
+    },
+  });
+</script>
 
 {% endblock %}

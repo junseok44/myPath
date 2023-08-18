@@ -1,18 +1,119 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'user/login_templates.html' %} {% load static %}
 
-<div class="login">
-  <h2>Login</h2>
-  <form action="{% url 'user_login' %}" method="post">
-    {% csrf_token %}
+<div>
+  {% block formContent %}
+  <div class="login auth-container">
+    <h2>로그인</h2>
+    <form action="{% url 'user_login' %}" method="post" class="auth__form">
+      {% csrf_token %}
+      <div class="login__box">
+        <div class="login-input-box">
+          <input
+            class="auth-input"
+            id="inputId"
+            type="text"
+            name="loginId"
+            placeholder="ID"
+            required
+          />
+        </div>
+        <div class="login-input-box">
+          <input
+            class="auth-input"
+            id="inputPw"
+            type="password"
+            name="password"
+            placeholder="PASSWORD"
+            required
+          />
+        </div>
+      </div>
+      <button class="btn auth-btn-disabled" id="login-btn" type="submit">
+        로그인
+      </button>
+    </form>
 
-    <label for="loginId">ID: </label>
-    <input type="text" name="loginId" required />
+    <div class="social__auth">
+      <div class="btn social-auth-btn" id="kakao-login">
+        <a id="kakao-login-btn" href="javascript:loginWithKakao()"></a>
+        <img class="login_logo" src="{% static 'resource/kakao_logo_rmbg.png' %}"></img>
+          카카오 로그인
+        </a>
+      </div>
+      <div class="btn social-auth-btn" id="google-login">
+        <a href="{% url 'google_start' %}">
+          <img class="login_logo google" src="{% static 'resource/google_logo2.png' %}"></img>
+          구글 로그인
+        </a>
+      </div>
+    </div>
 
-    <label for="password">Password: </label>
-    <input type="password" name="password" required />
+    <div>
+      계정이 없으신가요?
+      <a class="auth-link" href="{% url 'user_signup' %}">회원가입</a>
+    </div>
+  </div>
 
-    <button type="submit">로그인</button>
-  </form>
-  <p>계정이 없으신가요? <a href="{% url 'user_signup' %}">회원가입</a></p>
+  <script
+    src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"
+    integrity="sha384-70k0rrouSYPWJt7q9rSTKpiTfX6USlMYjZUtr1Du+9o4cGvhPAWxngdtVZDdErlh"
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    Kakao.init("{{KAKAO_CLIENT_ID}}");
+    Kakao.isInitialized();
+
+    function loginWithKakao() {
+      Kakao.Auth.authorize({
+        redirectUri: "{{KAKAO_REDIRECT_URL}}",
+      });
+    }
+    displayToken();
+    function displayToken() {
+      var token = getCookie("authorize-access-token");
+
+      if (token) {
+        Kakao.Auth.setAccessToken(token);
+        Kakao.Auth.getStatusInfo()
+          .then(function (res) {
+            if (res.status === "connected") {
+              document.getElementById("token-result").innerText =
+                "login success, token: " + Kakao.Auth.getAccessToken();
+            }
+          })
+          .catch(function (err) {
+            Kakao.Auth.setAccessToken(null);
+          });
+      }
+    }
+
+    function getCookie(name) {
+      var parts = document.cookie.split(name + "=");
+      if (parts.length === 2) {
+        return parts[1].split(";")[0];
+      }
+    }
+  </script>
+
+  <!-- 로그인 버튼 색상 관련 -->
+  <script>
+    const inputId = document.getElementById("inputId");
+    const inputPw = document.getElementById("inputPw");
+    const loginBtn = document.getElementById("login-btn");
+
+    inputId.addEventListener("keyup", validateLogin);
+    inputPw.addEventListener("keyup", validateLogin);
+
+    function validateLogin() {
+      if (!(inputId.value && inputPw.value)) {
+        loginBtn.disabled = true;
+        loginBtn.classList.remove("auth-btn-active");
+      } else {
+        loginBtn.disabled = false;
+        loginBtn.style.cursor = "pointer";
+        loginBtn.classList.add("auth-btn-active");
+      }
+    }
+  </script>
+  {% endblock %}
 </div>
-{% endblock %}

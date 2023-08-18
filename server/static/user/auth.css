@@ -1,0 +1,132 @@
+/* 로그인, 회원가입 공통 */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px 15px;
+  min-width: 15vw;
+}
+
+.auth-container h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.auth__form {
+  margin-bottom: 1.5rem;
+}
+
+.auth-input,
+.signup-input-box input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  display: block;
+  font-size: 15px;
+}
+
+.auth-btn-disabled {
+  box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.1);
+  background-color: var(--border-grey);
+  width: 300px;
+  height: 40px;
+}
+
+.auth-btn-active {
+  background-color: var(--primary-color);
+}
+
+.auth-link {
+  margin-left: 10px;
+  color: var(--primary-color);
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* 로그인 관련 */
+.login__box {
+  width: 300px;
+  height: 100px;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-grey);
+  border-radius: 10px;
+}
+
+.login-input-box {
+  height: 50%;
+  padding: 10px;
+}
+
+.login-input-box:nth-child(1) {
+  border-bottom: 1px solid var(--border-grey);
+}
+
+/* 소셜 로그인 관련 */
+.social__auth {
+  margin-bottom: 1.5rem;
+}
+
+.social-auth-btn {
+  position: relative;
+  width: 300px;
+  height: 40px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.social-auth-btn img {
+  position: absolute;
+  left: 20px;
+}
+
+#kakao-login {
+  color: rgb(0, 0, 0, 0.85);
+  background-color: #fee500;
+}
+
+#google-login {
+  margin-top: 5px;
+  color: black;
+  background-color: #ffffff;
+}
+
+.login_logo {
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-right: 0.3rem;
+}
+
+.login_logo.google {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-right: 0.8rem;
+}
+
+/* 회원가입 관련 */
+.signup__box {
+  width: 300px;
+  height: 200px;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-grey);
+  border-radius: 10px;
+}
+
+.signup-input-box {
+  height: 25%;
+  padding: 10px;
+}
+
+.signup-input-box:nth-child(1),
+.signup-input-box:nth-child(2),
+.signup-input-box:nth-child(3) {
+  border-bottom: 1px solid var(--border-grey);
+}

@@ -1,16 +1,23 @@
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import user_main, user_login, user_signup, view_user_main, my_page, user_page, user_logout
+from . import views 
+from .views import *
 
 urlpatterns = [
     path('main/', user_main, name='user_main'),
     path('login/', user_login, name='user_login'), 
     path('signup/', user_signup, name='user_signup'),
     path('logout/',user_logout, name='user_logout'),
-    path('',view_user_main,name='user_main'),
     path('my_page', my_page, name='my_page'),
     path('user_page/<uuid:id>', user_page, name='user_page'),
+    path('addCard',user_card_add, name="user_card_add"),
+    path('userIntro', user_intro_update, name="user_intro_update"),
+    path('deleteCard/<int:id>',user_card_delete,name="user_card_delete"),
+    path('updateCard/<int:id>',user_card_edit,name="user_card_edit"),
+    path('googleLoginStart', google_Auth_Start, name="google_start"),
+    path('googleRedirect/', google_Auth_Redirect, name="google_redirect"),
+    path('kakaoRedirect/', kakao_Auth_Redirect, name='kakao_redirect'),
 ]
 
 if settings.DEBUG:

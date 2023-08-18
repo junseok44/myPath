@@ -1,88 +1,386 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% load my_filters %} 
+{% block content %}
+<div>
+  {% block stylesheet %}
+  <link
+    rel="stylesheet"
+    href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
+  />
+  <link rel="stylesheet" href="{% static 'user/userpage.css' %}" />
+  <link rel="stylesheet" href="{% static 'user/mypage.css' %}" />
+  {% endblock %}
+</div>
 
-<div class="container">
-  <div class="post__title">나의 패스</div>
-  <div class="post__container">
-    나의 패스 리스트 {% for post in my_posts %}
-    <div class="card__container post-id-{{ post.id }}">
-      <div class="card__header">
-        <div class="card-author-profile-image"></div>
-        <div class="card-title">{{post.title}}</div>
-        <div class="card-author">{{post.user}}</div>
+<div class="myPage">
+  <div class="userinfo__title">{{user.membership}} {{user.username}}</div>
+
+  <div class="userinfo__container owl-carousel">
+    <div class="usercard__container">
+      <div class="usercard__header">자기소개
+        <button class="userPage__intro-edit btn-unset userPage__ml"><i class="fa-solid fa-pen"></i></button>
       </div>
-      <div class="card__body">
-        <div class="card-thumbnail">
-          {% if post.thumbnail != null and post.image.url != "" %}
-          <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+      <div class="usercard__body">
+        <div class="usercard__content">
+          {% if user.intro == "" %}
+          <div class="userdivage__intro-guide">작성된 자기소개가 없습니다.</div>
+          {% else %} 
+          <div class="userPage__intro-guide">{{user.intro}}</div>
           {% endif %}
+          <form action="/user/userIntro" method="post" class="userPage__intro-form hidden">
+            {% csrf_token %}
+            <textarea maxlength="299" name="intro" placeholder="소개를 입력하세요..." class="writePage-input" id="userPage__intro-input" style="height:8rem">{{user.intro}}</textarea>
+            <button type="submit" class="btn">작성하기</button>
+          </form>
         </div>
-        <div class="card-description">{{post.desc}}</div>
-      </div>
-      <div class="card__buttons">
-        <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
-        <div class="btn reply-btn">
-          <i class="fa-solid fa-comment-dots"></i>
-        </div>
-        <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
       </div>
     </div>
-    {% endfor %}
-  </div>
-  <hr />
-  <div class="post__title">내가 찜한 패스</div>
-  <div class="post__container">
-    찜한 패스 리스트 {% for like_post in my_likes %}
-    <div class="card__container post-id-{{ post.id }}">
-      <div class="card__header">
-        <div class="card-author-profile-image"></div>
-        <div class="card-title">{{like_post.post.title}}</div>
-        <div class="card-author">{{like_post.post.user}}</div>
-      </div>
-      <div class="card__body">
-        <div class="card-thumbnail">
-          {% if post.thumbnail != null and post.image.url != "" %}
-          <img src="{{post.thumbnail}}" alt="대체 텍스트" />
-          {% endif %}
+    <div class="usercard__container">
+      <div class="usercard__header">작성한 Path의 수</div>
+      <div class="usercard__body">
+        <div class="usercard__content">
+          {{posts_count}}
         </div>
-        <div class="card-description">{{post.desc}}</div>
-      </div>
-      <div class="card__buttons">
-        <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
-        <div class="btn reply-btn">
-          <i class="fa-solid fa-comment-dots"></i>
-        </div>
-        <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
       </div>
     </div>
-    {% endfor %}
-  </div>
-  <hr />
-  <div class="post__title">내가 스크랩한 패스</div>
-  <div class="post__container">
-    스크랩 성장단계 리스트 {% for bm_post in my_bookmarks %}
-    <div class="card__container post-id-{{ post.id }}">
-      <div class="card__header">
-        <div class="card-author-profile-image"></div>
-        <div class="card-title">{{bm_post.post.title}}</div>
-        <div class="card-author">{{bm_post.post.user}}</div>
+
+    {% for card in userCards %}
+    <div class="usercard__container card__{{card.id}}">
+      <div class="usercard__header-controls">
+        <button class="btn-unset userPage__mr" onclick="toggleEditForm('{{card.id}}')">
+          <i class="fa-solid fa-pen"></i>
+        </button>
+        <form method="POST" action='{% url 'user_card_delete' id=card.id %}' class="userPage__delete-form">
+          {% csrf_token %}
+          <button class="btn-unset" type="submit">
+            <i class="fa-solid fa-x"></i>
+          </button>
+        </form>
       </div>
-      <div class="card__body">
-        <div class="card-thumbnail">
-          {% if post.thumbnail != null and post.image.url != "" %}
-          <img src="{{post.thumbnail}}" alt="대체 텍스트" />
-          {% endif %}
+      <div class="usercard__header">
+        {% if card.link %}
+        <a href='{{card.link|add_protocol}}' target="blank" class="auth-link">
+          {{card.title}}
+        </a>
+        {% else %}
+        {{card.title}}
+        {% endif %}
+      </div>
+      <div class="usercard__body">
+        <div class="usercard__content">
+          {{card.desc}}
         </div>
-        <div class="card-description">{{post.desc}}</div>
       </div>
-      <div class="card__buttons">
-        <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
-        <div class="btn reply-btn">
-          <i class="fa-solid fa-comment-dots"></i>
+      <form method="POST" action='{% url 'user_card_edit' id=card.id %}' id="editForm__{{card.id}}" class="userPage__cardForm hidden">
+        {% csrf_token %} 
+        <h2>내용 수정</h2>
+        <input maxlength="10" class="writePage-input" value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? (10자 이내)"/ >
+        <input
+        class="writePage-input"
+          value="{{card.link}}"
+          name="link"
+          maxlength="100"
+          placeholder="관련 링크가 있나요?,,블로그 링크, SNS 링크 등"
+        />
+        <textarea
+        class="writePage-input"
+          value="{{card.desc}}"
+          required
+          name="desc"
+          maxlength="100"
+          placeholder="설명을 덧붙여주세요! (100자 이내)"
+        ></textarea>
+        <div class="userPage__editBtns">
+          <button type="button" class="btn" onclick="onCancelEditForm()">취소</button>
+          <button type="submit" class="btn">확인</button>
         </div>
-        <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
+    
+      </form>
+    </div> 
+    
+      {% endfor %}
+
+  <div class="usercard__container add">
+    <button type="button" class="userPage__add-btn btn-unset">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <form method="POST" action='{% url 'user_card_add' %}' class="userPage__add-form hidden">
+      {% csrf_token %} 
+      <h3>유저 카드 추가</h3>
+      <input maxlength="10" class="writePage-input" required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
+      <input class="writePage-input" 
+      maxlength="100"
+        name="link"
+        placeholder="관련 링크가 있나요? ex) 블로그 링크, SNS 링크"
+      />
+      <textarea
+      class="writePage-input"
+      maxlength="100"
+        required
+        name="desc"
+        placeholder="설명을 덧붙여주세요! (100자 이내)"
+      ></textarea>
+      <div class="userPage__editBtns">
+        <button type="button" class="btn" onclick="onClickAddBtn()">취소</button>
+        <button type="submit" class="btn">확인</button>
       </div>
-    </div>
-    {% endfor %}
+    </form>
   </div>
 </div>
+  <ul class="nav nav-tabs">
+    <li class="nav-item" onclick="change_tab_color(event)">
+      <a
+        class="nav-link active"
+        id="my-posts-tab"
+        data-toggle="tab"
+        href="#my-posts"
+        >나의 패스</a
+      >
+    </li>
+    <li class="nav-item" onclick="change_tab_color(event)">
+      <a class="nav-link" id="my-likes-tab" data-toggle="tab" href="#my-likes"
+        >좋아요 한 패스</a
+      >
+    </li>
+    <li class="nav-item" onclick="change_tab_color(event)">
+      <a
+        class="nav-link"
+        id="my-bookmarks-tab"
+        data-toggle="tab"
+        href="#my-bookmarks"
+        >북마크 한 패스</a
+      >
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="my-posts">
+      <div class="post__title">나의 패스</div>
+      <div class="post__container"></div>
+        {% if my_likes|length == 0 %}
+        <p>내가 쓴 패스가 없습니다.</p>
+        {% else %} {% for post in my_posts %}
+        <div class="card__container post-id-{{ post.id }}">
+          <a href="{% url 'post:post_detail' pk=post.id %}">
+            <div class="card__header">
+              <div class="card-author-profile-image"></div>
+              <div class="card-title">{{post.title}}</div>
+              <div class="card-author">{{post.user}}</div>
+            </div>
+            <div class="card__body">
+              <div class="card-thumbnail">
+                {% if post.thumbnail != null and post.image.url != "" %}
+                <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+                {% endif %}
+              </div>
+              <div class="card-description">{{post.desc}}</div>
+            </div>
+            <div class="card__buttons">
+              <div class="btn like-btn card-btns">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+              <div class="btn reply-btn card-btns">
+                <i class="fa-solid fa-comment-dots"></i>
+              </div>
+              <div class="btn share-btn card-btns">
+                <i class="fa-solid fa-share-nodes"></i>
+              </div>
+            </div>
+          </a>
+          
+        </div>
+        {% endfor %} {% endif %}
+      </div>
+    </div>
+    <div class="tab-pane fade" id="my-likes">
+      <div class="post__title">내가 좋아요 한 패스</div>
+      <div class="post__container">
+        {% if my_likes|length == 0 %}
+        <p>좋아요 한 포스트가 없습니다.</p>
+        {% else %} {% for like_post in my_likes %}
+        <div class="card__container post-id-{{ post.id }}">
+          <a href="{% url 'post:post_detail' pk=like_post.post.id %}">
+            <div class="card__header">
+              <div class="card-author-profile-image"></div>
+              <div class="card-title">{{like_post.post.title}}</div>
+              <div class="card-author">{{like_post.post.user}}</div>
+            </div>
+            <div class="card__body">
+              <div class="card-thumbnail">
+                {% if like_post.post.thumbnail != null and like_post.post.image.url != "" %}
+                <img src="{{like_post.post.thumbnail}}" alt="대체 텍스트" />
+                {% endif %}
+              </div>
+              <div class="card-description">{{like_post.post.desc}}</div>
+            </div>
+            <div class="card__buttons">
+              <div class="btn like-btn card-btns">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+              <div class="btn reply-btn card-btns">
+                <i class="fa-solid fa-comment-dots"></i>
+              </div>
+              <div class="btn share-btn card-btns">
+                <i class="fa-solid fa-share-nodes"></i>
+              </div>
+            </div>
+          </a>
+        </div>
+        {% endfor %} {% endif %}
+      </div>
+    </div>
+    <div class="tab-pane fade" id="my-bookmarks">
+      <div class="post__title">내가 북마크 한 패스</div>
+      <div class="post__container">
+        {% if my_bookmarks|length == 0 %}
+        <p>북마크 한 패스가 없습니다.</p>
+        {% else %} {% for bm_post in my_bookmarks %}
+        <div class="card__container post-id-{{ post.id }}">
+          <a href="{% url 'post:post_detail' pk=bm_post.post.id %}">
+            <div class="card__header">
+            <div class="card-author-profile-image"></div>
+            <div class="card-title">{{bm_post.post.title}}</div>
+            <div class="card-author">{{bm_post.post.user}}</div>
+          </div>
+          <div class="card__body">
+            <div class="card-thumbnail">
+              {% if bm_post.post.thumbnail != null and bm_post.post.image.url != "" %}
+              <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+              {% endif %}
+            </div>
+            <div class="card-description">{{bm_post.post.desc}}</div>
+          </div>
+          <div class="card__buttons">
+            <div class="btn like-btn card-btns">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            <div class="btn reply-btn card-btns">
+              <i class="fa-solid fa-comment-dots"></i>
+            </div>
+            <div class="btn share-btn card-btns">
+              <i class="fa-solid fa-share-nodes"></i>
+            </div>
+          </div>
+          </a>
+        </div>
+        {% endfor %} {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  const editButtons = document.querySelectorAll(".userPage__intro-edit");
+
+// Attach individual event listeners to each button
+editButtons.forEach(editBtn => {
+  editBtn.addEventListener("click", event => {
+    const cardContainer = editBtn.closest(".usercard__container");
+    const guide = cardContainer.querySelector(".userPage__intro-guide");
+    const form = cardContainer.querySelector(".userPage__intro-form");
+    
+    guide.classList.toggle("hidden");
+    form.classList.toggle("hidden");
+  });
+});
+
+
+</script>
+
+
+<script>
+  const addBtn = document.querySelector(".userPage__add-btn");
+  const addForm = document.querySelector(".userPage__add-form");
+  const onClickAddBtn = () => {
+    addBtn.classList.toggle("hidden");
+    addForm.classList.toggle("hidden");
+  };
+
+  addBtn.addEventListener("click", onClickAddBtn);
+
+  const handleDeleteCard = () => {
+
+  }
+
+  function toggleEditForm (cardId)  {
+    const form = document.querySelector(`#editForm__${cardId}`)
+    const card = document.querySelector(`.card__${cardId}`)
+    const body = card.querySelector(".usercard__body")
+    const title = card.querySelector(".usercard__header")
+    const controls = card.querySelector(".usercard__header-controls")
+    card.removeChild(body)
+    card.removeChild(title)
+    card.removeChild(controls)
+
+    form.classList.toggle("hidden")
+  }
+
+  function onCancelEditForm() {
+    location.reload()
+  }
+</script>
+
+<script>
+  function change_tab_color(e) {
+    var taps = document.querySelectorAll(".nav-item");
+    taps.forEach(function (tap, i) {
+      if (e.currentTarget == tap) {
+        tap.classList.add("active");
+      } else {
+        tap.classList.remove("active");
+      }
+    });
+  }
+
+  // '나의 패스' 탭
+  document
+    .getElementById("my-posts-tab")
+    .addEventListener("click", function () {
+      document.getElementById("my-posts").style.display = "block";
+      document.getElementById("my-likes").style.display = "none";
+      document.getElementById("my-bookmarks").style.display = "none";
+    });
+
+  // '내가 찜한 패스' 탭
+  document
+    .getElementById("my-likes-tab")
+    .addEventListener("click", function () {
+      document.getElementById("my-posts").style.display = "none";
+      document.getElementById("my-likes").style.display = "block";
+      document.getElementById("my-bookmarks").style.display = "none";
+    });
+
+  // '내가 스크랩한 패스' 탭
+  document
+    .getElementById("my-bookmarks-tab")
+    .addEventListener("click", function () {
+      document.getElementById("my-posts").style.display = "none";
+      document.getElementById("my-likes").style.display = "none";
+      document.getElementById("my-bookmarks").style.display = "block";
+    });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'library/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
+<script>
+  $(".owl-carousel").owlCarousel({
+    margin: 10,
+    responsiveClass: true,
+    nav: true,
+    navText: ['<button class="btn userPage__carousel-btn">이전으로</button>', '<button class="btn userPage__carousel-btn">다음으로</button>'],
+    responsive: {
+      0: {
+        items: 1,
+      },
+      600: {
+        items: 3,
+      },
+      1000: {
+        items: 4,
+        nav: true,
+      },
+    },
+  });
+</script>
+
 {% endblock %}

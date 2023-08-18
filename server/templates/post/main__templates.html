@@ -1,22 +1,28 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block content %}
 
-<div class="mainsearch">
-  <input type="text" placeholder="검색어를 입력해보세요." />
-  <button class="searchbtn">검색</button>
-</div>
+  <div class="main__templates">
+    <h1 class="main__logo">MYPATH</h1>
+    <form class="main__searchForm" method="POST" action="{% url 'post:search' %}">
+      {% csrf_token %}
+      <input class="form-control" id="search-input" type="search" placeholder="Search" name="searched" aria-label="Search"/>
+      <button class="main__search-icon" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      <button class="btn btn-outline-success main__search-btn" type="submit">Search</button>
+    </form>
+    {% block searchcontent %}{% endblock %}
 
-<div class="container">
-  <div class="categorycontainer">
-    <ul>
-      {% for category in categories %}
-      <li>
-        <a href="{% url 'post:category' category_name=category.name %}"
-          >{{ category.name }}</a
-        >
-      </li>
-      {% endfor %}
-    </ul>
+    <div class="main__category">
+      <ul class="main__category-list">
+        {% for category in categories %}
+          <li class="main__category-item">
+            <a href="{% url 'post:category' category_name=category.name %}">{{ category.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
-</div>
 
-{% block mainContent %} {% endblock %} {% endblock %}
+  {% block mainContent %}{% endblock %}
+{% endblock %}

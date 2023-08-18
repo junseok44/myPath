@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block content %}
+<style>
+  .container {
+    text-align: center;
+    margin-top: 100px;
+  }
+
+  .error-number {
+    font-size: 12em;
+    color: blue;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .error-message {
+    color: blue;
+    font-size: 3em;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  }
+
+  .description {
+    font-size: 1.5em;
+    color: #666;
+  }
+
+  .link {
+    color: blue;
+    font-size: 1.2em;
+    text-decoration: none;
+    border-bottom: 1px solid blue;
+    transition: border-bottom 0.3s;
+  }
+
+  .link:hover {
+    border-bottom: none;
+  }
+</style>
+<div class="container">
+  <div class="error-number">404</div>
+  <div class="error-message">Page Not Found</div>
+  <p class="description">
+    The Page you are looking for doesn't exist or an other error occurred. Go
+    back, or head over to https://www.djangoproject.com/ to choose a new
+    direction.
+  </p>
+  <a href="{% url 'user_main' %}" class="link">Go back to the home page</a>
+</div>
+{% endblock %}
