@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="{% static 'user/base.css' %}" />
     {% block stylesheet %}{% endblock %}
   </head>
-
   <body>
     <header>
       <div class="responsive-container">
@@ -90,22 +89,33 @@
           <div class="footer_icon-container">
             <a class="footer_icon">
               <i class="fa-brands fa-instagram"></i>
+              <div class="footer_dropdown">인스타그램</div>
             </a>
             <a class="footer_icon">
               <i class="fa-solid fa-envelope"></i>
+              <div class="footer_dropdown">newtonjjang@naver.com</div>
             </a>
-            <a class="footer_icon"> <i class="fa-brands fa-github"></i> </a>
+            <a class="footer_icon">
+              <i class="fa-brands fa-github"></i>
+              <div class="footer_dropdown">깃허브</div>
+            </a>
           </div>
           <div>
-            <a class="footer_name">장준석</a>
+            <a
+              href="https://github.com/junseok44?tab=repositories"
+              target="_blank"
+              class="footer_name"
+              >장준석</a
+            >
             <a class="footer_name">백서경</a>
             <a class="footer_name">김도은</a>
             <a class="footer_name">채리원</a>
             <a class="footer_name">이정한</a>
           </div>
-          <div>Copyright team mypath. All Rights Reserved.</div>
+          <div>Team mypath. All Rights Reserved.</div>
           <div class="footer_copyright">
             <a
+              target="_blank"
               href="https://www.flaticon.com/free-icons/left"
               title="left icons"
               >Left icons created by Freepik - Flaticon</a
@@ -114,27 +124,6 @@
         </div>
       </div>
     </footer>
-    <!-- <footer class="footer_contianer">
-      <span class="container">
-        <span class="footer_contents">
-          <nav>
-            <a class="instagram_btn" href="" target="_blank"
-              ><i class="fa-brands fa-instagram"></i
-            ></a>
-          </nav>
-          <br />
-          <p>
-            <span>저자 : teammypath</span><br />
-            <span>이메일 : mypath@gmail.com</span><br />
-            <span>Copyright 2023. teammypath. All Rights Reserved.</span>
-          </p>
-          <br /><br />
-          <a class="up_btn" href="#header" target="_blank"
-            ><i class="fa-solid fa-arrow-up"></i
-          ></a>
-        </span>
-      </span>
-    </footer> -->
   </body>
 
   <script

@@ -28,7 +28,7 @@
           {% endif %}
           <form action="/user/userIntro" method="post" class="userPage__intro-form hidden">
             {% csrf_token %}
-            <textarea name="intro" placeholder="소개를 입력하세요..." class="writePage-input" id="userPage__intro-input">{{user.intro}}</textarea>
+            <textarea maxlength="299" name="intro" placeholder="소개를 입력하세요..." class="writePage-input" id="userPage__intro-input" style="height:8rem">{{user.intro}}</textarea>
             <button type="submit" class="btn">작성하기</button>
           </form>
         </div>
@@ -73,11 +73,12 @@
       <form method="POST" action='{% url 'user_card_edit' id=card.id %}' id="editForm__{{card.id}}" class="userPage__cardForm hidden">
         {% csrf_token %} 
         <h2>내용 수정</h2>
-        <input class="writePage-input" value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? (10자 이내)"/ >
+        <input maxlength="10" class="writePage-input" value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? (10자 이내)"/ >
         <input
         class="writePage-input"
           value="{{card.link}}"
           name="link"
+          maxlength="100"
           placeholder="관련 링크가 있나요?,,블로그 링크, SNS 링크 등"
         />
         <textarea
@@ -85,6 +86,7 @@
           value="{{card.desc}}"
           required
           name="desc"
+          maxlength="100"
           placeholder="설명을 덧붙여주세요! (100자 이내)"
         ></textarea>
         <div class="userPage__editBtns">
@@ -104,13 +106,15 @@
     <form method="POST" action='{% url 'user_card_add' %}' class="userPage__add-form hidden">
       {% csrf_token %} 
       <h3>유저 카드 추가</h3>
-      <input class="writePage-input" required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
+      <input maxlength="10" class="writePage-input" required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
       <input class="writePage-input" 
+      maxlength="100"
         name="link"
         placeholder="관련 링크가 있나요? ex) 블로그 링크, SNS 링크"
       />
       <textarea
       class="writePage-input"
+      maxlength="100"
         required
         name="desc"
         placeholder="설명을 덧붙여주세요! (100자 이내)"

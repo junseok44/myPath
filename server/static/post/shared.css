@@ -5,7 +5,7 @@
   list-style: none;
   padding: 0;
   max-width: 100%;
-  overflow-x: scroll;
+  overflow-x: auto;
   display: flex;
 }
 
@@ -128,12 +128,26 @@
     transform: transformX(0);
   }
 }
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
 
 /* 패스 관련 css */
 .path {
   min-width: 240px;
   position: relative;
   animation: fadeRight 0.5s ease forwards;
+}
+
+.path.fadeout {
+  animation: fadeout 0.3s ease forwards;
 }
 
 .path_intro {
@@ -179,12 +193,27 @@
   min-height: 200px;
   width: 15rem;
   position: relative;
-  padding: 10px;
+  padding: 15px;
   border: 1px solid var(--border-grey);
   border-radius: 5px;
   background-color: white;
   min-width: 15rem;
   animation: fadeIn 0.5s ease forwards;
+}
+
+.step.fadeout {
+  animation: fadeout 0.3s ease forwards;
+}
+
+.detailPage .step-content .title {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.detailPage .step-content .desc {
+  max-height: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .col-mode .step:not(:last-child)::before {
@@ -213,19 +242,11 @@
   transform: translateY(-50%) rotate(180deg); /* Set the trans */
 }
 
-.col-mode .step-btn-container {
+.step-btn-container {
   position: absolute;
-  /* top:5rem; */
+  bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
-}
-
-.step-btn-container {
-  /* position: absolute; */
-  /* top:5rem; */
-  /* left: 50%; */
-  /* transform: translateX(-50%); */
-  text-align: center;
 }
 
 .editPage__pathSelect,
@@ -268,9 +289,9 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  z-index: 10;
+  z-index: 1000;
   gap: 1rem;
-  border: 1px solid black;
+  border: 1px solid var(--border-grey);
   @media screen and (min-width: 600px) {
     animation: fadeIn 0.5s ease forwards;
   }
@@ -395,3 +416,5 @@
   overflow: hidden;
   border: 0;
 }
+
+/* 모달 스타일링 */

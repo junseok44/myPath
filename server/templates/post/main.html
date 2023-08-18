@@ -1,9 +1,11 @@
-{% extends 'post/main__templates.html' %}
-{% load static %}
+{% extends 'post/main__templates.html' %} {% load static %}
 
 <div>
   {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"/>
+  <link
+    rel="stylesheet"
+    href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
+  />
   {% endblock %}
 </div>
 
@@ -56,34 +58,35 @@
             {% endfor %}
           </ul>
         </div>
-
       {% endfor %}
     </div>
+
   </div>
+</div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="{% static 'library/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
-  <script>
-    $(".owl-carousel").owlCarousel({
-      center: true,
-      loop: true,
-      margin: 10,
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'library/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
+<script>
+  $(".owl-carousel").owlCarousel({
+    center: false,
+    loop: true,
+    margin: 15,
 
-      responsiveClass: true,
-      responsive: {
-        0: {
-          items: 1.15
-        },
-        600: {
-          items: 3,
-          nav: false
-        },
-        1000: {
-          items: 5.2,
-          // loop: false,
-        }
-      }
-    });
-  </script>
+    responsiveClass: true,
+    responsive: {
+      0: {
+        items: 1.15,
+      },
+      600: {
+        items: 3,
+        nav: false,
+      },
+      1000: {
+        items: 4.3,
+        // loop: false,
+      },
+    },
+  });
+</script>
 
 {% endblock %}

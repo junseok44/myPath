@@ -245,7 +245,12 @@
 
   function handleDeleteItem(targetStepId) {
     const targetNode = document.querySelector(`.step_${targetStepId}`);
-    targetNode.parentNode.removeChild(targetNode);
+
+    targetNode.classList.add("fadeout");
+    setTimeout(() => {
+      targetNode.parentNode.removeChild(targetNode);
+    }, 300);
+    // targetNode.parentNode.removeChild(targetNode);
 
     const targetStep = steps.find((step) => step.id == targetStepId);
 
@@ -273,24 +278,28 @@
         return option.value === targetPathId;
       }
     );
+    if (specificOptionIndex == 0) {
+      specificOptionIndex = 2;
+    }
     var targetOption = selectElement.options[specificOptionIndex - 1];
 
-    main.removeChild(target);
-
-    if (main.childElementCount == 0) {
-      main.innerHTML = `
+    target.classList.add("fadeout");
+    setTimeout(() => {
+      main.removeChild(target);
+      if (main.childElementCount == 0) {
+        main.innerHTML = `
       <button type="button" onclick="handleAddPath()" class="btn add_new-btn writePage__btn">
         내 패스 만들기
       </button>
       `;
-    }
+      }
 
-    paths = paths.filter((path) => path.id == targetPathId);
+      updateSelectOptions();
+      if (targetOption) changeDisplay(targetOption.value);
+    }, 300);
+
+    paths = paths.filter((path) => path.id !== targetPathId);
     steps = steps.filter((step) => step.pathId !== targetPathId);
-
-    updateSelectOptions();
-
-    changeDisplay(targetOption.value);
   }
 
   function moveItemUp(stepId) {
@@ -367,8 +376,6 @@
     const step = steps.find((step) => step.id == stepId);
     step.title = titleInput.value;
     step.isEdited = true;
-
-    console.log(step);
   }
 
   function handleChangeStepDesc(stepId) {
@@ -378,8 +385,6 @@
     const step = steps.find((step) => step.id == stepId);
     step.desc = descInput.value;
     step.isEdited = true;
-
-    console.log(step);
   }
 
   function handleChangeStepImage(stepId) {
@@ -397,7 +402,6 @@
       reader.readAsDataURL(imageFile);
     }
     step.isEdited = true;
-    console.log(step);
   }
 
   async function handleSubmit(e) {
@@ -405,7 +409,6 @@
 
     if (!titleInput.value || !descInput.value || !categorySelect.value) {
       //TODO 에러 메시지 띄우기
-      console.log("제목, 설명 입력");
       return;
     }
 

@@ -16,7 +16,7 @@
 .detailPage__title {
   display: flex;
   margin-right: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .detailPage__title h2 {
@@ -43,7 +43,7 @@
 
 .detailPage__intro .intro-content {
   display: grid;
-  grid-template-columns: 1.5fr 5fr;
+  grid-template-columns: 10rem 5fr;
   gap: 1rem;
   @media screen and (max-width: 600px) {
     display: block;
@@ -56,17 +56,39 @@
 }
 .detailPage__thumbnail {
   position: relative;
-  width: 100%;
+  width: 10rem;
   padding-bottom: 100%;
   overflow: hidden;
   border: 1px solid var(--border-grey);
 }
 
 .detailPage__thumbnail img {
+  display: block;
   position: absolute;
   object-fit: cover;
   top: 0;
   left: 0;
+  width: 10rem;
+  height: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .detailPage__intro .intro-content {
+    display: block;
+  }
+
+  /* Reset the width and padding for the thumbnail */
+  .detailPage__thumbnail {
+    width: auto;
+    padding-bottom: 0;
+  }
+
+  /* Reset the absolute positioning for the image */
+  .detailPage__thumbnail img {
+    position: static;
+    width: 100%;
+    height: auto;
+  }
 }
 
 .detailPage__main {
@@ -124,11 +146,15 @@
   }
 }
 
+.detailPage .path_title {
+  font-size: 1.5rem;
+  margin: 0 auto 1rem;
+}
+
 @media screen and (max-width: 600px) {
   .path_title {
     /* align-self:center; */
     width: 15rem;
-    margin: auto;
   }
 }
 
@@ -145,7 +171,7 @@
   position: absolute;
   min-width: 800px;
   min-height: 600px;
-  top: 1rem;
+  top: 2.4rem;
 
   @media screen and (max-width: 1200px) {
     min-width: 670px;
@@ -188,7 +214,7 @@
 
 .row-mode .modal__overlay {
   position: absolute;
-  top: 15rem;
+  top: 17rem;
   left: 0px;
   right: 0px;
   height: fit-content;
@@ -250,7 +276,7 @@
 }
 
 .detailPage__review-title {
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 600px) {
     display: none;
   }
 }
@@ -287,7 +313,9 @@
 }
 
 .accordion .review-title {
-  background-color: #f1f1f1;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  color: white;
   padding: 10px;
   cursor: pointer;
   display: none; /* Hide the title by default */
@@ -348,6 +376,11 @@
   margin-top: 1rem;
 }
 
+.comment-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .comment-actions {
   font-size: 0.7rem;
   cursor: pointer;
@@ -384,19 +417,29 @@
   }
 }
 
-/* .detailPage .step-content {
-  position: relative;
-  height: 100%;
-}
-
 .detailPage__detailBtn {
   position: absolute;
-  bottom: 0;
-  right: 0;
-} */
+  bottom: 1rem;
+  right: 1rem;
+}
 
 .detailPage .step__edit-modal {
   @media screen and (min-width: 601px) {
     width: 100%;
+  }
+}
+
+.modal__comment-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.detailPage .step__edit-modal .modal__title {
+  font-size: 2rem;
+}
+.detailPage .step__edit-modal .step-detail {
+  @media screen and (max-width: 450px) {
+    height: 10rem;
+    overflow: auto;
   }
 }

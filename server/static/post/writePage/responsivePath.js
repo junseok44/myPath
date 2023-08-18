@@ -1,4 +1,4 @@
-let responsiveWidth = 600;
+let responsiveWidth = 900;
 const listElement = document.querySelector(".main-container");
 const selectElement = document.getElementById("pathSelect");
 
