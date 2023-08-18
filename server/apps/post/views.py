@@ -505,13 +505,17 @@ def view_step_create_comment_ajax(request):
     text=req['text']
     if request.method=="POST":
         if request.user.is_authenticated:
-            comment=StepComment.objects.create(
-                writer=request.user,
-                step=get_object_or_404(Step, pk=step_id),
-                text=text,
-            )
-            ctx={'step_id':step_id,'comment_id':comment.id,'writer':comment.writer.username,'text':text}
-            return JsonResponse(ctx)
+            if text == "":
+                messages.error(request, "공백은 입력하실수 없습니다.")
+                return JsonResponse({"error": "errormessage"}, status=500)
+            else:
+                comment=StepComment.objects.create(
+                    writer=request.user,
+                    step=get_object_or_404(Step, pk=step_id),
+                    text=text,
+                )
+                ctx={'step_id':step_id,'comment_id':comment.id,'writer':comment.writer.username,'text':text}
+                return JsonResponse(ctx)
         else:
             messages.error(request,"댓글 작성을 위해 로그인해주세요!")
             return JsonResponse({},status=400)
