@@ -234,7 +234,7 @@ h3 {
 
 /* 유저카드	 */
 .usercard__container {
-  width: 280px;
+  /* width: 280px; */
   height: 300px;
   padding: 25px;
   display: flex;
