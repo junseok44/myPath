@@ -1,14 +1,12 @@
 {% extends 'post/main__templates.html' %}
 {% load static %}
 
-<div>
-  {% block mainContent %}
+{% block mainContent %}
+  <div>
     {% if searched %}
-
       <h1>"{{ searched }}"에 대한 검색 결과입니다.</h1>
       <br/>
       {% for searched_post in searched_posts %}
-
         <div class="post__title"></div>
         <div class="post__container">
           <div class="card__container post-id-{{ post.id }}">
@@ -41,13 +39,5 @@
       <h1>검색 결과</h1>
       <h1>찾고 있는 레시피를 검색창에 입력해주세요.</h1>
     {% endif %}
-  {% endblock %}
-</div>
-{% endfor %}
-
-{% else %}
-<h1>
-찾고 있는 검색어를 검색창에 입력해주세요.
-</h1>
-{% endif %}
+  </div>
 {% endblock %}

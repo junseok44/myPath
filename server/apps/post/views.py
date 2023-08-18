@@ -405,7 +405,7 @@ def view_post_detail(requests,pk):
     for path in paths:
         path.steps=Step.objects.filter(path=path).order_by("order") #?
     post_comments=PostComment.objects.filter(post=post)
-   
+
 
     if requests.user.is_authenticated:
         if LikeTable.objects.filter(post=post, user=requests.user).exists():
@@ -424,7 +424,7 @@ def view_post_detail(requests,pk):
             "post_tags":post_tags,
             "paths":paths,
             "post_comments":post_comments
-         }
+        }
 
     return render(requests,"post/detail.html",context=ctx)
 
