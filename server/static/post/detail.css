@@ -428,3 +428,18 @@
     width: 100%;
   }
 }
+
+.modal__comment-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.detailPage .step__edit-modal .modal__title {
+  font-size: 2rem;
+}
+.detailPage .step__edit-modal .step-detail {
+  @media screen and (max-width: 450px) {
+    height: 10rem;
+    overflow: auto;
+  }
+}

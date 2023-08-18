@@ -96,25 +96,30 @@
           {{path.title}}
         {% else %}
           이름 없는 패스
+          
         {% endif %}
         </div>
         <div class="step-container">
           {% if path.steps.count == 0 %}
-          스텝이 없습니다.
+          <span class="color-grey">
+            스텝이 없습니다.
+          </span>
           {% else %}
           {% for step in path.steps %}
           <section class="step step_{{step.id}}">
             <div class="step-content">
               <p class="title">
                 {% if step.title == "" %}
-                제목이 없어요.
+                <span class="color-grey">제목이 없어요.</span>
                 {% else %}
                 {{step.title}}
                 {% endif %}
               </p>
               <p class="desc">
                 {% if step.desc == "" %}
-                설명이 없어요.
+                <span class="color-grey">
+                  설명이 없어요.
+                </span>
                 {% else %}
                 {{step.desc}}
                 {% endif %}
@@ -196,7 +201,7 @@
               <p>{{childComment.text}}</p>
             </div>
             {% endfor %}
-            <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="child-comment-input hidden">
+            <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="child-comment-input comment-form hidden">
               {%csrf_token%}
               <input type="hidden" name="parentCommentId" value="{{post_comment.id}}" />
               <input class="writePage-input" type="text" name="comment" placeholder="답글을 입력하세요" />
@@ -270,7 +275,7 @@
         const stepInfo = document.createElement("div")
         if (currentStepInfo) {
           if (image_url) {
-            stepInfo.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
+            stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
                       <hr>
                       <div class="step-detail">
                           <img src="../media/${step_parsed["fields"]["Image"]}" />
@@ -278,7 +283,7 @@
                           <hr>
                     </div>`;
           } else {
-            stepInfo.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
+            stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
                       <hr>
                       <div class="step-detail">
                           <p>${step_parsed["fields"]["desc"]}</p>
@@ -290,7 +295,7 @@
             .classList
             .add(`step-${step_parsed["pk"]}`)
           if (image_url) {
-            stepInfo.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
+            stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
                       <hr>
                       <div class="step-detail">
                           <img src="../media/${step_parsed["fields"]["Image"]}" />
@@ -298,7 +303,7 @@
                           <hr>
                     </div>`;
           } else {
-            stepInfo.innerHTML = `<h3>${step_parsed["fields"]["title"]}<h3>
+            stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
                       <hr>
                       <div class="step-detail">
                           <p>${step_parsed["fields"]["desc"]}</p>
@@ -308,7 +313,7 @@
         }
         // console.log(commentNode);
         commentNode.innerHTML = ``;
-
+        commentNode.innerHTML += `<div class="modal__comment-title">댓글</div>`;
         step_comments_parsed.forEach((element) => {
           // console.log(element);
           commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
@@ -354,6 +359,9 @@
                       </p>
                     <p>${text}</p>
                 </div>`;
+      document
+      .querySelector(`#step-modal-${step_id} .new-comment`)
+      .value = "";
       } else {
         window
           .location

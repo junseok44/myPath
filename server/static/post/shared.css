@@ -175,12 +175,23 @@
   min-height: 200px;
   width: 15rem;
   position: relative;
-  padding: 10px;
+  padding: 15px;
   border: 1px solid var(--border-grey);
   border-radius: 5px;
   background-color: white;
   min-width: 15rem;
   animation: fadeIn 0.5s ease forwards;
+}
+
+.detailPage .step-content .title {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.detailPage .step-content .desc {
+  max-height: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .col-mode .step:not(:last-child)::before {
@@ -383,3 +394,5 @@
   overflow: hidden;
   border: 0;
 }
+
+/* 모달 스타일링 */
