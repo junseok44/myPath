@@ -125,7 +125,7 @@
                 {% endif %}
               </p>  
             </div>
-            <button class="btn detailPage__detailBtn" type="button" onclick="onClickStepDetail('{{step.id}}')">
+            <button class="btn detailPage__detailBtn" type="button" onclick="toggleModal('{{step.id}}')">
               더보기
             </button>
           </section>
@@ -264,10 +264,29 @@ const sendStepDetailRequest = (step_id) => {
   });
 };
 
+
+const toggleModal = (step_id) => {
+
+  // console.log(document.querySelector(`step_${step_id}`));
+  const targetPath = document.querySelector(`.step_${step_id}`).parentElement.parentElement
+  const allModals =  targetPath.querySelectorAll(`.modal__overlay`)
+
+  // 모든 모달이 아니라, 해당하는 패스의 모달만..
+
+  for(modal of allModals) {
+  modal.classList.add("hidden")
+  }
+
+  onClickStepDetail(step_id)
+}
+
+
 const onClickStepDetail = async (step_id) => {
   return new Promise(async (resolve, reject) => {
+  
     var element = document.getElementById(`step-modal-${step_id}`);
     element.classList.toggle("hidden");
+
 
     try {
       const { step, step_comments } = await sendStepDetailRequest(step_id);
