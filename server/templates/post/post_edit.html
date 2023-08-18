@@ -77,7 +77,7 @@
             </button>
           </span>
           <!-- 이거 왜 step-container로 바꿨나요..말도 없이 -->
-          <div class="step-container step_container {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
+          <div class="step_container {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
             {% for step in path.steps %}
               <section class="step step_{{step.id}}">
                 <div class="step-content">
