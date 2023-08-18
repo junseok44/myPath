@@ -72,12 +72,12 @@ function addStepNode(targetPathId, id) {
                   <input maxlength="20" onchange="handleChangeStepTitle('${id}')" type="text" class="writePage-input title" placeholder="제목을 입력하세요..." / >
                   <textarea maxlength="500" onchange="handleChangeStepDesc('${id}')" class="writePage-input desc" placeholder="내용을 입력하세요..." ></textarea>
                   <input type="file" class="imageInput" onchange="handleChangeStepImage('${id}')" />
-                  <div class="step-btn-container">
+                </div>
+                <div class="step-btn-container">
                   <button type="button" class="btn" onclick="moveItemUp('${id}')"><i class="fa-solid fa-angles-up"></i></button>
                   <button type="button" class="btn" onclick="moveItemDown('${id}')"><i class="fa-solid fa-angles-down"></i></button>
                   <button type="button" class="btn" onclick="handleDeleteItem('${id}')"><i class="fa-solid fa-trash"></i></button>
                   </div>
-                </div>
                 <div class="modal__overlay hidden">
 
                 <div class="step__edit-modal modal_${id} hidden">

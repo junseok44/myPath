@@ -40,15 +40,16 @@
           <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
         </span>
       </div>
+      <ul id="tagList">
+        {% for post_tag in post_tags %}
+        <li>
+          <span>#{{post_tag.tag.name}}</span>
+        </li>
+        {% endfor %}
+      </ul>
       <div class="detailPage__meta">
         <div class="datailPage__category">{{post_category}}</div>
-        <ul id="tagList">
-          {% for post_tag in post_tags %}
-          <li>
-            <span>#{{post_tag.tag.name}}</span>
-          </li>
-          {% endfor %}
-        </ul>
+       
       </div>
       <div class="detailPage__writer">
         <a clas href="{% url 'user_page' id=post.user.id %}" class="auth-link">작성자: {{post.user}}</a>
@@ -59,7 +60,6 @@
         <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn" >이 포스트 삭제하기</button>
         {% endif %}
       </div>
-      
       <div class="accordion">
         <div class="review-title" onclick="toggleAccordion('accordion1')">
           패스 소개
@@ -118,11 +118,11 @@
                 {% else %}
                 {{step.desc}}
                 {% endif %}
-              </p>
-              <button class="btn detailPage__detailBtn" type="button" onclick="onClickStepDetail('{{step.id}}')">
-                더보기
-              </button>
+              </p>  
             </div>
+            <button class="btn detailPage__detailBtn" type="button" onclick="onClickStepDetail('{{step.id}}')">
+              더보기
+            </button>
           </section>
           {% endfor %}
           {% endif %}

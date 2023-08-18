@@ -86,18 +86,18 @@
                   <input type="file" class="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
                   <!-- <p class="title">{{step.title}}</p>
                   <p class="desc">{{step.desc}}</p> -->
-                  <div class="step-btn-container">
+                </div>
+                <div class="step-btn-container">
                   
-                    <button class="btn" type="button" onclick="moveItemUp('{{step.id}}')">
-                      <i class="fa-solid fa-angles-up"></i>
-                    </button>
-                    <button class="btn" type="button" onclick="moveItemDown('{{step.id}}')">
-                      <i class="fa-solid fa-angles-down"></i>
-                    </button>
-                    <button class="btn" type="button" onclick="handleDeleteItem('{{step.id}}')">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </div>
+                  <button class="btn" type="button" onclick="moveItemUp('{{step.id}}')">
+                    <i class="fa-solid fa-angles-up"></i>
+                  </button>
+                  <button class="btn" type="button" onclick="moveItemDown('{{step.id}}')">
+                    <i class="fa-solid fa-angles-down"></i>
+                  </button>
+                  <button class="btn" type="button" onclick="handleDeleteItem('{{step.id}}')">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
                 </div>
               </section>
             {% endfor %}

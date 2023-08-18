@@ -1,6 +1,6 @@
 .main__templates {
   width: 70%;
-  height: 25vh;
+  /* height: 25vh; */
   margin: 0 auto 2rem;
   display: flex;
   flex-direction: column;
