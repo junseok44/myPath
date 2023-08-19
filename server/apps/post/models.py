@@ -11,6 +11,7 @@ class Post(models.Model):
         ('row', '가로모드')
     ]
     user = models.ForeignKey(User, models.CASCADE, related_name='post')
+    created_at = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(
         primary_key=True, default=uuid.uuid4,  editable=False)
     title = models.CharField(max_length=20, blank=False, null=False)
@@ -20,6 +21,8 @@ class Post(models.Model):
     review = models.CharField(max_length=500, blank=True, default='')
     thumbnail = models.ImageField(upload_to="post/", blank=True, null=True)
 
+    def __str__(self):
+        return self.title
 
 class Path(models.Model):
     id = models.UUIDField(

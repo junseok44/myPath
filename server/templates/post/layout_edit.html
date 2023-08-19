@@ -1,0 +1,84 @@
+<div class="editPage">
+    <!-- form -->
+    <div class="writePage__intro">
+        <p class="writePage__title">
+            <!-- 제목 -->
+        </p>
+    </div>
+    <div class="writePage__meta">
+        <span class="labelfor">카테고리</span>
+        <label class="labelfor">태그</label>
+    </div>
+    <ul id="tagList">
+        <li class="tag tag_{{tagtable.tag.name}}">
+            <!-- 태그 -->
+        </li>
+    </ul>
+    <div class="writePage__thumbnail">
+        <!-- 썸네일 -->
+    </div>
+    <div class="writePage__desc">
+        <!-- 포스트 설명 -->
+    </div>
+    <div class="writePage__controlBox">
+        <div class="editPage__pathSelect">
+            <!-- 패스 선택 -->
+        </div>
+    </div>
+    <hr/>
+    
+    
+    <ul class="main-container {{post.mode}}-mode writePage__main">
+        <button class="add_new-btn">
+            <!-- 새로운 패스 추가 버튼 -->
+        </button>
+        <li class="path path_{{path.id}}">
+            <span class="path_intro">
+                <!-- 패스 이름 입력 -->
+            </span>
+            <button class="btn step-add-btn">
+                패스+
+            </button>
+            <!-- 패스 삭제 버튼 -->
+            <div class="step_container   {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
+                <section class="step step_{{step.id}}">
+                    <div class="step-content">
+                        <p class="title">
+                            <!-- 스텝 이름 -->
+                        </p>
+                        <p class="desc">
+                            <!-- 스텝 설명 -->
+                        </p>
+                        <div class="step-btn-container">
+                            <button class="edit-btn btn">
+                                <!-- 편집버튼 -->
+                            </button> 
+                            <!-- 위로 올리기 버튼 -->
+                            <!-- 아래로 내리기 버튼 -->
+                            <!-- 스텝 삭제 버튼 -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal__overlay hidden">
+                <div class="step__edit-modal modal_{{step.id}} hidden">
+                    <!-- 제목 -->
+                    <!-- 설명 -->
+                    <div>
+                        <!-- 취소버튼 -->
+                        <!-- 변경버튼 -->
+                    </div>
+                </div>
+            </div>
+            <button class="item_add-btn">
+                <!-- 스텝+ -->
+            </button>
+        </li>
+    </ul>
+    <hr/>
+    <h5 class="detailPage__subtitle">후기</h5>
+    <div class="writePage__review">
+    </div>
+    <!-- 취소하기 버튼 -->
+    <!-- 변경하기 버튼 -->
+</div>

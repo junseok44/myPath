@@ -13,42 +13,23 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import json
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / "../.env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
+# secrets.json 안에 있는 secret key를 env 파일로 옮길것.
+# 형식은 DJANGO_SECRET_KEY=그 값 
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
-
-def get_env_variable(key):
-    try:
-        print("getting secret key")
-        return secrets[key]
-    except KeyError:
-        error_msg = f"Set the {key} environment variable"
-        raise Exception(error_msg)
-
-SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
-
-
-
-
-
-
-
-
-
-
-
-
+AUTH_USER_MODEL = 'user.User'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -68,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.user',
     'apps.post',
-    'apps.comment'
+    'apps.comment',
 ]
 
 MIDDLEWARE = [
@@ -105,13 +86,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
+DATABASES = {
+    'default': env.db_url()
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -135,9 +119,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -163,3 +147,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'user.User'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'apps.user.backends.LoginIDBackend',
+)
+
+SOCIAL_AUTH_NAVER_KEY = ' '
+SOCIAL_AUTH_NAVER_SECRET = ' '
