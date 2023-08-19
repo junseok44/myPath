@@ -37,7 +37,7 @@
           {% endif %}
           <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
         </span>
-        <span class="detailPage__action-btn" onclick=copyLinktoClipboard()>
+        <span class="detailPage__action-btn" onclick="copyURLtoClipBoard()"">
           <i class="fa-solid fa-share-nodes"></i>
           공유
         </span>
@@ -730,7 +730,7 @@ const showModalsSequentially = async () => {
 <script>
   const url=window.location.href;
   console.log(url)
-  function copyLinktoClipboard(){
+  function copyURLtoClipBoard(){
     navigator.clipboard.writeText(url).then(function () {
 		  alert('URL 복사가 완료되었습니다.')
 	  });

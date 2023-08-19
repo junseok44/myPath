@@ -5,7 +5,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta property="og:url" content="https://localhost:8000/" />
+    <meta property="og:title" content="마이패스" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:description"
+      content="천개의 길, 오직 나만의 길을 찾자. 마이패스입니다."
+    />
+    <title>MyPath</title>
     <link rel="stylesheet" href="{% static 'reset.css' %}" />
     <link rel="stylesheet" href="{% static 'index.css' %}" />
     <link rel="stylesheet" href="{% static 'shared.css' %}" />
@@ -149,8 +156,12 @@
   <script>
     function copyPostLink(post_id) {
       const parent = document.querySelector(`.post-id-${post_id}`);
-      const link = parent.querySelector(`a`).href;
+      const linkElement = parent.querySelector("a");
+      const link = linkElement.href;
+      const linkText = linkElement.textContent;
       console.log(link);
+      const html = `<a href="${link}">${linkText}</a>`;
+
       navigator.clipboard.writeText(link).then(function () {
         alert("URL 복사가 완료되었습니다.");
       });
