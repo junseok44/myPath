@@ -175,14 +175,13 @@
               <div class="card-description">{{post.desc}}</div>
             </div>
             <div class="card__buttons">
-              <div class="btn like-btn card-btns">
+              <div class="like-btn">
                 <i class="fa-solid fa-heart"></i>
+                <span>{{post.like_table.count}}</span>
               </div>
-              <div class="btn reply-btn card-btns">
+              <div class="reply-btn">
                 <i class="fa-solid fa-comment-dots"></i>
-              </div>
-              <div class="btn share-btn card-btns">
-                <i class="fa-solid fa-share-nodes"></i>
+                <span>{{post.post_comment.count}}</span>
               </div>
             </div>
           </a>
@@ -214,14 +213,13 @@
               <div class="card-description">{{like_post.post.desc}}</div>
             </div>
             <div class="card__buttons">
-              <div class="btn like-btn card-btns">
+              <div class="like-btn">
                 <i class="fa-solid fa-heart"></i>
+                <span>{{like_post.like_table.count}}</span>
               </div>
-              <div class="btn reply-btn card-btns">
+              <div class="reply-btn">
                 <i class="fa-solid fa-comment-dots"></i>
-              </div>
-              <div class="btn share-btn card-btns">
-                <i class="fa-solid fa-share-nodes"></i>
+                <span>{{like_post.post_comment.count}}</span>
               </div>
             </div>
           </a>
@@ -251,14 +249,13 @@
             <div class="card-description">{{bm_post.post.desc}}</div>
           </div>
           <div class="card__buttons">
-            <div class="btn like-btn card-btns">
+            <div class="like-btn">
               <i class="fa-solid fa-heart"></i>
+              <span>{{bm_post.like_table.count}}</span>
             </div>
-            <div class="btn reply-btn card-btns">
+            <div class="reply-btn">
               <i class="fa-solid fa-comment-dots"></i>
-            </div>
-            <div class="btn share-btn card-btns">
-              <i class="fa-solid fa-share-nodes"></i>
+              <span>{{bm_post.post_comment.count}}</span>
             </div>
           </div>
           </a>

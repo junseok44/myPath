@@ -146,6 +146,17 @@
     </footer>
   </body>
 
+  <script>
+    function copyPostLink(post_id) {
+      const parent = document.querySelector(`.post-id-${post_id}`);
+      const link = parent.querySelector(`a`).href;
+      console.log(link);
+      navigator.clipboard.writeText(link).then(function () {
+        alert("URL 복사가 완료되었습니다.");
+      });
+    }
+  </script>
+
   <script
     src="https://kit.fontawesome.com/6fbcf91afd.js"
     crossorigin="anonymous"

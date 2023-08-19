@@ -46,7 +46,7 @@
                     </div>
                     <div class="reply-btn">
                       <i class="fa-solid fa-comment-dots"></i>
-                      <span>댓글</span>
+                      <span>{{post.post_comment.count}}</span>
                     </div>
                     <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
                       <i class="fa-solid fa-share-nodes"></i>
@@ -90,16 +90,6 @@
 </script>
 
 <!-- 포스트 링크 클립보드 복사 -->
-<script>
-  
-  function copyPostLink(post_id){
-    const parent=document.querySelector(`.post-id-${post_id}`);
-    const link=parent.querySelector(`a`).href;
-    console.log(link);
-    navigator.clipboard.writeText(link).then(function () {
-		  alert('URL 복사가 완료되었습니다.');
-	  });
-  };
-</script>
+<!-- base.html로 옮겼습니다 -->
 
 {% endblock %}
