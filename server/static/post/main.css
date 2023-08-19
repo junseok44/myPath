@@ -139,3 +139,17 @@
     grid-template-columns: 3fr;
   }
 }
+
+.searched_item-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+
+  @media screen and (max-width: 450px) {
+    grid-template-columns: 1fr;
+  }
+
+  @media screen and (max-width: 800px) {
+    grid-template-columns: 3fr;
+  }
+}
