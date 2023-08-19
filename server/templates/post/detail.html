@@ -288,32 +288,39 @@ const onClickStepDetail = async (step_id) => {
 
 
     try {
-      const { step, step_comments } = await sendStepDetailRequest(step_id);
+      const { user, step, step_comments } = await sendStepDetailRequest(step_id);
       // Process the response here
-
+      // post_writer=JSON.parse(post_writer);
+      // console.log(post_writer)
       step_parsed = JSON.parse(step)[0];
         step_comments_parsed = JSON.parse(step_comments);
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
         const comment_container = stepNode.querySelector(".step__comment")
         const commentNode = document.querySelector(`.step_comment_${step_parsed["pk"]}`);
-        image_url = step_parsed["fields"]["Image"]
+        image_url = step_parsed["fields"]["Image"];
+        title=step_parsed["fields"]["title"];
+        desc=step_parsed["fields"]["desc"];
+        step_title=title!==""?title:`제목이 없어요`;
+        step_desc=desc!==""?desc:`설명이 없어요`;
+
+        
         // console.log(image_null==true)
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
         const stepInfo = document.createElement("div")
         if (currentStepInfo) {
           if (image_url) {
-            stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
                       <hr>
                       <div class="step-detail">
                           <img src="../media/${step_parsed["fields"]["Image"]}" />
-                          <p>${step_parsed["fields"]["desc"]}</p>
+                          <p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                           <hr>
                     </div>`;
           } else {
-            stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
                       <hr>
                       <div class="step-detail">
-                          <p>${step_parsed["fields"]["desc"]}</p>
+                          <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           }
         } else {
@@ -322,32 +329,34 @@ const onClickStepDetail = async (step_id) => {
             .classList
             .add(`step-${step_parsed["pk"]}`)
           if (image_url) {
-            stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
                       <hr>
                       <div class="step-detail">
                           <img src="../media/${step_parsed["fields"]["Image"]}" />
-                          <p>${step_parsed["fields"]["desc"]}</p>
+                          <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                           <hr>
                     </div>`;
           } else {
-            stepInfo.innerHTML = `<h3 class="modal__title">${step_parsed["fields"]["title"]}<h3>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
                       <hr>
                       <div class="step-detail">
-                          <p>${step_parsed["fields"]["desc"]}</p>
+                          <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           }
           stepNode.insertBefore(stepInfo, comment_container)
         }
         commentNode.innerHTML = ``;
         commentNode.innerHTML += `<div class="modal__comment-title">댓글</div>`;
+        // console.log(step_parsed);
+        // console.log(step_comments_parsed[0]);
+        console.log(user)
         step_comments_parsed.forEach((element) => {
-          // console.log(element);
+          console.log(element['fields']['writer'])
           commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
                         <p class="comment_writer">${element["fields"]["writer"]}
                           <span class="comment-actions">
-                        {% if user.is_authenticated %}
-                        <span class="step-comment-delete" onclick="deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')">삭제</span>
-                        {% endif %}
+                  
+                        <span class="step-comment-delete ${user==element["fields"]["writer"]?'':'hidden'}" onclick=deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')>삭제</span>
                         </span>
                           </p>
                        

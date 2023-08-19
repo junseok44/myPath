@@ -92,7 +92,8 @@
 }
 
 .detailPage__main {
-  /* position:relative; */
+  position:relative;
+  z-index:1;
   display: flex;
   justify-content: flex-start;
   gap: 2rem;
@@ -102,6 +103,9 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 2rem;
+  @media screen and (max-width: 600px) {
+    overflow-x:hidden;
+  }
 }
 
 .row-mode {
@@ -172,6 +176,7 @@
   min-width: 800px;
   min-height: 600px;
   top: 2.4rem;
+  z-index:2;
 
   @media screen and (max-width: 1200px) {
     min-width: 670px;
@@ -344,6 +349,13 @@
   padding: 10px;
 }
 
+/* .comment-container{
+  @media screen and (max-width: 600px){
+    position:relative;
+    z-index:-1;
+  }
+} */
+
 .comment-container h5 {
   margin-bottom: 0.3rem;
 }
@@ -443,3 +455,5 @@
     overflow: auto;
   }
 }
+
+
