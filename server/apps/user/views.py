@@ -13,11 +13,11 @@ from urllib.parse import parse_qs
 from json.decoder import JSONDecodeError
 
 KAKAO_CLIENT_ID=os.environ.get("KAKAO_CLIENT_ID")
-KAKAO_REDIRECT_URL="http://localhost:8000/user/kakaoRedirect"
+KAKAO_REDIRECT_URL=os.environ.get("KAKAO_REDIRECT_URL")
 
 GOOGLE_CLIENT_ID=os.environ.get("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET=os.environ.get("GOOGLE_CLIENT_SECRET")
-GOOGLE_CALLBACK_URL = "http://localhost:8000/user/googleRedirect"
+GOOGLE_CALLBACK_URL = os.environ.get("GOOGLE_CALLBACK_URL")
 
 def user_main(request):  
     return render(request, 'user/login.html')
