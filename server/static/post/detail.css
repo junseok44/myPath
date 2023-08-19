@@ -1,4 +1,8 @@
 /* 반복 적용 내용 */
+.section-container {
+  margin-top: 3rem;
+}
+
 .secondary-text-styling {
   color: var(--secondary-text-color);
 }
@@ -111,9 +115,13 @@
   color: var(--secondary-text-color);
 }
 
+#tagList {
+  margin-bottom: 2rem;
+}
+
 /* 패스 소개 */
 .accordion {
-  margin: 30px 0;
+  /* margin: 30px 0; */
   overflow: hidden;
   @media screen and (max-width: 450px) {
     border: 1px solid var(--border-grey);
@@ -229,6 +237,19 @@
   justify-content: space-between;
 }
 
+.path-select-box span {
+  margin-right: 10px;
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+}
+
+.path-selector {
+  width: 100px;
+  padding: 3px 10px;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+}
+
 .detailPage__main {
   /* position:relative; */
   display: flex;
@@ -250,7 +271,7 @@
   }
 }
 
-.detailPage__main .step-container {
+.step-container {
   position: static;
   display: flex;
   gap: 2rem;
@@ -421,22 +442,7 @@
   padding: 10px;
 }
 
-.comment-container h5 {
-  margin-bottom: 0.3rem;
-}
 
-.comment {
-  position: relative;
-  padding: 13px 10px;
-  border: 1px solid var(--border-grey);
-  margin-bottom: 0.3rem;
-}
-
-.comment_writer {
-  padding-bottom: 0.3rem;
-  font-weight: 700;
-  font-size: 0.8rem;
-}
 
 .comment-children {
   margin-left: 1.5rem;
@@ -498,9 +504,23 @@
 }
 
 /* 댓글 */
-.detailPage__comment {
+.comment-container {
+  padding: 10px;
   background-color: var(--border-grey);
+  border-radius: 0;
 }
 
+.comment {
+  position: relative;
+  padding: 13px 10px;
+  border: 1px solid var(--border-grey);
+  margin-bottom: 0.3rem;
+}
+
+.comment_writer {
+  padding-bottom: 0.3rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
 
 

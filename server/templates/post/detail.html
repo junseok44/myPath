@@ -83,10 +83,13 @@
       </div>
     </div>
 
-    <div class="detailPage__path-section-container">
+    <div class="detailPage__path section-container">
       <div class="detailPage__path-header">
-        <span class="section-title">패스 선택</span>
-        <select class="select" id="pathSelect" ></select>
+        <div class="section-title">패스 자세히 보기</div>
+        <div class="path-select-box">
+          <span>패스 선택</span>
+          <select class="path-selector" id="pathSelect" ></select>
+        </div>
         <!-- <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a> -->
       </div>
       <hr class="detailPage-divider" />
@@ -154,10 +157,9 @@
       </ul>
     </div>
 
-    
-
-    <div class="detailPage__review">
+    <div class="detailPage__review section-container">
       <h5 class="section-title detailPage__review-title">후기</h5>
+      <hr class="detailPage-divider" />
       <div class="accordion accordion__review">
         <div class="review-title" onclick="toggleAccordion('accordion2')">
           후기
@@ -172,9 +174,10 @@
         </div>
       </div>
     </div>
-    <hr class="detailPage-divider" />
-    <div class="detailPage__comment">
+    
+    <div class="detailPage__comment section-container">
       <h5 class="section-title">댓글</h5>
+      <hr class="detailPage-divider" />
       <div class="comment-container post_{{post.id}}">
         {% for post_comment in post_comments%}
         {% if post_comment.parentComment is None %}
@@ -224,8 +227,6 @@
         </form>
       </div>
     </div>
-    
-
   </div>
 </div>
 
