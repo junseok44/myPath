@@ -481,6 +481,8 @@ def view_step_detail_ajax(request):
 
     if request.method=="POST":
         step = get_object_or_404(Step, pk=step_id)
+        path=get_object_or_404(Path,step=step)
+        user=request.user.username
         step_comments = StepComment.objects.filter(step=step)
         step_list = [
             {"fields":{
@@ -492,7 +494,7 @@ def view_step_detail_ajax(request):
         step_json = serialize('json', [step])
         # step_comments_json = serialize('json', step_list)
         step_comments_json = json.dumps(step_list)
-        ctx = {"step": step_json, "step_comments": step_comments_json, }
+        ctx = {"user":user,"step": step_json, "step_comments": step_comments_json, }
 
         return JsonResponse(ctx)
     else:

@@ -289,9 +289,10 @@ const onClickStepDetail = async (step_id) => {
 
 
     try {
-      const { step, step_comments } = await sendStepDetailRequest(step_id);
+      const { user, step, step_comments } = await sendStepDetailRequest(step_id);
       // Process the response here
-
+      // post_writer=JSON.parse(post_writer);
+      // console.log(post_writer)
       step_parsed = JSON.parse(step)[0];
         step_comments_parsed = JSON.parse(step_comments);
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
@@ -347,14 +348,16 @@ const onClickStepDetail = async (step_id) => {
         }
         commentNode.innerHTML = ``;
         commentNode.innerHTML += `<div class="modal__comment-title">댓글</div>`;
+        // console.log(step_parsed);
+        // console.log(step_comments_parsed[0]);
+        console.log(user)
         step_comments_parsed.forEach((element) => {
-          // console.log(element);
+          console.log(element['fields']['writer'])
           commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
                         <p class="comment_writer">${element["fields"]["writer"]}
                           <span class="comment-actions">
-                        {% if user.is_authenticated %}
-                        <span class="step-comment-delete" onclick="deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')">삭제</span>
-                        {% endif %}
+                  
+                        <span class="step-comment-delete ${user==element["fields"]["writer"]?'':'hidden'}" onclick=deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')>삭제</span>
                         </span>
                           </p>
                        
