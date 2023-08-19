@@ -71,6 +71,7 @@
 }
 
 .social-auth-btn {
+  position: relative;
   width: 300px;
   height: 40px;
   margin-top: 2px;
@@ -80,6 +81,11 @@
   font-size: 0.8rem;
   box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.1);
   cursor: pointer;
+}
+
+.social-auth-btn img {
+  position: absolute;
+  left: 20px;
 }
 
 #kakao-login {

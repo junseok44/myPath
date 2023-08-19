@@ -107,13 +107,14 @@
   margin-bottom: 4rem;
 }
 
-.main__curation > h1 {
+.main__curation-title h1 {
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .main__curation-container {
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
+  z-index: 1;
 }
 
 .category {
@@ -126,6 +127,20 @@
 }
 
 .category__item-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+
+  @media screen and (max-width: 450px) {
+    grid-template-columns: 1fr;
+  }
+
+  @media screen and (max-width: 800px) {
+    grid-template-columns: 3fr;
+  }
+}
+
+.searched_item-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;

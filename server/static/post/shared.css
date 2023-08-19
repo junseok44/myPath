@@ -9,6 +9,10 @@
   display: flex;
 }
 
+#tagList::-webkit-scrollbar {
+  display: none;
+}
+
 #tagList li {
   display: inline-block;
   margin: 5px;
@@ -20,8 +24,8 @@
 
 #tagList li span {
   cursor: pointer;
-  margin-left: 5px;
-  font-weight: bold;
+  margin-left: 3px;
+  font-size: 0.9rem;
 }
 
 /* 카테고리 페이지의 페이지네이션 */
@@ -124,12 +128,26 @@
     transform: transformX(0);
   }
 }
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
 
 /* 패스 관련 css */
 .path {
   min-width: 240px;
   position: relative;
   animation: fadeRight 0.5s ease forwards;
+}
+
+.path.fadeout {
+  animation: fadeout 0.3s ease forwards;
 }
 
 .path_intro {
@@ -162,15 +180,6 @@
   position: static;
 }
 
-/* 밑에꺼가 도은누나가 만든거, 위에꺼가 우리가 쓰던거. 밑에서 작업 계속해줘용. */
-/* .step {
-  position: relative;
-  position: static;
-  padding: 10px;
-  border: solid 1px var(--border-grey);
-  border-radius: 5px;
-} */
-
 .step {
   min-height: 200px;
   width: 15rem;
@@ -181,6 +190,11 @@
   background-color: white;
   min-width: 15rem;
   animation: fadeIn 0.5s ease forwards;
+  box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.1);
+}
+
+.step.fadeout {
+  animation: fadeout 0.3s ease forwards;
 }
 
 .detailPage .step-content .title {
@@ -270,9 +284,11 @@
   z-index: 1000;
   gap: 1rem;
   border: 1px solid var(--border-grey);
+  border-radius: 5px;
   @media screen and (min-width: 600px) {
     animation: fadeIn 0.5s ease forwards;
   }
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
 
   /* @media screen and (max-width: 600px) {
     position: fixed;

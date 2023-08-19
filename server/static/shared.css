@@ -173,7 +173,7 @@ h3 {
   border-radius: 5px;
 }
 
-/* 공통 컴포넌트: 포스트 카드, 유저 카드 관련 */
+/* 공통 컴포넌트: 포스트 카드 관련 */
 .post__title,
 .userinfo__title {
   font-size: 2rem;
@@ -198,11 +198,19 @@ h3 {
 }
 
 .card__container {
+  position: relative;
   height: 450px;
   background-color: white;
   border: solid 1px var(--border-grey);
   border-radius: 5px;
   color: black;
+  transition: all 0.3s ease-out;
+  box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.1);
+}
+
+.card__container:hover {
+  transform: translateY(-5px);
+  cursor: pointer;
 }
 
 .card__header {
@@ -213,8 +221,14 @@ h3 {
   justify-content: center;
 }
 
+.card-title {
+  margin-bottom: 3px;
+  font-size: 1.1rem;
+}
+
 .card-author {
   color: rgb(120, 120, 120);
+  font-size: 0.8rem;
 }
 
 .card-thumbnail {
@@ -223,11 +237,20 @@ h3 {
 }
 
 .card-description {
-  height: 100px;
-  padding: 20px 10px;
+  max-height: 110px;
+  padding: 20px 10px 0px;
+  font-size: 0.9rem;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
 }
 
 .card__buttons {
+  position: absolute;
+  bottom: 0px;
   padding: 20px 10px;
   display: flex;
   flex-direction: row;
