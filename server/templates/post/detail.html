@@ -613,7 +613,10 @@ const showModalsSequentially = async () => {
   const paths = document.querySelectorAll(".path"); // Change to your actual selector
   for (const path of paths) {
     let firstModal = path.querySelectorAll(".modal__overlay")[0];
-    await fetchStepAndShowModal(firstModal.id.slice(11));
+    if (firstModal){
+      await fetchStepAndShowModal(firstModal.id.slice(11));
+    }
+    
   }
 };
 
