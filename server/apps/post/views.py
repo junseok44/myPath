@@ -458,7 +458,6 @@ def view_post_create_comment(request,pk):
 
     return render(request,"post/detail.html")
 
-@csrf_exempt
 def view_post_delete_comment_ajax(request):
     req=json.loads(request.body)
     post_id=req['post_id']
@@ -474,7 +473,6 @@ def view_post_delete_comment_ajax(request):
     else:
         return HttpResponse('Failed: Post requests only.')
 
-@csrf_exempt
 def view_step_detail_ajax(request):
     req = json.loads(request.body)
     step_id = req['step_id']
@@ -499,7 +497,6 @@ def view_step_detail_ajax(request):
     else:
         return HttpResponse('Failed: Post requests only.')
     
-@csrf_exempt
 def view_step_create_comment_ajax(request):
     req=json.loads(request.body)
     step_id=req['step_id']
@@ -523,7 +520,6 @@ def view_step_create_comment_ajax(request):
     else:
         return HttpResponse('Failed: Post requests only.')
 
-@csrf_exempt
 def view_step_delete_comment_ajax(request):
     req=json.loads(request.body)
     step_id=req['step_id']
