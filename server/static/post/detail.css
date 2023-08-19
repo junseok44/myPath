@@ -1,12 +1,67 @@
-/* 컨테이너 임시로 만들어놨는데,
-이거는 base.html에서 .container로 만들고 모든페이지에
-동일하게 적용할 예정이라 삭제해야될것같습니다. */
-
+/* 반복 적용 내용 */
 .secondary-text-styling {
   color: var(--secondary-text-color);
 }
 
+.detailPage-divider {
+  height: 1px;
+  border: 0;
+  background: var(--border-grey);
+}
 
+.fa-solid.fa-heart {
+  color: red;
+}
+
+.fa-solid.fa-star {
+  color: #f39c12;
+}
+
+.detailPage__action-btn {
+  display: flex;
+  cursor: pointer;
+}
+
+.detailPage__detailBtn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+#more-btn {
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  background-color: transparent;
+  color: #007dff;
+}
+
+#more-btn:hover {
+  cursor: pointer;
+  background-color: rgba(var(--border-grey), 0.6);
+}
+
+
+
+/* 포스트 상단부: 제목, 저자, 날짜, 태그, 대표 이미지, 소개 */
+/* .detailPage__intro .intro-content {
+  display: grid;
+  grid-template-columns: 10rem 5fr;
+  gap: 1rem;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
+} 
+
+@media screen and (max-width: 600px) {
+  .detailPage__intro .intro-content {
+    display: block;
+  }
+} */
+
+
+
+/* 포스트 소개 관련 */
 .detailPage__intro {
   width: 100%;
   margin-bottom: 1rem;
@@ -35,12 +90,6 @@
   margin-right: 0.2rem;
 }
 
-.detailPage__meta {
-  display: flex;
-  align-items: flex-end;
-  margin-bottom: 1rem;
-}
-
 .detailPage__info {
   display: flex;
   align-items: center;
@@ -62,58 +111,101 @@
   color: var(--secondary-text-color);
 }
 
-.detailPage__intro .intro-content {
-  display: grid;
-  grid-template-columns: 10rem 5fr;
-  gap: 1rem;
+/* 패스 소개 */
+.accordion {
+  margin: 30px 0;
+  overflow: hidden;
+  @media screen and (max-width: 450px) {
+    border: 1px solid var(--border-grey);
+  }
+}
+
+.accordion .review-title {
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  display: none; /* Hide the title by default */
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion .review-title.visible {
+  display: flex; /* Show the title when it's visible */
+}
+
+.accordion__review {
+  margin-bottom: 1rem;
+}
+
+.content-wrapper {
+  background-color: grey;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
   @media screen and (max-width: 600px) {
-    display: block;
+    max-height: 0;
   }
 }
 
 .intro-content {
-
-}
-
-.detailPage__desc {
-  width: 100%;
-  border: 1px solid var(--border-grey);
-}
-.detailPage__thumbnail {
-  position: relative;
-  width: 10rem;
-  padding-bottom: 100%;
-  overflow: hidden;
-  border: 1px solid var(--border-grey);
-}
-
-.detailPage__thumbnail img {
-  display: block;
-  position: absolute;
-  object-fit: cover;
-  top: 0;
-  left: 0;
-  width: 10rem;
-  height: 100%;
-}
-
-@media screen and (max-width: 600px) {
-  .detailPage__intro .intro-content {
-    display: block;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.1);
+  
+  @media screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
   }
+}
 
-  /* Reset the width and padding for the thumbnail */
+  /* Reset the width and padding for the thumbnail
   .detailPage__thumbnail {
     width: auto;
     padding-bottom: 0;
-  }
+  } */
 
-  /* Reset the absolute positioning for the image */
+  /* Reset the absolute positioning for the image
   .detailPage__thumbnail img {
     position: static;
     width: 100%;
     height: auto;
-  }
+  } */
+
+.detailPage__thumbnail {
+  background-color: blue;
+  width: 250px;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailPage__thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.review-container {
+  padding: 20px;
+  border: 1px solid var(--border-grey);
+}
+
+.detailPage__desc {
+  flex: 1;
+} 
+
+/* 메인: 패스 & 스탭 */
+.detailPage__path-header {
+  display: flex;
+  justify-content: space-between;
 }
 
 .detailPage__main {
@@ -172,7 +264,7 @@
 }
 
 .detailPage .path_title {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin: 0 auto 1rem;
 }
 
@@ -292,77 +384,17 @@
   right: 1rem;
 }
 
-/* .hidden {
-  display: none;
-} */
-
-.detailPage__subtitle {
-  margin-bottom: 0.5rem;
-}
-
 .detailPage__review-title {
   @media screen and (max-width: 600px) {
     display: none;
   }
 }
 
-.detailPage .review-container {
-  border: 1px solid var(--border-grey);
-  border-radius: 5px;
-  padding: 10px;
-}
-
-.accordion__review {
-  margin-bottom: 1rem;
-}
-
-.fa-solid.fa-heart {
-  color: red;
-}
-
-.fa-solid.fa-star {
-  color: #f39c12;
-}
-
-.detailPage__action-btn {
-  display: flex;
-  cursor: pointer;
-}
-
-.accordion {
-  overflow: hidden;
-  @media screen and (max-width: 450px) {
-    border: 1px solid var(--border-grey);
-  }
-}
-
-.accordion .review-title {
-  background-color: var(--primary-color);
-  border-radius: 5px;
-  color: white;
-  padding: 10px;
-  cursor: pointer;
-  display: none; /* Hide the title by default */
-  justify-content: space-between;
-  align-items: center;
-}
-
-.accordion .review-title.visible {
-  display: flex; /* Show the title when it's visible */
-}
-
 .arrow {
   transition: transform 0.3s ease;
 }
 
-.content-wrapper {
-  border-radius: 5px;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  @media screen and (max-width: 600px) {
-    max-height: 0;
-  }
-}
+
 
 .content {
   padding: 10px;
@@ -376,9 +408,6 @@
   position: relative;
   padding: 13px 10px;
   border: 1px solid var(--border-grey);
-}
-
-.comment {
   margin-bottom: 0.3rem;
 }
 
@@ -415,30 +444,6 @@
   opacity: 0.8;
   text-decoration: underline;
 }
-.detail-title {
-  font-size: 2rem;
-}
-
-.detailPage__subtitle {
-  margin-bottom: 0.5rem;
-}
-
-.detail-author {
-  color: var(--secondary-text-color);
-}
-
-#more-btn {
-  display: flex;
-  flex-direction: center;
-  align-items: center;
-  background-color: transparent;
-  color: #007dff;
-}
-
-#more-btn:hover {
-  cursor: pointer;
-  background-color: rgba(var(--border-grey), 0.6);
-}
 
 .detailPage .path {
   @media screen and (min-width: 600px) {
@@ -446,15 +451,23 @@
   }
 }
 
-.detailPage__detailBtn {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-}
+
 
 .detailPage .step__edit-modal {
   @media screen and (min-width: 601px) {
     width: 100%;
+  }
+}
+
+
+.detailPage .step__edit-modal .modal__title {
+  font-size: 1.5rem;
+}
+
+.detailPage .step__edit-modal .step-detail {
+  @media screen and (max-width: 450px) {
+    height: 10rem;
+    overflow: auto;
   }
 }
 
@@ -463,26 +476,10 @@
   margin-bottom: 0.5rem;
 }
 
-.detailPage .step__edit-modal .modal__title {
-  font-size: 2rem;
-}
-.detailPage .step__edit-modal .step-detail {
-  @media screen and (max-width: 450px) {
-    height: 10rem;
-    overflow: auto;
-  }
-}
-
-
-.detailPage-divider {
-  height: 1px;
-  border: 0;
-  margin-top: 2rem;
-  background: var(--border-grey);
-}
-
 /* 댓글 */
 .detailPage__comment {
   background-color: var(--border-grey);
 }
+
+
 

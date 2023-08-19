@@ -182,6 +182,11 @@ h3 {
   margin-bottom: 2rem;
 }
 
+/* 글씨 크기 관련 */
+.section-title {
+  font-size: 1.4rem;
+}
+
 /* 공통 컴포넌트: input, textarea */
 .writePage-input {
   width: 100%;
