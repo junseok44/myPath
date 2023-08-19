@@ -43,8 +43,8 @@ def view_post_main(requests):
         return render(requests, "post/main.html",ctx)
 
 
-def category_search(request, category_name):
-    category = Category.objects.get(name=category_name)
+def category_search(request, category_id):
+    category = Category.objects.get(id=category_id)
     category_tables = CategoryTable.objects.filter(category=category)
     categories = Category.objects.all()
     category_posts = []
@@ -58,7 +58,7 @@ def category_search(request, category_name):
     page = paginator.get_page(page_number)
 
     ctx = {
-            "category_name": category_name,
+            "category_name": category.name,
             "category_posts": category_posts,
             "categories": categories,
             "page":page,
