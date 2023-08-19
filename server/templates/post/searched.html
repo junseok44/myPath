@@ -1,5 +1,5 @@
-{% extends 'post/main__templates.html' %} {% load static %} {% block mainContent
-%} {% block content%}
+{% extends 'post/main__templates.html' %} {% load static %} {% block
+mainContent%} {% block content%}
 <div>
   {% if searched %}
   <h1>"{{ searched }}"에 대한 검색 결과입니다.</h1>
@@ -45,7 +45,6 @@
     {% endfor %}
   </ul>
   {% else %}
-  <h1>검색 결과</h1>
   <h1>찾고 있는 검색어를 검색창에 입력해주세요.</h1>
   {% endif %}
 </div>
