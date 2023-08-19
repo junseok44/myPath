@@ -1,0 +1,12 @@
+branch-defaults:
+  deploy:
+    environment: Pathpiro-env
+  main:
+    environment: Pathpiro-env
+  master:
+    environment: Pathpiro-env
+global:
+  application_name: path_piro
+  default_platform: Docker running on 64bit Amazon Linux 2
+  default_region: ap-northeast-2
+  sc: git
