@@ -2,6 +2,11 @@
 이거는 base.html에서 .container로 만들고 모든페이지에
 동일하게 적용할 예정이라 삭제해야될것같습니다. */
 
+.secondary-text-styling {
+  color: var(--secondary-text-color);
+}
+
+
 .detailPage__intro {
   width: 100%;
   margin-bottom: 1rem;
@@ -49,7 +54,12 @@
 }
 
 .detailPage-author-link:hover {
+  cursor: pointer;
   text-decoration: underline;
+}
+
+.detailPage-created-date {
+  color: var(--secondary-text-color);
 }
 
 .detailPage__intro .intro-content {

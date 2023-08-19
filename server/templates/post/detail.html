@@ -42,15 +42,15 @@
       <div class="detailPage__info">
         <div class="detailPage__info-left">
           <a class="detailPage-author-link" href="{% url 'user_page' id=post.user.id %}">{{post.user}}</a>
-          <span class="separator">∙</span>
+          <span class="separator secondary-text-styling">∙</span>
           <span class="detailPage-created-date">날짜 추가</span>
-          <span class="separator">∙</span>
+          <span class="separator secondary-text-styling">∙</span>
           <span class="datailPage__category">{{post_category}}</span>
         </div>
         <div class="ditailPage__info-right">
           {% if post.user == user %}
           <button class="underline-btn"><a href="{% url 'post:post_edit' id=post.id %}">수정</a></button>
-          <span class="separator">∙</span>
+          <span class="separator secondary-text-styling">∙</span>
           <button class="underline-btn writePage__btn" type="button" onclick="deletepost('{{post.id}}')">삭제</button>
           {% endif %}
         </div>
@@ -90,7 +90,7 @@
       <select id="pathSelect" class="select"></select>
       <!-- <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a> -->
     </div>
-    <hr />
+    <hr class="detailPage-divider" />
     <ul class="main-container {{post.mode}}-mode detailPage__main">
       {% for path in paths %}
       <li class="path path_{{path.id}}">
