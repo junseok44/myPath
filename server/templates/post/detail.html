@@ -576,6 +576,7 @@ const onClickStepDetail = async (step_id) => {
 
 
   async function deletepost(id) {
+    if(confirm('정말로 삭제하시겠습니까?')){
       const response = await fetch(`/post/delete/${id}`, {
         method: "POST",
         body: JSON.stringify({id: id}),
@@ -589,6 +590,7 @@ const onClickStepDetail = async (step_id) => {
         window.location.href = "/";
       }
     }
+  }
 
 
 

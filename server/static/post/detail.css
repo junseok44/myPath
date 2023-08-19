@@ -103,6 +103,9 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 2rem;
+  @media screen and (max-width: 600px) {
+    overflow-x:hidden;
+  }
 }
 
 .row-mode {
