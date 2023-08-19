@@ -3,7 +3,6 @@
 {% block content %}
   <div class="detailPage">
     <div class="detailPage__intro">
-      
       <div class="detailPage__title">
         <h2>{{post.title}}</h2>
         <span class="detailPage__action-btn" id="detailPage-likeBtn">
@@ -39,6 +38,22 @@
           <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
         </span>
       </div>
+      <div class="detailPage__info">
+        <div class="detailPage__info-left">
+          <a class="detailPage-author-link" href="{% url 'user_page' id=post.user.id %}">{{post.user}}</a>
+          <span class="separator secondary-text-styling">∙</span>
+          <span class="detailPage-created-date">{{post.created_at}}</span>
+          <span class="separator secondary-text-styling">∙</span>
+          <span class="datailPage__category">{{post_category}}</span>
+        </div>
+        <div class="ditailPage__info-right">
+          {% if post.user == user %}
+          <button class="underline-btn"><a href="{% url 'post:post_edit' id=post.id %}">수정</a></button>
+          <span class="separator secondary-text-styling">∙</span>
+          <button class="underline-btn writePage__btn" type="button" onclick="deletepost('{{post.id}}')">삭제</button>
+          {% endif %}
+        </div>
+      </div>
       <ul id="tagList">
         {% for post_tag in post_tags %}
         <li>
@@ -46,19 +61,6 @@
         </li>
         {% endfor %}
       </ul>
-      <div class="detailPage__meta">
-        <div class="datailPage__category">{{post_category}}</div>
-       
-      </div>
-      <div class="detailPage__writer">
-        <a clas href="{% url 'user_page' id=post.user.id %}" class="auth-link">작성자: {{post.user}}</a>
-        {% if post.user == user %}
-        <a href="{% url 'post:post_edit' id=post.id %}">
-          <button class="btn">이 포스트 편집하기</button>
-        </a>
-        <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn" >이 포스트 삭제하기</button>
-        {% endif %}
-      </div>
       <div class="accordion">
         <div class="review-title" onclick="toggleAccordion('accordion1')">
           패스 소개
@@ -73,85 +75,91 @@
               <img src="{% static 'noimage.jpg' %}" />
               {% endif %}
             </div>
-            <div class="detailPage__desc review-container">
-              <p>{{post.desc}}</p>
+            <div class="review-container detailPage__desc">
+              {{post.desc}}
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="detailPage__pathSelect">
-      <span>패스 선택</span>
-      <select id="pathSelect" class="select"></select>
-      <!-- <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a> -->
-    </div>
-    <hr />
-    <ul class="main-container {{post.mode}}-mode detailPage__main">
-      
-      {% for path in paths %}
-      <li class="path path_{{path.id}}">
-        <div class="path_title">
-          {% if path.title %}
-          {{path.title}}
-        {% else %}
-          이름 없는 패스
-          
-        {% endif %}
+
+    <div class="detailPage__path section-container">
+      <div class="detailPage__path-header">
+        <div class="section-title">패스 자세히 보기</div>
+        <div class="path-select-box">
+          <span>패스 선택</span>
+          <select class="path-selector" id="pathSelect" ></select>
         </div>
-        <div class="step-container">
-          {% if path.steps.count == 0 %}
-          <span class="color-grey">
-            스텝이 없습니다.
-          </span>
+        <!-- <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a> -->
+      </div>
+      <hr class="detailPage-divider" />
+      <ul class="main-container {{post.mode}}-mode detailPage__main">
+        {% for path in paths %}
+        <li class="path path_{{path.id}}">
+          <div class="path_title">
+            {% if path.title %}
+            {{path.title}}
           {% else %}
-          {% for step in path.steps %}
-          <section class="step step_{{step.id}}">
-            <div class="step-content">
-              <p class="title">
-                {% if step.title == "" %}
-                <span class="color-grey">제목이 없어요.</span>
-                {% else %}
-                {{step.title}}
-                {% endif %}
-              </p>
-              <p class="desc">
-                {% if step.desc == "" %}
-                <span class="color-grey">
-                  설명이 없어요.
-                </span>
-                {% else %}
-                {{step.desc}}
-                {% endif %}
-              </p>  
-            </div>
-            <button class="btn detailPage__detailBtn" type="button" onclick="toggleModal('{{step.id}}')">
-              더보기
-            </button>
-          </section>
-          {% endfor %}
+            이름 없는 패스
           {% endif %}
-        </div>
-        {% for step in path.steps %}
-        <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
-          <div class="step__edit-modal step__modal modal_{{step.id}}">
-            <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
-            <div class="step__comment">
-              <div class="step_comment_{{step.id}}">
-              </div>
-            </div>
-            <div class="new__comment">
-              <input type="text" class="new-comment" placeholder="댓글을 입력하세요" />
-              <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
-            </div>
-            <button onclick="onToggleStepDetail('{{step.id}}')" class="btn done">확인</button>
           </div>
-        </div>
+          <div class="step-container">
+            {% if path.steps.count == 0 %}
+            <span class="color-grey">
+              스텝이 없습니다.
+            </span>
+            {% else %}
+            {% for step in path.steps %}
+            <section class="step step_{{step.id}}">
+              <div class="step-content">
+                <p class="title">
+                  {% if step.title == "" %}
+                  <span class="color-grey">제목이 없어요.</span>
+                  {% else %}
+                  {{step.title}}
+                  {% endif %}
+                </p>
+                <p class="desc">
+                  {% if step.desc == "" %}
+                  <span class="color-grey">
+                    설명이 없어요.
+                  </span>
+                  {% else %}
+                  {{step.desc}}
+                  {% endif %}
+                </p>  
+              </div>
+              <button class="btn detailPage__detailBtn" id="more-btn" type="button" onclick="toggleModal('{{step.id}}')">
+                더보기
+              </button>
+            </section>
+            {% endfor %}
+            {% endif %}
+          </div>
+          {% for step in path.steps %}
+          <div class="modal__overlay hidden" id="step-modal-{{step.id}}">
+            <div class="step__edit-modal step__modal modal_{{step.id}}">
+              <!-- 더보기 버튼을 눌렀을때 나오는 모달 -->
+              <div class="step__comment">
+                <div class="step_comment_{{step.id}}">
+                </div>
+              </div>
+              <div class="new__comment">
+                <input type="text" class="new-comment" placeholder="댓글을 입력하세요" />
+                <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
+              </div>
+              <button onclick="onToggleStepDetail('{{step.id}}')" class="btn done">확인</button>
+            </div>
+          </div>
+          {% endfor %}
+        </li>
         {% endfor %}
-      </li>
-      {% endfor %}
-    </ul>
-    <div class="detailPage__review">
-      <h5 class="detailPage__review-title detailPage__subtitle">후기</h5>
+      </ul>
+    </div>
+
+    <div class="detailPage__review section-container">
+      <h5 class="section-title detailPage__review-title">후기</h5>
+      <hr class="detailPage-divider" />
       <div class="accordion accordion__review">
         <div class="review-title" onclick="toggleAccordion('accordion2')">
           후기
@@ -166,8 +174,10 @@
         </div>
       </div>
     </div>
-    <div class="detailPage__comment">
-      <h5 class="detailPage__subtitle">댓글</h5>
+    
+    <div class="detailPage__comment section-container">
+      <h5 class="section-title">댓글</h5>
+      <hr class="detailPage-divider" />
       <div class="comment-container post_{{post.id}}">
         {% for post_comment in post_comments%}
         {% if post_comment.parentComment is None %}
@@ -217,8 +227,6 @@
         </form>
       </div>
     </div>
-    
-
   </div>
 </div>
 

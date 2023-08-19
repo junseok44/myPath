@@ -1,7 +1,71 @@
-/* 컨테이너 임시로 만들어놨는데,
-이거는 base.html에서 .container로 만들고 모든페이지에
-동일하게 적용할 예정이라 삭제해야될것같습니다. */
+/* 반복 적용 내용 */
+.section-container {
+  margin-top: 3rem;
+}
 
+.secondary-text-styling {
+  color: var(--secondary-text-color);
+}
+
+.detailPage-divider {
+  height: 1px;
+  border: 0;
+  background: var(--border-grey);
+}
+
+.fa-solid.fa-heart {
+  color: red;
+}
+
+.fa-solid.fa-star {
+  color: #f39c12;
+}
+
+.detailPage__action-btn {
+  display: flex;
+  cursor: pointer;
+}
+
+.detailPage__detailBtn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+#more-btn {
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  background-color: transparent;
+  color: #007dff;
+}
+
+#more-btn:hover {
+  cursor: pointer;
+  background-color: rgba(var(--border-grey), 0.6);
+}
+
+
+
+/* 포스트 상단부: 제목, 저자, 날짜, 태그, 대표 이미지, 소개 */
+/* .detailPage__intro .intro-content {
+  display: grid;
+  grid-template-columns: 10rem 5fr;
+  gap: 1rem;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
+} 
+
+@media screen and (max-width: 600px) {
+  .detailPage__intro .intro-content {
+    display: block;
+  }
+} */
+
+
+
+/* 포스트 소개 관련 */
 .detailPage__intro {
   width: 100%;
   margin-bottom: 1rem;
@@ -30,65 +94,160 @@
   margin-right: 0.2rem;
 }
 
-.detailPage__meta {
+.detailPage__info {
   display: flex;
-  align-items: flex-end;
-  margin-bottom: 1rem;
-}
-
-.detailPage__writer {
-  text-align: right;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 0.5rem;
 }
 
-.detailPage__intro .intro-content {
-  display: grid;
-  grid-template-columns: 10rem 5fr;
-  gap: 1rem;
-  @media screen and (max-width: 600px) {
-    display: block;
-  }
+.detailPage-author-link {
+  color: black;
+  font-weight: 600;
 }
 
-.detailPage__desc {
-  width: 100%;
-  border: 1px solid var(--border-grey);
+.detailPage-author-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
-.detailPage__thumbnail {
-  position: relative;
-  width: 10rem;
-  padding-bottom: 100%;
+
+.detailPage-created-date {
+  color: var(--secondary-text-color);
+}
+
+#tagList {
+  margin-bottom: 2rem;
+}
+
+/* 패스 소개 */
+.accordion {
+  /* margin: 30px 0; */
   overflow: hidden;
-  border: 1px solid var(--border-grey);
-}
-
-.detailPage__thumbnail img {
-  display: block;
-  position: absolute;
-  object-fit: cover;
-  top: 0;
-  left: 0;
-  width: 10rem;
-  height: 100%;
-}
-
-@media screen and (max-width: 600px) {
-  .detailPage__intro .intro-content {
-    display: block;
+  @media screen and (max-width: 450px) {
+    border: 1px solid var(--border-grey);
   }
+}
 
-  /* Reset the width and padding for the thumbnail */
+.accordion .review-title {
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  display: none; /* Hide the title by default */
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion .review-title.visible {
+  display: flex; /* Show the title when it's visible */
+}
+
+.accordion__review {
+  margin-bottom: 1rem;
+}
+
+.content-wrapper {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  @media screen and (max-width: 600px) {
+    max-height: 0;
+  }
+}
+
+.intro-content {
+  display: flex;
+  flex-direction: row;
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.1);
+  
+  /* @media screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+
+    .detailPage__thumbnail {
+      margin-right: none;
+    }
+  } */
+}
+
+
+
+  /* Reset the width and padding for the thumbnail
   .detailPage__thumbnail {
     width: auto;
     padding-bottom: 0;
-  }
+  } */
 
-  /* Reset the absolute positioning for the image */
+  /* Reset the absolute positioning for the image
   .detailPage__thumbnail img {
     position: static;
     width: 100%;
     height: auto;
+  } */
+
+.detailPage__thumbnail {
+  background-color: blue;
+  width: 250px;
+  height: 250px;
+  margin-right: 1rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailPage__thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.review-container {
+  padding: 20px;
+  border: 1px solid var(--border-grey);
+}
+
+.detailPage__desc {
+  flex: 1;
+} 
+
+@media screen and (max-width: 600px) {
+  .intro-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
   }
+    
+
+  .intro-content .detailPage__thumbnail {
+    margin: 0;
+  }
+}
+
+/* 메인: 패스 & 스탭 */
+.detailPage__path-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.path-select-box span {
+  margin-right: 10px;
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+}
+
+.path-selector {
+  width: 100px;
+  padding: 3px 10px;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
 }
 
 .detailPage__main {
@@ -112,7 +271,7 @@
   }
 }
 
-.detailPage__main .step-container {
+.step-container {
   position: static;
   display: flex;
   gap: 2rem;
@@ -147,7 +306,7 @@
 }
 
 .detailPage .path_title {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin: 0 auto 1rem;
 }
 
@@ -267,102 +426,23 @@
   right: 1rem;
 }
 
-/* .hidden {
-  display: none;
-} */
-
-.detailPage__subtitle {
-  margin-bottom: 0.5rem;
-}
-
 .detailPage__review-title {
   @media screen and (max-width: 600px) {
     display: none;
   }
 }
 
-.detailPage .review-container {
-  border: 1px solid var(--border-grey);
-  border-radius: 5px;
-  padding: 10px;
-}
-
-.accordion__review {
-  margin-bottom: 1rem;
-}
-
-.fa-solid.fa-heart {
-  color: red;
-}
-
-.fa-solid.fa-star {
-  color: #f39c12;
-}
-
-.detailPage__action-btn {
-  display: flex;
-  cursor: pointer;
-}
-
-.accordion {
-  overflow: hidden;
-
-  @media screen and (max-width: 450px) {
-    border: 1px solid var(--border-grey);
-  }
-}
-
-.accordion .review-title {
-  background-color: var(--primary-color);
-  border-radius: 5px;
-  color: white;
-  padding: 10px;
-  cursor: pointer;
-  display: none; /* Hide the title by default */
-  justify-content: space-between;
-  align-items: center;
-}
-
-.accordion .review-title.visible {
-  display: flex; /* Show the title when it's visible */
-}
-
 .arrow {
   transition: transform 0.3s ease;
 }
 
-.content-wrapper {
-  border-radius: 5px;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  @media screen and (max-width: 600px) {
-    max-height: 0;
-  }
-}
+
 
 .content {
   padding: 10px;
 }
 
-.comment-container h5 {
-  margin-bottom: 0.3rem;
-}
 
-.comment {
-  position: relative;
-  padding: 13px 10px;
-  border: 1px solid var(--border-grey);
-}
-
-.comment {
-  margin-bottom: 0.3rem;
-}
-
-.comment_writer {
-  padding-bottom: 0.3rem;
-  font-weight: 700;
-  font-size: 0.8rem;
-}
 
 .comment-children {
   margin-left: 1.5rem;
@@ -391,25 +471,6 @@
   opacity: 0.8;
   text-decoration: underline;
 }
-.detail-title {
-  font-size: 2rem;
-}
-
-.detailPage__subtitle {
-  margin-bottom: 0.5rem;
-}
-
-.detail-author {
-  color: var(--secondary-text-color);
-}
-
-#more-btn {
-  display: flex;
-  flex-direction: center;
-  align-items: center;
-  background-color: transparent;
-  color: #007dff;
-}
 
 .detailPage .path {
   @media screen and (min-width: 600px) {
@@ -417,15 +478,23 @@
   }
 }
 
-.detailPage__detailBtn {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-}
+
 
 .detailPage .step__edit-modal {
   @media screen and (min-width: 601px) {
     width: 100%;
+  }
+}
+
+
+.detailPage .step__edit-modal .modal__title {
+  font-size: 1.5rem;
+}
+
+.detailPage .step__edit-modal .step-detail {
+  @media screen and (max-width: 450px) {
+    height: 10rem;
+    overflow: auto;
   }
 }
 
@@ -434,12 +503,24 @@
   margin-bottom: 0.5rem;
 }
 
-.detailPage .step__edit-modal .modal__title {
-  font-size: 2rem;
+/* 댓글 */
+.comment-container {
+  padding: 10px;
+  background-color: var(--border-grey);
+  border-radius: 0;
 }
-.detailPage .step__edit-modal .step-detail {
-  @media screen and (max-width: 450px) {
-    height: 10rem;
-    overflow: auto;
-  }
+
+.comment {
+  position: relative;
+  padding: 13px 10px;
+  border: 1px solid var(--border-grey);
+  margin-bottom: 0.3rem;
 }
+
+.comment_writer {
+  padding-bottom: 0.3rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+
