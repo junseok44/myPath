@@ -92,7 +92,8 @@
 }
 
 .detailPage__main {
-  /* position:relative; */
+  position:relative;
+  z-index:1;
   display: flex;
   justify-content: flex-start;
   gap: 2rem;
@@ -345,10 +346,12 @@
   padding: 10px;
 }
 
-.comment-container{
-  position:relative;
-  z-index:-1;
-}
+/* .comment-container{
+  @media screen and (max-width: 600px){
+    position:relative;
+    z-index:-1;
+  }
+} */
 
 .comment-container h5 {
   margin-bottom: 0.3rem;
