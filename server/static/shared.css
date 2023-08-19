@@ -114,6 +114,28 @@ h3 {
   color: white;
 }
 
+.secondary-btn {
+  padding: 5px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.underline-btn {
+  padding: none;
+  border: none;
+  outline: none;
+  color: var(--secondary-text-color);
+  background-color: transparent;
+}
+
+.underline-btn:hover {
+  color: black;
+  cursor: pointer;
+}
+
 .nav-tabs {
   height: 60px;
   display: flex;

@@ -3,7 +3,6 @@
 {% block content %}
   <div class="detailPage">
     <div class="detailPage__intro">
-      
       <div class="detailPage__title">
         <h2>{{post.title}}</h2>
         <span class="detailPage__action-btn" id="detailPage-likeBtn">
@@ -39,6 +38,24 @@
           <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
         </span>
       </div>
+      
+      <div class="detailPage__info">
+        <div class="detailPage__info-left">
+          <a class="detailPage-author-link" href="{% url 'user_page' id=post.user.id %}">{{post.user}}</a>
+          <span class="separator">∙</span>
+          <span class="detailPage-created-date">날짜 추가</span>
+          <span class="separator">∙</span>
+          <span class="datailPage__category">{{post_category}}</span>
+        </div>
+        <div class="ditailPage__info-right">
+          {% if post.user == user %}
+          <button class="underline-btn"><a href="{% url 'post:post_edit' id=post.id %}">수정</a></button>
+          <span class="separator">∙</span>
+          <button class="underline-btn writePage__btn" type="button" onclick="deletepost('{{post.id}}')">삭제</button>
+          {% endif %}
+        </div>
+      </div>
+
       <ul id="tagList">
         {% for post_tag in post_tags %}
         <li>
@@ -46,19 +63,7 @@
         </li>
         {% endfor %}
       </ul>
-      <div class="detailPage__meta">
-        <div class="datailPage__category">{{post_category}}</div>
-       
-      </div>
-      <div class="detailPage__writer">
-        <a clas href="{% url 'user_page' id=post.user.id %}" class="auth-link">작성자: {{post.user}}</a>
-        {% if post.user == user %}
-        <a href="{% url 'post:post_edit' id=post.id %}">
-          <button class="btn">이 포스트 편집하기</button>
-        </a>
-        <button type="button" onclick="deletepost('{{post.id}}')" class="btn writePage__btn" >이 포스트 삭제하기</button>
-        {% endif %}
-      </div>
+
       <div class="accordion">
         <div class="review-title" onclick="toggleAccordion('accordion1')">
           패스 소개
@@ -87,7 +92,6 @@
     </div>
     <hr />
     <ul class="main-container {{post.mode}}-mode detailPage__main">
-      
       {% for path in paths %}
       <li class="path path_{{path.id}}">
         <div class="path_title">
@@ -95,7 +99,6 @@
           {{path.title}}
         {% else %}
           이름 없는 패스
-          
         {% endif %}
         </div>
         <div class="step-container">
@@ -124,7 +127,7 @@
                 {% endif %}
               </p>  
             </div>
-            <button class="btn detailPage__detailBtn" type="button" onclick="toggleModal('{{step.id}}')">
+            <button class="btn detailPage__detailBtn" id="more-btn" type="button" onclick="toggleModal('{{step.id}}')">
               더보기
             </button>
           </section>
@@ -166,6 +169,7 @@
         </div>
       </div>
     </div>
+    <hr class="detailPage-divider" />
     <div class="detailPage__comment">
       <h5 class="detailPage__subtitle">댓글</h5>
       <div class="comment-container post_{{post.id}}">
