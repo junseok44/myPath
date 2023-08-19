@@ -49,26 +49,30 @@
   <div class="post__container">
     {% for post in posts %}
     <div class="card__container post-id-{{ post.id }}">
-      <div class="card__header">
-        <div class="card-author-profile-image"></div>
-        <div class="card-title">{{post.title}}</div>
-        <div class="card-author">{{post.user}}</div>
-      </div>
-      <div class="card__body">
-        <div class="card-thumbnail">
-          {% if post.thumbnail != null and post.image.url != "" %}
-          <img src="{{post.thumbnail}}" alt="대체 텍스트" />
-          {% endif %}
+      <a href="{% url 'post:post_detail' pk=post.id %}">
+        <div class="card__header">
+          <div class="card-author-profile-image"></div>
+          <div class="card-title">{{post.title}}</div>
+          <div class="card-author">{{post.user}}</div>
         </div>
-        <div class="card-description">{{post.desc}}</div>
-      </div>
-      <div class="card__buttons">
-        <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
-        <div class="btn reply-btn">
-          <i class="fa-solid fa-comment-dots"></i>
+        <div class="card__body">
+          <div class="card-thumbnail">
+            {% if post.thumbnail != null and post.image.url != "" %}
+            <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+            {% endif %}
+          </div>
+          <div class="card-description">{{post.desc}}</div>
         </div>
-        <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
-      </div>
+        <div class="card__buttons">
+          <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
+          <div class="btn reply-btn">
+            <i class="fa-solid fa-comment-dots"></i>
+          </div>
+          <div class="btn share-btn">
+            <i class="fa-solid fa-share-nodes"></i>
+          </div>
+        </div>
+      </a>
     </div>
     {% endfor %}
   </div>
