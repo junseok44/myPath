@@ -1,13 +1,24 @@
+/* .writePage-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 600px) {
+  .writePage-input {
+    flex: 1;
+  }
+} */
+
+
 .writePage > h1 {
   margin-bottom: 2rem;
 }
 
-.writePage__review textarea {
-  margin-bottom: 1rem;
-}
-
 .writePage__intro {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   margin-bottom: 1rem;
   gap: 0.5rem;
@@ -17,37 +28,27 @@
   }
 }
 
-.writePage__title {
+.writePage__intro > * {
+  display: flex;
+}
+
+/* .writePage__title {
   display: flex;
   @media screen and (max-width: 600px) {
     width: 100%;
   }
+} */
+
+.labelfor {
+  width: 150px;
+  font-size: 1.1rem;
+  margin-right: 0.4rem;
+  white-space: nowrap;
 }
 
-.writePage-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border-grey);
-  border-radius: 5px;
-}
-
-@media screen and (max-width: 600px) {
-  .writePage-input {
-    width: 100%;
-  }
-}
-
-.writePage__meta {
-  display: flex;
-  @media screen and (max-width: 600px) {
-    width: 100%;
-  }
-}
-
-.writePage__tag {
-  /* padding-bottom: 1rem; */
-  display: flex;
+.writePage__tag-box {
   flex: 1;
+
 }
 
 .writePage__desc {
@@ -64,13 +65,21 @@
   white-space: nowrap;
 }
 
-.writePage__thumbnail {
+/* .writePage__thumbnail {
   display: flex;
-}
+} */
 
 /* .writePage__main {
   min-height: 1000px;
 } */
+
+.writePage__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+
 
 .container_row-mode .modal__overlay {
   position: absolute;
@@ -125,17 +134,17 @@
   transform: translateX(-50%) rotate(270deg);
 }
 
-.labelfor {
-  font-size: 0.9rem;
-  margin-right: 0.4rem;
-  white-space: nowrap;
-}
+
 
 /* 반응형 라벨 다 없애기 */
 @media screen and (max-width: 450px) {
   .writePage__intro .labelfor {
     display: none;
   }
+}
+
+.writePage__review textarea {
+  margin-bottom: 1rem;
 }
 
 /* 여기서부터 재사용 -> post/shared.css로 옮길 예정. */

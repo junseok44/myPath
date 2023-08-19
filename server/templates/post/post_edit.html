@@ -7,33 +7,33 @@
   <!-- <div onclick="showAllItems()">모든아이템</div> -->
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
-      <p class="writePage__title">
+      <div class="writePage__title">
+        <div class="labelfor">포스트 제목</div>
         <input class="writePage-input" maxlength="20" type="text" placeholder="title" name="title" id="titleInput" value="{{post.title}}"/>
-      </p>
-      <div class="writePage__meta">
-        <span class="labelfor">카테고리</span>
+      </div>
+      <div class="writePage__category">
+        <div class="labelfor">카테고리</div>
         <select class="writePage-input" id="categorySelect" name="categorySelect">
           {% for cat in categories %}
             <option value="{{cat.name}}" {% if cat.name == currentCategory %} selected="selected" {% endif %}>{{cat.name}}</option>
           {% endfor %}
         </select>
-        <label class="labelfor">태그</label>
-        <input class="writePage-input" type="text" id="tagInput" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
       </div>
-      <ul id="tagList">
-        {% for tagtable in post.tag_table.all %}
-          <li class="tag tag_{{tagtable.tag.name}}">#{{tagtable.tag.name}}
-            <span class="close-button" onclick="deleteTag('{{tagtable.tag.name}}')">
-              x
-            </span>
-          </li>
-        {% endfor %}
-      </ul>
-      {% comment %} <div class="writePage__thumbnail">
-        <span class="labelfor">썸네일 수정</span>
-        <input type="file" id="imageInput"/>
-      </div> {% endcomment %}
-      
+      <div class="writePage__tag">
+        <div class="labelfor">태그</div>
+        <input class="writePage-input" type="text" id="tagInput" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
+        <div class="writePage__tag-container">
+          <ul id="tagList">
+            {% for tagtable in post.tag_table.all %}
+              <li class="tag tag_{{tagtable.tag.name}}">#{{tagtable.tag.name}}
+                <span class="close-button" onclick="deleteTag('{{tagtable.tag.name}}')">
+                  x
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
       <div class="writePage__thumbnail upload-file">
         <span class="labelfor">썸네일 수정</span>
         <input
@@ -161,7 +161,7 @@
     // JavaScript code
     const tagList = []; // Array to store tags
     {% for tagtable in post.tag_table.all %}
-    tagList.push("{{ tagtable.tag.name }}");
+      tagList.push("{{ tagtable.tag.name }}");
     {% endfor %}
     let deletedTag = [];
     let addedTag = [];
