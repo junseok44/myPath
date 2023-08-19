@@ -256,6 +256,7 @@ const sendStepDetailRequest = (step_id) => {
   return new Promise((resolve, reject) => {
     const url = "step";
     requestStepDetail.open("POST", url, true);
+    requestStepDetail.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     requestStepDetail.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     var data = JSON.stringify({ step_id: step_id });
     requestStepDetail.onreadystatechange = () => {
@@ -479,6 +480,7 @@ const onClickStepDetail = async (step_id) => {
       .querySelector(`#step-modal-${step_id} .new-comment`)
       .value;
     requestCommentCreate.open("POST", url, true);
+    requestCommentCreate.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     requestCommentCreate.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     requestCommentCreate.send(JSON.stringify({step_id: step_id, text: text}));
   };
@@ -514,6 +516,7 @@ const onClickStepDetail = async (step_id) => {
     const url = "step/delete_comment";
     // console.log(url)
     requestStepCommentDelete.open("POST", url, true);
+    requestCommentDelete.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     requestStepCommentDelete.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     requestStepCommentDelete.send(JSON.stringify({step_id: step_id, comment_id: comment_id}));
   };
@@ -535,6 +538,7 @@ const onClickStepDetail = async (step_id) => {
     const url = "delete_comment";
     // console.log(url);
     requestCommentDelete.open("POST", url, true);
+    requestCommentDelete.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     requestCommentDelete.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     requestCommentDelete.send(JSON.stringify({post_id: post_id, comment_id: comment_id}));
   };
@@ -583,6 +587,7 @@ const onClickStepDetail = async (step_id) => {
 
 
   async function deletepost(id) {
+    if(confirm('정말로 삭제하시겠습니까?')){
       const response = await fetch(`/post/delete/${id}`, {
         method: "POST",
         body: JSON.stringify({id: id}),
@@ -596,6 +601,7 @@ const onClickStepDetail = async (step_id) => {
         window.location.href = "/";
       }
     }
+  }
 
 
 
