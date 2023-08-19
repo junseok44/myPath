@@ -11,10 +11,12 @@ from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers import serialize
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from .models import Category, CategoryTable
 
 import base64
 from django.core.files.base import ContentFile
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 User = get_user_model()
 # Create your views here.
@@ -606,21 +608,34 @@ def search(request):
         else:
                 return render(request, 'post/searched.html', {})
         
-def search_by_category(request):
-        if request.method == 'POST':
-                searched = request.POST['searched']     
+def search_by_category(request, category_name):
+    category = Category.objects.get(name=category_name)
+    category_tables = CategoryTable.objects.filter(category=category)
+    category_posts = [table.post for table in category_tables]
 
-                #category = Category.objects.get(name=category_name)
-                #category_tables = CategoryTable.objects.filter(category=category)
-
-                #category_posts = []
-                #for tables in category_tables:
-            #        category_posts.append(tables.post)
-                searched_posts = Post.objects.filter(title__contains=searched)
-                return render(request, 'post/search_by_category.html', {'searched': searched, 'searched_posts': searched_posts})
+    if request.method == 'POST':
+        searched = request.POST.get('searched')
         
-        else:
-                return render(request, 'post/search_by_category.html', {})
+        # Filter posts within the category
+        searched_posts = Post.objects.filter(
+            Q(id__in=[post.id for post in category_posts]) &
+            Q(title__icontains=searched)
+        )
+        
+        return render(request, 'post/search_by_category.html', {
+            'searched': searched,
+            'searched_posts': searched_posts,
+            'category_name': category_name
+        })
+    else:
+        return render(request, 'post/search_by_category.html', {
+            'category_name': category_name
+        })
+
+
+
+
+
 
 def index(request):
     page = request.GET.get('page', '1')  # 페이지

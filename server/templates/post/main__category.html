@@ -54,7 +54,7 @@
         {% endfor %}
       </ul>
     </div>
-    <form class="mainsearch" method="POST" action="{% url 'post:search_by_category' %}">
+    <form class="mainsearch" method="POST" action="{% url 'post:search_by_category' category_name %}">
       {% csrf_token %}
       <input class="form-control me-2" type="search" placeholder="카테고리 내 검색" name="searched" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">
