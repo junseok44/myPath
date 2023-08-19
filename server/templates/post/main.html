@@ -38,6 +38,7 @@
                     </div>
                     <div class="card-description">{{post.desc}}</div>
                   </div>
+                  </a>
                   <div class="card__buttons">
                     <div class="like-btn">
                       <i class="fa-solid fa-heart"></i>
@@ -47,12 +48,11 @@
                       <i class="fa-solid fa-comment-dots"></i>
                       <span>댓글</span>
                     </div>
-                    <div class="share-btn">
+                    <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
                       <i class="fa-solid fa-share-nodes"></i>
                       <span>공유</span>
                     </div>
                   </div>
-                  </a>
                 </div>
               </li>
             {% endfor %}
@@ -87,6 +87,19 @@
       },
     },
   });
+</script>
+
+<!-- 포스트 링크 클립보드 복사 -->
+<script>
+  
+  function copyPostLink(post_id){
+    const parent=document.querySelector(`.post-id-${post_id}`);
+    const link=parent.querySelector(`a`).href;
+    console.log(link);
+    navigator.clipboard.writeText(link).then(function () {
+		  alert('URL 복사가 완료되었습니다.');
+	  });
+  };
 </script>
 
 {% endblock %}
