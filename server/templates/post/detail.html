@@ -42,7 +42,7 @@
         <div class="detailPage__info-left">
           <a class="detailPage-author-link" href="{% url 'user_page' id=post.user.id %}">{{post.user}}</a>
           <span class="separator secondary-text-styling">∙</span>
-          <span class="detailPage-created-date">날짜 추가</span>
+          <span class="detailPage-created-date">{{post.created_at}}</span>
           <span class="separator secondary-text-styling">∙</span>
           <span class="datailPage__category">{{post_category}}</span>
         </div>
