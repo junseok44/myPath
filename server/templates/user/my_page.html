@@ -155,7 +155,7 @@
   <div class="tab-content">
     <div class="tab-pane fade show active" id="my-posts">
       <div class="post__title">나의 패스</div>
-      <div class="post__container"></div>
+      <div class="post__container">
         {% if my_likes|length == 0 %}
         <p>내가 쓴 패스가 없습니다.</p>
         {% else %} {% for post in my_posts %}
@@ -186,9 +186,10 @@
               </div>
             </div>
           </a>
-          
         </div>
         {% endfor %} {% endif %}
+      </div>
+    
       </div>
     </div>
     <div class="tab-pane fade" id="my-likes">
