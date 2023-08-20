@@ -4,7 +4,16 @@
 <div>
   {% block mainContent%}
     <div class="category">
-      <h1 class="category__title">카테고리: {{category_name}}</h1>
+      <div class="category__header">
+        <h1 class="category__title">카테고리: {{category_name}}</h1>
+        <form class="mainsearch" method="POST" action="{% url 'post:search_by_category' id=category.id %}">
+          {% csrf_token %}
+          <input class="form-control me-2 writePage-input" type="search" placeholder="카테고리 내 재검색" name="searched" aria-label="Search">
+          <button class="secondary-btn" type="submit">
+            Search
+          </button>
+        </form>
+      </div>
       <ul class="category__item-container">
         {% for post in page %}
           <li class="category__item">
@@ -45,13 +54,7 @@
         {% endfor %}
       </ul>
     </div>
-    <form class="mainsearch" method="POST" action="{% url 'post:search_by_category' id=category.id %}">
-      {% csrf_token %}
-      <input class="form-control me-2 writePage-input" type="search" placeholder="카테고리 내 검색" name="searched" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">
-        Search
-      </button>
-    </form>
+    
     <div class="pagination">
       <!-- <span class="step-links"> -->
       <ul class="pagination-numbers">
