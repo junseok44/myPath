@@ -1,12 +1,12 @@
 branch-defaults:
   deploy:
-    environment: MyPath-env
+    environment: MyPath2-env
   main:
-    environment: MyPath-env
+    environment: MyPath2-env
   master:
-    environment: MyPath-env
+    environment: MyPath2-env
 global:
-  application_name: myPath
+  application_name: MyPath2
   default_platform: Docker running on 64bit Amazon Linux 2
   default_region: ap-northeast-2
   sc: git
