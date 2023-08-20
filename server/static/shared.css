@@ -121,12 +121,19 @@ h3 {
 }
 
 .secondary-btn {
-  padding: 5px;
+  padding: 5px 10px;
   border: none;
   outline: none;
-  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+  border-radius: 100px;
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.secondary-btn:hover {
   background-color: var(--primary-color);
   color: white;
+  cursor: pointer;
 }
 
 .underline-btn {

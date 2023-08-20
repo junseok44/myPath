@@ -1,1 +1,10 @@
+.userinfo__title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
 
+.userinfo__container {
+  margin-bottom: 2rem;;
+}
