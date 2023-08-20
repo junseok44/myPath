@@ -73,7 +73,7 @@ def user_logout(request):
 def my_page(requests):
 
     user_id = requests.user.id
-    my_posts = Post.objects.filter(user=user_id).values()
+    my_posts = Post.objects.filter(user=user_id)
     my_likes = LikeTable.objects.filter(user=user_id).select_related('post')
     my_bookmarks = BookMarkTable.objects.filter(user=user_id).select_related('post')
     user = User.objects.get(id=user_id)

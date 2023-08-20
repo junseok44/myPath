@@ -92,6 +92,7 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: 6rem;
 }
 
 .hidden {
@@ -194,8 +195,8 @@ h3 {
 
 /* 공통 컴포넌트: input, textarea */
 .writePage-input {
-  width: 100%;
-  padding: 10px;
+  flex: 1;
+  padding: 5px 10px;
   border: 1px solid var(--border-grey);
   border-radius: 5px;
 }
@@ -263,6 +264,13 @@ h3 {
   height: 220px;
 }
 
+.card-thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .card-description {
   max-height: 110px;
   padding: 20px 10px 0px;
@@ -280,7 +288,7 @@ h3 {
   bottom: 0px;
   padding: 20px 10px;
   display: flex;
-  flex-direction: row;
+  gap: 0.5rem;
 }
 
 .card-btns {
@@ -377,7 +385,7 @@ h3 {
   max-width: 1320px; /* Maximum width for 1400px or more */
   margin-left: auto;
   margin-right: auto;
-  position:relative;
+  position: relative;
 }
 
 @media (min-width: 450px) {
@@ -404,14 +412,15 @@ h3 {
   }
 }
 
-footer{
-  position:relative;
-  z-index:-1;
-}
+/* footer {
+  position: relative;
+  z-index: -1;
+} */
 
 .content_padding {
   padding-top: 6rem;
   position: relative;
+  min-height: 90vh;
 }
 
 .color-grey {

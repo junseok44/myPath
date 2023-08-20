@@ -37,6 +37,10 @@
           {% endif %}
           <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
         </span>
+        <span class="detailPage__action-btn" onclick="copyURLtoClipBoard()"">
+          <i class="fa-solid fa-share-nodes"></i>
+          공유
+        </span>
       </div>
       <div class="detailPage__info">
         <div class="detailPage__info-left">
@@ -621,7 +625,10 @@ const showModalsSequentially = async () => {
   const paths = document.querySelectorAll(".path"); // Change to your actual selector
   for (const path of paths) {
     let firstModal = path.querySelectorAll(".modal__overlay")[0];
-    await fetchStepAndShowModal(firstModal.id.slice(11));
+    if (firstModal){
+      await fetchStepAndShowModal(firstModal.id.slice(11));
+    }
+    
   }
 };
 
@@ -719,6 +726,17 @@ const showModalsSequentially = async () => {
   }
 </script>
 
+<!-- 링크 클립보드 복사 -->
+<script>
+  const url=window.location.href;
+  console.log(url)
+  function copyURLtoClipBoard(){
+    navigator.clipboard.writeText(url).then(function () {
+		  alert('URL 복사가 완료되었습니다.')
+	  });
+  };
+</script>
+
 <!-- 아코디언 관련 스크립트 -->
 <script>
   function toggleAccordion(accordionId) {
@@ -766,13 +784,7 @@ const showModalsSequentially = async () => {
 <!-- 메인 핸들러 -->
 <script>
 
-  
-  // const paths=document.querySelectorAll(".path");
-  // console.log(paths[0].style);
-  // paths.forEach((item)=>(item.style.display=none));
-  // paths[0].style.display=block;
   updateSelectOptions();
-  //changeDisplay(id);
 
 </script>
 
