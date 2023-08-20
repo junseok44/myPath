@@ -36,7 +36,8 @@ AUTH_USER_MODEL = 'user.User'
 DEBUG = True
 
 ALLOWED_HOSTS = ["eb.my-path.xyz", "localhost","127.0.0.1",
-                 "my-path.ap-northeast-2.elasticbeanstalk.com"]
+                 "my-path.ap-northeast-2.elasticbeanstalk.com",
+                 "mypath2.ap-northeast-2.elasticbeanstalk.com"]
 
 
 # Application definition
