@@ -405,10 +405,10 @@ h3 {
   }
 }
 
-footer {
+/* footer {
   position: relative;
   z-index: -1;
-}
+} */
 
 .content_padding {
   padding-top: 6rem;
