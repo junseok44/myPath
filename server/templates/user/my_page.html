@@ -72,13 +72,13 @@
       <form method="POST" action='{% url 'user_card_edit' id=card.id %}' id="editForm__{{card.id}}" class="userPage__cardForm hidden">
         {% csrf_token %} 
         <h2>내용 수정</h2>
-        <input maxlength="10" class="writePage-input" value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? (10자 이내)"/ >
+        <input maxlength="10" class="writePage-input" value='{{card.title}}' required name="title" placeholder="카드 제목 (10자 이내)" />
         <input
         class="writePage-input"
           value="{{card.link}}"
           name="link"
           maxlength="100"
-          placeholder="관련 링크가 있나요?,,블로그 링크, SNS 링크 등"
+          placeholder="관련 링크 첨부"
         />
         <textarea
         class="writePage-input"
@@ -86,7 +86,7 @@
           required
           name="desc"
           maxlength="100"
-          placeholder="설명을 덧붙여주세요! (100자 이내)"
+          placeholder="설명 (100자 이내)"
         ></textarea>
         <div class="userPage__editBtns">
           <button type="button" class="btn" onclick="onCancelEditForm()">취소</button>
@@ -105,18 +105,18 @@
     <form method="POST" action='{% url 'user_card_add' %}' class="userPage__add-form hidden">
       {% csrf_token %} 
       <h3>유저 카드 추가</h3>
-      <input maxlength="10" class="writePage-input" required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
+      <input maxlength="10" class="writePage-input" required name="title" placeholder="카드 제목 (10자 이내)"/>
       <input class="writePage-input" 
       maxlength="100"
         name="link"
-        placeholder="관련 링크가 있나요? ex) 블로그 링크, SNS 링크"
+        placeholder="관련 링크 첨부"
       />
       <textarea
       class="writePage-input"
       maxlength="100"
         required
         name="desc"
-        placeholder="설명을 덧붙여주세요! (100자 이내)"
+        placeholder="설명 (100자 이내)"
       ></textarea>
       <div class="userPage__editBtns">
         <button type="button" class="btn" onclick="onClickAddBtn()">취소</button>
