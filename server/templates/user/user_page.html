@@ -64,12 +64,17 @@
           <div class="card-description">{{post.desc}}</div>
         </div>
         <div class="card__buttons">
-          <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
-          <div class="btn reply-btn">
-            <i class="fa-solid fa-comment-dots"></i>
+          <div class="like-btn">
+            <i class="fa-solid fa-heart"></i>
+            <span>{{post.like_table.count}}</span>
           </div>
-          <div class="btn share-btn">
+          <div class="reply-btn">
+            <i class="fa-solid fa-comment-dots"></i>
+            <span>{{post.post_comment.count}}</span>
+          </div>
+          <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
             <i class="fa-solid fa-share-nodes"></i>
+            <span>공유</span>
           </div>
         </div>
       </a>
