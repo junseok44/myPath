@@ -8,32 +8,36 @@
         <span class="detailPage__action-btn" id="detailPage-likeBtn">
           {% if user.is_authenticated %}
           {% if post.isLiked %}
-          <div onclick="likeToggle('{{post.id}}')">
+          <div onclick="likeToggle('{{post.id}}', true)">
             <i class="fa-solid fa-heart"></i>
           </div>
           {% else %}
-          <div onclick="likeToggle('{{post.id}}')">
+          <div onclick="likeToggle('{{post.id}}', true)">
             <i class="fa-regular fa-heart"></i>
           </div>
           {% endif %}
           {% else %}
+          <div onclick="likeToggle('{{post.id}}', false)">
           <i class="fa-regular fa-heart"></i>
+          </div>
           {% endif %}
           <span class="post-likes">{{post.like_table.count}}</span>
         </span>
         <span class="detailPage__action-btn" id="detailPage-bookmarkBtn">
           {% if user.is_authenticated %}
           {% if post.isBookMarked %}
-          <div onclick="bookMarkToggle('{{post.id}}')">
+          <div onclick="bookMarkToggle('{{post.id}}', true)">
             <i class="fa-solid fa-star"></i>
           </div>
           {% else %}
-          <div onclick="bookMarkToggle('{{post.id}}')">
+          <div onclick="bookMarkToggle('{{post.id}}', true)">
             <i class="fa-regular fa-star"></i>
           </div>
           {% endif %}
           {% else %}
-          <i class="fa-regular fa-star"></i>
+          <div onclick="likeToggle('{{post.id}}', false)">
+            <i class="fa-regular fa-star"></i>
+          </div>
           {% endif %}
           <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
         </span>
@@ -659,7 +663,11 @@ const showModalsSequentially = async () => {
   const likeCount = document.querySelector(".post-likes");
   const heartIcon = document.querySelector(".fa-heart");
   const bookMarkIcon = document.querySelector(".fa-star");
-  async function bookMarkToggle(postId) {
+  async function bookMarkToggle(postId, isloggedIn) {
+    if(isloggedIn==false){
+      alert("로그인이 필요한 서비스입니다.")
+      return;
+    }
     const response = await fetch("/api/toggleBookMark/", {
       method: "POST",
       headers: {
@@ -692,7 +700,12 @@ const showModalsSequentially = async () => {
     }
   }
 
-  async function likeToggle(postId) {
+  async function likeToggle(postId, isloggedIn) {
+    console.log(isloggedIn);
+    if(isloggedIn==false){
+      alert("로그인이 필요한 서비스입니다.")
+      return;
+    }
     const response = await fetch("/api/toggleLike/", {
       method: "POST",
       headers: {
