@@ -1,0 +1,79 @@
+header {
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+}
+
+.header {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__greetings {
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
+
+.header_item > * {
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.header_item > *:hover {
+  opacity: 1;
+  color: var(--primary-color);
+}
+
+.header_logo {
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.header_btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.header_dropdown {
+  font-size: 0.8rem;
+  opacity: 0;
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20%);
+  background-color: var(--grey);
+  border-radius: 0.3rem;
+  width: 5rem;
+  text-align: center;
+  padding: 5px 3px;
+  transition: all 0.1s ease-in-out;
+}
+
+.header_btn:hover .header_dropdown {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0%);
+}
+
+.header_item {
+  display: flex;
+  align-items: center;
+}
+
+.header_username {
+  margin-right: 0.3rem;
+  cursor: default;
+}

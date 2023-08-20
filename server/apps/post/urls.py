@@ -16,9 +16,12 @@ urlpatterns = [
     path('post/step/create_comment',view_step_create_comment_ajax,name='step_create_comment'),
     path('post/<uuid:pk>/create_comment',view_post_create_comment,name='post_create_comment'),
     path('post/delete_comment',view_post_delete_comment_ajax,name='post_delete_comment'),
-    path("category/<str:category_name>/", category_search , name='category'),
+    path('post/step/delete_comment',view_step_delete_comment_ajax,name='step_delete_comment'),
+    path("category/<int:category_id>/", category_search , name='category'),
     path('api/toggleBookMark/', toggle_bookmark_ajax),
     path('api/toggleLike/', toggle_like_ajax),
+    path('search/', search , name='search'),
+    path('search/category/<int:id>/', search_by_category , name='search_by_category'),
 ]
 
 if settings.DEBUG:

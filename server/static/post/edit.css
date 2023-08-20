@@ -1,0 +1,12 @@
+.editPage > h1 {
+  margin-bottom: 1rem;
+}
+
+.step-content{
+  position:relative;
+}
+
+.writePage__intro > * {
+  display: flex;
+  
+}

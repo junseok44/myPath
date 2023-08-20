@@ -10,29 +10,44 @@ function handleChangePathTitle(e, pathId) {
 }
 
 function addPathNode(prevPathId, id) {
-  const main = document.querySelector(".main");
+  const main = document.querySelector(".main-container");
   const NewBtn = document.querySelector(".add_new-btn");
   if (NewBtn) {
     NewBtn.parentNode.removeChild(NewBtn);
   }
-  let isColumnMode = main.classList.contains("column-mode");
+  let isColumnMode = main.classList.contains("col-mode");
 
   li = document.createElement("li");
   li.classList.add(`path`);
   li.classList.add(`path_${id}`);
-  li.innerHTML += `
-        <input placeholder="패스 이름 입력..." type="text" class="path_title" onchange="handleChangePathTitle(event,'${id}')">
-        <button type="button" onclick="handleAddPath('${id}')">패스 추가하기</button>
-        <button type="button" onclick="handleDeletePath('${id}')">패스 삭제하기</button>
+  if (isColumnMode) {
+    li.innerHTML += `
+    <span class="path_intro">
+    <input maxlength="10" placeholder="패스 이름 입력..." type="text" class="writePage-input path_title" onchange="handleChangePathTitle(event,'${id}')">
+    <button type="button" class="btn path-add-btn" onclick="handleAddPath('${id}')">패스+</button>
+    <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
+    </span>
+    <div class="step_container ${isColumnMode ? "" : " container_row-mode"}">
+            </div>
+    <button type="button" class="btn step-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">
+          스텝+
+        </button>
+    `;
+  } else {
+    li.innerHTML += `
+    <span class="path_intro">
+    <input maxlength="10" placeholder="패스 이름 입력..." type="text" class="path_title writePage-input" onchange="handleChangePathTitle(event,'${id}')">
+    <button type="button" class="btn step-add-btn" onclick="handleAddPath('${id}')">패스+</button>
+    <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
+    </span>
+    <div class="step_container ${
+      isColumnMode ? "" : " container_row-mode"
+    }"></div>
+    <button type="button" class="btn path-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">스텝+</button>
 
-        <div class="step_container ${
-          isColumnMode ? "" : " container_row-mode"
-        }">
-                </div>
-        <button type="button" onclick="handleAddStep('${id}')" class="item_add-btn">
-              스텝 추가하기
-            </button>
-        `;
+    `;
+  }
+
   if (prevPathId) {
     const prevPath = document.querySelector(`.path_${prevPathId}`);
     if (prevPath.nextSibling) {
@@ -53,20 +68,16 @@ function addStepNode(targetPathId, id) {
   section.classList.add(`step`);
   section.classList.add(`step_${id}`);
   section.innerHTML = `
-                <div>
-                  <p class="title"></p>
-                  <p class="desc"></p>
-                  <button type="button" onclick="moveItemUp('${id}')">위로 올리기</button>
-                  <button type="button" onclick="moveItemDown('${id}')">밑으로 내리기</button>
-                  <button type="button" onclick="handleDeleteItem('${id}')">삭제하기</button>
-                  <button
-                    class="edit-btn"
-                    type="button"
-                    onclick="handleToggleModal('${id}')"
-                  >
-                    편집하기
-                  </button>
+                <div class="step-content">
+                  <input maxlength="20" onchange="handleChangeStepTitle('${id}')" type="text" class="writePage-input title" placeholder="제목을 입력하세요..." / >
+                  <textarea maxlength="500" onchange="handleChangeStepDesc('${id}')" class="writePage-input desc" placeholder="내용을 입력하세요..." ></textarea>
+                  <input type="file" class="imageInput" onchange="handleChangeStepImage('${id}')" />
                 </div>
+                <div class="step-btn-container">
+                  <button type="button" class="btn" onclick="moveItemUp('${id}')"><i class="fa-solid fa-angles-up"></i></button>
+                  <button type="button" class="btn" onclick="moveItemDown('${id}')"><i class="fa-solid fa-angles-down"></i></button>
+                  <button type="button" class="btn" onclick="handleDeleteItem('${id}')"><i class="fa-solid fa-trash"></i></button>
+                  </div>
                 <div class="modal__overlay hidden">
 
                 <div class="step__edit-modal modal_${id} hidden">
@@ -74,8 +85,8 @@ function addStepNode(targetPathId, id) {
                   <textarea class="desc"></textarea>
                   <input type="file" class='imageInput' />
                   <div>
-                    <button type="button" onClick="handleToggleModal('${id}')">취소</button>
-                    <button type="button" onclick="handleSaveValue('${id}')">변경</button>
+                    <button type="button" class="btn" onClick="handleToggleModal('${id}')">취소</button>
+                    <button type="button" class="btn" onclick="handleSaveValue('${id}')">등록</button>
                   </div>
                   </div>
                   </div>

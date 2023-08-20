@@ -1,5 +1,5 @@
-let responsiveWidth = 600;
-const listElement = document.querySelector(".main");
+let responsiveWidth = 900;
+const listElement = document.querySelector(".main-container");
 const selectElement = document.getElementById("pathSelect");
 
 function updateSelectOptions() {
@@ -13,12 +13,20 @@ function updateSelectOptions() {
     const classNames = listItem.className.split(" ");
     for (const className of classNames) {
       if (className.startsWith("path_")) {
-        // Remove "step_" from the class name to get the "id"
         option.value = className.slice(5);
         break;
       }
     }
     option.textContent = pathTitle;
+
+    // detail 페이지일때는 이렇게.
+    if (typeof pathTitle == "undefined") {
+      if (listItem.querySelector(".path_title").innerHTML == "") {
+        option.textContent = `이름없는 패스${index}`;
+      } else {
+        option.textContent = listItem.querySelector(".path_title").innerHTML;
+      }
+    }
     selectElement.appendChild(option);
     index++;
   }
@@ -55,13 +63,14 @@ function changeDisplay(id) {
 }
 
 const listItems = listElement.querySelectorAll(".path");
+// console.log(listItems);
 
 if (window.innerWidth <= responsiveWidth) {
   listItems.forEach((item) => (item.style.display = "none"));
   listItems[0].style.display = "block";
   updateSelectOptions();
 } else {
-  listItems.forEach((item) => (item.style.display = "block"));
+  // listItems.forEach((item) => (item.style.display = "block"));
 }
 
 // 개발용 이벤트 리스너.
@@ -72,6 +81,6 @@ window.addEventListener("resize", () => {
     listItems[0].style.display = "block";
     updateSelectOptions();
   } else {
-    listItems.forEach((item) => (item.style.display = "block"));
+    // listItems.forEach((item) => (item.style.display = "block"));
   }
 });

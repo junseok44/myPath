@@ -3,6 +3,8 @@
   {% for post in posts %}
   <a href="{% url 'post:post_detail' post.pk %}">
     <div>{{post.title}}</div>
+    <div>{{post.user}}</div>
+    <div>{{post.mode}}</div>
   </a>
   <br />
   {% endfor %}

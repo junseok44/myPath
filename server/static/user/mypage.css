@@ -1,0 +1,91 @@
+.myPage .userinfo__container {
+  margin-bottom: 2rem;
+}
+
+#userPage__intro-input {
+  height: 100%;
+}
+
+
+.userPage__add-btn {
+  z-index: 10;
+  color: var(--secondary-text-color);
+}
+
+.userPage__add-btn.hidden {
+  display: none;
+}
+
+.userPage .userinfo__container {
+  margin-bottom: 2rem;
+}
+
+.userPage__add-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+
+.userPage__add-form.hidden {
+  display: none;
+}
+
+.userPage__add-form.hidden h3 {
+  font-size: 1.1rem;
+}
+
+.userPage__add-form textarea {
+  flex: 1;
+}
+
+/* .userPage__delete-form {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+} */
+
+.userPage__cardForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+.userPage__cardForm.hidden {
+  display: none;
+}
+
+.btn-unset {
+  all: unset;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-unset:hover {
+  color: black;
+}
+
+.userPage__carousel-btn {
+  margin-top: 0.3rem;
+}
+
+.userPage__carousel-btn:first-child {
+  margin-right: 0.3rem;
+}
+
+.userPage__mr {
+  margin-right: 0.3rem;
+}
+
+.userPage__ml {
+  margin-left: 0.3rem;
+}
+
+.userPage__editBtns {
+  display: flex;
+  gap: 1rem;
+}
+
+.userPage__editBtns button {
+  flex: 1;
+}

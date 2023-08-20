@@ -5,48 +5,86 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    {% block search_engine_optimization %}
+    <meta property="og:url" content="https://eb.my-path.xyz/" />
+    <meta property="og:title" content="마이패스" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="" />
+    <meta
+      property="og:description"
+      content="천개의 길, 오직 나만의 길을 찾자. 마이패스입니다."
+    />
+    <title>마이패스 | MyPath</title>
+    {% endblock %}
+
     <link rel="stylesheet" href="{% static 'reset.css' %}" />
     <link rel="stylesheet" href="{% static 'index.css' %}" />
     <link rel="stylesheet" href="{% static 'shared.css' %}" />
+    <link rel="stylesheet" href="{% static 'user/base.css' %}" />
+    {% block stylesheet %}{% endblock %}
   </head>
   <body>
     <header>
-      <a href="/">MYPATH</a>
+      <div class="responsive-container">
+        <div class="header">
+          <div class="header_item">
+            <a href="/" class="header_logo">MYPATH</a>
+          </div>
 
-      <span>
-        <a href="{% url 'post:post_list' %}">포스트 목록</a>
-        <a href="{% url 'post:post_write' %}">포스트 작성하기</a>
-      </span>
-      <span>
-        {% if user.is_authenticated %}
-        <span>{{user.username}} 님 안녕하세요!</span>
-        <button>
-          <a href="{% url 'user_logout' %}">logout</a>
-          <a href="{% url 'user_page' id=user.id %}">내 유저 페이지</a>
-          <a href="{% url 'my_page' %}">마이페이지</a>
-        </button>
-        {% else %}
-        <span>anonymous</span>
-        <button>
-          <a href="/user/login">로그인</a>
-          <a href="/user/signup">회원가입</a>
-        </button>
-        {% endif %}
-      </span>
+          <div class="header_item">
+            {% if user.is_authenticated %}
+            <span class="header_username">
+              {{user.username}}
+              <span class="header__greetings">님 안녕하세요! </span>
+            </span>
+            <a class="header_btn" href="{% url 'post:post_write' %}">
+              <i class="fa-solid fa-pen-to-square"></i>
+              <div class="header_dropdown">글 작성하기</div>
+            </a>
+            <a class="header_btn" href="{% url 'post:post_list' %}">
+              <i class="fa-solid fa-file-lines"></i>
+            </a>
+            <a class="header_btn" href="{% url 'my_page' %}">
+              <i class="fa-solid fa-user"></i>
+              <div class="header_dropdown">마이페이지</div>
+            </a>
+            <a class="header_btn" href="{% url 'user_logout' %}">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              <div class="header_dropdown">로그아웃</div>
+            </a>
+
+            {% else %}
+
+            <a class="header_btn" href="/user/login">
+              <i class="fa-solid fa-right-to-bracket"></i>
+              <div class="header_dropdown">로그인</div>
+            </a>
+            <a class="header_btn" href="/user/signup">
+              <i class="fa-solid fa-user-plus"></i>
+              <div class="header_dropdown">회원가입</div>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
     </header>
+    <div class="responsive-container">
+      <div class="content_padding">{% block content %}{% endblock %}</div>
+    </div>
     {% if messages %}
     <div class="messages">
       {% for message in messages %}
       <div class="message {{ message.tags }}">{{ message }}</div>
       {% endfor %}
     </div>
-    {% endif %} {% block content %} {% endblock %}
+    {% endif %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var messages = document.querySelector(".messages");
         if (messages) {
           setTimeout(function () {
+            messages.style.top = "-100%"; // Move the message back up
+
             messages.classList.add("show"); // Show the message
             setTimeout(function () {
               messages.style.top = "-100%"; // Move the message back up
@@ -55,7 +93,84 @@
         }
       });
     </script>
+
+    <footer>
+      <div class="responsive-container">
+        <div class="footer">
+          <div class="footer_icon-container">
+            <a class="footer_icon">
+              <i class="fa-brands fa-instagram"></i>
+              <div class="footer_dropdown">인스타그램</div>
+            </a>
+            <a class="footer_icon">
+              <i class="fa-solid fa-envelope"></i>
+              <div class="footer_dropdown">newtonjjang@naver.com</div>
+            </a>
+            <a class="footer_icon">
+              <i class="fa-brands fa-github"></i>
+              <div class="footer_dropdown">깃허브</div>
+            </a>
+          </div>
+          <div>
+            <a
+              href="https://github.com/junseok44"
+              target="_blank"
+              class="footer_name"
+              >장준석</a
+            >
+            <a
+              href="https://github.com/braveseokyung"
+              target="_blank"
+              class="footer_name"
+              >백서경</a
+            >
+            <a
+              href="https://github.com/doeunyy"
+              target="_blank"
+              class="footer_name"
+              >김도은</a
+            >
+            <a
+              href="https://github.com/cherry-p0p"
+              target="_blank"
+              class="footer_name"
+              >채리원</a
+            >
+            <a
+              target="_blank"
+              href="https://github.com/topeanut"
+              class="footer_name"
+              >이정한</a
+            >
+          </div>
+          <div>Team mypath. All Rights Reserved.</div>
+          <div class="footer_copyright">
+            <a
+              target="_blank"
+              href="https://www.flaticon.com/free-icons/left"
+              title="left icons"
+              >Left icons created by Freepik - Flaticon</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
+
+  <script>
+    function copyPostLink(post_id) {
+      const parent = document.querySelector(`.post-id-${post_id}`);
+      const linkElement = parent.querySelector("a");
+      const link = linkElement.href;
+      const linkText = linkElement.textContent;
+      console.log(link);
+      const html = `<a href="${link}">${linkText}</a>`;
+
+      navigator.clipboard.writeText(link).then(function () {
+        alert("URL 복사가 완료되었습니다.");
+      });
+    }
+  </script>
 
   <script
     src="https://kit.fontawesome.com/6fbcf91afd.js"
