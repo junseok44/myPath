@@ -207,8 +207,8 @@
             </div>
             <div class="card__body">
               <div class="card-thumbnail">
-                {% if post.thumbnail %}
-                <img src="{{post.thumbnail.url}}" alt="my icon"/>
+                {% if like_post.post.thumbnail %}
+                <img src="{{like_post.post.thumbnail.url}}" alt="my icon"/>
                 {% else %}
                 <img src="{% static 'noimage.jpg' %}" />
                 {% endif %}
@@ -245,11 +245,11 @@
           </div>
           <div class="card__body">
             <div class="card-thumbnail">
-              {% if post.thumbnail %}
-                <img src="{{post.thumbnail.url}}" alt="my icon"/>
-                {% else %}
-                <img src="{% static 'noimage.jpg' %}" />
-                {% endif %}
+              {% if bm_post.post.thumbnail %}
+              <img src="{{bm_post.post.thumbnail.url}}" alt="my icon"/>
+              {% else %}
+              <img src="{% static 'noimage.jpg' %}" />
+              {% endif %}
             </div>
             <div class="card-description">{{bm_post.post.desc}}</div>
           </div>
