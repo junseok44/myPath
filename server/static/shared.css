@@ -264,6 +264,13 @@ h3 {
   height: 220px;
 }
 
+.card-thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .card-description {
   max-height: 110px;
   padding: 20px 10px 0px;
@@ -405,10 +412,10 @@ h3 {
   }
 }
 
-footer {
+/* footer {
   position: relative;
   z-index: -1;
-}
+} */
 
 .content_padding {
   padding-top: 6rem;

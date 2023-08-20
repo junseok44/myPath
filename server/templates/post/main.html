@@ -33,7 +33,7 @@
                       {% if post.thumbnail %}
                         <img src="{{post.thumbnail.url}}" alt="my icon"/>
                       {% else %}
-                        <img src=""/>
+                      <img src="{% static 'noimage.jpg' %}" />
                       {% endif %}
                     </div>
                     <div class="card-description">{{post.desc}}</div>
