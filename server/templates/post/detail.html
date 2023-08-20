@@ -524,7 +524,7 @@ const onClickStepDetail = async (step_id) => {
     const url = "step/delete_comment";
     // console.log(url)
     requestStepCommentDelete.open("POST", url, true);
-    requestCommentDelete.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+    requestStepCommentDelete.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     requestStepCommentDelete.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     requestStepCommentDelete.send(JSON.stringify({step_id: step_id, comment_id: comment_id}));
   };
