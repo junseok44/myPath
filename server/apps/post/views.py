@@ -61,6 +61,7 @@ def category_search(request, category_id):
 
     ctx = {
             "category_name": category.name,
+            "category": category,
             "category_posts": category_posts,
             "categories": categories,
             "page":page,
@@ -604,8 +605,8 @@ def search(request):
         else:
                 return render(request, 'post/searched.html', {})
         
-def search_by_category(request, category_name):
-    category = Category.objects.get(name=category_name)
+def search_by_category(request, id):
+    category = Category.objects.get(id=id)
     category_tables = CategoryTable.objects.filter(category=category)
     category_posts = [table.post for table in category_tables]
 
@@ -621,11 +622,11 @@ def search_by_category(request, category_name):
         return render(request, 'post/search_by_category.html', {
             'searched': searched,
             'searched_posts': searched_posts,
-            'category_name': category_name
+            'category_name': category.name
         })
     else:
         return render(request, 'post/search_by_category.html', {
-            'category_name': category_name
+            'category_name': category.name
         })
 
 
