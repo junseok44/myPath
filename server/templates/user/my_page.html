@@ -22,7 +22,7 @@
       <div class="usercard__body">
         <div class="usercard__content">
           {% if user.intro == "" %}
-          <div class="userdivage__intro-guide">작성된 자기소개가 없습니다.</div>
+          <div class="userPage__intro-guide">작성된 자기소개가 없습니다.</div>
           {% else %} 
           <div class="userPage__intro-guide">{{user.intro}}</div>
           {% endif %}
@@ -281,7 +281,6 @@ editButtons.forEach(editBtn => {
     const cardContainer = editBtn.closest(".usercard__container");
     const guide = cardContainer.querySelector(".userPage__intro-guide");
     const form = cardContainer.querySelector(".userPage__intro-form");
-    
     guide.classList.toggle("hidden");
     form.classList.toggle("hidden");
   });
@@ -370,6 +369,8 @@ editButtons.forEach(editBtn => {
     margin: 10,
     responsiveClass: true,
     nav: true,
+    // mouseDrag:false,
+    // touchDrag:false,
     navText: ['<button class="btn userPage__carousel-btn">이전으로</button>', '<button class="btn userPage__carousel-btn">다음으로</button>'],
     responsive: {
       0: {
