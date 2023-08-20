@@ -73,6 +73,11 @@
   margin-bottom: 1rem;
 }
 
+.datailPage__category:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .detailPage__title {
   display: flex;
   margin-right: 0.5rem;
