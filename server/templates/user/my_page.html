@@ -224,6 +224,10 @@
                 <i class="fa-solid fa-comment-dots"></i>
                 <span>{{like_post.post.post_comment.count}}</span>
               </div>
+              <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
+                <i class="fa-solid fa-share-nodes"></i>
+                <span>공유</span>
+              </div>
             </div>
           </a>
         </div>
@@ -261,6 +265,10 @@
             <div class="reply-btn">
               <i class="fa-solid fa-comment-dots"></i>
               <span>{{bm_post.post.post_comment.count}}</span>
+            </div>
+            <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
+              <i class="fa-solid fa-share-nodes"></i>
+              <span>공유</span>
             </div>
           </div>
           </a>
