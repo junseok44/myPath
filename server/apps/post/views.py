@@ -581,7 +581,6 @@ def toggle_like_ajax(request):
         except:
             return JsonResponse({"msg":"error"},status=404)
 
-
 def search(request):
         post_list = Post.objects.all()
         # page=request.GET.get('page')
