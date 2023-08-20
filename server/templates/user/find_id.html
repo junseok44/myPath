@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="center__layout">
+  <h2>아이디 찾기</h2>
+  <form action="{% url 'find_id' %}" method="post">
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required value="{{ username }}">
+    <input type="submit" value="아이디 찾기">
+  </form>
+  {% if loginId %}
+    <p>your loginId: {{ loginId }}</p>
+  {% endif %}
+</div>
+{% endblock %}
