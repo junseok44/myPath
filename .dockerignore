@@ -23,3 +23,5 @@
 .git
 
 .gitignore
+
+.env
