@@ -1,5 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
+
+
+{% block search_engine_optimization %}
+<meta property="og:url" content="https://eb.my-path.xyz/" />
+<meta property="og:title" content="{{post.title}}" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="" />
+<meta
+  property="og:description"
+  content="{{post.desc}}"
+/>
+<title>{{post.title}} | 마이패스</title>
+{% endblock %}
+
 {% block content %}
   <div class="detailPage">
     <div class="detailPage__intro">
