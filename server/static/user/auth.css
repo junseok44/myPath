@@ -130,3 +130,17 @@
 .signup-input-box:nth-child(3) {
   border-bottom: 1px solid var(--border-grey);
 }
+
+.find-id-box{
+  border:1px solid var(--border-grey);
+  border-radius: 10px;
+  margin-bottom:1rem;
+  padding:10px;
+}
+
+.reset-pw-box input{
+  outline:1px solid var(--border-grey);
+  border-radius: 10px;
+  margin-bottom:1rem;
+  padding:10px;
+}

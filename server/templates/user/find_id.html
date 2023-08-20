@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="center__layout">
-  <h2>아이디 찾기</h2>
-  <form action="{% url 'find_id' %}" method="post">
-    {% csrf_token %}
-    <label for="username">Username:</label>
-    <input type="text" name="username" id="username" required value="{{ username }}">
-    <input type="submit" value="아이디 찾기">
-  </form>
+    <div class="auth-container">
+        <h2>아이디 찾기</h2>
+        <form action="{% url 'find_id' %}" method="post">
+          {% csrf_token %}
+          <div class="find-id-box">
+            <input class="auth-input" type="text" placeholder="Username" name="username" id="username" required value="{{ username }}">
+          </div>
+          <button class="btn auth-btn-disabled" id="login-btn" type="submit">
+            아이디 찾기
+          </button>
+          
+        </form>
+    </div>
   {% if loginId %}
     <p>your loginId: {{ loginId }}</p>
   {% endif %}
