@@ -13,23 +13,32 @@
 {% block content %}
 <div class="userPage">
   <div class="userinfo__title">
-    {{user.membership}} {{user.username}}
-    <span>
+    <div class="userinfo-box">
+      {{user.membership}} {{user.username}}
+    </div>
+    <div>
       {% if user.is_authenticated and user == request.user%}
       <a href="{% url 'my_page' %}">
-        <button class="btn">내 정보 수정하기</button>
+        <button class="secondary-btn">내 정보 수정</button>
       </a>
       {% endif %}
-    </span>
+    </div>
   </div>
   <div class="userinfo__container owl-carousel">
     <div class="usercard__container">
       <div class="usercard__header">자기소개</div>
-      <div class="usercard__body">{{user.intro}}</div>
+      <div class="usercard__body">
+        <div class="usercard__content">
+          {{user.intro}}</div>
+        </div>
     </div>
     <div class="usercard__container">
       <div class="usercard__header">작성한 Path의 수</div>
-      <div class="usercard__body">{{posts_count}}</div>
+      <div class="usercard__body">
+        <div class="usercard__content">
+          {{posts_count}}
+        </div>
+      </div>
     </div>
 
     {% for card in user_cards %}
@@ -40,6 +49,11 @@
           {{card.title}}
         </a>
         {% else %} {{card.title}} {% endif %}
+      </div>
+      <div class="usercard__body">
+        <div class="usercard__content">
+          {{card.desc}}
+        </div>
       </div>
     </div>
 
@@ -64,12 +78,17 @@
           <div class="card-description">{{post.desc}}</div>
         </div>
         <div class="card__buttons">
-          <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
-          <div class="btn reply-btn">
-            <i class="fa-solid fa-comment-dots"></i>
+          <div class="like-btn">
+            <i class="fa-solid fa-heart"></i>
+            <span>{{post.like_table.count}}</span>
           </div>
-          <div class="btn share-btn">
+          <div class="reply-btn">
+            <i class="fa-solid fa-comment-dots"></i>
+            <span>{{post.post_comment.count}}</span>
+          </div>
+          <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
             <i class="fa-solid fa-share-nodes"></i>
+            <span>공유</span>
           </div>
         </div>
       </a>
@@ -86,8 +105,6 @@
     addBtn.parentElement.onclick = () => {
       addBtn.classList.toggle("hidden");
       addForm.classList.toggle("hidden");
-    }
-
     };
   });
 </script>

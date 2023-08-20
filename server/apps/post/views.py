@@ -11,10 +11,12 @@ from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers import serialize
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from .models import Category, CategoryTable
 
 import base64
 from django.core.files.base import ContentFile
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 User = get_user_model()
 # Create your views here.
@@ -59,6 +61,7 @@ def category_search(request, category_id):
 
     ctx = {
             "category_name": category.name,
+            "category": category,
             "category_posts": category_posts,
             "categories": categories,
             "page":page,
@@ -458,7 +461,6 @@ def view_post_create_comment(request,pk):
 
     return render(request,"post/detail.html")
 
-@csrf_exempt
 def view_post_delete_comment_ajax(request):
     req=json.loads(request.body)
     post_id=req['post_id']
@@ -474,13 +476,13 @@ def view_post_delete_comment_ajax(request):
     else:
         return HttpResponse('Failed: Post requests only.')
 
-@csrf_exempt
 def view_step_detail_ajax(request):
     req = json.loads(request.body)
     step_id = req['step_id']
 
     if request.method=="POST":
         step = get_object_or_404(Step, pk=step_id)
+        user=request.user.username
         step_comments = StepComment.objects.filter(step=step)
         step_list = [
             {"fields":{
@@ -492,13 +494,12 @@ def view_step_detail_ajax(request):
         step_json = serialize('json', [step])
         # step_comments_json = serialize('json', step_list)
         step_comments_json = json.dumps(step_list)
-        ctx = {"step": step_json, "step_comments": step_comments_json, }
+        ctx = {"user":user,"step": step_json, "step_comments": step_comments_json, }
 
         return JsonResponse(ctx)
     else:
         return HttpResponse('Failed: Post requests only.')
     
-@csrf_exempt
 def view_step_create_comment_ajax(request):
     req=json.loads(request.body)
     step_id=req['step_id']
@@ -522,7 +523,6 @@ def view_step_create_comment_ajax(request):
     else:
         return HttpResponse('Failed: Post requests only.')
 
-@csrf_exempt
 def view_step_delete_comment_ajax(request):
     req=json.loads(request.body)
     step_id=req['step_id']
@@ -582,7 +582,6 @@ def toggle_like_ajax(request):
         except:
             return JsonResponse({"msg":"error"},status=404)
 
-
 def search(request):
         post_list = Post.objects.all()
         # page=request.GET.get('page')
@@ -606,21 +605,34 @@ def search(request):
         else:
                 return render(request, 'post/searched.html', {})
         
-def search_by_category(request):
-        if request.method == 'POST':
-                searched = request.POST['searched']     
+def search_by_category(request, id):
+    category = Category.objects.get(id=id)
+    category_tables = CategoryTable.objects.filter(category=category)
+    category_posts = [table.post for table in category_tables]
 
-                #category = Category.objects.get(name=category_name)
-                #category_tables = CategoryTable.objects.filter(category=category)
-
-                #category_posts = []
-                #for tables in category_tables:
-            #        category_posts.append(tables.post)
-                searched_posts = Post.objects.filter(title__contains=searched)
-                return render(request, 'post/search_by_category.html', {'searched': searched, 'searched_posts': searched_posts})
+    if request.method == 'POST':
+        searched = request.POST.get('searched')
         
-        else:
-                return render(request, 'post/search_by_category.html', {})
+        # Filter posts within the category
+        searched_posts = Post.objects.filter(
+            Q(id__in=[post.id for post in category_posts]) &
+            Q(title__icontains=searched)
+        )
+        
+        return render(request, 'post/search_by_category.html', {
+            'searched': searched,
+            'searched_posts': searched_posts,
+            'category_name': category.name
+        })
+    else:
+        return render(request, 'post/search_by_category.html', {
+            'category_name': category.name
+        })
+
+
+
+
+
 
 def index(request):
     page = request.GET.get('page', '1')  # 페이지

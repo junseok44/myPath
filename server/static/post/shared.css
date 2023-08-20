@@ -81,6 +81,24 @@
   }
 }
 
+
+/* 제작, 편집 페이지
+.writePage__intro {
+  display: flex;
+  flex-direction: column;
+}
+
+.writePage__tag {
+  display: flex;
+  flex-direction: column;
+}
+
+.labelfor {
+  width: 150px;
+  font-size: 1.2rem;
+} */
+
+
 /* 제작, 편집페이지 공통 컴포넌트 반응형 작업 */
 #reviewInput,
 #descInput {
@@ -350,6 +368,7 @@
     width: 100vw;
     height: 100vh;
     z-index: 2;
+    animation: fadeIn 0.5s ease forwards;
   }
 
   .modal__overlay::before {

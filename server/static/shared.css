@@ -9,6 +9,11 @@
 :root {
   --border-grey: #e3e3e3;
   --primary-color: #007dff;
+  /* --primary-color: #41b98A; */
+  /* --primary-color: #3A42BA; */
+  /* --primary-color: #1CD463; */
+  /* --primary-color: #21d092; */
+  /* --primary-color: #10c3a7; */
   --secondary-text-color: rgb(120, 120, 120);
   --grey: #f5f5f7;
   --header-height: 4rem;
@@ -87,6 +92,7 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: 6rem;
 }
 
 .hidden {
@@ -115,12 +121,19 @@ h3 {
 }
 
 .secondary-btn {
-  padding: 5px;
+  padding: 5px 10px;
   border: none;
   outline: none;
-  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+  border-radius: 100px;
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.secondary-btn:hover {
   background-color: var(--primary-color);
   color: white;
+  cursor: pointer;
 }
 
 .underline-btn {
@@ -189,8 +202,8 @@ h3 {
 
 /* 공통 컴포넌트: input, textarea */
 .writePage-input {
-  width: 100%;
-  padding: 10px;
+  flex: 1;
+  padding: 5px 10px;
   border: 1px solid var(--border-grey);
   border-radius: 5px;
 }
@@ -258,6 +271,13 @@ h3 {
   height: 220px;
 }
 
+.card-thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .card-description {
   max-height: 110px;
   padding: 20px 10px 0px;
@@ -275,7 +295,7 @@ h3 {
   bottom: 0px;
   padding: 20px 10px;
   display: flex;
-  flex-direction: row;
+  gap: 0.5rem;
 }
 
 .card-btns {
@@ -372,6 +392,7 @@ h3 {
   max-width: 1320px; /* Maximum width for 1400px or more */
   margin-left: auto;
   margin-right: auto;
+  position: relative;
 }
 
 @media (min-width: 450px) {
@@ -398,9 +419,15 @@ h3 {
   }
 }
 
+/* footer {
+  position: relative;
+  z-index: -1;
+} */
+
 .content_padding {
   padding-top: 6rem;
   position: relative;
+  min-height: 90vh;
 }
 
 .color-grey {

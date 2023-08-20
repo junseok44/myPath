@@ -21,7 +21,7 @@ urlpatterns = [
     path('api/toggleBookMark/', toggle_bookmark_ajax),
     path('api/toggleLike/', toggle_like_ajax),
     path('search/', search , name='search'),
-    path('search/category/', search_by_category , name='search_by_category'),
+    path('search/category/<int:id>/', search_by_category , name='search_by_category'),
 ]
 
 if settings.DEBUG:

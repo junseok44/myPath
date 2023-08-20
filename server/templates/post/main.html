@@ -33,11 +33,12 @@
                       {% if post.thumbnail %}
                         <img src="{{post.thumbnail.url}}" alt="my icon"/>
                       {% else %}
-                        <img src=""/>
+                      <img src="{% static 'noimage.jpg' %}" />
                       {% endif %}
                     </div>
                     <div class="card-description">{{post.desc}}</div>
                   </div>
+                  </a>
                   <div class="card__buttons">
                     <div class="like-btn">
                       <i class="fa-solid fa-heart"></i>
@@ -45,14 +46,13 @@
                     </div>
                     <div class="reply-btn">
                       <i class="fa-solid fa-comment-dots"></i>
-                      <span>댓글</span>
+                      <span>{{post.post_comment.count}}</span>
                     </div>
-                    <div class="share-btn">
+                    <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
                       <i class="fa-solid fa-share-nodes"></i>
                       <span>공유</span>
                     </div>
                   </div>
-                  </a>
                 </div>
               </li>
             {% endfor %}
@@ -88,5 +88,8 @@
     },
   });
 </script>
+
+<!-- 포스트 링크 클립보드 복사 -->
+<!-- base.html로 옮겼습니다 -->
 
 {% endblock %}
