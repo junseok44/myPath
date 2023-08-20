@@ -22,7 +22,7 @@
       <div class="usercard__body">
         <div class="usercard__content">
           {% if user.intro == "" %}
-          <div class="userdivage__intro-guide">작성된 자기소개가 없습니다.</div>
+          <div class="userPage__intro-guide">작성된 자기소개가 없습니다.</div>
           {% else %} 
           <div class="userPage__intro-guide">{{user.intro}}</div>
           {% endif %}
@@ -42,7 +42,6 @@
         </div>
       </div>
     </div>
-
     {% for card in userCards %}
     <div class="usercard__container card__{{card.id}}">
       <div class="usercard__header-controls">
@@ -208,8 +207,8 @@
             </div>
             <div class="card__body">
               <div class="card-thumbnail">
-                {% if post.thumbnail %}
-                <img src="{{post.thumbnail.url}}" alt="my icon"/>
+                {% if like_post.post.thumbnail %}
+                <img src="{{like_post.post.thumbnail.url}}" alt="my icon"/>
                 {% else %}
                 <img src="{% static 'noimage.jpg' %}" />
                 {% endif %}
@@ -246,11 +245,11 @@
           </div>
           <div class="card__body">
             <div class="card-thumbnail">
-              {% if post.thumbnail %}
-                <img src="{{post.thumbnail.url}}" alt="my icon"/>
-                {% else %}
-                <img src="{% static 'noimage.jpg' %}" />
-                {% endif %}
+              {% if bm_post.post.thumbnail %}
+              <img src="{{bm_post.post.thumbnail.url}}" alt="my icon"/>
+              {% else %}
+              <img src="{% static 'noimage.jpg' %}" />
+              {% endif %}
             </div>
             <div class="card-description">{{bm_post.post.desc}}</div>
           </div>
@@ -282,7 +281,6 @@ editButtons.forEach(editBtn => {
     const cardContainer = editBtn.closest(".usercard__container");
     const guide = cardContainer.querySelector(".userPage__intro-guide");
     const form = cardContainer.querySelector(".userPage__intro-form");
-    
     guide.classList.toggle("hidden");
     form.classList.toggle("hidden");
   });
@@ -371,6 +369,8 @@ editButtons.forEach(editBtn => {
     margin: 10,
     responsiveClass: true,
     nav: true,
+    // mouseDrag:false,
+    // touchDrag:false,
     navText: ['<button class="btn userPage__carousel-btn">이전으로</button>', '<button class="btn userPage__carousel-btn">다음으로</button>'],
     responsive: {
       0: {
