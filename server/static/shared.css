@@ -413,6 +413,7 @@ footer {
 .content_padding {
   padding-top: 6rem;
   position: relative;
+  min-height: 90vh;
 }
 
 .color-grey {
