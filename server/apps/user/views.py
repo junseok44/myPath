@@ -85,7 +85,7 @@ def my_page(requests):
 
 def user_page(requests, id):
     user = User.objects.get(id=id)
-    posts = Post.objects.filter(user=user.id).values()
+    posts = Post.objects.filter(user=user.id)
     posts_count = Post.objects.filter(user=user.id).count()
     user_cards = UserCard.objects.filter(writer=user)
     ctx = {'user': user, 'posts': posts, 'posts_count': posts_count, "id": id, "user_cards": user_cards} 
