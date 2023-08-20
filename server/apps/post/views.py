@@ -403,6 +403,7 @@ def view_post_detail(requests,pk):
 
     post=Post.objects.get(id=pk)
     post_category = CategoryTable.objects.get(post=post).category.name
+    post_category_id = CategoryTable.objects.get(post=post).category.id
     post_tags=TagTable.objects.filter(post=post)
     paths=Path.objects.filter(post=post).order_by("order")
     for path in paths:
@@ -424,6 +425,7 @@ def view_post_detail(requests,pk):
     ctx={
             "post":post,
             "post_category":post_category,
+            "post_category_id": post_category_id,
             "post_tags":post_tags,
             "paths":paths,
             "post_comments":post_comments
