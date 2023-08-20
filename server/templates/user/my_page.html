@@ -82,12 +82,11 @@
         />
         <textarea
         class="writePage-input"
-          value="{{card.desc}}"
           required
           name="desc"
           maxlength="100"
           placeholder="설명을 덧붙여주세요! (100자 이내)"
-        ></textarea>
+        >{{card.desc}}</textarea>
         <div class="userPage__editBtns">
           <button type="button" class="btn" onclick="onCancelEditForm()">취소</button>
           <button type="submit" class="btn">확인</button>
