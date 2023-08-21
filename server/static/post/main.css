@@ -182,3 +182,10 @@
     right: 1rem;
   }
 }
+
+.main__category-item.active {
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-color);
+  color: white;
+}
+
