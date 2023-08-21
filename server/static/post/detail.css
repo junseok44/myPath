@@ -549,9 +549,9 @@
     margin: 0;
   }
 
-  .detailPage__main {
+  /* .detailPage__main {
     overflow-x: hidden;
-  }
+  } */
 
   .row-mode {
     min-height: 800px;
