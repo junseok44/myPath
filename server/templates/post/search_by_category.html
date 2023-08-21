@@ -1,7 +1,7 @@
 {% extends 'post/main__category.html' %} {% load static %} {% block
 searchcontent %}{% block content%} {% if searched %}
 
-<h1>"{{category_name}}"태그 내 "{{ searched }}"에 대한 검색 결과입니다.</h1>
+<h1>"{{category_name}}" 카테고리 내 "{{ searched }}"에 대한 검색 결과입니다.</h1>
 <br />
 
 <ul class="searched_item-container">
@@ -46,5 +46,5 @@ searchcontent %}{% block content%} {% if searched %}
   {% endfor %}
 </ul>
 {% else %}
-<h1>찾고 있는 검색어를 검색창에 입력해주세요.</h1>
+<h1>검색어 입력해주세요.</h1>
 {% endif %} {% endblock %}

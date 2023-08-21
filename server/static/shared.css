@@ -121,12 +121,19 @@ h3 {
 }
 
 .secondary-btn {
-  padding: 5px;
+  padding: 5px 10px;
   border: none;
   outline: none;
-  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+  border-radius: 100px;
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.secondary-btn:hover {
   background-color: var(--primary-color);
   color: white;
+  cursor: pointer;
 }
 
 .underline-btn {
@@ -272,8 +279,9 @@ h3 {
 }
 
 .card-description {
-  max-height: 110px;
-  padding: 20px 10px 0px;
+  line-height: 1.4rem;
+  max-height: 90px;
+  padding: 20px 10px 2rem;
   font-size: 0.9rem;
   overflow: hidden;
   white-space: normal;
@@ -349,6 +357,8 @@ h3 {
   max-height: 180px;
   overflow-y: auto;
   word-wrap: break-word;
+  white-space: wrap;
+  line-height: 1.4rem;
 }
 
 .usercard__content::-webkit-scrollbar {
