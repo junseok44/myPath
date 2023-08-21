@@ -38,7 +38,7 @@ function addPathNode(prevPathId, id) {
     <span class="path_intro">
     <input maxlength="10" placeholder="패스 제목 입력..." type="text" class="path_title writePage-input" onchange="handleChangePathTitle(event,'${id}')">
     <button type="button" class="secondary-btn path-add-btn" onclick="handleAddPath('${id}')">패스+</button>
-    <button type="button" class="btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
+    <button type="button" class="step-btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
     </span>
     <div class="step_container_w_btn">
     <div class="step_container ${

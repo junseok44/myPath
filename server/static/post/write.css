@@ -48,6 +48,7 @@
 
 .step-btn:hover {
   color: black;
+  cursor: pointer;
 }
 
 .step-upload-btn {
