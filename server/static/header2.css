@@ -21,7 +21,7 @@ header {
   }
 }
 
-.header_item > * {
+.header_item > *:not(:first-child) {
   opacity: 0.6;
   cursor: pointer;
   transition: opacity 0.3s;
@@ -35,6 +35,8 @@ header {
 .header_logo {
   cursor: pointer;
   font-size: 1.5rem;
+  width: 7rem;
+  height: 3rem;
 }
 
 .header_btn {
@@ -46,6 +48,10 @@ header {
   align-items: center;
   justify-content: center;
   position: relative;
+}
+
+.header_btn:not(:last-child) {
+  margin-right: 0.3rem;
 }
 
 .header_dropdown {

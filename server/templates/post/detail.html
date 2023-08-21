@@ -19,59 +19,69 @@
     <div class="detailPage__intro">
       <div class="detailPage__title">
         <h2>{{post.title}}</h2>
-        <span class="detailPage__action-btn" id="detailPage-likeBtn">
-          {% if user.is_authenticated %}
-          {% if post.isLiked %}
-          <div onclick="likeToggle('{{post.id}}', true)">
-            <i class="fa-solid fa-heart"></i>
-          </div>
-          {% else %}
-          <div onclick="likeToggle('{{post.id}}', true)">
+        <div class="detailPage_action-btn-container">
+          <span class="detailPage__action-btn" id="detailPage-likeBtn">
+            {% if user.is_authenticated %}
+            {% if post.isLiked %}
+            <div onclick="likeToggle('{{post.id}}', true)">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            {% else %}
+            <div onclick="likeToggle('{{post.id}}', true)">
+              <i class="fa-regular fa-heart"></i>
+            </div>
+            {% endif %}
+            {% else %}
+            <div onclick="likeToggle('{{post.id}}', false)">
             <i class="fa-regular fa-heart"></i>
-          </div>
-          {% endif %}
-          {% else %}
-          <div onclick="likeToggle('{{post.id}}', false)">
-          <i class="fa-regular fa-heart"></i>
-          </div>
-          {% endif %}
-          <span class="post-likes">{{post.like_table.count}}</span>
-        </span>
-        <span class="detailPage__action-btn" id="detailPage-bookmarkBtn">
-          {% if user.is_authenticated %}
-          {% if post.isBookMarked %}
-          <div onclick="bookMarkToggle('{{post.id}}', true)">
-            <i class="fa-solid fa-star"></i>
-          </div>
-          {% else %}
-          <div onclick="bookMarkToggle('{{post.id}}', true)">
-            <i class="fa-regular fa-star"></i>
-          </div>
-          {% endif %}
-          {% else %}
-          <div onclick="likeToggle('{{post.id}}', false)">
-            <i class="fa-regular fa-star"></i>
-          </div>
-          {% endif %}
-          <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
-        </span>
-        <span class="detailPage__action-btn" onclick="copyURLtoClipBoard()"">
-          <i class="fa-solid fa-share-nodes"></i>
-          공유
-        </span>
+            </div>
+            {% endif %}
+            <span class="post-likes">{{post.like_table.count}}</span>
+          </span>
+          <span class="detailPage__action-btn" id="detailPage-bookmarkBtn">
+            {% if user.is_authenticated %}
+            {% if post.isBookMarked %}
+            <div onclick="bookMarkToggle('{{post.id}}', true)">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            {% else %}
+            <div onclick="bookMarkToggle('{{post.id}}', true)">
+              <i class="fa-regular fa-star"></i>
+            </div>
+            {% endif %}
+            {% else %}
+            <div onclick="likeToggle('{{post.id}}', false)">
+              <i class="fa-regular fa-star"></i>
+            </div>
+            {% endif %}
+            <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
+          </span>
+          <span class="detailPage__action-btn" onclick="copyURLtoClipBoard()">
+            <i class="fa-solid fa-share-nodes"></i>
+            공유
+          </span>
+          <span class="detailPage__action-btn">
+            {% if user.is_authenticated %}
+            <div onclick="onClickReport('{{post.id}}', true)">
+              <img class="report_logo" src="{% static 'resource/siren.png' %}">
+            신고
+            </div>
+            {% endif %}
+          </span>
+        </div>
       </div>
       <div class="detailPage__info">
         <div class="detailPage__info-left">
           <a class="detailPage-author-link" href="{% url 'user_page' id=post.user.id %}">{{post.user}}</a>
-          <span class="separator secondary-text-styling">∙</span>
+          <span class="separator secondary-line-styling">∙</span>
           <span class="detailPage-created-date">{{post.created_at}}</span>
-          <span class="separator secondary-text-styling">∙</span>
-          <span class="datailPage__category">{{post_category}}</span>
+          <span class="separator secondary-line-styling">∙</span>
+          <span class="datailPage__category"><a href="{% url 'post:category' category_id=post_category_id %}">{{post_category}}</a></span>
         </div>
-        <div class="ditailPage__info-right">
+        <div class="detailPage__info-right">
           {% if post.user == user %}
           <button class="underline-btn"><a href="{% url 'post:post_edit' id=post.id %}">수정</a></button>
-          <span class="separator secondary-text-styling">∙</span>
+          <span class="separator secondary-line-styling">∙</span>
           <button class="underline-btn writePage__btn" type="button" onclick="deletepost('{{post.id}}')">삭제</button>
           {% endif %}
         </div>
@@ -114,7 +124,7 @@
         </div>
         <!-- <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a> -->
       </div>
-      <hr class="detailPage-divider" />
+      <hr class="divider" />
       <ul class="main-container {{post.mode}}-mode detailPage__main">
         {% for path in paths %}
         <li class="path path_{{path.id}}">
@@ -181,7 +191,7 @@
 
     <div class="detailPage__review section-container">
       <h5 class="section-title detailPage__review-title">후기</h5>
-      <hr class="detailPage-divider" />
+      <hr class="divider" />
       <div class="accordion accordion__review">
         <div class="review-title" onclick="toggleAccordion('accordion2')">
           후기
@@ -199,7 +209,7 @@
     
     <div class="detailPage__comment section-container">
       <h5 class="section-title">댓글</h5>
-      <hr class="detailPage-divider" />
+      <hr class="divider" />
       <div class="comment-container post_{{post.id}}">
         {% for post_comment in post_comments%}
         {% if post_comment.parentComment is None %}
@@ -297,7 +307,6 @@ const sendStepDetailRequest = (step_id) => {
 
 const toggleModal = (step_id) => {
 
-  // console.log(document.querySelector(`step_${step_id}`));
   const targetPath = document.querySelector(`.step_${step_id}`).parentElement.parentElement
   const allModals =  targetPath.querySelectorAll(`.modal__overlay`)
 
@@ -320,9 +329,6 @@ const onClickStepDetail = async (step_id) => {
 
     try {
       const { user, step, step_comments } = await sendStepDetailRequest(step_id);
-      // Process the response here
-      // post_writer=JSON.parse(post_writer);
-      // console.log(post_writer)
       step_parsed = JSON.parse(step)[0];
         step_comments_parsed = JSON.parse(step_comments);
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
@@ -334,24 +340,21 @@ const onClickStepDetail = async (step_id) => {
         step_title=title!==""?title:`제목이 없어요`;
         step_desc=desc!==""?desc:`설명이 없어요`;
 
-        
-        // console.log(image_null==true)
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
         const stepInfo = document.createElement("div")
         if (currentStepInfo) {
           if (image_url) {
-            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
-                      <hr>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
+                      <hr class="divider"/>
                       <div class="step-detail">
-                          <img src="../media/${step_parsed["fields"]["Image"]}" />
-                          <p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
-                          <hr>
-                    </div>`;
+                        <img class="step-img" src="../media/${step_parsed["fields"]["Image"]}" />
+                        <p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                      </div>`;
           } else {
-            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
-                      <hr>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
+                      <hr class="divider"/>
                       <div class="step-detail">
-                          <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                        <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           }
         } else {
@@ -360,16 +363,15 @@ const onClickStepDetail = async (step_id) => {
             .classList
             .add(`step-${step_parsed["pk"]}`)
           if (image_url) {
-            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
-                      <hr>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
+                      <hr class="divider"/>
                       <div class="step-detail">
-                          <img src="../media/${step_parsed["fields"]["Image"]}" />
+                          <img class="step-img" src="../media/${step_parsed["fields"]["Image"]}" />
                           <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
-                          <hr>
                     </div>`;
           } else {
-            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
-                      <hr>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
+                      <hr class="divider"/>
                       <div class="step-detail">
                           <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
@@ -378,11 +380,7 @@ const onClickStepDetail = async (step_id) => {
         }
         commentNode.innerHTML = ``;
         commentNode.innerHTML += `<div class="modal__comment-title">댓글</div>`;
-        // console.log(step_parsed);
-        // console.log(step_comments_parsed[0]);
-        console.log(user)
         step_comments_parsed.forEach((element) => {
-          console.log(element['fields']['writer'])
           commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
                         <p class="comment_writer">${element["fields"]["writer"]}
                           <span class="comment-actions">
@@ -390,7 +388,6 @@ const onClickStepDetail = async (step_id) => {
                         <span class="step-comment-delete ${user==element["fields"]["writer"]?'':'hidden'}" onclick=deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')>삭제</span>
                         </span>
                           </p>
-                       
                         <p>${element["fields"]["text"]}</p>
                     </div>`;
         });
@@ -487,7 +484,6 @@ const onClickStepDetail = async (step_id) => {
   //                       {% endif %}
   //                       </span>
   //                         </p>
-                       
   //                       <p>${element["fields"]["text"]}</p>
   //                   </div>`;
   //       });
@@ -536,7 +532,6 @@ const onClickStepDetail = async (step_id) => {
   const requestStepCommentDelete = new XMLHttpRequest();
   const deleteStepComment = (step_id, comment_id) => {
     const url = "step/delete_comment";
-    // console.log(url)
     requestStepCommentDelete.open("POST", url, true);
     requestStepCommentDelete.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     requestStepCommentDelete.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -558,7 +553,6 @@ const onClickStepDetail = async (step_id) => {
   const requestCommentDelete = new XMLHttpRequest();
   const deletePostComment = (post_id, comment_id) => {
     const url = "delete_comment";
-    // console.log(url);
     requestCommentDelete.open("POST", url, true);
     requestCommentDelete.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     requestCommentDelete.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -593,7 +587,6 @@ const onClickStepDetail = async (step_id) => {
   };
 
   const onAddChildrenComment = async (postId, parentCommentId) => {
-    // console.log(postId, parentCommentId);
     const response = await fetch(`/post/${postId}/create_comment`, {
       method: "POST",
       headers: {
@@ -715,7 +708,6 @@ const showModalsSequentially = async () => {
   }
 
   async function likeToggle(postId, isloggedIn) {
-    console.log(isloggedIn);
     if(isloggedIn==false){
       alert("로그인이 필요한 서비스입니다.")
       return;
@@ -756,12 +748,39 @@ const showModalsSequentially = async () => {
 <!-- 링크 클립보드 복사 -->
 <script>
   const url=window.location.href;
-  console.log(url)
   function copyURLtoClipBoard(){
     navigator.clipboard.writeText(url).then(function () {
 		  alert('URL 복사가 완료되었습니다.')
 	  });
   };
+</script>
+
+<script>
+  async function onClickReport(post_id, isloggedIn){
+    const url=window.location.href;
+    if(isloggedIn==false){
+      alert("로그인이 필요한 서비스입니다.")
+      return;
+    }
+    if(confirm('정말로 신고하시겠습니까?')){
+      const response = await fetch(`/post/${post_id}/report/`, {
+        method: "POST",
+        body: JSON.stringify({post_id: post_id,url:url}),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-CSRFToken": getCookie("csrftoken"),
+        }
+      
+      });
+
+      if (response.ok){
+        alert('신고되었습니다')
+      };
+      
+    }
+
+  };
+  
 </script>
 
 <!-- 아코디언 관련 스크립트 -->

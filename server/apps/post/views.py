@@ -65,6 +65,7 @@ def category_search(request, category_id):
             "category_posts": category_posts,
             "categories": categories,
             "page":page,
+            "current_category_id": category_id,
     }
     return render(
         request,
@@ -403,6 +404,7 @@ def view_post_detail(requests,pk):
 
     post=Post.objects.get(id=pk)
     post_category = CategoryTable.objects.get(post=post).category.name
+    post_category_id = CategoryTable.objects.get(post=post).category.id
     post_tags=TagTable.objects.filter(post=post)
     paths=Path.objects.filter(post=post).order_by("order")
     for path in paths:
@@ -424,6 +426,7 @@ def view_post_detail(requests,pk):
     ctx={
             "post":post,
             "post_category":post_category,
+            "post_category_id": post_category_id,
             "post_tags":post_tags,
             "paths":paths,
             "post_comments":post_comments
@@ -641,3 +644,30 @@ def index(request):
     page_obj = paginator.get_page(page)
     context = {'question_list': page_obj}
     return render(request, 'pybo/question_list.html', context)
+
+# views.py
+
+from django.core.mail import send_mail
+from django.conf import settings
+
+def report_post(request,pk):
+    
+    if request.method == 'POST':
+        # reason = request.POST.get('reason')
+        user = request.user
+        data = json.loads(request.body)
+        post_id=data['post_id']
+        url=data['url']
+        post=get_object_or_404(Post,id=pk)
+        
+        # Send email to the admin
+        subject = f"Report for Post: {post.title}"
+        message=f"user {user}가 신고한 포스트입니다:{url}"
+        from_email = settings.EMAIL_HOST_USER
+        recipient_list = ['stabthecake0044@gmail.com']
+        
+        send_mail(subject, message, from_email, recipient_list) 
+        return JsonResponse({"msg":"success"})
+
+    else:
+        return JsonResponse({"error": "errormessage"}, status=404) 
