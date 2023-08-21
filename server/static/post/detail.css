@@ -26,8 +26,8 @@
   cursor: pointer;
 }
 
-.detailPage__action-btn .report_logo{
-  height:1rem;
+.detailPage__action-btn .report_logo {
+  height: 1rem;
 }
 
 .detailPage__detailBtn {
@@ -206,12 +206,6 @@
       margin-right: none;
     }
   } */
-}
-
-@media screen and (max-width: 450px) {
-  .intro-content {
-    margin: 0px;
-  }
 }
 
 /* Reset the width and padding for the thumbnail
@@ -499,6 +493,9 @@
 }
 
 @media screen and (max-width: 450px) {
+  .intro-content {
+    margin: 0px;
+  }
   .detailPage__main {
     overflow: visible;
   }
@@ -507,10 +504,6 @@
     flex-direction: column;
     gap: 1rem;
     word-break: keep-all;
-  }
-
-  .detailPage__title {
-    flex-direction: column;
   }
 
   .detailPage__title > h2 {
@@ -615,6 +608,10 @@
   .detailPage .step__edit-modal .step-detail {
     height: 10rem;
     overflow: auto;
+  }
+
+  .intro-content {
+    margin: 0px;
   }
 }
 
