@@ -81,7 +81,6 @@
   }
 }
 
-
 /* 제작, 편집 페이지
 .writePage__intro {
   display: flex;
@@ -97,7 +96,6 @@
   width: 150px;
   font-size: 1.2rem;
 } */
-
 
 /* 제작, 편집페이지 공통 컴포넌트 반응형 작업 */
 .writePage__intro > * {
@@ -275,12 +273,16 @@
 .detailPage .step-content .title {
   font-size: 1.1rem;
   margin-bottom: 1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .detailPage .step-content .desc {
-  max-height: 6rem;
+  max-height: 5.8rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.4rem;
 }
 
 .col-mode .step:not(:last-child)::before {

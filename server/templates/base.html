@@ -163,7 +163,6 @@
       const linkElement = parent.querySelector("a");
       const link = linkElement.href;
       const linkText = linkElement.textContent;
-      console.log(link);
       const html = `<a href="${link}">${linkText}</a>`;
 
       navigator.clipboard.writeText(link).then(function () {

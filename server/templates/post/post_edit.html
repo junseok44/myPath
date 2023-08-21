@@ -4,7 +4,6 @@
 
 <div class="editPage">
   <!-- <h1>edit</h1> -->
-  <!-- <div onclick="showAllItems()">모든아이템</div> -->
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <div class="writePage__title">
@@ -269,12 +268,6 @@
 
   <!-- 메인 핸들러 -->
   <script>
-    function showAllItems() {
-      console.log(steps);
-      console.log(paths);
-      // console.log(deletedTag)
-      // console.log(addedTag)
-    }
 
     updateSelectOptions();
 
@@ -396,7 +389,6 @@
 
       } else {
         container.appendChild(target);
-        console.log("append last");
       }
 
       const movedStep = steps.find((step) => step.pathId == pathId && step.order == targetStep.order + 1);
@@ -545,7 +537,6 @@
         }
       });
 
-      console.log(await response.json());
       if (response.status == 200) {
         location.reload()
         window.location.href = `/post/${postData[0].pk}`;
