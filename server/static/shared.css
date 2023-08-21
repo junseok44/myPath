@@ -142,6 +142,7 @@ h3 {
   cursor: pointer;
 }
 
+
 .underline-btn {
   padding: none;
   border: none;
@@ -343,11 +344,17 @@ h3 {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  margin-top: 0.5rem;
+  /* margin-top: 0.5rem; */
 }
 
 .usercard__header-controls i {
   color: var(--secondary-text-color);
+  transition: all 0.3s ease-in-out;
+}
+
+.usercard__header-controls i:hover {
+  cursor: pointer;
+  color: black;
 }
 
 .usercard__body {

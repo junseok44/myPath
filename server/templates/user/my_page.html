@@ -70,28 +70,29 @@
         </div>
       </div>
       <form method="POST" action='{% url 'user_card_edit' id=card.id %}' id="editForm__{{card.id}}" class="userPage__cardForm hidden">
-        {% csrf_token %} 
-        <h2>내용 수정</h2>
-        <input maxlength="10" class="writePage-input" value='{{card.title}}' required name="title" placeholder="카드 제목 (10자 이내)" />
-        <input
-        class="writePage-input"
-          value="{{card.link}}"
-          name="link"
-          maxlength="100"
-          placeholder="관련 링크 첨부"
-        />
-        <textarea
-        class="writePage-input"
-          required
-          name="desc"
-          maxlength="100"
-          placeholder="설명 (100자 이내)"
-        ></textarea>
-        <div class="userPage__editBtns">
-          <button type="button" class="btn" onclick="onCancelEditForm()">취소</button>
-          <button type="submit" class="btn">확인</button>
+        <div>
+          {% csrf_token %} 
+          <h2>내용 수정</h2>
+          <input maxlength="10" class="writePage-input" value='{{card.title}}' required name="title" placeholder="카드 제목 (10자 이내)" />
+          <input
+          class="writePage-input"
+            value="{{card.link}}"
+            name="link"
+            maxlength="100"
+            placeholder="관련 링크 첨부"
+          />
+          <textarea
+          class="writePage-input"
+            required
+            name="desc"
+            maxlength="100"
+            placeholder="설명 (100자 이내)"
+          >{{card.desc}}</textarea>
+          <div class="userPage__editBtns">
+            <button type="button" class="secondary-btn" onclick="onCancelEditForm()">취소</button>
+            <button type="submit" class="secondary-btn">확인</button>
+          </div>
         </div>
-    
       </form>
     </div> 
     
@@ -118,8 +119,8 @@
         placeholder="설명 (100자 이내)"
       ></textarea>
       <div class="userPage__editBtns">
-        <button type="button" class="btn" onclick="onClickAddBtn()">취소</button>
-        <button type="submit" class="btn">확인</button>
+        <button type="button" class="secondary-btn" onclick="onClickAddBtn()">취소</button>
+        <button type="submit" class="secondary-btn">확인</button>
       </div>
     </form>
   </div>
