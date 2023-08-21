@@ -123,22 +123,6 @@
   background: var(--border-grey);
 }
 
-/* /* #titleInput {
-  @media screen and (max-width: 600px) {
-    width: 100%;
-  }
-} */
-
-/* #categorySelect {
-  margin-right: 0.5rem;
-}
-
-#tagInput {
-  @media screen and (max-width: 600px) {
-    flex: 1;
-  }
-} */
-
 @keyframes fadeIn {
   from {
     opacity: 0;
