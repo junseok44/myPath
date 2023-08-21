@@ -1,7 +1,11 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %}
+
+{% block content %}
 
 <div class="main__templates">
-  <h1 class="main__logo">MYPATH</h1>
+  <a href="/">
+    <img class="main__logo" src="{% static 'resource/logo.jpg' %}"></img>
+  </a>
   <form class="main__searchForm" method="POST" action="{% url 'post:search' %}">
     {% csrf_token %}
     <input
