@@ -46,6 +46,9 @@ class Step(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=10)
 
+    def __str__(self):
+        return self.name
+
 class CategoryTable(models.Model):
     post = models.ForeignKey('Post', models.CASCADE, related_name="category_table")
     category = models.ForeignKey(Category, models.CASCADE, related_name="category_table")
@@ -53,6 +56,9 @@ class CategoryTable(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
 
 class TagTable(models.Model):
     post = models.ForeignKey('Post', models.CASCADE, related_name="tag_table")
@@ -62,6 +68,9 @@ class TagTable(models.Model):
 
 class Curation(models.Model):
     name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
 
 class CurationTable(models.Model):
     curation = models.ForeignKey(Curation, models.CASCADE, related_name="curation_table")

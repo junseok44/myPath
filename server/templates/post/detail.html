@@ -1,50 +1,66 @@
 {% extends 'base.html' %}
 {% load static %}
+
+
+{% block search_engine_optimization %}
+<meta property="og:url" content="https://eb.my-path.xyz/" />
+<meta property="og:title" content="{{post.title}}" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="" />
+<meta
+  property="og:description"
+  content="{{post.desc}}"
+/>
+<title>{{post.title}} | 마이패스</title>
+{% endblock %}
+
 {% block content %}
   <div class="detailPage">
     <div class="detailPage__intro">
       <div class="detailPage__title">
         <h2>{{post.title}}</h2>
-        <span class="detailPage__action-btn" id="detailPage-likeBtn">
-          {% if user.is_authenticated %}
-          {% if post.isLiked %}
-          <div onclick="likeToggle('{{post.id}}', true)">
-            <i class="fa-solid fa-heart"></i>
-          </div>
-          {% else %}
-          <div onclick="likeToggle('{{post.id}}', true)">
+        <div class="detailPage_action-btn-container">
+          <span class="detailPage__action-btn" id="detailPage-likeBtn">
+            {% if user.is_authenticated %}
+            {% if post.isLiked %}
+            <div onclick="likeToggle('{{post.id}}', true)">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            {% else %}
+            <div onclick="likeToggle('{{post.id}}', true)">
+              <i class="fa-regular fa-heart"></i>
+            </div>
+            {% endif %}
+            {% else %}
+            <div onclick="likeToggle('{{post.id}}', false)">
             <i class="fa-regular fa-heart"></i>
-          </div>
-          {% endif %}
-          {% else %}
-          <div onclick="likeToggle('{{post.id}}', false)">
-          <i class="fa-regular fa-heart"></i>
-          </div>
-          {% endif %}
-          <span class="post-likes">{{post.like_table.count}}</span>
-        </span>
-        <span class="detailPage__action-btn" id="detailPage-bookmarkBtn">
-          {% if user.is_authenticated %}
-          {% if post.isBookMarked %}
-          <div onclick="bookMarkToggle('{{post.id}}', true)">
-            <i class="fa-solid fa-star"></i>
-          </div>
-          {% else %}
-          <div onclick="bookMarkToggle('{{post.id}}', true)">
-            <i class="fa-regular fa-star"></i>
-          </div>
-          {% endif %}
-          {% else %}
-          <div onclick="likeToggle('{{post.id}}', false)">
-            <i class="fa-regular fa-star"></i>
-          </div>
-          {% endif %}
-          <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
-        </span>
-        <span class="detailPage__action-btn" onclick="copyURLtoClipBoard()"">
-          <i class="fa-solid fa-share-nodes"></i>
-          공유
-        </span>
+            </div>
+            {% endif %}
+            <span class="post-likes">{{post.like_table.count}}</span>
+          </span>
+          <span class="detailPage__action-btn" id="detailPage-bookmarkBtn">
+            {% if user.is_authenticated %}
+            {% if post.isBookMarked %}
+            <div onclick="bookMarkToggle('{{post.id}}', true)">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            {% else %}
+            <div onclick="bookMarkToggle('{{post.id}}', true)">
+              <i class="fa-regular fa-star"></i>
+            </div>
+            {% endif %}
+            {% else %}
+            <div onclick="likeToggle('{{post.id}}', false)">
+              <i class="fa-regular fa-star"></i>
+            </div>
+            {% endif %}
+            <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
+          </span>
+          <span class="detailPage__action-btn" onclick="copyURLtoClipBoard()">
+            <i class="fa-solid fa-share-nodes"></i>
+            공유
+          </span>
+        </div>
       </div>
       <div class="detailPage__info">
         <div class="detailPage__info-left">
@@ -52,9 +68,9 @@
           <span class="separator secondary-text-styling">∙</span>
           <span class="detailPage-created-date">{{post.created_at}}</span>
           <span class="separator secondary-text-styling">∙</span>
-          <span class="datailPage__category">{{post_category}}</span>
+          <span class="datailPage__category"><a href="{% url 'post:category' category_id=post_category_id %}">{{post_category}}</a></span>
         </div>
-        <div class="ditailPage__info-right">
+        <div class="detailPage__info-right">
           {% if post.user == user %}
           <button class="underline-btn"><a href="{% url 'post:post_edit' id=post.id %}">수정</a></button>
           <span class="separator secondary-text-styling">∙</span>
