@@ -344,18 +344,17 @@ const onClickStepDetail = async (step_id) => {
         const stepInfo = document.createElement("div")
         if (currentStepInfo) {
           if (image_url) {
-            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
-                      <hr>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
+                      <hr class="divider"/>
                       <div class="step-detail">
-                          <img src="../media/${step_parsed["fields"]["Image"]}" />
-                          <p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
-                          <hr>
-                    </div>`;
+                        <img class="step-img" src="../media/${step_parsed["fields"]["Image"]}" />
+                        <p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                      </div>`;
           } else {
-            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
-                      <hr>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
+                      <hr class="divider"/>
                       <div class="step-detail">
-                          <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                        <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           }
         } else {
@@ -364,16 +363,15 @@ const onClickStepDetail = async (step_id) => {
             .classList
             .add(`step-${step_parsed["pk"]}`)
           if (image_url) {
-            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
-                      <hr>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
+                      <hr class="divider"/>
                       <div class="step-detail">
-                          <img src="../media/${step_parsed["fields"]["Image"]}" />
+                          <img class="step-img" src="../media/${step_parsed["fields"]["Image"]}" />
                           <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
-                          <hr>
                     </div>`;
           } else {
-            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}<h3>
-                      <hr>
+            stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
+                      <hr class="divider"/>
                       <div class="step-detail">
                           <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
@@ -390,7 +388,6 @@ const onClickStepDetail = async (step_id) => {
                         <span class="step-comment-delete ${user==element["fields"]["writer"]?'':'hidden'}" onclick=deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')>삭제</span>
                         </span>
                           </p>
-                       
                         <p>${element["fields"]["text"]}</p>
                     </div>`;
         });
@@ -487,7 +484,6 @@ const onClickStepDetail = async (step_id) => {
   //                       {% endif %}
   //                       </span>
   //                         </p>
-                       
   //                       <p>${element["fields"]["text"]}</p>
   //                   </div>`;
   //       });
