@@ -48,6 +48,7 @@
 
 .step-btn:hover {
   color: black;
+  cursor: pointer;
 }
 
 .step-upload-btn {
@@ -103,6 +104,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 0.5rem;
 }
 
 .mode-btn {
@@ -217,6 +219,10 @@
 
 .writePage__review textarea {
   margin-bottom: 1rem;
+}
+
+#writePage-review-title {
+  margin-top: 2rem;
 }
 
 /* 여기서부터 재사용 -> post/shared.css로 옮길 예정. */

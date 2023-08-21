@@ -8,7 +8,8 @@
 
 :root {
   --border-grey: #e3e3e3;
-  --primary-color: #1da15d;
+  --primary-color: rgb(29, 161, 93);
+  --primary-color-highlight: rgba(29, 161, 93, 0.9);
   /* --primary-color: #41b98A; */
   /* --primary-color: #3A42BA; */
   /* --primary-color: #1CD463; */
@@ -122,7 +123,7 @@ h3 {
 
 .btn:hover {
   cursor: pointer;
-  background-color: rgba(0, 125, 255, 0.9);
+  background-color: var(--primary-color-highlight);
 }
 
 .secondary-btn {

@@ -26,6 +26,10 @@
   cursor: pointer;
 }
 
+.detailPage__action-btn .report_logo{
+  height:1rem;
+}
+
 .detailPage__detailBtn {
   position: absolute;
   bottom: 1rem;

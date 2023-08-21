@@ -60,6 +60,14 @@
             <i class="fa-solid fa-share-nodes"></i>
             공유
           </span>
+          <span class="detailPage__action-btn">
+            {% if user.is_authenticated %}
+            <div onclick="onClickReport('{{post.id}}', true)">
+              <img class="report_logo" src="{% static 'resource/siren.png' %}">
+            신고
+            </div>
+            {% endif %}
+          </span>
         </div>
       </div>
       <div class="detailPage__info">
@@ -749,6 +757,34 @@ const showModalsSequentially = async () => {
 		  alert('URL 복사가 완료되었습니다.')
 	  });
   };
+</script>
+
+<script>
+  async function onClickReport(post_id, isloggedIn){
+    const url=window.location.href;
+    if(isloggedIn==false){
+      alert("로그인이 필요한 서비스입니다.")
+      return;
+    }
+    if(confirm('정말로 신고하시겠습니까?')){
+      const response = await fetch(`/post/${post_id}/report/`, {
+        method: "POST",
+        body: JSON.stringify({post_id: post_id,url:url}),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-CSRFToken": getCookie("csrftoken"),
+        }
+      
+      });
+
+      if (response.ok){
+        alert('신고되었습니다')
+      };
+      
+    }
+
+  };
+  
 </script>
 
 <!-- 아코디언 관련 스크립트 -->
