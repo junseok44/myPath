@@ -50,15 +50,10 @@
     <div class="writePage__desc">
       <textarea class="writePage-input" maxlength="500" type="text" placeholder="설명" name="desc" id="descInput">{{post.desc}}</textarea>
     </div>
-    <div class="writePage__controlBox">
-      <div class="editPage__pathSelect">
-        <span>패스 선택</span>
-        <select id="pathSelect" class="writePage-input select"></select>
-      </div>
-    </div>
-    <hr/>
-    
-    <ul class="main-container {{post.mode}}-mode writePage__main">
+
+    <div class="section-title">패스 자세히 보기</div>
+    <hr class="divider"/>
+    <ul class="main-container {{post.mode}}-mode editPage__main">
       {% if paths.length == 0 %}
         <button type="button" onclick="handleAddPath()" class="add_new-btn">
           새로운 패스 추가하기
@@ -131,13 +126,16 @@
         </li>
       {% endfor %}
     </ul> 
-    <hr/>
-    <h5 class="detailPage__subtitle">후기</h5>
+
+    <h5 class="section-title" id="editPage-review-title">후기</h5>
+    <hr class="divider"/>
     <div class="writePage__review">
       <textarea maxlength="500" placeholder="후기" class="writePage-input" id="reviewInput">{{post.review}}</textarea>
     </div>
-    <button class="btn" type="button" onclick="handleFormCancel()">취소</button>
-    <button class="btn" type="submit">수정 완료</button>
+    <div class="writePage__footer">
+      <button class="btn post-footer-btn" type="button" onclick="handleFormCancel()">취소하기</button>
+      <button class="btn post-footer-btn" type="submit">수정하기</button>
+    </div>
   </form>
 </div>
   <!-- uuid -->

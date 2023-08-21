@@ -506,4 +506,11 @@
   }
 }
 
+/* 제작, 편집 페이지 하단 버튼 */
+.post-footer-btn {
+  width: 80px;
+  font-size: 1rem;
+  margin-left: 0.3rem;
+}
+
 /* 모달 스타일링 */
