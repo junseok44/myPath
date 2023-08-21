@@ -1,7 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
 <div class="writePage">
-  <!-- <button onclick="showAllItems()">allitems</button> -->
   <form onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <div class="writePage__title">
@@ -199,12 +198,6 @@
   const reviewInput = document.querySelector("#reviewInput");
   const imageInput = document.querySelector("#imageInput");
   const categorySelect = document.querySelector("#categorySelect");
-
-  function showAllItems() {
-    console.log(steps);
-    console.log(paths);
-    console.log(tagList);
-  }
 
   function handleAddPath(prevPathId) {
     let id = uuid.v4();

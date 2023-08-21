@@ -38,7 +38,6 @@ function handleSaveValue(id) {
     reader.onload = async (event) => {
       imageData = event.target.result;
       step.image = imageData;
-      console.log(step);
     };
     reader.readAsDataURL(imageFile);
   }

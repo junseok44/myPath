@@ -63,7 +63,6 @@ function changeDisplay(id) {
 }
 
 const listItems = listElement.querySelectorAll(".path");
-// console.log(listItems);
 
 if (window.innerWidth <= responsiveWidth) {
   listItems.forEach((item) => (item.style.display = "none"));
