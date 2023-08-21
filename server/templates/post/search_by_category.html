@@ -23,7 +23,6 @@
           <button class="secondary-btn" type="submit">Search</button>
         </form>
   </div>
-  <br />
   <ul class="searched_item-container">
     {% for searched_post in searched_posts %}
 
@@ -65,6 +64,23 @@
     {% endfor %}
   </ul>
   {% else %}
-  <h1>검색어 입력해주세요.</h1>
+  <div class="category__header">
+    <h1>검색어를 입력해주세요.</h1>
+    <form
+            class="mainsearch"
+            method="POST"
+            action="{% url 'post:search_by_category' id=category.id %}">
+            {% csrf_token %}
+            <input
+              class="form-control me-2 writePage-input"
+              type="search"
+              placeholder="카테고리 내 재검색"
+              name="searched"
+              aria-label="Search"
+            />
+            <button class="secondary-btn" type="submit">Search</button>
+    </form>
+  </div>
+  
   {% endif %} {% endblock %}
 </div>

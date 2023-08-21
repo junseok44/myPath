@@ -155,6 +155,10 @@
     flex-direction: column;
   }
 
+  .category__header h1{
+    margin-bottom: 0.5rem;
+  }
+  
   .main__search-btn {
     display: none;
   }
