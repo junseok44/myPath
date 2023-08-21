@@ -4,7 +4,6 @@
 
 <div class="editPage">
   <!-- <h1>edit</h1> -->
-  <!-- <div onclick="showAllItems()">모든아이템</div> -->
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <div class="writePage__title">
@@ -21,8 +20,8 @@
       </div>
       <div class="writePage__tag">
         <div class="labelfor">태그</div>
-        <input class="writePage-input" type="text" id="tagInput" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
-        <div class="writePage__tag-container">
+        <div class="writePage__tag-box">
+          <input class="writePage-input" id="tagInput" type="text" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
           <ul id="tagList">
             {% for tagtable in post.tag_table.all %}
               <li class="tag tag_{{tagtable.tag.name}}">#{{tagtable.tag.name}}
@@ -50,15 +49,23 @@
     <div class="writePage__desc">
       <textarea class="writePage-input" maxlength="500" type="text" placeholder="설명" name="desc" id="descInput">{{post.desc}}</textarea>
     </div>
+
+    <div class="section-title">패스 자세히 보기</div>
     <div class="writePage__controlBox">
-      <div class="editPage__pathSelect">
+      <div class="pathSelect">
         <span>패스 선택</span>
         <select id="pathSelect" class="writePage-input select"></select>
       </div>
+      <button
+        type="button"
+        onclick="toggleMode()"
+        class="mode-btn writePage__btn"
+      >
+        세로모드로  
+      </button>
     </div>
-    <hr/>
-    
-    <ul class="main-container {{post.mode}}-mode writePage__main">
+    <hr class="divider"/>
+    <ul class="main-container {{post.mode}}-mode editPage__main">
       {% if paths.length == 0 %}
         <button type="button" onclick="handleAddPath()" class="add_new-btn">
           새로운 패스 추가하기
@@ -69,10 +76,10 @@
         <li class="path path_{{path.id}}">
           <span class="path_intro">
             <input maxlength="10" placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="writePage-input path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
-            <button class="btn step-add-btn" type="button" onclick="handleAddPath('{{path.id}}') ">
+            <button class="secondary-btn path-add-btn" type="button" onclick="handleAddPath('{{path.id}}') ">
               패스+
             </button>
-            <button class="btn" type="button" onclick="handleDeletePath('{{path.id}}')">
+            <button class="step-btn" type="button" onclick="handleDeletePath('{{path.id}}')">
               <i class="fa-solid fa-trash"></i>
             </button>
           </span>
@@ -83,19 +90,24 @@
                 <div class="step-content">
                   <input maxlength="20" class="writePage-input title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
                   <textarea maxlength="500" class=" writePage-input desc" onchange="handleChangeStepDesc('{{step.id}}')">{{step.desc}}</textarea>
-                  <input type="file" class="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
+                  
+                  <div class="upload-file">
+                    <label id="step-upload-btn" for="imageInput">사진 수정</label>
+                    <input type="file" class="upload-hidden" id="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
+                  </div>
+                  {% comment %} <input type="file" class="imageInput" onchange="handleChangeStepImage('{{step.id}}')" /> {% endcomment %}
                   <!-- <p class="title">{{step.title}}</p>
                   <p class="desc">{{step.desc}}</p> -->
                 </div>
                 <div class="step-btn-container">
                   
-                  <button class="btn" type="button" onclick="moveItemUp('{{step.id}}')">
+                  <button class="step-btn" type="button" onclick="moveItemUp('{{step.id}}')">
                     <i class="fa-solid fa-angles-up"></i>
                   </button>
-                  <button class="btn" type="button" onclick="moveItemDown('{{step.id}}')">
+                  <button class="step-btn" type="button" onclick="moveItemDown('{{step.id}}')">
                     <i class="fa-solid fa-angles-down"></i>
                   </button>
-                  <button class="btn" type="button" onclick="handleDeleteItem('{{step.id}}')">
+                  <button class="step-btn" type="button" onclick="handleDeleteItem('{{step.id}}')">
                     <i class="fa-solid fa-trash"></i>
                   </button>
                 </div>
@@ -120,19 +132,22 @@
                   </div>
                 </div>
             {% endfor %}
-          <button class="item_add-btn btn" type="button" onclick="handleAddStep('{{path.id}}')">
-            스텝+
+          <button class="step-add-btn item_add-btn" type="button" onclick="handleAddStep('{{path.id}}')">
+            +
           </button>
         </li>
       {% endfor %}
     </ul> 
-    <hr/>
-    <h5 class="detailPage__subtitle">후기</h5>
+
+    <h5 class="section-title" id="editPage-review-title">후기</h5>
+    <hr class="divider"/>
     <div class="writePage__review">
-      <textarea maxlength="500" placeholder="후기" id="reviewInput">{{post.review}}</textarea>
+      <textarea maxlength="500" placeholder="후기" class="writePage-input" id="reviewInput">{{post.review}}</textarea>
     </div>
-    <button class="btn" type="button" onclick="handleFormCancel()">취소하기</button>
-    <button class="btn" type="submit">변경하기</button>
+    <div class="writePage__footer">
+      <button class="btn post-footer-btn" type="button" onclick="handleFormCancel()">취소하기</button>
+      <button class="btn post-footer-btn" type="submit">수정하기</button>
+    </div>
   </form>
 </div>
   <!-- uuid -->
@@ -266,12 +281,6 @@
 
   <!-- 메인 핸들러 -->
   <script>
-    function showAllItems() {
-      console.log(steps);
-      console.log(paths);
-      // console.log(deletedTag)
-      // console.log(addedTag)
-    }
 
     updateSelectOptions();
 
@@ -393,7 +402,6 @@
 
       } else {
         container.appendChild(target);
-        console.log("append last");
       }
 
       const movedStep = steps.find((step) => step.pathId == pathId && step.order == targetStep.order + 1);
@@ -542,7 +550,6 @@
         }
       });
 
-      console.log(await response.json());
       if (response.status == 200) {
         location.reload()
         window.location.href = `/post/${postData[0].pk}`;
