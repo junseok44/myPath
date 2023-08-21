@@ -33,7 +33,7 @@ AUTH_USER_MODEL = 'user.User'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["eb.my-path.xyz", "localhost","127.0.0.1",
                  "my-path.ap-northeast-2.elasticbeanstalk.com",
