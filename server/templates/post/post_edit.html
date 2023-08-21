@@ -84,57 +84,56 @@
             </button>
           </span>
           <!-- 이거 왜 step-container로 바꿨나요..말도 없이 -->
-          <div class="step_container {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
-            {% for step in path.steps %}
-              <section class="step step_{{step.id}}">
-                <div class="step-content">
-                  <input maxlength="20" class="writePage-input title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
-                  <textarea maxlength="500" class=" writePage-input desc" onchange="handleChangeStepDesc('{{step.id}}')">{{step.desc}}</textarea>
-                  
-                  <div class="upload-file">
-                    <label id="step-upload-btn" for="imageInput">사진 수정</label>
-                    <input type="file" class="upload-hidden" id="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
-                  </div>
-                  {% comment %} <input type="file" class="imageInput" onchange="handleChangeStepImage('{{step.id}}')" /> {% endcomment %}
-                  <!-- <p class="title">{{step.title}}</p>
-                  <p class="desc">{{step.desc}}</p> -->
-                </div>
-                <div class="step-btn-container">
-                  
-                  <button class="step-btn" type="button" onclick="moveItemUp('{{step.id}}')">
-                    <i class="fa-solid fa-angles-up"></i>
-                  </button>
-                  <button class="step-btn" type="button" onclick="moveItemDown('{{step.id}}')">
-                    <i class="fa-solid fa-angles-down"></i>
-                  </button>
-                  <button class="step-btn" type="button" onclick="handleDeleteItem('{{step.id}}')">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-              </section>
-            {% endfor %}
-          </div>
-            
-            {% for step in path.steps %}
-                <div class="modal__overlay hidden">
-                  <div class="step__edit-modal modal_{{step.id}} hidden">
-                    <input type="text" class="title"/>
-                    <textarea class="desc"></textarea>
-                    <input type="file" class='imageInput'/>
-                    <div>
-                      <button type="button" onclick="handleToggleModal('{{step.id}}')">
-                        취소
-                      </button>
-                      <button type="submit" onclick="handleSaveValue('{{step.id}}')">
-                        변경
-                      </button>
+          <div class="step_container_w_btn">
+            <div class="step_container {% if post.mode == 'col' %}  {% else %} container_row-mode {% endif %}">
+              {% for step in path.steps %}
+                <section class="step step_{{step.id}}">
+                  <div class="step-content">
+                    <input maxlength="20" class="writePage-input title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
+                    <textarea maxlength="500" class=" writePage-input desc" onchange="handleChangeStepDesc('{{step.id}}')">{{step.desc}}</textarea>
+                    
+                    <div class="upload-file">
+                      <label id="step-upload-btn" for="imageInput">사진 수정</label>
+                      <input type="file" class="upload-hidden" id="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
                     </div>
                   </div>
-                </div>
-            {% endfor %}
-          <button class="step-add-btn item_add-btn" type="button" onclick="handleAddStep('{{path.id}}')">
+                  <div class="step-btn-container">
+                    <button class="step-btn" type="button" onclick="moveItemUp('{{step.id}}')">
+                      <i class="fa-solid fa-angles-up"></i>
+                    </button>
+                    <button class="step-btn" type="button" onclick="moveItemDown('{{step.id}}')">
+                      <i class="fa-solid fa-angles-down"></i>
+                    </button>
+                    <button class="step-btn" type="button" onclick="handleDeleteItem('{{step.id}}')">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </section>
+              {% endfor %}
+            </div>
+            <button class="step-add-btn item_add-btn" type="button" onclick="handleAddStep('{{path.id}}')">
             +
           </button>
+          </div>
+          
+          {% comment %} {% for step in path.steps %}
+            <div class="modal__overlay hidden">
+              <div class="step__edit-modal modal_{{step.id}} hidden">
+                <input type="text" class="title"/>
+                <textarea class="desc"></textarea>
+                <input type="file" class='imageInput'/>
+                <div>
+                  <button type="button" onclick="handleToggleModal('{{step.id}}')">
+                    취소
+                  </button>
+                  <button type="submit" onclick="handleSaveValue('{{step.id}}')">
+                    변경
+                  </button>
+                </div>
+              </div>
+            </div>
+          {% endfor %} {% endcomment %}
+
         </li>
       {% endfor %}
     </ul> 
