@@ -163,6 +163,6 @@ EMAIL_PORT = 465  # Yahoo SMTP 포트
 EMAIL_USE_TLS = False  # TLS 보안 사용 여부
 EMAIL_USE_SSL = True  # SSL 보안 사용 여부
 
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = os.environ.get("HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("HOST_PASSWORD")
 
