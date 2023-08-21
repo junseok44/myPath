@@ -318,6 +318,10 @@
   transform: translateX(-50%);
 }
 
+.pathSelect > span {
+  color: var(--secondary-text-color);
+}
+
 .editPage__pathSelect,
 .pathSelect {
   display: none;

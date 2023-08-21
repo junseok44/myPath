@@ -51,6 +51,19 @@
     </div>
 
     <div class="section-title">패스 자세히 보기</div>
+    <div class="writePage__controlBox">
+      <div class="pathSelect">
+        <span>패스 선택</span>
+        <select id="pathSelect" class="writePage-input select"></select>
+      </div>
+      <button
+        type="button"
+        onclick="toggleMode()"
+        class="mode-btn writePage__btn"
+      >
+        세로모드로  
+      </button>
+    </div>
     <hr class="divider"/>
     <ul class="main-container {{post.mode}}-mode editPage__main">
       {% if paths.length == 0 %}
