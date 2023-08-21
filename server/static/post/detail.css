@@ -329,9 +329,10 @@
 } */
 
 .detailPage .step-detail {
-  max-height: 200px;
-  /* height: auto; */
-  overflow: auto;
+  /* max-height: 200px;
+  overflow: auto; */
+  min-height: 200px;
+  height: auto;
 }
 
 .detailPage .step-img {
@@ -348,11 +349,10 @@
 
 .row-mode .step__edit-modal {
   position: absolute;
-  /* top: 15rem; */
   top: 1rem;
   left: 0px;
   right: 0px;
-  min-height: 500px;
+  /* min-height: 500px; */
 }
 
 .row-mode .modal__overlay {
@@ -608,10 +608,10 @@
     position: fixed;
     min-width: 0px;
     min-height: 0px;
-    top: 50%;
+    top: 100%;
     left: 50%;
-    width: 70%;
-    height: 70%;
+    width: 90%;
+    height: 120%;
     transform: translate(-50%, -50%);
   }
 
