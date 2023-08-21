@@ -120,6 +120,11 @@ h3 {
   color: white;
 }
 
+.btn:hover {
+  cursor: pointer;
+  background-color: rgba(0, 125, 255, 0.9);
+}
+
 .secondary-btn {
   padding: 5px 10px;
   border: none;
