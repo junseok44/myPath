@@ -143,10 +143,10 @@
 
 @media screen and (max-width: 800px) {
   .category__item-container {
-    grid-template-columns: 3fr;
+    grid-template-columns: repeat(3, 1fr);
   }
   .searched_item-container {
-    grid-template-columns: 3fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
