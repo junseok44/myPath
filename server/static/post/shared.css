@@ -81,6 +81,22 @@
   }
 }
 
+/* 제작, 편집 페이지
+.writePage__intro {
+  display: flex;
+  flex-direction: column;
+}
+
+.writePage__tag {
+  display: flex;
+  flex-direction: column;
+}
+
+.labelfor {
+  width: 150px;
+  font-size: 1.2rem;
+} */
+
 /* 제작, 편집페이지 공통 컴포넌트 반응형 작업 */
 #reviewInput,
 #descInput {
@@ -200,12 +216,16 @@
 .detailPage .step-content .title {
   font-size: 1.1rem;
   margin-bottom: 1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .detailPage .step-content .desc {
-  max-height: 6rem;
+  max-height: 5.8rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.4rem;
 }
 
 .col-mode .step:not(:last-child)::before {
@@ -350,6 +370,7 @@
     width: 100vw;
     height: 100vh;
     z-index: 2;
+    animation: fadeIn 0.5s ease forwards;
   }
 
   .modal__overlay::before {

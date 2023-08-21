@@ -61,6 +61,7 @@ def category_search(request, category_id):
 
     ctx = {
             "category_name": category.name,
+            "category": category,
             "category_posts": category_posts,
             "categories": categories,
             "page":page,
@@ -402,6 +403,7 @@ def view_post_detail(requests,pk):
 
     post=Post.objects.get(id=pk)
     post_category = CategoryTable.objects.get(post=post).category.name
+    post_category_id = CategoryTable.objects.get(post=post).category.id
     post_tags=TagTable.objects.filter(post=post)
     paths=Path.objects.filter(post=post).order_by("order")
     for path in paths:
@@ -423,6 +425,7 @@ def view_post_detail(requests,pk):
     ctx={
             "post":post,
             "post_category":post_category,
+            "post_category_id": post_category_id,
             "post_tags":post_tags,
             "paths":paths,
             "post_comments":post_comments
@@ -460,7 +463,6 @@ def view_post_create_comment(request,pk):
 
     return render(request,"post/detail.html")
 
-@csrf_exempt
 def view_post_delete_comment_ajax(request):
     req=json.loads(request.body)
     post_id=req['post_id']
@@ -476,13 +478,13 @@ def view_post_delete_comment_ajax(request):
     else:
         return HttpResponse('Failed: Post requests only.')
 
-@csrf_exempt
 def view_step_detail_ajax(request):
     req = json.loads(request.body)
     step_id = req['step_id']
 
     if request.method=="POST":
         step = get_object_or_404(Step, pk=step_id)
+        user=request.user.username
         step_comments = StepComment.objects.filter(step=step)
         step_list = [
             {"fields":{
@@ -494,13 +496,12 @@ def view_step_detail_ajax(request):
         step_json = serialize('json', [step])
         # step_comments_json = serialize('json', step_list)
         step_comments_json = json.dumps(step_list)
-        ctx = {"step": step_json, "step_comments": step_comments_json, }
+        ctx = {"user":user,"step": step_json, "step_comments": step_comments_json, }
 
         return JsonResponse(ctx)
     else:
         return HttpResponse('Failed: Post requests only.')
     
-@csrf_exempt
 def view_step_create_comment_ajax(request):
     req=json.loads(request.body)
     step_id=req['step_id']
@@ -524,7 +525,6 @@ def view_step_create_comment_ajax(request):
     else:
         return HttpResponse('Failed: Post requests only.')
 
-@csrf_exempt
 def view_step_delete_comment_ajax(request):
     req=json.loads(request.body)
     step_id=req['step_id']
@@ -584,7 +584,6 @@ def toggle_like_ajax(request):
         except:
             return JsonResponse({"msg":"error"},status=404)
 
-
 def search(request):
         post_list = Post.objects.all()
         # page=request.GET.get('page')
@@ -608,8 +607,8 @@ def search(request):
         else:
                 return render(request, 'post/searched.html', {})
         
-def search_by_category(request, category_name):
-    category = Category.objects.get(name=category_name)
+def search_by_category(request, id):
+    category = Category.objects.get(id=id)
     category_tables = CategoryTable.objects.filter(category=category)
     category_posts = [table.post for table in category_tables]
 
@@ -625,11 +624,11 @@ def search_by_category(request, category_name):
         return render(request, 'post/search_by_category.html', {
             'searched': searched,
             'searched_posts': searched_posts,
-            'category_name': category_name
+            'category_name': category.name
         })
     else:
         return render(request, 'post/search_by_category.html', {
-            'category_name': category_name
+            'category_name': category.name
         })
 
 

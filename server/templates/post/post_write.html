@@ -1,8 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
 <div class="writePage">
-  <h1>제작 페이지</h1>
-  <!-- <button onclick="showAllItems()">allitems</button> -->
   <form onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <div class="writePage__title">
@@ -17,7 +15,7 @@
           required="required"
         />
       </div>
-      <div class="writePage__meta">
+      <div class="writePage__category">
         <label class="labelfor">카테고리</label>
         <select
           class="writePage-input"
@@ -28,16 +26,19 @@
           <option value="{{cat.name}}">{{cat.name}}</option>
           {% endfor %}
         </select>
-        <label class="labelfor">태그</label>
-        <input
-          class="writePage-input"
-          type="text"
-          id="tagInput"
-          placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"
-        />
       </div>
-      <ul id="tagList"></ul>
-
+      <div class="writePage__tag">
+        <label class="labelfor">태그</label>
+        <div class="writePage__tag-box">
+          <input
+            class="writePage-input"
+            type="text"
+            id="tagInput"
+            placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"
+          />
+          <ul id="tagList"></ul>
+        </div>
+      </div>
       <div class="writePage__thumbnail upload-file">
         <span class="labelfor">썸네일</span>
         <input
@@ -50,6 +51,7 @@
         <input type="file" class="upload-hidden" id="imageInput" />
       </div>
     </div>
+
     <div class="writePage__desc">
       <textarea
         maxlength="500"
@@ -96,7 +98,9 @@
       ></textarea>
     </div>
 
-    <button type="submit" class="btn writePage__btn">글 등록하기</button>
+    <div class="writePage__footer">
+      <button type="submit" class="btn writePage__btn">포스트 등록</button>
+    </div>
   </form>
 </div>
 
@@ -194,12 +198,6 @@
   const reviewInput = document.querySelector("#reviewInput");
   const imageInput = document.querySelector("#imageInput");
   const categorySelect = document.querySelector("#categorySelect");
-
-  function showAllItems() {
-    console.log(steps);
-    console.log(paths);
-    console.log(tagList);
-  }
 
   function handleAddPath(prevPathId) {
     let id = uuid.v4();
