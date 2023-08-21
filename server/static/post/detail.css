@@ -3,11 +3,7 @@
   margin-top: 3rem;
 }
 
-.secondary-text-styling {
-  color: var(--secondary-text-color);
-}
-
-.detailPage-divider {
+.divider {
   height: 1px;
   border: 0;
   background: var(--border-grey);
@@ -28,6 +24,10 @@
 .detailPage__action-btn {
   display: flex;
   cursor: pointer;
+}
+
+.detailPage__action-btn .report_logo{
+  height:1rem;
 }
 
 .detailPage__detailBtn {
@@ -87,12 +87,6 @@
   display: flex;
   margin-right: 0.5rem;
   margin-bottom: 1rem;
-
-  @media screen and (max-width: 600px) {
-    flex-direction: column;
-    gap: 1rem;
-    word-break: keep-all;
-  }
 }
 
 .detailPage__title h2 {
@@ -121,7 +115,7 @@
   margin-bottom: 0.5rem;
 }
 
-@media screen and (max-width: 450px) {
+/* @media screen and (max-width: 450px) {
   .detailPage__title {
     flex-direction: column;
   }
@@ -150,7 +144,7 @@
   .detailPage__path-header .section-title {
     margin-bottom: 0.5rem;
   }
-}
+} */
 
 .detailPage-author-link {
   color: black;
@@ -166,17 +160,10 @@
   color: var(--secondary-text-color);
 }
 
-#tagList {
-  margin-bottom: 2rem;
-}
-
 /* 패스 소개 */
 .accordion {
   /* margin: 30px 0; */
   overflow: hidden;
-  @media screen and (max-width: 450px) {
-    border: 1px solid var(--border-grey);
-  }
 }
 
 .accordion .review-title {
@@ -201,16 +188,13 @@
 .content-wrapper {
   overflow: hidden;
   transition: max-height 0.3s ease;
-  @media screen and (max-width: 600px) {
-    max-height: 0;
-  }
 }
 
 .intro-content {
   display: flex;
   flex-direction: row;
   box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.1);
-
+  margin-top: 2rem;
   /* @media screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;
@@ -222,6 +206,12 @@
       margin-right: none;
     }
   } */
+}
+
+@media screen and (max-width: 450px) {
+  .intro-content {
+    margin: 0px;
+  }
 }
 
 /* Reset the width and padding for the thumbnail
@@ -266,20 +256,6 @@
   line-height: 1.4rem;
 }
 
-@media screen and (max-width: 600px) {
-  .intro-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: none;
-  }
-
-  .intro-content .detailPage__thumbnail {
-    margin: 0;
-  }
-}
-
 /* 메인: 패스 & 스탭 */
 .detailPage__path-header {
   display: flex;
@@ -311,17 +287,11 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 2rem;
-  @media screen and (max-width: 600px) {
-    overflow-x: hidden;
-  }
 }
 
 .row-mode {
   flex-direction: column;
   align-items: center;
-  @media screen and (min-width: 451px) {
-    min-height: 800px;
-  }
 }
 
 .step-container {
@@ -347,27 +317,11 @@
   .step {
     flex: 0 0 auto;
   }
-  @media screen and (max-width: 600px) {
-    flex-direction: column;
-    width: 100vw;
-    height: 600px;
-    /* width:15rem; */
-    /* justify-content: center; */
-    align-items: center;
-    overflow-y: auto;
-  }
 }
 
 .detailPage .path_title {
   font-size: 1.2rem;
   margin: 0 auto 1rem;
-}
-
-@media screen and (max-width: 600px) {
-  .path_title {
-    /* align-self:center; */
-    width: 15rem;
-  }
 }
 
 .detailPage .step-container img {
@@ -385,24 +339,6 @@
   min-height: 600px;
   top: 2.4rem;
   z-index: 2;
-
-  @media screen and (max-width: 1200px) {
-    min-width: 670px;
-  }
-  @media screen and (max-width: 992px) {
-    min-width: 400px;
-  }
-
-  @media screen and (max-width: 600px) {
-    position: fixed;
-    min-width: 0px;
-    min-height: 0px;
-    top: 50%;
-    left: 50%;
-    width: 70%;
-    height: 70%;
-    transform: translate(-50%, -50%);
-  }
 }
 
 .row-mode .step__edit-modal {
@@ -412,17 +348,6 @@
   left: 0px;
   right: 0px;
   min-height: 500px;
-  /* min-width: 1200px; */
-  @media screen and (max-width: 600px) {
-    position: fixed;
-    min-width: 0px;
-    min-height: 0px;
-    top: 50%;
-    left: 50%;
-    width: 70%;
-    height: 70%;
-    transform: translate(-50%, -50%);
-  }
 }
 
 .row-mode .modal__overlay {
@@ -433,12 +358,6 @@
   height: fit-content;
   height: 30rem;
   z-index: 1000;
-  @media screen and (max-width: 600px) {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 2;
-  }
 }
 
 /* @media screen and (max-width: 600px){
@@ -478,12 +397,6 @@
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-}
-
-.detailPage__review-title {
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
 }
 
 .arrow {
@@ -536,29 +449,12 @@
   text-decoration: underline;
 }
 
-.detailPage .path {
-  @media screen and (min-width: 600px) {
-    width: 100%;
-  }
-}
-
-.detailPage .step__edit-modal {
-  @media screen and (min-width: 601px) {
-    width: 100%;
-  }
-}
-
 .detailPage .step__edit-modal .modal__title {
   font-size: 1.5rem;
 }
 
 .detailPage .step__edit-modal .step-detail {
   line-height: 1.4rem;
-
-  @media screen and (max-width: 450px) {
-    height: 10rem;
-    overflow: auto;
-  }
 }
 
 .modal__comment-title {
@@ -586,8 +482,144 @@
   font-size: 0.8rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1200px) {
+  .col-mode .step__edit-modal {
+    min-width: 670px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .col-mode .step__edit-modal {
+    min-width: 400px;
+  }
+}
+
+@media screen and (max-width: 450px) {
   .detailPage__main {
     overflow: visible;
+  }
+
+  .detailPage__title {
+    flex-direction: column;
+    gap: 1rem;
+    word-break: keep-all;
+  }
+
+  .detailPage__title {
+    flex-direction: column;
+  }
+
+  .detailPage__title > h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .detailPage__info {
+    flex-direction: column-reverse;
+  }
+
+  .detailPage__info-left {
+    align-self: flex-start;
+  }
+
+  .detailPage__info-right {
+    align-self: flex-end;
+    margin-bottom: 0.5rem;
+  }
+
+  .detailPage__path-header {
+    flex-direction: column;
+  }
+
+  .detailPage__path-header .section-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .accordion {
+    border: 1px solid var(--border-grey);
+  }
+
+  .content-wrapper {
+    max-height: 0;
+  }
+  .intro-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+  }
+
+  .intro-content .detailPage__thumbnail {
+    margin: 0;
+  }
+
+  /* .detailPage__main {
+    overflow-x: hidden;
+  } */
+
+  .row-mode {
+    min-height: 800px;
+  }
+
+  .row-mode .step-container {
+    flex-direction: column;
+    width: 100vw;
+    height: 600px;
+    /* width:15rem; */
+    /* justify-content: center; */
+    align-items: center;
+    overflow-y: auto;
+  }
+
+  .path_title {
+    width: 15rem;
+  }
+
+  .col-mode .step__edit-modal {
+    position: fixed;
+    min-width: 0px;
+    min-height: 0px;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 70%;
+    transform: translate(-50%, -50%);
+  }
+
+  .row-mode .step__edit-modal {
+    position: fixed;
+    min-width: 0px;
+    min-height: 0px;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 70%;
+    transform: translate(-50%, -50%);
+  }
+
+  .row-mode .modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+
+  .detailPage__review-title {
+    display: none;
+  }
+
+  .detailPage .step__edit-modal .step-detail {
+    height: 10rem;
+    overflow: auto;
+  }
+}
+
+@media screen and (min-width: 601px) {
+  .detailPage .path {
+    width: 100%;
+  }
+
+  .detailPage .step__edit-modal {
+    width: 100%;
   }
 }

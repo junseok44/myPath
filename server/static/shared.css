@@ -9,6 +9,7 @@
 :root {
   --border-grey: #e3e3e3;
   --primary-color: #007dff;
+  --primary-color-highlight: rgba(0, 125, 255, 0.9);
   /* --primary-color: #41b98A; */
   /* --primary-color: #3A42BA; */
   /* --primary-color: #1CD463; */
@@ -118,6 +119,11 @@ h3 {
   border-radius: 5px;
   background-color: var(--primary-color);
   color: white;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: var(--primary-color-highlight);
 }
 
 .secondary-btn {

@@ -60,20 +60,28 @@
             <i class="fa-solid fa-share-nodes"></i>
             공유
           </span>
+          <span class="detailPage__action-btn">
+            {% if user.is_authenticated %}
+            <div onclick="onClickReport('{{post.id}}', true)">
+              <img class="report_logo" src="{% static 'resource/siren.png' %}">
+            신고
+            </div>
+            {% endif %}
+          </span>
         </div>
       </div>
       <div class="detailPage__info">
         <div class="detailPage__info-left">
           <a class="detailPage-author-link" href="{% url 'user_page' id=post.user.id %}">{{post.user}}</a>
-          <span class="separator secondary-text-styling">∙</span>
+          <span class="separator secondary-line-styling">∙</span>
           <span class="detailPage-created-date">{{post.created_at}}</span>
-          <span class="separator secondary-text-styling">∙</span>
+          <span class="separator secondary-line-styling">∙</span>
           <span class="datailPage__category"><a href="{% url 'post:category' category_id=post_category_id %}">{{post_category}}</a></span>
         </div>
         <div class="detailPage__info-right">
           {% if post.user == user %}
           <button class="underline-btn"><a href="{% url 'post:post_edit' id=post.id %}">수정</a></button>
-          <span class="separator secondary-text-styling">∙</span>
+          <span class="separator secondary-line-styling">∙</span>
           <button class="underline-btn writePage__btn" type="button" onclick="deletepost('{{post.id}}')">삭제</button>
           {% endif %}
         </div>
@@ -116,7 +124,7 @@
         </div>
         <!-- <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a> -->
       </div>
-      <hr class="detailPage-divider" />
+      <hr class="divider" />
       <ul class="main-container {{post.mode}}-mode detailPage__main">
         {% for path in paths %}
         <li class="path path_{{path.id}}">
@@ -183,7 +191,7 @@
 
     <div class="detailPage__review section-container">
       <h5 class="section-title detailPage__review-title">후기</h5>
-      <hr class="detailPage-divider" />
+      <hr class="divider" />
       <div class="accordion accordion__review">
         <div class="review-title" onclick="toggleAccordion('accordion2')">
           후기
@@ -201,7 +209,7 @@
     
     <div class="detailPage__comment section-container">
       <h5 class="section-title">댓글</h5>
-      <hr class="detailPage-divider" />
+      <hr class="divider" />
       <div class="comment-container post_{{post.id}}">
         {% for post_comment in post_comments%}
         {% if post_comment.parentComment is None %}
@@ -749,6 +757,34 @@ const showModalsSequentially = async () => {
 		  alert('URL 복사가 완료되었습니다.')
 	  });
   };
+</script>
+
+<script>
+  async function onClickReport(post_id, isloggedIn){
+    const url=window.location.href;
+    if(isloggedIn==false){
+      alert("로그인이 필요한 서비스입니다.")
+      return;
+    }
+    if(confirm('정말로 신고하시겠습니까?')){
+      const response = await fetch(`/post/${post_id}/report/`, {
+        method: "POST",
+        body: JSON.stringify({post_id: post_id,url:url}),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-CSRFToken": getCookie("csrftoken"),
+        }
+      
+      });
+
+      if (response.ok){
+        alert('신고되었습니다')
+      };
+      
+    }
+
+  };
+  
 </script>
 
 <!-- 아코디언 관련 스크립트 -->
