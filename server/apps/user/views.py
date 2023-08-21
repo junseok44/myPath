@@ -73,7 +73,7 @@ def user_logout(request):
 def my_page(requests):
 
     user_id = requests.user.id
-    my_posts = Post.objects.filter(user=user_id).values()
+    my_posts = Post.objects.filter(user=user_id)
     my_likes = LikeTable.objects.filter(user=user_id).select_related('post')
     my_bookmarks = BookMarkTable.objects.filter(user=user_id).select_related('post')
     user = User.objects.get(id=user_id)
@@ -85,7 +85,7 @@ def my_page(requests):
 
 def user_page(requests, id):
     user = User.objects.get(id=id)
-    posts = Post.objects.filter(user=user.id).values()
+    posts = Post.objects.filter(user=user.id)
     posts_count = Post.objects.filter(user=user.id).count()
     user_cards = UserCard.objects.filter(writer=user)
     ctx = {'user': user, 'posts': posts, 'posts_count': posts_count, "id": id, "user_cards": user_cards} 
@@ -294,3 +294,35 @@ def naver_Auth_Redirect(request):
             messages.error(request, "네이버 토큰 발급에 실패하였습니다.")
 
     return redirect("/")
+
+def find_id(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        try:
+            user = User.objects.get(username=username)
+            return render(request, 'user/find_id.html', {'loginId': user.loginId})
+        except User.DoesNotExist:
+            messages.error(request, '해당 사용자명을 사용하는 사용자가 없습니다.')
+            return redirect('find_id')
+    return render(request, 'user/find_id.html')
+
+def reset_password(request):
+    if request.method == "POST":
+        loginId = request.POST.get('loginId') 
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if new_password != confirm_password:
+            messages.error(request, '비밀번호가 일치하지 않습니다.')
+            return redirect('reset_password')
+
+        try:
+            user = User.objects.get(loginId=loginId)  
+            user.set_password(new_password)
+            user.save()
+            messages.success(request, '비밀번호가 성공적으로 변경되었습니다.')
+            return redirect('user_login')
+        except User.DoesNotExist:
+            messages.error(request, '해당 loginId를 사용하는 사용자가 없습니다.')  
+            return redirect('reset_password')
+    return render(request, 'user/reset_password.html')

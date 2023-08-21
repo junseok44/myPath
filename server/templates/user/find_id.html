@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block stylesheet %}
+<style>
+  .find-id-result {
+    margin-top: 1.3rem;
+    margin-bottom: 1.3rem;
+    font-size: 1.4rem;
+    background-color: #1da15d;
+    color: white;
+  }
+
+  .auth-input {
+    margin-bottom: 1rem;
+  }
+
+  .btn {
+    margin-bottom: 1.3rem;
+  }
+
+  h4 {
+    margin-bottom: 30px;
+  }
+
+  b {
+    color: red;
+  }
+</style>
+
+{% endblock %} {% block content %}
+
+<div class="center__layout">
+  <div class="auth-container">
+    <h2>아이디 찾기</h2>
+    <h4>찾으시려는 아이디의 <b>Username</b>을 입력해주세요.</h4>
+    <form action="{% url 'find_id' %}" method="post">
+      {% csrf_token %}
+      <div class="find-id-box">
+        <input
+          class="auth-input"
+          type="text"
+          placeholder="Username"
+          name="username"
+          id="username"
+          required
+          value="{{ username }}"
+        />
+      </div>
+      <button class="btn auth-btn-disabled" id="login-btn" type="submit">
+        아이디 찾기
+      </button>
+    </form>
+    {% if loginId %}
+    <p class="find-id-result">your loginId: {{ loginId }}</p>
+    {% endif %}
+    <a href="{% url 'user_login' %}" class="btn auth-btn">로그인</a> 
+  </div>
+</div>
+{% endblock %}

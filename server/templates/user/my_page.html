@@ -22,7 +22,7 @@
       <div class="usercard__body">
         <div class="usercard__content">
           {% if user.intro == "" %}
-          <div class="userdivage__intro-guide">작성된 자기소개가 없습니다.</div>
+          <div class="userPage__intro-guide">작성된 자기소개가 없습니다.</div>
           {% else %} 
           <div class="userPage__intro-guide">{{user.intro}}</div>
           {% endif %}
@@ -42,7 +42,6 @@
         </div>
       </div>
     </div>
-
     {% for card in userCards %}
     <div class="usercard__container card__{{card.id}}">
       <div class="usercard__header-controls">
@@ -73,21 +72,20 @@
       <form method="POST" action='{% url 'user_card_edit' id=card.id %}' id="editForm__{{card.id}}" class="userPage__cardForm hidden">
         {% csrf_token %} 
         <h2>내용 수정</h2>
-        <input maxlength="10" class="writePage-input" value='{{card.title}}' required name="title" placeholder="당신은 누구인가요? (10자 이내)"/ >
+        <input maxlength="10" class="writePage-input" value='{{card.title}}' required name="title" placeholder="카드 제목 (10자 이내)" />
         <input
         class="writePage-input"
           value="{{card.link}}"
           name="link"
           maxlength="100"
-          placeholder="관련 링크가 있나요?,,블로그 링크, SNS 링크 등"
+          placeholder="관련 링크 첨부"
         />
         <textarea
         class="writePage-input"
-          value="{{card.desc}}"
           required
           name="desc"
           maxlength="100"
-          placeholder="설명을 덧붙여주세요! (100자 이내)"
+          placeholder="설명 (100자 이내)"
         ></textarea>
         <div class="userPage__editBtns">
           <button type="button" class="btn" onclick="onCancelEditForm()">취소</button>
@@ -106,18 +104,18 @@
     <form method="POST" action='{% url 'user_card_add' %}' class="userPage__add-form hidden">
       {% csrf_token %} 
       <h3>유저 카드 추가</h3>
-      <input maxlength="10" class="writePage-input" required name="title" placeholder="당신은 누구인가요? ex) 블로거, 취준생, 유튜버 등 (10자 이내)"/ >
+      <input maxlength="10" class="writePage-input" required name="title" placeholder="카드 제목 (10자 이내)"/>
       <input class="writePage-input" 
       maxlength="100"
         name="link"
-        placeholder="관련 링크가 있나요? ex) 블로그 링크, SNS 링크"
+        placeholder="관련 링크 첨부"
       />
       <textarea
       class="writePage-input"
       maxlength="100"
         required
         name="desc"
-        placeholder="설명을 덧붙여주세요! (100자 이내)"
+        placeholder="설명 (100자 이내)"
       ></textarea>
       <div class="userPage__editBtns">
         <button type="button" class="btn" onclick="onClickAddBtn()">취소</button>
@@ -155,7 +153,7 @@
   <div class="tab-content">
     <div class="tab-pane fade show active" id="my-posts">
       <div class="post__title">나의 패스</div>
-      <div class="post__container"></div>
+      <div class="post__container">
         {% if my_likes|length == 0 %}
         <p>내가 쓴 패스가 없습니다.</p>
         {% else %} {% for post in my_posts %}
@@ -168,27 +166,29 @@
             </div>
             <div class="card__body">
               <div class="card-thumbnail">
-                {% if post.thumbnail != null and post.image.url != "" %}
-                <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+                {% if post.thumbnail %}
+                <img src="{{post.thumbnail.url}}" alt="my icon"/>
+                {% else %}
+                <img src="{% static 'noimage.jpg' %}" />
                 {% endif %}
               </div>
               <div class="card-description">{{post.desc}}</div>
             </div>
             <div class="card__buttons">
-              <div class="btn like-btn card-btns">
+              <div class="like-btn">
                 <i class="fa-solid fa-heart"></i>
+                <span>{{post.like_table.count}}</span>
               </div>
-              <div class="btn reply-btn card-btns">
+              <div class="reply-btn">
                 <i class="fa-solid fa-comment-dots"></i>
-              </div>
-              <div class="btn share-btn card-btns">
-                <i class="fa-solid fa-share-nodes"></i>
+                <span>{{post.post_comment.count}}</span>
               </div>
             </div>
           </a>
-          
         </div>
         {% endfor %} {% endif %}
+      </div>
+    
       </div>
     </div>
     <div class="tab-pane fade" id="my-likes">
@@ -206,21 +206,26 @@
             </div>
             <div class="card__body">
               <div class="card-thumbnail">
-                {% if like_post.post.thumbnail != null and like_post.post.image.url != "" %}
-                <img src="{{like_post.post.thumbnail}}" alt="대체 텍스트" />
+                {% if like_post.post.thumbnail %}
+                <img src="{{like_post.post.thumbnail.url}}" alt="my icon"/>
+                {% else %}
+                <img src="{% static 'noimage.jpg' %}" />
                 {% endif %}
               </div>
               <div class="card-description">{{like_post.post.desc}}</div>
             </div>
             <div class="card__buttons">
-              <div class="btn like-btn card-btns">
+              <div class="like-btn">
                 <i class="fa-solid fa-heart"></i>
+                <span>{{like_post.post.like_table.count}}</span>
               </div>
-              <div class="btn reply-btn card-btns">
+              <div class="reply-btn">
                 <i class="fa-solid fa-comment-dots"></i>
+                <span>{{like_post.post.post_comment.count}}</span>
               </div>
-              <div class="btn share-btn card-btns">
+              <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
                 <i class="fa-solid fa-share-nodes"></i>
+                <span>공유</span>
               </div>
             </div>
           </a>
@@ -243,21 +248,26 @@
           </div>
           <div class="card__body">
             <div class="card-thumbnail">
-              {% if bm_post.post.thumbnail != null and bm_post.post.image.url != "" %}
-              <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+              {% if bm_post.post.thumbnail %}
+              <img src="{{bm_post.post.thumbnail.url}}" alt="my icon"/>
+              {% else %}
+              <img src="{% static 'noimage.jpg' %}" />
               {% endif %}
             </div>
             <div class="card-description">{{bm_post.post.desc}}</div>
           </div>
           <div class="card__buttons">
-            <div class="btn like-btn card-btns">
+            <div class="like-btn">
               <i class="fa-solid fa-heart"></i>
+              <span>{{bm_post.post.like_table.count}}</span>
             </div>
-            <div class="btn reply-btn card-btns">
+            <div class="reply-btn">
               <i class="fa-solid fa-comment-dots"></i>
+              <span>{{bm_post.post.post_comment.count}}</span>
             </div>
-            <div class="btn share-btn card-btns">
+            <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
               <i class="fa-solid fa-share-nodes"></i>
+              <span>공유</span>
             </div>
           </div>
           </a>
@@ -278,7 +288,6 @@ editButtons.forEach(editBtn => {
     const cardContainer = editBtn.closest(".usercard__container");
     const guide = cardContainer.querySelector(".userPage__intro-guide");
     const form = cardContainer.querySelector(".userPage__intro-form");
-    
     guide.classList.toggle("hidden");
     form.classList.toggle("hidden");
   });
@@ -367,6 +376,8 @@ editButtons.forEach(editBtn => {
     margin: 10,
     responsiveClass: true,
     nav: true,
+    // mouseDrag:false,
+    // touchDrag:false,
     navText: ['<button class="btn userPage__carousel-btn">이전으로</button>', '<button class="btn userPage__carousel-btn">다음으로</button>'],
     responsive: {
       0: {

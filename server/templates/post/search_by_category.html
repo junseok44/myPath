@@ -1,40 +1,50 @@
-{% extends 'post/main__category.html' %} {% load static %}
+{% extends 'post/main__category.html' %} {% load static %} {% block
+searchcontent %}{% block content%} {% if searched %}
 
-{% block searchcontent %}
+<h1>"{{category_name}}" 카테고리 내 "{{ searched }}"에 대한 검색 결과입니다.</h1>
+<br />
 
-{% if searched %}
+<ul class="searched_item-container">
+  {% for searched_post in searched_posts %}
 
-<h1> 태그 내 "{{ searched }}"에 대한 검색 결과입니다.
-</h1>
-<br>
-{% for searched_post in searched_posts %}
-
-
-
-<div class="post__title"></div>
-<div class="post__container">
-    <div class="card__container post-id-{{ post.id }}">
-        <a href="/post/{{ searched_post.id }}">
-            <div class="card__header">
-                <div class="card-author-profile-image"></div>
-                <div class="card-title">{{ searched_post.title }}</div>
-                <div class="card-author">{{searched_post.user}}</div>
-            </div>
-            <div class="card__body">
-                <div class="card-thumbnail">{{searched_post.thumbnail}}</div>
-                <div class="card-description">{{searched_post.desc}}</div>
-            </div>
-            <div class="card__buttons">
-                <div class="btn like-btn"><i class="fa-solid fa-heart"></i></div>
-                <div class="btn reply-btn"><i class="fa-solid fa-comment-dots"></i></div>
-                <div class="btn share-btn"><i class="fa-solid fa-share-nodes"></i></div>
-            </div>
-        </a>
+  <li class="category__item">
+    <div class="card__container post-id-{{ searched_post.id }}">
+      <a href="{% url 'post:post_detail' pk=searched_post.id %}">
+        <div class="card__header">
+          <div class="card-author-profile-image"></div>
+          <div class="card-title">{{searched_post.title}}</div>
+          <div class="card-author">{{searched_post.user.username}}</div>
+        </div>
+        <div class="card__body">
+          <div class="card-thumbnail">
+            {% if searched_post.thumbnail %}
+            <img src="{{searched_post.thumbnail.url}}" alt="my icon" />
+            {% else %}
+            <img src="" />
+            {% endif %}
+          </div>
+          <div class="card-description">{{searched_post.desc}}</div>
+        </div>
+      </a>
+      <div class="card__buttons">
+        <div class="like-btn">
+          <i class="fa-solid fa-heart"></i>
+          <span>{{searched_post.like_table.count}}</span>
+        </div>
+        <div class="reply-btn">
+          <i class="fa-solid fa-comment-dots"></i>
+          <span>{{searched_post.post_comment.count}}</span>
+        </div>
+        <div class="share-btn" onclick="copyPostLink('{{searched_post.id}}')">
+          <i class="fa-solid fa-share-nodes"></i>
+          <span>공유</span>
+        </div>
+      </div>
     </div>
-</div>
-{% endfor %}
+  </li>
 
+  {% endfor %}
+</ul>
 {% else %}
-<h1> 찾고 있는 검색어를 검색창에 입력해주세요. </h1>
-{% endif %}
-{% endblock %}
+<h1>검색어 입력해주세요.</h1>
+{% endif %} {% endblock %}

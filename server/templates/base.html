@@ -5,7 +5,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    {% block search_engine_optimization %}
+    <meta property="og:url" content="https://eb.my-path.xyz/" />
+    <meta property="og:title" content="마이패스" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{% static 'resource/logo.jpg' %}" />
+    <meta
+      property="og:description"
+      content="천개의 길, 오직 나만의 길을 찾자. 마이패스입니다."
+    />
+    <title>마이패스 | MyPath</title>
+    {% endblock %}
+
     <link rel="stylesheet" href="{% static 'reset.css' %}" />
     <link rel="stylesheet" href="{% static 'index.css' %}" />
     <link rel="stylesheet" href="{% static 'shared.css' %}" />
@@ -17,9 +28,13 @@
       <div class="responsive-container">
         <div class="header">
           <div class="header_item">
-            <a href="/" class="header_logo">MYPATH</a>
+            <a href="/" class="header_logo_link">
+              <img
+                src="{% static 'resource/logo2.jpg' %}"
+                class="header_logo"
+              />
+            </a>
           </div>
-
           <div class="header_item">
             {% if user.is_authenticated %}
             <span class="header_username">
@@ -102,15 +117,35 @@
           </div>
           <div>
             <a
-              href="https://github.com/junseok44?tab=repositories"
+              href="https://github.com/junseok44"
               target="_blank"
               class="footer_name"
               >장준석</a
             >
-            <a class="footer_name">백서경</a>
-            <a class="footer_name">김도은</a>
-            <a class="footer_name">채리원</a>
-            <a class="footer_name">이정한</a>
+            <a
+              href="https://github.com/braveseokyung"
+              target="_blank"
+              class="footer_name"
+              >백서경</a
+            >
+            <a
+              href="https://github.com/doeunyy"
+              target="_blank"
+              class="footer_name"
+              >김도은</a
+            >
+            <a
+              href="https://github.com/cherry-p0p"
+              target="_blank"
+              class="footer_name"
+              >채리원</a
+            >
+            <a
+              target="_blank"
+              href="https://github.com/topeanut"
+              class="footer_name"
+              >이정한</a
+            >
           </div>
           <div>Team mypath. All Rights Reserved.</div>
           <div class="footer_copyright">
@@ -125,6 +160,20 @@
       </div>
     </footer>
   </body>
+
+  <script>
+    function copyPostLink(post_id) {
+      const parent = document.querySelector(`.post-id-${post_id}`);
+      const linkElement = parent.querySelector("a");
+      const link = linkElement.href;
+      const linkText = linkElement.textContent;
+      const html = `<a href="${link}">${linkText}</a>`;
+
+      navigator.clipboard.writeText(link).then(function () {
+        alert("URL 복사가 완료되었습니다.");
+      });
+    }
+  </script>
 
   <script
     src="https://kit.fontawesome.com/6fbcf91afd.js"
