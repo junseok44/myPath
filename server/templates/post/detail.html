@@ -283,7 +283,6 @@ const sendStepDetailRequest = (step_id) => {
 
 const toggleModal = (step_id) => {
 
-  // console.log(document.querySelector(`step_${step_id}`));
   const targetPath = document.querySelector(`.step_${step_id}`).parentElement.parentElement
   const allModals =  targetPath.querySelectorAll(`.modal__overlay`)
 
@@ -306,9 +305,6 @@ const onClickStepDetail = async (step_id) => {
 
     try {
       const { user, step, step_comments } = await sendStepDetailRequest(step_id);
-      // Process the response here
-      // post_writer=JSON.parse(post_writer);
-      // console.log(post_writer)
       step_parsed = JSON.parse(step)[0];
         step_comments_parsed = JSON.parse(step_comments);
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
@@ -320,8 +316,6 @@ const onClickStepDetail = async (step_id) => {
         step_title=title!==""?title:`제목이 없어요`;
         step_desc=desc!==""?desc:`설명이 없어요`;
 
-        
-        // console.log(image_null==true)
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
         const stepInfo = document.createElement("div")
         if (currentStepInfo) {
@@ -364,11 +358,7 @@ const onClickStepDetail = async (step_id) => {
         }
         commentNode.innerHTML = ``;
         commentNode.innerHTML += `<div class="modal__comment-title">댓글</div>`;
-        // console.log(step_parsed);
-        // console.log(step_comments_parsed[0]);
-        console.log(user)
         step_comments_parsed.forEach((element) => {
-          console.log(element['fields']['writer'])
           commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
                         <p class="comment_writer">${element["fields"]["writer"]}
                           <span class="comment-actions">
@@ -522,7 +512,6 @@ const onClickStepDetail = async (step_id) => {
   const requestStepCommentDelete = new XMLHttpRequest();
   const deleteStepComment = (step_id, comment_id) => {
     const url = "step/delete_comment";
-    // console.log(url)
     requestStepCommentDelete.open("POST", url, true);
     requestStepCommentDelete.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     requestStepCommentDelete.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -544,7 +533,6 @@ const onClickStepDetail = async (step_id) => {
   const requestCommentDelete = new XMLHttpRequest();
   const deletePostComment = (post_id, comment_id) => {
     const url = "delete_comment";
-    // console.log(url);
     requestCommentDelete.open("POST", url, true);
     requestCommentDelete.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
     requestCommentDelete.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -579,7 +567,6 @@ const onClickStepDetail = async (step_id) => {
   };
 
   const onAddChildrenComment = async (postId, parentCommentId) => {
-    // console.log(postId, parentCommentId);
     const response = await fetch(`/post/${postId}/create_comment`, {
       method: "POST",
       headers: {
@@ -701,7 +688,6 @@ const showModalsSequentially = async () => {
   }
 
   async function likeToggle(postId, isloggedIn) {
-    console.log(isloggedIn);
     if(isloggedIn==false){
       alert("로그인이 필요한 서비스입니다.")
       return;
@@ -742,7 +728,6 @@ const showModalsSequentially = async () => {
 <!-- 링크 클립보드 복사 -->
 <script>
   const url=window.location.href;
-  console.log(url)
   function copyURLtoClipBoard(){
     navigator.clipboard.writeText(url).then(function () {
 		  alert('URL 복사가 완료되었습니다.')
