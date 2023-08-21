@@ -250,6 +250,7 @@
     let deletedIds = [];
     let deletedPaths = [];
 
+    const imageInput = document.querySelector("#imageInput");
     const main = document.querySelector(".main-container");
     const descInput = document.querySelector("#descInput");
     const categorySelect = document.querySelector("#categorySelect");
@@ -522,7 +523,6 @@
       e.preventDefault();
       if (!titleInput.value || !descInput.value) 
         return;
-
       
       const formData = new FormData();
       formData.append("thumbnail", imageInput.files[0]);
