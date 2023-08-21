@@ -22,8 +22,6 @@
       Search
     </button> -->
   </form>
-  {% block searchcontent %}{% endblock %}
-
   <div class="main__category">
     <ul class="main__category-list">
       {% for category in categories %}
@@ -36,5 +34,7 @@
     </ul>
   </div>
 </div>
-
+<div>
+{% block searchcontent %}{% endblock %}
+</div>
 {% block mainContent %}{% endblock %} {% endblock %}
