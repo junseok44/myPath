@@ -91,11 +91,11 @@
                   <div class="step-content">
                     <input maxlength="20" class="writePage-input title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
                     <textarea maxlength="500" class=" writePage-input desc" onchange="handleChangeStepDesc('{{step.id}}')">{{step.desc}}</textarea>
-                    
-                    <div class="upload-file">
+                    <input type="file" class="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
+                    {% comment %} <div class="upload-file">
                       <label id="step-upload-btn" for="imageInput">사진 수정</label>
                       <input type="file" class="upload-hidden" id="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
-                    </div>
+                    </div> {% endcomment %}
                   </div>
                   <div class="step-btn-container">
                     <button class="step-btn" type="button" onclick="moveItemUp('{{step.id}}')">
