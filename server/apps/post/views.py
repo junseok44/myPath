@@ -663,7 +663,7 @@ def report_post(request,pk):
         subject = f"Report for Post: {post.title}"
         message=f"user {user}가 신고한 포스트입니다:{url}"
         from_email = settings.EMAIL_HOST_USER
-        recipient_list = ['sk100@korea.ac.kr']
+        recipient_list = ['stabthecake0044@gmail.com']
         
         send_mail(subject, message, from_email, recipient_list) 
         return JsonResponse({"msg":"success"})

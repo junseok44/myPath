@@ -324,13 +324,17 @@
   margin: 0 auto 1rem;
 }
 
-.detailPage .step-container img {
+/* .detailPage .step-container img {
   width: 100%;
+} */
+
+.detailPage .step-detail {
+  max-height: 300px;
+  overflow: auto;
 }
 
-.detailPage .step-container .step-detail {
-  max-height: 200px;
-  overflow: auto;
+.detailPage .step-img {
+  max-width: 200px;
 }
 
 .col-mode .step__edit-modal {
