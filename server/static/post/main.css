@@ -166,3 +166,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+.main__category-item.active {
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-color);
+  color: white;
+}
+

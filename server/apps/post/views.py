@@ -65,6 +65,7 @@ def category_search(request, category_id):
             "category_posts": category_posts,
             "categories": categories,
             "page":page,
+            "current_category_id": category_id,
     }
     return render(
         request,
