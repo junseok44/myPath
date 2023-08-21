@@ -329,7 +329,8 @@
 } */
 
 .detailPage .step-detail {
-  max-height: 300px;
+  max-height: 200px;
+  /* height: auto; */
   overflow: auto;
 }
 
@@ -379,15 +380,15 @@
 } */
 
 .detailPage .step__edit-modal .step__comment {
-  position: absolute;
+  /* position: absolute;
   bottom: 5rem;
   left: 1rem;
-  right: 1rem;
-  max-height: 20%;
+  right: 1rem; */
+  max-height: 25%;
   overflow: auto;
 }
 
-.detailPage .modal__overlay .new__comment {
+/* .detailPage .modal__overlay .new__comment {
   display: inherit;
   position: absolute;
   bottom: 1rem;
@@ -395,12 +396,25 @@
   right: 1rem;
   max-height: 100px;
   overflow: auto;
+} */
+
+.detailPage .new__comment {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
-.detailPage .modal__overlay .done {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+#modal-new-comment {
+  flex: 1;
+}
+
+#modal-new-cmt-btn{
+  margin-left: 5px;
+}
+
+#modal-close-btn {
+  width: 40px;
+  align-self: flex-end;
 }
 
 .arrow {

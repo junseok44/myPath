@@ -140,14 +140,6 @@
   background-color: var(--primary-color-highlight)
 }
 
-/* .writePage__thumbnail {
-  display: flex;
-} */
-
-/* .writePage__main {
-  min-height: 1000px;
-} */
-
 .writePage__footer {
   display: flex;
   align-items: center;

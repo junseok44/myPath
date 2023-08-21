@@ -177,10 +177,10 @@
                 </div>
               </div>
               <div class="new__comment">
-                <input type="text" class="new-comment" placeholder="댓글을 입력하세요" />
-                <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
+                <input type="text" class="new-comment" id="modal-new-comment" placeholder="댓글을 입력하세요" />
+                <button class="btn comment-create" id="modal-new-cmt-btn" onclick="onClickStepComment('{{step.id}}')">댓글 달기</button>
               </div>
-              <button onclick="onToggleStepDetail('{{step.id}}')" class="btn done">확인</button>
+              <button onclick="onToggleStepDetail('{{step.id}}')" class="btn done" id="modal-close-btn">닫기</button>
             </div>
           </div>
           {% endfor %}
