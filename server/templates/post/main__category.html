@@ -1,15 +1,14 @@
 {% extends 'post/main__templates.html' %} {% load static %}
 
 <div>
-  {% block mainContent%}
+  {% block mainContent %}
   <div class="category">
     <div class="category__header">
       <h1 class="category__title">카테고리: {{category_name}}</h1>
       <form
         class="mainsearch"
         method="POST"
-        action="{% url 'post:search_by_category' category_id=category.id %}"
-      >
+        action="{% url 'post:search_by_category' id=category.id %}">
         {% csrf_token %}
         <input
           class="form-control me-2 writePage-input"
@@ -21,8 +20,6 @@
         <button class="secondary-btn" type="submit">Search</button>
       </form>
     </div>
-
-    <div>{% block categorysearchcontent %}{% endblock %}</div>
 
     <ul class="category__item-container">
       {% for post in page %}

@@ -18,9 +18,6 @@
     <button class="main__search-icon" type="submit">
       <i class="fa-solid fa-magnifying-glass"></i>
     </button>
-    <!-- <button class="btn btn-outline-success main__search-btn" type="submit">
-      Search
-    </button> -->
   </form>
   <div class="main__category">
     <ul class="main__category-list">
@@ -33,7 +30,9 @@
   </div>
   
 </div>
-<div>
-{% block searchcontent %}{% endblock %}
-</div>
-{% block mainContent %}{% endblock %} {% endblock %}
+
+{% block searchContent %}{% endblock %}
+
+{% block mainContent %}{% endblock %} 
+
+{% endblock %}

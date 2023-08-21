@@ -1,18 +1,35 @@
-{% extends 'post/main__category.html' %} {% load static %}
+{% extends 'post/main__templates.html' %} {% load static %} 
+
 <div>
-  {% block content %} {% if searched %}
-
-  <h1>
-    "{{category_name}}" 카테고리 내 "{{ searched }}"에 대한 검색 결과입니다.
-  </h1>
+  
+  {% block searchContent %} 
+  {% if searched %}
+  <div class="category__header">
+    <h1>
+      "{{category_name}}" 카테고리 내 "{{ searched }}"에 대한 검색 결과입니다.
+    </h1>
+    <form
+          class="mainsearch"
+          method="POST"
+          action="{% url 'post:search_by_category' id=category.id %}">
+          {% csrf_token %}
+          <input
+            class="form-control me-2 writePage-input"
+            type="search"
+            placeholder="카테고리 내 재검색"
+            name="searched"
+            aria-label="Search"
+          />
+          <button class="secondary-btn" type="submit">Search</button>
+        </form>
+  </div>
   <br />
-
   <ul class="searched_item-container">
     {% for searched_post in searched_posts %}
 
     <li class="category__item">
-      <div class="card__container post-id-{{ searched_posts.id }}">
-        <a href="{% url 'post:post_detail' pk=searched_posts.id %}">
+      <div class="card__container post-id-{{ searched_post.id }}">
+        <a href="{% url 'post:post_detail' pk=searched_post.id %}">
           <div class="card__header">
             <div class="card-author-profile-image"></div>
             <div class="card-title">{{searched_post.title}}</div>
