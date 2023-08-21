@@ -2,11 +2,6 @@
   margin-bottom: 1rem;
 }
 
-.step-content{
-  position:relative;
-}
-
-.writePage__intro > * {
-  display: flex;
-  
+#editPage-review-title {
+  margin-top: 2rem;
 }

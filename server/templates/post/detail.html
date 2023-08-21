@@ -73,15 +73,15 @@
       <div class="detailPage__info">
         <div class="detailPage__info-left">
           <a class="detailPage-author-link" href="{% url 'user_page' id=post.user.id %}">{{post.user}}</a>
-          <span class="separator secondary-text-styling">∙</span>
+          <span class="separator secondary-line-styling">∙</span>
           <span class="detailPage-created-date">{{post.created_at}}</span>
-          <span class="separator secondary-text-styling">∙</span>
+          <span class="separator secondary-line-styling">∙</span>
           <span class="datailPage__category"><a href="{% url 'post:category' category_id=post_category_id %}">{{post_category}}</a></span>
         </div>
         <div class="detailPage__info-right">
           {% if post.user == user %}
           <button class="underline-btn"><a href="{% url 'post:post_edit' id=post.id %}">수정</a></button>
-          <span class="separator secondary-text-styling">∙</span>
+          <span class="separator secondary-line-styling">∙</span>
           <button class="underline-btn writePage__btn" type="button" onclick="deletepost('{{post.id}}')">삭제</button>
           {% endif %}
         </div>
@@ -124,7 +124,7 @@
         </div>
         <!-- <a href="{% url 'post:post_detail' post.pk %}"><button class="btn">모든 패스 보기</button></a> -->
       </div>
-      <hr class="detailPage-divider" />
+      <hr class="divider" />
       <ul class="main-container {{post.mode}}-mode detailPage__main">
         {% for path in paths %}
         <li class="path path_{{path.id}}">
@@ -191,7 +191,7 @@
 
     <div class="detailPage__review section-container">
       <h5 class="section-title detailPage__review-title">후기</h5>
-      <hr class="detailPage-divider" />
+      <hr class="divider" />
       <div class="accordion accordion__review">
         <div class="review-title" onclick="toggleAccordion('accordion2')">
           후기
@@ -209,7 +209,7 @@
     
     <div class="detailPage__comment section-container">
       <h5 class="section-title">댓글</h5>
-      <hr class="detailPage-divider" />
+      <hr class="divider" />
       <div class="comment-container post_{{post.id}}">
         {% for post_comment in post_comments%}
         {% if post_comment.parentComment is None %}
