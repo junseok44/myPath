@@ -123,22 +123,6 @@
   background: var(--border-grey);
 }
 
-/* /* #titleInput {
-  @media screen and (max-width: 600px) {
-    width: 100%;
-  }
-} */
-
-/* #categorySelect {
-  margin-right: 0.5rem;
-}
-
-#tagInput {
-  @media screen and (max-width: 600px) {
-    flex: 1;
-  }
-} */
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -192,12 +176,21 @@
   flex: 1;
 }
 
+.step_container_w_btn {
+  display: flex;
+  flex-direction: row;
+}
+
+.col-mode .step_container_w_btn {
+  flex-direction: column;
+}
+
 .path-add-btn,
 .step-add-btn {
   white-space: nowrap;
 }
 
-.step-add-btn {
+.col-mode .step-add-btn {
   width: 240px;
   height: 20px;
   outline: none;
@@ -209,10 +202,26 @@
   font-size: 1rem;
 }
 
+.step-add-btn {
+  width: 20px;
+  height: 200px;
+  outline: none;
+  border: none;
+  margin: 0 0.5rem ;
+  color: var(--secondary-text-color);
+  border-radius: 50px;
+  background-color: rgba(120, 120, 120, 0.1);
+  font-size: 1rem;
+  /* position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 50%); */
+}
+
 .step-add-btn:hover {
   color: black;
   background-color: rgba(120, 120, 120, 0.15);
-}
+} 
 
 /* .post-input {
   width: 700px;
@@ -291,6 +300,10 @@
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.pathSelect > span {
+  color: var(--secondary-text-color);
 }
 
 .editPage__pathSelect,
@@ -375,6 +388,7 @@
 
 .container_row-mode {
   display: flex;
+  flex-direction: row;
   align-items: flex-start;
   gap: 2rem;
   @media screen and (max-width: 600px) {
@@ -480,6 +494,13 @@
   .upload-file .upload-name {
     display: none;
   }
+}
+
+/* 제작, 편집 페이지 하단 버튼 */
+.post-footer-btn {
+  width: 80px;
+  font-size: 1rem;
+  margin-left: 0.3rem;
 }
 
 /* 모달 스타일링 */

@@ -33,7 +33,7 @@ AUTH_USER_MODEL = 'user.User'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["eb.my-path.xyz", "localhost","127.0.0.1",
                  "my-path.ap-northeast-2.elasticbeanstalk.com",
@@ -184,3 +184,14 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIAL_AUTH_NAVER_KEY = ' '
 SOCIAL_AUTH_NAVER_SECRET = ' '
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_PORT = 587  # Yahoo SMTP 포트
+EMAIL_HOST = 'smtp.gmail.com'  # Yahoo SMTP 서버 호스트
+EMAIL_PORT = 465  # Yahoo SMTP 포트
+EMAIL_USE_TLS = False  # TLS 보안 사용 여부
+EMAIL_USE_SSL = True  # SSL 보안 사용 여부
+
+EMAIL_HOST_USER = os.environ.get("HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("HOST_PASSWORD")
+
