@@ -22,6 +22,7 @@ urlpatterns = [
     path('api/toggleLike/', toggle_like_ajax),
     path('search/', search , name='search'),
     path('search/category/<int:id>/', search_by_category , name='search_by_category'),
+    path('post/<uuid:pk>/report/', report_post, name='report_post'),
 ]
 
 if settings.DEBUG:
