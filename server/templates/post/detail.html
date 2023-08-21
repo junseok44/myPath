@@ -19,7 +19,7 @@
     <div class="detailPage__intro">
       <div class="detailPage__title">
         <h2>{{post.title}}</h2>
-        <div class="detailPage__action-container">
+        <div class="detailPage_action-btn-container">
           <span class="detailPage__action-btn" id="detailPage-likeBtn">
             {% if user.is_authenticated %}
             {% if post.isLiked %}
@@ -56,12 +56,11 @@
             {% endif %}
             <span class="post-bookmarks">{{post.bookmark_table.count}}</span>
           </span>
-          <span class="detailPage__action-btn" onclick="copyURLtoClipBoard()"">
+          <span class="detailPage__action-btn" onclick="copyURLtoClipBoard()">
             <i class="fa-solid fa-share-nodes"></i>
             공유
           </span>
         </div>
-      
       </div>
       <div class="detailPage__info">
         <div class="detailPage__info-left">
@@ -69,9 +68,9 @@
           <span class="separator secondary-text-styling">∙</span>
           <span class="detailPage-created-date">{{post.created_at}}</span>
           <span class="separator secondary-text-styling">∙</span>
-          <span class="datailPage__category">{{post_category}}</span>
+          <span class="datailPage__category"><a href="{% url 'post:category' category_id=post_category_id %}">{{post_category}}</a></span>
         </div>
-        <div class="ditailPage__info-right">
+        <div class="detailPage__info-right">
           {% if post.user == user %}
           <button class="underline-btn"><a href="{% url 'post:post_edit' id=post.id %}">수정</a></button>
           <span class="separator secondary-text-styling">∙</span>

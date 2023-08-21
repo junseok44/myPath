@@ -121,9 +121,15 @@
   position: relative;
 }
 
+.category__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .category__title {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .category__item-container {
