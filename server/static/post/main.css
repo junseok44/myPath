@@ -110,6 +110,7 @@
 .main__curation-title h1 {
   font-size: 2rem;
   margin-bottom: 2rem;
+  word-break: keep-all;
 }
 
 .main__curation-container {
