@@ -21,8 +21,8 @@
       </div>
       <div class="writePage__tag">
         <div class="labelfor">태그</div>
-        <input class="writePage-input" type="text" id="tagInput" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
-        <div class="writePage__tag-container">
+        <div class="writePage__tag-box">
+          <input class="writePage-input" id="tagInput" type="text" placeholder="태그를 입력후 enter버튼을 눌러 추가하세요"/>
           <ul id="tagList">
             {% for tagtable in post.tag_table.all %}
               <li class="tag tag_{{tagtable.tag.name}}">#{{tagtable.tag.name}}

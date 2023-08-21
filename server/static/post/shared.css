@@ -5,7 +5,7 @@
   list-style: none;
   padding: 0;
   max-width: 100%;
-  overflow-x: auto;
+  overflow-x: scroll;
   display: flex;
 }
 
@@ -100,6 +100,11 @@
 
 
 /* 제작, 편집페이지 공통 컴포넌트 반응형 작업 */
+.writePage__intro > * {
+  display: flex;
+  width: 100%;
+}
+
 #reviewInput,
 #descInput {
   width: 100%;
@@ -110,13 +115,23 @@
   }
 }
 
-#titleInput {
+.secondary-line-styling {
+  color: var(--secondary-text-color);
+}
+
+.divider {
+  height: 1px;
+  border: 0;
+  background: var(--border-grey);
+}
+
+/* /* #titleInput {
   @media screen and (max-width: 600px) {
     width: 100%;
   }
-}
+} */
 
-#categorySelect {
+/* #categorySelect {
   margin-right: 0.5rem;
 }
 
@@ -124,7 +139,7 @@
   @media screen and (max-width: 600px) {
     flex: 1;
   }
-}
+} */
 
 @keyframes fadeIn {
   from {
@@ -399,9 +414,10 @@
 }
 
 .upload-file .upload-name {
-  width: 700px;
+  flex: 1;
   height: 25px;
   padding: 10px;
+  margin-right: 10px;;
   display: inline-block;
   vertical-align: middle;
   border: 1px solid var(--border-grey);
@@ -411,13 +427,24 @@
 
 .upload-file label {
   height: 25px;
-  padding: 5px;
-  margin-left: 10px;
-  display: inline-block;
-  color: white;
+  width: 100px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-text-color);
+  background-color: transparent;
+  border: 1px solid var(--secondary-text-color);
+  border-radius: 50px;
   vertical-align: middle;
-  border-radius: 5px;
-  background-color: var(--primary-color);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.upload-file label:hover {
+  color: white;
+  border: 1px solid black;
+  background-color: black;
   cursor: pointer;
 }
 
@@ -428,6 +455,12 @@
   padding: 0;
   overflow: hidden;
   border: 0;
+}
+
+@media screen and (max-width: 450px) {
+  .upload-file .upload-name {
+    display: none;
+  }
 }
 
 /* 모달 스타일링 */
