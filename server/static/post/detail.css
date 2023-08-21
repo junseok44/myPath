@@ -133,7 +133,7 @@
   }
 
   .detailPage__info-left {
-    align-self: flex-start; 
+    align-self: flex-start;
   }
 
   .detailPage__info-right {
@@ -582,4 +582,10 @@
   padding-bottom: 0.3rem;
   font-weight: 700;
   font-size: 0.8rem;
+}
+
+@media screen and (max-width: 600px) {
+  .detailPage__main {
+    overflow: visible;
+  }
 }
