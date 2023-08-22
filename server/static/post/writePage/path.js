@@ -72,10 +72,7 @@ function addStepNode(targetPathId, id) {
                 <div class="step-content">
                   <input maxlength="20" onchange="handleChangeStepTitle('${id}')" type="text" class="writePage-input title" placeholder="스텝 제목 입력..." / >
                   <textarea maxlength="500" onchange="handleChangeStepDesc('${id}')" class="writePage-input desc" id="step-desc" placeholder="스텝 내용 입력..." ></textarea>
-                  <div class="upload-file">
-                    <label id="step-upload-btn" for="imageInput">사진 추가</label>
-                    <input type="file" class="upload-hidden" id="imageInput" onchange="handleChangeStepImage('${id}')" />
-                  </div>
+                  <input type="file" class="imageInput" onchange="handleChangeStepImage('${id}')" />
                 </div>
                 <div class="step-btn-container">
                   <button type="button" class="step-btn" onclick="moveItemUp('${id}')"><i class="fa-solid fa-angles-up"></i></button>
