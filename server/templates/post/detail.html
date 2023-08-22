@@ -346,8 +346,8 @@ const onClickStepDetail = async (step_id) => {
           if (image_url) {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
+                      <img class="step-img" src="../media/${step_parsed["fields"]["Image"]}" />
                       <div class="step-detail">
-                        <img class="step-img" src="../media/${step_parsed["fields"]["Image"]}" />
                         <p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           } else {
@@ -365,8 +365,8 @@ const onClickStepDetail = async (step_id) => {
           if (image_url) {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
+                      <img class="step-img" src="../media/${step_parsed["fields"]["Image"]}" />
                       <div class="step-detail">
-                          <img class="step-img" src="../media/${step_parsed["fields"]["Image"]}" />
                           <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                     </div>`;
           } else {
