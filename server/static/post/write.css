@@ -109,7 +109,7 @@
 }
 
 .mode-btn:hover {
-  background-color: rgba(0, 125, 255, 0.9);
+  background-color: var(--primary-color-highlight);
   cursor: pointer;
 }
 
@@ -126,7 +126,8 @@
 
 .initial-path-add-btn:hover {
   cursor: pointer;
-  background-color: rgba(0, 125, 255, 0.1);
+  color: white;
+  background-color: var(--primary-color-highlight)
 }
 
 /* .writePage__thumbnail {

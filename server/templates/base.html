@@ -6,13 +6,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block search_engine_optimization %}
-    <meta property="og:url" content="https://eb.my-path.xyz/" />
+    <meta property="og:url" content="https://hi.my-path.xyz/" />
     <meta property="og:title" content="마이패스" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="{% static 'resource/logo.jpg' %}" />
+    <meta property="og:image" content="{% static 'resource/logo.png' %}" />
     <meta
       property="og:description"
-      content="천개의 길, 오직 나만의 길을 찾자. 마이패스입니다."
+      content="나만의 경험 공유 플랫폼, 마이패스입니다."
     />
     <title>마이패스 | MyPath</title>
     {% endblock %}
@@ -99,7 +99,11 @@
       <div class="responsive-container">
         <div class="footer">
           <div class="footer_icon-container">
-            <a class="footer_icon">
+            <a
+              class="footer_icon"
+              target="_blank"
+              href="https://www.instagram.com/mypath.official/"
+            >
               <i class="fa-brands fa-instagram"></i>
               <div class="footer_dropdown">인스타그램</div>
             </a>

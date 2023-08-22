@@ -68,6 +68,7 @@ def user_logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
         return redirect("/")
+    return redirect("/")
 
 @login_required(login_url="/user/login")
 def my_page(requests):
