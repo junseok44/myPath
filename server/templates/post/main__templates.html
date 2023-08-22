@@ -4,7 +4,7 @@
 
 <div class="main__templates">
   <a href="/">
-    <img class="main__logo" src="{% static 'resource/logo.jpg' %}"></img>
+    <img class="main__logo" src="{% static 'resource/logo.png' %}"></img>
   </a>
   <form class="main__searchForm" method="POST" action="{% url 'post:search' %}">
     {% csrf_token %}

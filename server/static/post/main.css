@@ -9,8 +9,8 @@
 }
 
 .main__logo {
-  width: 20rem;
-  height: 10rem;
+  width: 23rem;
+  height: 8rem;
   cursor: pointer;
 }
 
@@ -151,6 +151,11 @@
 }
 
 @media screen and (max-width: 450px) {
+  .main__logo {
+    width: 12rem;
+    height: 4rem;
+  }
+
   .category__header {
     flex-direction: column;
   }
@@ -188,4 +193,3 @@
   background-color: var(--primary-color);
   color: white;
 }
-
