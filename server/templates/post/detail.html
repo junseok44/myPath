@@ -342,7 +342,7 @@ const onClickStepDetail = async (step_id) => {
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
         const stepInfo = document.createElement("div")
         if (currentStepInfo) {
-          if (image_url) {
+          if (media_url) {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
                       <img class="step-img" src="${media_url}" />
@@ -361,7 +361,7 @@ const onClickStepDetail = async (step_id) => {
           stepInfo
             .classList
             .add(`step-${step_parsed["pk"]}`)
-          if (image_url) {
+          if (media_url) {
 
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>

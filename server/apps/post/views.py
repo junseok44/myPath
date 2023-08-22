@@ -487,7 +487,10 @@ def view_step_detail_ajax(request):
         step = get_object_or_404(Step, pk=step_id)
         user=request.user.username
         step_comments = StepComment.objects.filter(step=step)
-        media_url = step.Image.url
+        try:
+            media_url = step.Image.url
+        except Exception as e:
+            media_url = None
         step_list = [
             {"fields":{
                 "step": str(comment.step.id),
