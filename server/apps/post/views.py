@@ -487,17 +487,18 @@ def view_step_detail_ajax(request):
         step = get_object_or_404(Step, pk=step_id)
         user=request.user.username
         step_comments = StepComment.objects.filter(step=step)
+        media_url = step.Image.url
         step_list = [
             {"fields":{
                 "step": str(comment.step.id),
                 "text":comment.text,
-                "writer":comment.writer.username
+                "writer":comment.writer.username,
             }, "pk": comment.pk} for comment in step_comments
         ]
         step_json = serialize('json', [step])
         # step_comments_json = serialize('json', step_list)
         step_comments_json = json.dumps(step_list)
-        ctx = {"user":user,"step": step_json, "step_comments": step_comments_json, }
+        ctx = {"user":user,"step": step_json, "step_comments": step_comments_json,"media_url":media_url }
 
         return JsonResponse(ctx)
     else:
