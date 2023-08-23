@@ -61,6 +61,7 @@ def get_linux_ec2_private_ip():
         ec2_ip = response.read().decode('utf-8')
         if response:
             response.close()
+        print("private ip: " + ec2_ip)
         return ec2_ip
     except Exception as e:
         print(e)
