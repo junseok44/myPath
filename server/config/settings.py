@@ -36,13 +36,9 @@ AUTH_USER_MODEL = 'user.User'
 DEBUG = False
 
 ALLOWED_HOSTS = ["hi.my-path.xyz", "localhost","127.0.0.1",
-                 "my-path.ap-northeast-2.elasticbeanstalk.com",
-                 "mypath2.ap-northeast-2.elasticbeanstalk.com",
-                 "mypath3.ap-northeast-2.elasticbeanstalk.com",
-                 "mypath-sub.ap-northeast-2.elasticbeanstalk.com"]
+                 "mypath-deploy.ap-northeast-2.elasticbeanstalk.com"]
 
-CSRF_TRUSTED_ORIGINS = ["https://hi.my-path.xyz","http://mypath3.ap-northeast-2.elasticbeanstalk.com",
-                        "http://mypath-sub.ap-northeast-2.elasticbeanstalk.com"]
+CSRF_TRUSTED_ORIGINS = ["https://hi.my-path.xyz","http://mypath-deploy.ap-northeast-2.elasticbeanstalk.com"]
 
 # Application definition
 
