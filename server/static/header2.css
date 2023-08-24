@@ -15,12 +15,6 @@ header {
   justify-content: space-between;
 }
 
-.header__greetings {
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
-}
-
 .header_item > *:not(:first-child) {
   opacity: 0.6;
   cursor: pointer;
@@ -82,4 +76,10 @@ header {
 .header_username {
   margin-right: 0.3rem;
   cursor: default;
+}
+
+@media screen and (max-width: 450px) {
+  .header__greetings {
+    display: none;
+  }
 }

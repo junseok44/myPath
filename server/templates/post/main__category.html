@@ -1,95 +1,96 @@
-{% extends 'post/main__templates.html' %}
-{% load static %}
+{% extends 'post/main__templates.html' %} {% load static %}
 
 <div>
-  {% block mainContent%}
-    <div class="category">
-      <div class="category__header">
-        <h1 class="category__title">카테고리: {{category_name}}</h1>
-        <form class="mainsearch" method="POST" action="{% url 'post:search_by_category' id=category.id %}">
-          {% csrf_token %}
-          <input class="form-control me-2 writePage-input" type="search" placeholder="카테고리 내 재검색" name="searched" aria-label="Search">
-          <button class="secondary-btn" type="submit">
-            Search
-          </button>
-        </form>
-      </div>
-      <ul class="category__item-container">
-        {% for post in page %}
-          <li class="category__item">
-            <div class="card__container post-id-{{ post.id }}">
-              <a href="{% url 'post:post_detail' pk=post.id %}">
-                <div class="card__header">
-                <div class="card-author-profile-image"></div>
-                <div class="card-title">{{post.title}}</div>
-                <div class="card-author">{{post.user.username}}</div>
-              </div>
-              <div class="card__body">
-                <div class="card-thumbnail">
-                  {% if post.thumbnail %}
-                    <img src="{{post.thumbnail.url}}" alt="my icon"/>
-                  {% else %}
-                    <img src=""/>
-                  {% endif %}
-                </div>
-                <div class="card-description">{{post.desc}}</div>
-              </div>
-              </a>
-              <div class="card__buttons">
-                <div class="like-btn">
-                  <i class="fa-solid fa-heart"></i>
-                  <span>{{post.like_table.count}}</span>
-                </div>
-                <div class="reply-btn">
-                  <i class="fa-solid fa-comment-dots"></i>
-                  <span>{{post.post_comment.count}}</span>
-                </div>
-                <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
-                  <i class="fa-solid fa-share-nodes"></i>
-                  <span>공유</span>
-                </div>
-              </div>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
+  {% block mainContent %}
+  <div class="category">
+    <div class="category__header">
+      <h1 class="category__title">카테고리: {{category_name}}</h1>
+      <form
+        class="mainsearch"
+        method="POST"
+        action="{% url 'post:search_by_category' id=category.id %}">
+        {% csrf_token %}
+        <input
+          class="form-control me-2 writePage-input"
+          type="search"
+          placeholder="카테고리 내 재검색"
+          name="searched"
+          aria-label="Search"
+        />
+        <button class="secondary-btn" type="submit">Search</button>
+      </form>
     </div>
-    
-    <div class="pagination">
-      <!-- <span class="step-links"> -->
-      <ul class="pagination-numbers">
-        {% for num in page.paginator.page_range %}
-          <li class="pagination__number {% if num == page.number %} active {% endif %}">
-            <a href="?page={{ num }}">{{ num }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-      <div>
-        {% if page.has_previous %}
-          <a href="?page=1">
-            <button class="btn">처음으로</button>
+
+    <ul class="category__item-container">
+      {% for post in page %}
+      <li class="category__item">
+        <div class="card__container post-id-{{ post.id }}">
+          <a href="{% url 'post:post_detail' pk=post.id %}">
+            <div class="card__header">
+              <div class="card-author-profile-image"></div>
+              <div class="card-title">{{post.title}}</div>
+              <div class="card-author">{{post.user.username}}</div>
+            </div>
+            <div class="card__body">
+              <div class="card-thumbnail">
+                {% if post.thumbnail %}
+                <img src="{{post.thumbnail.url}}" alt="my icon" />
+                {% else %}
+                <img src="" />
+                {% endif %}
+              </div>
+              <div class="card-description">{{post.desc}}</div>
+            </div>
           </a>
-          <a href="?page={{ page.previous_page_number }}">
-            <button class="btn">이전</button>
-          </a>
-        {% endif %}
-        {% if page.has_next %}
-          <a href="?page={{ page.next_page_number }}">
-            <button class="btn">다음</button>
-          </a>
-          <a href="?page={{ page.paginator.num_pages }}">
-            <button class="btn">마지막으로</button>
-          </a>
-        {% endif %}
-      </div>
-  
+          <div class="card__buttons">
+            <div class="like-btn">
+              <i class="fa-solid fa-heart"></i>
+              <span>{{post.like_table.count}}</span>
+            </div>
+            <div class="reply-btn">
+              <i class="fa-solid fa-comment-dots"></i>
+              <span>{{post.post_comment.count}}</span>
+            </div>
+            <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
+              <i class="fa-solid fa-share-nodes"></i>
+              <span>공유</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="pagination">
+    <!-- <span class="step-links"> -->
+    <ul class="pagination-numbers">
+      {% for num in page.paginator.page_range %}
+      <li
+        class="pagination__number {% if num == page.number %} active {% endif %}"
+      >
+        <a href="?page={{ num }}">{{ num }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    <div>
+      {% if page.has_previous %}
+      <a href="?page=1">
+        <button class="btn">처음으로</button>
+      </a>
+      <a href="?page={{ page.previous_page_number }}">
+        <button class="btn">이전</button>
+      </a>
+      {% endif %} {% if page.has_next %}
+      <a href="?page={{ page.next_page_number }}">
+        <button class="btn">다음</button>
+      </a>
+      <a href="?page={{ page.paginator.num_pages }}">
+        <button class="btn">마지막으로</button>
+      </a>
+      {% endif %}
     </div>
   </div>
 
-
-  {% block categorysearchcontent %}{% endblock %}
-
-
-{% endblock %}
-
+  {% endblock %}
 </div>

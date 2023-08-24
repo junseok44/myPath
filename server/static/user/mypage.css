@@ -6,33 +6,62 @@
   height: 100%;
 }
 
-
 .userPage__add-btn {
   z-index: 10;
+}
+.userPage__add-btn > i {
   color: var(--secondary-text-color);
+  transition: all 0.3s ease-in-out;
+}
+
+.userPage__add-btn > i:hover {
+  cursor: pointer;
+  color: black;
 }
 
 .userPage__add-btn.hidden {
   display: none;
 }
 
+.btn-unset {
+  all: unset;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-unset:hover {
+  color: black;
+}
+
 .userPage .userinfo__container {
   margin-bottom: 2rem;
 }
 
-.userPage__add-form {
+.userPage__cardForm {
+  height: 100%;
+}
+
+.userPage__add-form,
+.userPage__cardForm > div {
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 1rem;
+  height: 100%;
+  gap: 0.5rem;
+}
+
+.userPage__add-form > input,
+.userPage__cardForm input {
+  flex: 0.3;
 }
 
 .userPage__add-form.hidden {
   display: none;
 }
 
-.userPage__add-form.hidden h3 {
-  font-size: 1.1rem;
+.userPage__add-form h3,
+.userPage__cardForm h2 {
+  font-size: 1.2rem;
 }
 
 .userPage__add-form textarea {
@@ -53,16 +82,6 @@
 }
 .userPage__cardForm.hidden {
   display: none;
-}
-
-.btn-unset {
-  all: unset;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.btn-unset:hover {
-  color: black;
 }
 
 .userPage__carousel-btn {

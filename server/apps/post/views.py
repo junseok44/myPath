@@ -487,17 +487,21 @@ def view_step_detail_ajax(request):
         step = get_object_or_404(Step, pk=step_id)
         user=request.user.username
         step_comments = StepComment.objects.filter(step=step)
+        try:
+            media_url = step.Image.url
+        except Exception as e:
+            media_url = None
         step_list = [
             {"fields":{
                 "step": str(comment.step.id),
                 "text":comment.text,
-                "writer":comment.writer.username
+                "writer":comment.writer.username,
             }, "pk": comment.pk} for comment in step_comments
         ]
         step_json = serialize('json', [step])
         # step_comments_json = serialize('json', step_list)
         step_comments_json = json.dumps(step_list)
-        ctx = {"user":user,"step": step_json, "step_comments": step_comments_json, }
+        ctx = {"user":user,"step": step_json, "step_comments": step_comments_json,"media_url":media_url }
 
         return JsonResponse(ctx)
     else:
@@ -587,6 +591,7 @@ def toggle_like_ajax(request):
 
 def search(request):
         post_list = Post.objects.all()
+        categories=Category.objects.all()
         # page=request.GET.get('page')
 
         # paginator = Paginator(post_list, 6)
@@ -604,11 +609,12 @@ def search(request):
         if request.method == 'POST':
                 searched = request.POST['searched']        
                 searched_posts = Post.objects.filter(title__contains=searched)
-                return render(request, 'post/searched.html', {'searched': searched, 'searched_posts': searched_posts,})
+                return render(request, 'post/searched.html', {'searched': searched, 'searched_posts': searched_posts,'categories':categories})
         else:
-                return render(request, 'post/searched.html', {})
+                return render(request, 'post/searched.html', {'categories':categories,})
         
 def search_by_category(request, id):
+    categories = Category.objects.all()
     category = Category.objects.get(id=id)
     category_tables = CategoryTable.objects.filter(category=category)
     category_posts = [table.post for table in category_tables]
@@ -625,11 +631,15 @@ def search_by_category(request, id):
         return render(request, 'post/search_by_category.html', {
             'searched': searched,
             'searched_posts': searched_posts,
-            'category_name': category.name
+            'category_name': category.name,
+            'category': category,
+            'categories':categories,
         })
     else:
         return render(request, 'post/search_by_category.html', {
-            'category_name': category.name
+            'category_name': category.name,
+            'category': category,
+            'categories':categories,
         })
 
 

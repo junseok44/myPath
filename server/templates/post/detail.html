@@ -189,7 +189,6 @@
         {% endfor %}
       </ul>
     </div>
-
     <div class="detailPage__review section-container">
       <h5 class="section-title detailPage__review-title">후기</h5>
       <hr class="divider" />
@@ -281,8 +280,8 @@
 <!-- ajax 요청 관련 스크립트 -->
 
 
-<!-- 모든 패스의 첫번째 모달 데이터를 ajax로 불러오기 위해서는 동기처리가 필요하므로 onClickStepDetail 함수를 새롭게 정의함 -->
 <script>
+
 const requestStepDetail = new XMLHttpRequest();
 
 const sendStepDetailRequest = (step_id) => {
@@ -329,7 +328,7 @@ const onClickStepDetail = async (step_id) => {
 
 
     try {
-      const { user, step, step_comments } = await sendStepDetailRequest(step_id);
+      const { user, step, step_comments, media_url } = await sendStepDetailRequest(step_id);
       step_parsed = JSON.parse(step)[0];
         step_comments_parsed = JSON.parse(step_comments);
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
@@ -344,11 +343,11 @@ const onClickStepDetail = async (step_id) => {
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
         const stepInfo = document.createElement("div")
         if (currentStepInfo) {
-          if (image_url) {
+          if (media_url) {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
+                      <img class="step-img" src="${media_url}" />
                       <div class="step-detail">
-                        <img class="step-img" src="../media/${step_parsed["fields"]["Image"]}" />
                         <p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           } else {
@@ -363,11 +362,12 @@ const onClickStepDetail = async (step_id) => {
           stepInfo
             .classList
             .add(`step-${step_parsed["pk"]}`)
-          if (image_url) {
+          if (media_url) {
+
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
+                      <img class="step-img" src="${media_url}" />
                       <div class="step-detail">
-                          <img class="step-img" src="../media/${step_parsed["fields"]["Image"]}" />
                           <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                     </div>`;
           } else {
