@@ -3,34 +3,35 @@ from apps.chatting.models import Room, Chat
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http import JsonResponse
+from apps.chatting.services import *
 import json
 # Create your views here.
 
 
 User = get_user_model()
 
-def view_rooms(request):
-    user = request.user
-    q1 = Room.objects.filter(Q(startUser=user) | Q(startUser_is_room_deleted=False))
-    q2 = Room.objects.filter(Q(endUser=user) | Q(endUser_is_room_deleted=False))
-    rooms = q1.union(q2).order_by('-lastMessageTime')
+def view_rooms(request,other_id):
+    other = User.objects.get(id=other_id)
+    rooms = get_room_list(request.user,other)
     ctx = {
         "rooms": rooms
     }
     return render(request, 'chatting/rooms.html',ctx)
 
 def ajax_get_room_chatting(request):
-    if request.method == "POST":
-        room_id = request.POST.get("room_id")
-        chats = Chat.objects.filter(room=room_id).order_by('-time')
-        chats_list = []
-        for chat in chats:
-            # chat.leftUser 가 None이거나, 내가 아닐때. 불러온다.
-            if chat.leftUser == None or chat.leftUser != request.user:
-                chats_list.append(chat)
-        chats_json = json.dumps([chat.to_json() for chat in chats_list])
-        
-    return JsonResponse({"chats": chats_json },200)
+    
+    data = json.loads(request.body)
+    other_id = data['other_id']
+    msg_list = get_message_list(request.user,other_id)
+
+    return JsonResponse({"msg_list":msg_list})
         
 
+def ajax_send_room_chatting(request):
+    data = json.loads(request.body)
+    other_id = data['other_id']
+    message = data['message']
+    other = User.objects.get(id=other_id)
+    chat = send_message(request.user,other,message)
 
+    return JsonResponse({"chat":chat})
