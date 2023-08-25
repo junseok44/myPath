@@ -4,6 +4,8 @@ from django.db.models import Q
 
 @transaction.atomic
 def send_message(sender, receiver, text):
+    if sender == receiver:
+        raise Exception("자기 자신에게는 메시지를 보낼 수 없습니다.")
     try:
         room = Room.objects.get(startUser=sender, endUser=receiver)
     except Room.DoesNotExist:
@@ -19,9 +21,11 @@ def send_message(sender, receiver, text):
     else:
         # sender가 startUser인 방이 있음.
         chat = Chat.objects.create(sender=sender, receiver=receiver, message=text, room=room)
+    room.endUser_is_room_deleted = False
+    room.startUser_is_room_deleted = False
     room.lastMessage = text
     room.save()
-    return {"sender":chat.sender, "receiver":chat.receiver, "time":chat.time, "message":chat.message, "room":chat.room}
+    return {"sender":chat.sender.username, "receiver":chat.receiver.username, "time":chat.time, "message":chat.message}
 
 
 def get_room_list(me):
@@ -41,7 +45,7 @@ def get_message_list(me, other):
             # 두 사람의 방이 없음.
             return []
 
-    return Chat.objects.filter(room=room).filter(Q(leftUser=None) | Q(leftUser=other)).order_by('-time')
+    return Chat.objects.filter(room=room).filter(Q(leftUser=None) | Q(leftUser=other)).order_by('time')
 
 
 def delete_room(me,other):

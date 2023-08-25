@@ -68,6 +68,21 @@
             </div>
             {% endif %}
           </span>
+          <span class="detailPage__action-btn">
+            {% if user.is_authenticated %}
+              <div onclick="onToggleMessageBar()">
+              작성자에게 쪽지 보내기
+            </div>
+            <div class="message_overlay hidden">
+              <div class="message_box">
+                <h1>쪽지 입력</h1>
+                <textarea class="message_text"></textarea>
+                <button onclick="onSendMessage('{{post.user.id}}')">보내기</button>
+              </div>
+            </div>  
+            {% endif %}
+
+          </span>
 
         </div>
       </div>
@@ -277,9 +292,42 @@
     }
 </script>
 
+
+<script>
+
+  const onToggleMessageBar = () => {
+    const overlay = document.querySelector(`.message_overlay`)
+    overlay.classList.toggle("hidden")
+  }
+
+  const onSendMessage = async (receiver) => {
+    const text = document.querySelector(".message_text").value
+
+    const response = await fetch("/chat/api/send_message", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken"), // Replace with your method of getting CSRF token
+      },
+      body: JSON.stringify({receiver: receiver, text: text})
+    });
+
+    if (response.ok) {
+      response_parsed = await response.json()
+      console.log(response_parsed)
+      if(confirm("쪽지를 보냈어요. 쪽지함으로 이동하시겠습니까?")) {
+        window.location.href =`/chat/chats/${response_parsed["receiver_id"]}`
+      }
+    } else {}
+  }
+
+
+
+</script>
+
+
+
 <!-- ajax 요청 관련 스크립트 -->
-
-
 <script>
 
 const requestStepDetail = new XMLHttpRequest();

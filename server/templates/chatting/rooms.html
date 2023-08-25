@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %} {% for room in rooms %}
+
+<div>
+
+    {% if user == room.startUser %}
+    <a href="{% url 'chats' other_id=room.endUser.id %}">
+    {% else %}
+    <a href="{% url 'chats' other_id=room.startUser.id %}">
+    {% endif %}
+  <span>{{room.startUser}} --> {{room.endUser}}</span>
+  <p>{{room.lastMessage}}</p>
+  </a>
+</div>
+
+{% endfor %} {% endblock %}

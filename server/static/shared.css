@@ -132,7 +132,6 @@ h3 {
   cursor: pointer;
 }
 
-
 .underline-btn {
   padding: none;
   border: none;
@@ -377,6 +376,14 @@ h3 {
 
 .color-grey {
   color: var(--dark-grey);
+}
+
+.color-green {
+  color: green;
+}
+
+.color-red {
+  color: red;
 }
 
 .responsive-container {

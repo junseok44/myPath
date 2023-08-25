@@ -1,0 +1,78 @@
+{% extends 'base.html' %} {% block content %}
+
+<div>
+  <h1>{{other.username}}와의 채팅</h1>
+  <form action="{% url 'delete_room' other_id=other.id%}" method="POST">
+    {% csrf_token %}
+    <button type="submit">채팅방 나가기</button>
+  </form>
+  <ul>
+    {% for msg in msg_list %} {% if msg.sender == user %}
+    <li class="color-green">
+      <span class="message_user">{{msg.sender}}</span>{{msg.message}}
+    </li>
+    {% else %}
+    <li class="color-red">
+      <span class="message_user">{{msg.sender}}</span>
+      {{msg.message}}
+    </li>
+    {% endif %} {% endfor %}
+  </ul>
+  <input class="message_input" />
+  <button onclick="onSendMessage(event,'{{other.id}}')">전송</button>
+</div>
+
+<script>
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+</script>
+
+<script>
+  const message_input = document.querySelector(".message_input");
+  message_input.addEventListener("keydown", function (event) {
+    if (event.key == "Enter") {
+      event.preventDefault();
+      onSendMessage(event, "{{other.id}}");
+    }
+  });
+
+  const onSendMessage = async (event, receiver) => {
+    const message_input = document.querySelector(".message_input");
+    const text = message_input.value;
+
+    const response = await fetch("/chat/api/send_message", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken"), // Replace with your method of getting CSRF token
+      },
+      body: JSON.stringify({ receiver: receiver, text: text }),
+    });
+
+    if (response.ok) {
+      response_parsed = await response.json();
+      let text = response_parsed["chat"].message;
+      let sender = response_parsed["chat"].sender;
+      add_message(sender, text);
+      message_input.value = "";
+    } else {
+    }
+  };
+</script>
+
+<script>
+  const add_message = (sender, text) => {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.innerText = sender;
+    span.classList.add("message_user");
+    li.appendChild(span);
+    li.innerText += text;
+    li.classList.add("color-green");
+    document.querySelector("ul").appendChild(li);
+  };
+</script>
+{% endblock %}

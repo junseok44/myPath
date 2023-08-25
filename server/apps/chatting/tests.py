@@ -178,3 +178,19 @@ class TestGetMessage(TestCase):
 
 
 
+class TestRoomExitAndSend(TestCase):
+    def test_sender_and_exit_and_send_message(self):
+        TestMessageSend().test_send_message()
+        user1 = User.objects.get(username='startUser')
+        user2 = User.objects.get(username='endUser')
+        delete_room(user1,user2)
+        send_message(user1,user2,"안녕하세요")
+
+        room = Room.objects.get()
+        self.assertEqual(room.startUser,user1)
+        self.assertEqual(room.endUser,user2)
+        self.assertEqual(room.lastMessage,"안녕하세요")
+        self.assertEqual(room.startUser_is_room_deleted,False)
+        self.assertEqual(room.endUser_is_room_deleted,False)
+
+        
