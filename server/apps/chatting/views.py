@@ -20,10 +20,10 @@ def view_chats(request,other_id):
     other = User.objects.get(id=other_id)
     ctx = {
         "other": other,
-        "msg_list": get_message_list(request.user,other)
+        "msg_list": get_message_list(request.user,other),
+        "current_room": get_current_room(request.user,other)
     }
     return render(request, 'chatting/chats.html',ctx)
-
 
 def ajax_get_room_message(request):
     

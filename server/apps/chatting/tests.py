@@ -194,3 +194,7 @@ class TestRoomExitAndSend(TestCase):
         self.assertEqual(room.endUser_is_room_deleted,False)
 
         
+
+
+# 오류 나는 부분 -> 대화를 한다. 한명이 나간다. -> 그 chat은 leftuser가 그 user로 등록된다.
+# -> 그 다음에 다시 대화를 한다. -> 그러면 다시 들어온다 -> 그 다음 그 

@@ -1,7 +1,6 @@
 {% extends 'base.html' %} {% block content %} {% for room in rooms %}
 
 <div>
-
     {% if user == room.startUser %}
     <a href="{% url 'chats' other_id=room.endUser.id %}">
     {% else %}
@@ -13,3 +12,10 @@
 </div>
 
 {% endfor %} {% endblock %}
+
+<!-- 채팅을 보낸다. -> 상대방의 룸 목록이 업데이트된다. -->
+
+<!-- 그런데 이미 룸이 있는 상태에서, 그걸 업데이트하는거는 어떻게 함? -->
+
+그 채널에다가, 메시지를 보내는것. 그 방에 새로운 메시지가 왔다고.
+

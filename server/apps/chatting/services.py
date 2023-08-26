@@ -35,6 +35,18 @@ def get_room_list(me):
     return rooms
 
 
+def get_current_room(me, other):
+    try:
+        room = Room.objects.get(startUser=me, endUser=other)
+        return room
+    except Room.DoesNotExist:
+        try:
+            room = Room.objects.get(startUser=other, endUser=me)
+            return room
+        except Room.DoesNotExist:
+            return None
+
+
 def get_message_list(me, other):
     try:
         room = Room.objects.get(startUser=me, endUser=other)
@@ -45,7 +57,9 @@ def get_message_list(me, other):
             # 두 사람의 방이 없음.
             return []
 
-    return Chat.objects.filter(room=room).filter(Q(leftUser=None) | Q(leftUser=other)).order_by('time')
+    q1 = Chat.objects.filter(room=room).filter(leftUser=None)
+    q2 = Chat.objects.filter(room=room).filter(leftUser=other)
+    return q1.union(q2).order_by('time')
 
 
 def delete_room(me,other):
@@ -56,7 +70,12 @@ def delete_room(me,other):
         else:
             room.startUser_is_room_deleted = True
             room.save()
-            Chat.objects.filter(room=room).update(leftUser=me)
+            for chat in Chat.objects.filter(room=room):
+                if chat.leftUser == None:
+                    chat.leftUser = me
+                    chat.save()
+                else:
+                    chat.delete()
     except Room.DoesNotExist:
         try: 
             room = Room.objects.get(startUser=other, endUser=me)
@@ -65,7 +84,12 @@ def delete_room(me,other):
             else:
                 room.endUser_is_room_deleted = True
                 room.save()
-                Chat.objects.filter(room=room).update(leftUser=me)
+                for chat in Chat.objects.filter(room=room):
+                    if chat.leftUser == None:
+                        chat.leftUser = me
+                        chat.save()
+                    else:
+                        chat.delete()
         except Room.DoesNotExist:
             return False
     

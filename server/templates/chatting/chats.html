@@ -6,7 +6,7 @@
     {% csrf_token %}
     <button type="submit">채팅방 나가기</button>
   </form>
-  <ul>
+  <ul class="chat_list">
     {% for msg in msg_list %} {% if msg.sender == user %}
     <li class="color-green">
       <span class="message_user">{{msg.sender}}</span>{{msg.message}}
@@ -28,6 +28,28 @@
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(";").shift();
   }
+</script>
+
+<script>
+  const currentuser = "{{user.username}}";
+  const chat_list = document.querySelector(".chat_list");
+  roomId = "{{current_room.id}}";
+  const chatSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/chat/" + `${roomId}` + "/"
+  );
+
+  chatSocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    if (data.sender == currentuser) {
+      chat_list.innerHTML += `<li class="color-green">${data.sender} ${data.message}</li>`;
+    } else {
+      chat_list.innerHTML += `<li class="color-red">${data.sender} ${data.message}</li>`;
+    }
+  };
+
+  chatSocket.onclose = function (e) {
+    console.error("socket closed unexpectedly");
+  };
 </script>
 
 <script>
@@ -54,9 +76,13 @@
 
     if (response.ok) {
       response_parsed = await response.json();
-      let text = response_parsed["chat"].message;
-      let sender = response_parsed["chat"].sender;
-      add_message(sender, text);
+
+      chatSocket.send(
+        JSON.stringify({
+          message: text,
+          sender: currentuser,
+        })
+      );
       message_input.value = "";
     } else {
     }
