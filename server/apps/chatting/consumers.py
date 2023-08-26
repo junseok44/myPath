@@ -22,7 +22,6 @@ class ChatConsumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name, self.channel_name
         )
-        self.send(text_data=json.dumps({"message": "상대방이 방을 나갔습니다.", "sender":"system"}))
 
 
     def chat_message(self, event):

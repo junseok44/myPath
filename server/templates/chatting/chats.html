@@ -4,7 +4,7 @@
   <h1>{{other.username}}와의 채팅</h1>
   <form action="{% url 'delete_room' other_id=other.id%}" method="POST">
     {% csrf_token %}
-    <button type="submit">채팅방 나가기</button>
+    <button type="submit" onclick="onExitRoom()">채팅방 나가기</button>
   </form>
   <ul class="chat_list">
     {% for msg in msg_list %} {% if msg.sender == user %}
@@ -33,13 +33,13 @@
 <script>
   const chat_list = document.querySelector(".chat_list");
   const user_username = "{{user.username}}";
+  const current_room_id = "{{current_room.id}}";
   const user_id = "{{user.id}}";
   const other_id = "{{other.id}}";
-  roomId = "{{current_room.id}}";
-  user_room_id = other_id.replaceAll("-", "");
+  const user_room_id = other_id.replaceAll("-", "");
 
   const chatSocket = new WebSocket(
-    "ws://" + window.location.host + "/ws/chat/" + `${roomId}` + "/"
+    "ws://" + window.location.host + "/ws/chat/" + `${current_room_id}` + "/"
   );
 
   const roomSocket = new WebSocket(
@@ -105,6 +105,16 @@
       message_input.value = "";
     } else {
     }
+  };
+
+  const onExitRoom = () => {
+    chatSocket.send(
+      JSON.stringify({
+        message: `${user_username}님이 채팅방을 나갔습니다.}`,
+        sender: "[system]",
+        sender_id: "dfd",
+      })
+    );
   };
 </script>
 

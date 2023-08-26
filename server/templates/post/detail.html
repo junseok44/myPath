@@ -296,6 +296,15 @@
 <!-- 쪽지 보내기 관련 스크립트 -->
 <script>
 
+  
+
+  const user_id = "{{post.user.id}}";
+  const user_room_id = user_id.replaceAll("-", "");
+
+  const roomSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/user_room/" + user_room_id + "/"
+  );
+
   const onToggleMessageBar = () => {
     const overlay = document.querySelector(`.message_overlay`)
     overlay.classList.toggle("hidden")
@@ -315,12 +324,18 @@
 
     if (response.ok) {
       response_parsed = await response.json()
-      console.log(response_parsed)
+
+ 
+
+      roomSocket.send(JSON.stringify({ msg: "HELLO" }));
+
       if(confirm("쪽지를 보냈어요. 쪽지함으로 이동하시겠습니까?")) {
         window.location.href =`/chat/chats/${response_parsed["receiver_id"]}`
       }
     } else {}
   }
+
+
 
 
 
