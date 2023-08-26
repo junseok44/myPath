@@ -1,4 +1,57 @@
-{% extends 'base.html' %} {% block content %} {% for room in rooms %}
+{% extends 'base.html' %} {% block content %}
+
+<h1>대화방 목록</h1>
+<br />
+<ul class="room_list"></ul>
+
+<script>
+  const userId = "{{user.id}}";
+  user_room_id = userId.replaceAll("-", "");
+  const roomSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/user_room/" + user_room_id + "/"
+  );
+
+  roomSocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    const room_list = document.querySelector(".room_list");
+    room_list.innerHTML = "";
+    console.log(data);
+    for (let room of data) {
+      const li = document.createElement("li");
+      if (userId == room.startUser_id) {
+        li.innerHTML = `<a href="/chat/chats/${room.endUser_id}">
+        <span>${room.endUser_username}</span>
+        <p>${room.lastMessage}</p>
+        <p>${room.lastMessageTime}</p>
+        </a>
+        <hr>`;
+      } else {
+        li.innerHTML = `
+        <a href="/chat/chats/${room.startUser_id}">
+        <span>${room.startUser_username}</span>
+        <p>${room.lastMessage}</p>
+        <p>${room.lastMessageTime}</p>
+        </a>
+        <hr>
+        `;
+      }
+
+      room_list.appendChild(li);
+    }
+  };
+
+  roomSocket.onclose = function (e) {
+    console.error("socket closed unexpectedly");
+  };
+</script>
+
+{% endblock %}
+
+<!-- 채팅을 보낸다. -> 상대방의 룸 목록이 업데이트된다. -->
+
+<!-- 그런데 이미 룸이 있는 상태에서, 그걸 업데이트하는거는 어떻게 함? -->
+
+<!-- {% for room in rooms %}
 
 <div>
     {% if user == room.startUser %}
@@ -6,16 +59,9 @@
     {% else %}
     <a href="{% url 'chats' other_id=room.startUser.id %}">
     {% endif %}
-  <span>{{room.startUser}} --> {{room.endUser}}</span>
+  <span>{{room.startUser}}  {{room.endUser}}</span>
   <p>{{room.lastMessage}}</p>
   </a>
 </div>
 
-{% endfor %} {% endblock %}
-
-<!-- 채팅을 보낸다. -> 상대방의 룸 목록이 업데이트된다. -->
-
-<!-- 그런데 이미 룸이 있는 상태에서, 그걸 업데이트하는거는 어떻게 함? -->
-
-그 채널에다가, 메시지를 보내는것. 그 방에 새로운 메시지가 왔다고.
-
+{% endfor %} -->
