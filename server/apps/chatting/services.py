@@ -1,6 +1,11 @@
 from django.db import transaction
 from apps.chatting.models import Room, Chat
-from django.db.models import Q
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
+
+channel_layer = get_channel_layer()
+
 
 @transaction.atomic
 def send_message(sender, receiver, text):
@@ -25,6 +30,11 @@ def send_message(sender, receiver, text):
     room.startUser_is_room_deleted = False
     room.lastMessage = text
     room.save()
+
+    async_to_sync(channel_layer.group_send)(
+        f"chat_{room.id}", {"type": "chat.message", "chat_id":chat.id, "message": chat.message, "sender": sender.username, "sender_id": str(chat.sender.id)}
+    )
+
     return {"chat_id": chat.id, "sender":chat.sender.username, "receiver":chat.receiver.username, "time":chat.time, "message":chat.message}
 
 

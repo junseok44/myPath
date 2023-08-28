@@ -104,16 +104,6 @@
     if (response.ok) {
       response_parsed = await response.json();
       roomSocket.send(JSON.stringify({ type: "update_room" }));
-      chatSocket.send(
-        JSON.stringify({
-          type: "send_message",
-          message: text,
-          chat_id: response_parsed.chat.chat_id,
-          sender: user_username,
-          sender_id: user_id,
-        })
-      );
-
       message_input.value = "";
     } else {
     }
