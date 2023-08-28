@@ -296,14 +296,10 @@
 <!-- 쪽지 보내기 관련 스크립트 -->
 <script>
 
-  
-
   const user_id = "{{post.user.id}}";
   const user_room_id = user_id.replaceAll("-", "");
 
-  const roomSocket = new WebSocket(
-    "ws://" + window.location.host + "/ws/user_room/" + user_room_id + "/"
-  );
+
 
   const onToggleMessageBar = () => {
     const overlay = document.querySelector(`.message_overlay`)
@@ -325,13 +321,22 @@
     if (response.ok) {
       response_parsed = await response.json()
 
- 
+      const roomSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/user_room/" + user_room_id + "/"
+      );
 
-      roomSocket.send(JSON.stringify({ msg: "HELLO" }));
+      roomSocket.onopen = () => {
+        roomSocket.send(JSON.stringify({ "type" : "update_room" }));
 
-      if(confirm("쪽지를 보냈어요. 쪽지함으로 이동하시겠습니까?")) {
+        if(confirm("쪽지를 보냈어요. 쪽지함으로 이동하시겠습니까?")) {
         window.location.href =`/chat/chats/${response_parsed["receiver_id"]}`
+
+        roomSocket.close()
       }
+      }
+
+
+     
     } else {}
   }
 

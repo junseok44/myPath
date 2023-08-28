@@ -21,6 +21,7 @@
       if (userId == room.startUser_id) {
         li.innerHTML = `<a href="/chat/chats/${room.endUser_id}">
         <span>${room.endUser_username}</span>
+        <span>쌓인 메시지 목록 : ${room.unread_count}</span>
         <p>${room.lastMessage}</p>
         <p>${room.lastMessageTime}</p>
         </a>
@@ -29,6 +30,7 @@
         li.innerHTML = `
         <a href="/chat/chats/${room.startUser_id}">
         <span>${room.startUser_username}</span>
+        <span>쌓인 메시지 목록 : ${room.unread_count}</span>
         <p>${room.lastMessage}</p>
         <p>${room.lastMessageTime}</p>
         </a>

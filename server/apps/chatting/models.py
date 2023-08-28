@@ -21,6 +21,7 @@ class Chat(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     room = models.ForeignKey(Room, models.CASCADE, related_name='room_chat')
     leftUser = models.ForeignKey(User, models.CASCADE, related_name='left_user_chat', null=True)
+    is_read = models.BooleanField(default=False)
     
 # 그 룸에 계속 있었던 사람은 -> 그 룸의 챗을 모두 불러온다.
 # 그 룸에 나갔다가 들어온 사람은 -> 그 룸에서 새로 시작된 챗만 불러온다.

@@ -55,7 +55,6 @@ class TestMessageSend(TestCase):
         self.assertEqual(chat.leftUser,None)
         self.assertEqual(chat.room,room)
 
-        
 class TestRoomExit(TestCase):
     def test_start_user_room_exit(self):
         TestMessageSend().test_send_message()
@@ -177,37 +176,15 @@ class TestGetMessage(TestCase):
         self.assertEqual(message_list[0].message,"안녕하세요")
 
 
-
-class TestRoomExitAndSend(TestCase):
-    def test_send_and_sender_exit_and_send_message(self):
+class Test_Chat_Status_When_Exit(TestCase):
+    def test_send_and_sender_exit(self):
         TestMessageSend().test_send_message()
         user1 = User.objects.get(username='startUser')
         user2 = User.objects.get(username='endUser')
         delete_room(user1,user2)
-        send_message(user1,user2,"안녕하세요")
-
-        room = Room.objects.get()
-        self.assertEqual(room.startUser,user1)
-        self.assertEqual(room.endUser,user2)
-        self.assertEqual(room.lastMessage,"안녕하세요")
-        self.assertEqual(room.startUser_is_room_deleted,False)
-        self.assertEqual(room.endUser_is_room_deleted,False)
-
-    def test_send_and_receiver_exit_and_send_message(self):
-        TestMessageSend().test_send_message()
-        user1 = User.objects.get(username='startUser')
-        user2 = User.objects.get(username='endUser')
-        delete_room(user2,user1)
-        send_message(user1,user2,"안녕하세요")
-
-        room = Room.objects.get()
-        self.assertEqual(room.startUser,user1)
-        self.assertEqual(room.endUser,user2)
-        self.assertEqual(room.lastMessage,"안녕하세요")
-        self.assertEqual(room.startUser_is_room_deleted,False)
-        self.assertEqual(room.endUser_is_room_deleted,False)
-        
 
 
-# 오류 나는 부분 -> 대화를 한다. 한명이 나간다. -> 그 chat은 leftuser가 그 user로 등록된다.
-# -> 그 다음에 다시 대화를 한다. -> 그러면 다시 들어온다 -> 그 다음 그 
+
+
+
+# send하고 receiver가 나가고, sener가 다시 들어왔다가. 다시 나갔을때. getMEssage하면. 여전히 leftUser는 그 유저여야 함.

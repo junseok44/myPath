@@ -25,13 +25,14 @@ def send_message(sender, receiver, text):
     room.startUser_is_room_deleted = False
     room.lastMessage = text
     room.save()
-    return {"sender":chat.sender.username, "receiver":chat.receiver.username, "time":chat.time, "message":chat.message}
+    return {"chat_id": chat.id, "sender":chat.sender.username, "receiver":chat.receiver.username, "time":chat.time, "message":chat.message}
 
 
 def get_room_list(me):
     q1 = Room.objects.filter(startUser=me,startUser_is_room_deleted=False)
     q2 = Room.objects.filter(endUser=me,endUser_is_room_deleted=False)
     rooms = q1.union(q2).order_by('-lastMessageTime')
+    print(rooms)
     return rooms
 
 
@@ -57,8 +58,12 @@ def get_message_list(me, other):
             # 두 사람의 방이 없음.
             return []
 
-    q1 = Chat.objects.filter(room=room).filter(leftUser=None)
-    q2 = Chat.objects.filter(room=room).filter(leftUser=other)
+    q1 = Chat.objects.filter(room=room,leftUser=None)
+    q2 = Chat.objects.filter(room=room,leftUser=other)
+
+    q1.filter(receiver=me).update(is_read=True)
+    q2.filter(receiver=me).update(is_read=True)
+
     return q1.union(q2).order_by('time')
 
 
@@ -74,7 +79,7 @@ def delete_room(me,other):
                 if chat.leftUser == None:
                     chat.leftUser = me
                     chat.save()
-                else:
+                elif chat.leftUser == other:
                     chat.delete()
     except Room.DoesNotExist:
         try: 
@@ -88,7 +93,7 @@ def delete_room(me,other):
                     if chat.leftUser == None:
                         chat.leftUser = me
                         chat.save()
-                    else:
+                    elif chat.leftUser == other:
                         chat.delete()
         except Room.DoesNotExist:
             return False

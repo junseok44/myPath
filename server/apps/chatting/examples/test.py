@@ -500,6 +500,7 @@ class TestGetMessageList(TestCase):
         )
 
 class TestGetMessageListAfterRemove(TestCase):
+    # 내가 보내고 나갔을때 어떻게 보여야 하는가.
     def test_send_and_remove_by_sender_and_get_read(self):
         # Given: 보낸 사람, 받는 사람 생성; sender -> receiver 메시지 발송, sender 메시지 삭제
         sender = User.objects.create_user('sender')
@@ -544,6 +545,7 @@ class TestGetMessageListAfterRemove(TestCase):
             []
         )
 
+    # 내가 보내고 상대방이 나갔을때 어떻게 보여야 하는가.
     def test_send_and_remove_by_receiver_and_get_read(self):
         # Given: 보낸 사람, 받는 사람 생성; sender -> receiver 메시지 발송
         sender = User.objects.create_user('sender')
@@ -588,6 +590,7 @@ class TestGetMessageListAfterRemove(TestCase):
             [{'id': 1, 'text': 'message from sender to receiver', 'sent_by_me': True, 'was_read': True}]
         )
 
+    # 나와 상대방이 모두 나갔을때 어떻게 해야하는가.
     def test_send_and_remove_by_both_and_get_read(self):
         # Given: 보낸 사람, 받는 사람 생성; sender -> receiver 메시지 발송
         sender = User.objects.create_user('sender')
