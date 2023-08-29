@@ -7,6 +7,9 @@
     {% csrf_token %}
     <button type="submit">채팅방 나가기</button>
   </form>
+  <button onclick="onloadMoreMessage('{{other.id}}')">
+    이전 채팅 불러오기
+  </button>
   <ul class="chat_list">
     {% for msg in msg_list %} {% if msg.sender == user %}
     <li class="color-green">
@@ -79,6 +82,44 @@
   };
 </script>
 
+<script>
+  let messageIndex = 2;
+  async function onloadMoreMessage(other_id) {
+    const response = await fetch("/chat/api/get_message", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken"), // Replace with your method of getting CSRF token
+      },
+      body: JSON.stringify({ other_id: other_id, messageIndex: messageIndex }),
+    });
+
+    if (response.ok) {
+      response_parsed = await response.json();
+      for (let msg of response_parsed.msg_list.reverse()) {
+        li = createChatNode(msg.sender_id, msg.sender, msg.text);
+        chat_list.insertBefore(li, chat_list.firstChild);
+      }
+      messageIndex += 1;
+    } else {
+      alert("서버 상태가 좋지 않습니다. 다시 시도해주세요.");
+    }
+  }
+
+  function createChatNode(sender_id, sender, message) {
+    const li = document.createElement("li");
+    li.innerHTML = `${sender} ${message}`;
+
+    if (sender_id == user_id) {
+      li.classList.add("color-green");
+    } else if (sender_id == other_id) {
+      li.classList.add("color-red");
+    }
+
+    return li;
+  }
+</script>
+
 <!-- 메시지 전송 관련 이벤트 리스너 -->
 <script>
   const message_input = document.querySelector(".message_input");
@@ -108,6 +149,7 @@
       roomSocket.send(JSON.stringify({ type: "update_room" }));
       message_input.value = "";
     } else {
+      alert("서버 상태가 좋지 않습니다. 다시 시도해주세요.");
     }
   };
 

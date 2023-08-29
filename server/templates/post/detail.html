@@ -335,13 +335,10 @@
 
         if(confirm("쪽지를 보냈어요. 쪽지함으로 이동하시겠습니까?")) {
         window.location.href =`/chat/chats/${response_parsed["receiver_id"]}`
-
         roomSocket.close()
       }
       }
-
-
-     
+      document.querySelector(".message_text").value = ""
     } else {}
   }
 

@@ -110,3 +110,14 @@ def delete_room(me,other):
     
 
 
+def get_message_list_data(msg_list):
+    msg_list_data = []
+
+    for msg in msg_list:
+        msg_list_data.append({
+            "sender": msg.sender.username,
+            "sender_id": msg.sender.id,
+            "text": msg.message,
+        })
+
+    return msg_list_data
