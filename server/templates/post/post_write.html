@@ -195,6 +195,30 @@
   }
 </script>
 <script>
+  /*
+  path의 구조는 다음과 같습니다.
+  {
+    id: uuid,
+    order: 1,
+    title: "패스 제목",
+  }
+
+*/
+  /*
+  step의 구조는 다음과 같습니다.
+  {
+    id: uuid,
+    pathId: uuid,
+    order: 1,
+    isNew: true,
+    isEdited: false,
+    title: "스텝 제목",
+    desc: "스텝 설명",
+    image: "이미지 데이터",
+  }
+
+*/
+
   let paths = [];
   let steps = [];
   // TODO. COLUM삭제. ORDER변경. 그리고 아이템 ORDER변경.
