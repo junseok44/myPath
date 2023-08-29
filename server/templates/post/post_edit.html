@@ -227,10 +227,10 @@
     });
   </script>
 
-  <script src="{% static 'post/writePage/responsivePath.js' %}"></script>
-  <script src="{% static 'post/writePage/path.js' %}"></script>
-  <script src="{% static 'post/writePage/modal.js' %}"></script>
-  <script src="{% static 'post/writePage/csrftoken.js' %}"></script>
+  <script src="{% static 'post/responsivePath.js' %}"></script>
+  <script src="{% static 'post/addNode.js' %}"></script>
+  <script src="{% static 'post/modal.js' %}"></script>
+  <script src="{% static 'post/csrftoken.js' %}"></script>
 
   <!-- 변수선언 -->
   <script>
@@ -283,7 +283,6 @@
       addPathNode(prevPathId, id)
 
       const prevPathItem = paths.find((path) => path.id == prevPathId);
-
       if (prevPathItem) {
 
         paths = paths.map(
@@ -465,6 +464,8 @@
     });
 
   </script>
+
+
 
   <script>
   function handleChangeStepTitle(stepId) {
