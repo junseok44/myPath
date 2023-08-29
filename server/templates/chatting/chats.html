@@ -19,7 +19,7 @@
     </li>
     {% endif %} {% endfor %}
   </ul>
-  <input class="message_input" />
+  <input maxlength="100" class="message_input" />
   <button onclick="onSendMessage(event,'{{other.id}}')">전송</button>
 </div>
 
@@ -32,7 +32,7 @@
   }
 </script>
 
-<!-- chat list -->
+<!-- 채팅 관련 소켓 -->
 <script>
   const chat_list = document.querySelector(".chat_list");
   const current_room_id = "{{current_room.id}}";
@@ -41,10 +41,12 @@
   const other_id = "{{other.id}}";
   const user_room_id = other_id.replaceAll("-", "");
 
+  // 현재 채팅방 관련 소켓
   const chatSocket = new WebSocket(
     "ws://" + window.location.host + "/ws/chat/" + `${current_room_id}` + "/"
   );
 
+  // 채팅하는 상대방의 방 목록을 업데이트한다.
   const roomSocket = new WebSocket(
     "ws://" + window.location.host + "/ws/user_room/" + user_room_id + "/"
   );
@@ -77,7 +79,7 @@
   };
 </script>
 
-<!-- 관련 이벤트 리스너 -->
+<!-- 메시지 전송 관련 이벤트 리스너 -->
 <script>
   const message_input = document.querySelector(".message_input");
 
@@ -109,32 +111,9 @@
     }
   };
 
-  // const onExitRoom = () => {
-  //   chatSocket.send(
-  //     JSON.stringify({
-  //       type: "send_message",
-  //       message: `${user_username}님이 채팅방을 나갔습니다.`,
-  //       sender: "[system]",
-  //       sender_id: "dfd",
-  //     })
-  //   );
-  // };
-
   const onMoveRoom = () => {
     window.location.href = "/chat/rooms";
   };
 </script>
 
-<!-- <script>
-  const add_message = (sender, text) => {
-    const li = document.createElement("li");
-    const span = document.createElement("span");
-    span.innerText = sender;
-    span.classList.add("message_user");
-    li.appendChild(span);
-    li.innerText += text;
-    li.classList.add("color-green");
-    document.querySelector("ul").appendChild(li);
-  };
-</script> -->
 {% endblock %}
