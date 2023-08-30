@@ -1,9 +1,11 @@
 function addPathNode(prevPathId, id) {
-  const main = document.querySelector(".main-container");
   const NewBtn = document.querySelector(".add_new-btn");
   if (NewBtn) {
     NewBtn.parentNode.removeChild(NewBtn);
   }
+
+  // 가로모드인지 세로모드인지.
+  const main = document.querySelector(".main-container");
   let isColumnMode = main.classList.contains("col-mode");
 
   li = document.createElement("li");
@@ -18,7 +20,7 @@ function addPathNode(prevPathId, id) {
     </span>
     <div class="step_container_w_btn">
     <div class="step_container ${isColumnMode ? "" : " container_row-mode"}">
-            </div>
+    </div>
     <button type="button" class="step-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">+</button>
     </div>
     `;
@@ -82,9 +84,3 @@ function addStepNode(targetPathId, id) {
           `;
   stepContainer.appendChild(section);
 }
-
-// 테스트용으로 넣은 코드입니다. 실제 코드 작성시 삭제해주세요
-module.exports = {
-  addPathNode,
-  addStepNode,
-};

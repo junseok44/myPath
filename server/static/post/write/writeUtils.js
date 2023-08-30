@@ -1,21 +1,28 @@
 // 이 부분은 테스트 용입니다. runserver시 주석 처리해주세요
 const uuid = require("uuid");
-const { addPathNode } = require("../addNode");
 const updateSelectOptions = jest.fn();
 const changeDisplay = jest.fn();
+
+function getPathsAndSteps() {
+  return { paths, steps };
+}
+
+function resetPathsAndSteps() {
+  paths = [];
+  steps = [];
+}
+
+module.exports = {
+  createPathAndDisplay: createPathAndDisplay,
+  addPathData: addPathData,
+  handleDeletePath: handleDeletePath,
+  getPathsAndSteps: getPathsAndSteps,
+  resetPathsAndSteps: resetPathsAndSteps,
+};
 // 여기까지
 
 let paths = [];
 let steps = [];
-
-// 이 부분은 테스트 용입니다. runsever시 주석 처리해주세요.
-module.exports = {
-  createPathAndDisplay: createPathAndDisplay,
-  addPathData: addPathData,
-  paths: paths,
-  steps: steps,
-};
-// 여기까지.
 
 function createPathAndDisplay(prevPathId) {
   let id = uuid.v4();
@@ -92,7 +99,9 @@ function handleDeletePath(targetPathId) {
   const main = document.querySelector(".main-container");
   const target = main.querySelector(`.path_${targetPathId}`);
 
-  var optionElements = selectElement.getElementsByTagName("option");
+  // 이 부분 로직 분리하기
+  // 내가 볼때 지우고 나서 다음 option을 뭐로 설정할지에 관한 로직임.
+  const selectElement = document.querySelector("#pathSelect");
   var specificOptionIndex = Array.from(selectElement.options).findIndex(
     function (option) {
       return option.value === targetPathId;
@@ -235,6 +244,10 @@ function handleChangePathTitle(e, pathId) {
   changeDisplay(pathId);
 }
 
+// 이 부분은 테스트 용입니다. runsever시 주석 처리해주세요.
+const { addStepNode, addPathNode } = require("../addNode_by_javascript");
+
+// 여기까지.
 /*
   path의 구조는 다음과 같습니다.
   {
