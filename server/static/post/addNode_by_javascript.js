@@ -1,5 +1,17 @@
 // 이 부분은 테스트용입니다. runserver시 주석처리해주세요.
-const WriteUtils = require("./write/writeUtils");
+const {
+  createPathAndDisplay,
+  handleChangePathTitle,
+  handleAddStep,
+  handleDeleteItem,
+  handleDeletePath,
+  moveItemDown,
+  moveItemUp,
+  handleChangeStepTitle,
+  handleChangeStepDesc,
+  handleChangeStepImage,
+} = require("./write/writeUtils");
+
 module.exports = {
   addPathNode,
   addStepNode,
@@ -26,22 +38,18 @@ function addPathNode(prevPathId, id) {
   input.placeholder = "패스 제목 입력...";
   input.type = "text";
   input.classList.add("writePage-input", "path_title");
-  input.addEventListener("change", (event) =>
-    WriteUtils.handleChangePathTitle(event, id)
-  );
+  input.addEventListener("change", (event) => handleChangePathTitle(event, id));
 
   const addButton = document.createElement("button");
   addButton.type = "button";
   addButton.classList.add("secondary-btn", "path-add-btn");
   addButton.textContent = "패스+";
-  addButton.addEventListener("click", () =>
-    WriteUtils.createPathAndDisplay(id)
-  );
+  addButton.addEventListener("click", () => createPathAndDisplay(id));
 
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
   deleteButton.classList.add("step-btn");
-  deleteButton.addEventListener("click", () => WriteUtils.handleDeletePath(id));
+  deleteButton.addEventListener("click", () => handleDeletePath(id));
 
   const deleteIcon = document.createElement("i");
   deleteIcon.classList.add("fa-solid", "fa-trash");
@@ -116,6 +124,7 @@ function addStepNode(targetPathId, id) {
   const imageInput = document.createElement("input");
   imageInput.type = "file";
   imageInput.classList.add("imageInput");
+  imageInput.setAttribute("data-testid", `imageInput_${id}`);
   imageInput.onchange = () => handleChangeStepImage(id);
 
   stepContent.appendChild(titleInput);
@@ -125,9 +134,9 @@ function addStepNode(targetPathId, id) {
   const stepBtnContainer = document.createElement("div");
   stepBtnContainer.classList.add("step-btn-container");
 
-  const moveUpButton = createStepButton("moveItemUp", id, "fa-angles-up");
-  const moveDownButton = createStepButton("moveItemDown", id, "fa-angles-down");
-  const deleteButton = createStepButton("handleDeleteItem", id, "fa-trash");
+  const moveUpButton = createStepButton(moveItemUp, id, "angles-up");
+  const moveDownButton = createStepButton(moveItemDown, id, "angles-down");
+  const deleteButton = createStepButton(handleDeleteItem, id, "trash");
 
   stepBtnContainer.appendChild(moveUpButton);
   stepBtnContainer.appendChild(moveDownButton);
@@ -185,7 +194,7 @@ function createStepButton(clickHandler, id, icon) {
   const button = document.createElement("button");
   button.type = "button";
   button.classList.add("step-btn");
-  button.onclick = () => window[clickHandler](id);
+  button.onclick = () => clickHandler(id);
   const iconElement = document.createElement("i");
   iconElement.classList.add("fa-solid", `fa-${icon}`);
   button.appendChild(iconElement);

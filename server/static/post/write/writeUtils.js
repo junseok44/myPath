@@ -13,11 +13,19 @@ function resetPathsAndSteps() {
 }
 
 module.exports = {
+  getPathsAndSteps: getPathsAndSteps,
+  resetPathsAndSteps: resetPathsAndSteps,
   createPathAndDisplay: createPathAndDisplay,
   addPathData: addPathData,
   handleDeletePath: handleDeletePath,
-  getPathsAndSteps: getPathsAndSteps,
-  resetPathsAndSteps: resetPathsAndSteps,
+  handleAddStep: handleAddStep,
+  handleChangePathTitle: handleChangePathTitle,
+  handleChangeStepTitle: handleChangeStepTitle,
+  handleChangeStepDesc: handleChangeStepDesc,
+  handleChangeStepImage: handleChangeStepImage,
+  handleDeleteItem: handleDeleteItem,
+  moveItemUp: moveItemUp,
+  moveItemDown: moveItemDown,
 };
 // 여기까지
 
@@ -53,6 +61,51 @@ function addPathData(prevPathId, id) {
   } else {
     paths.push({ id: id, order: 1, title: `` });
   }
+}
+
+function handleDeletePath(targetPathId) {
+  const main = document.querySelector(".main-container");
+  const target = main.querySelector(`.path_${targetPathId}`);
+
+  // 이 부분 로직 분리하기
+  // 내가 볼때 지우고 나서 다음 option을 뭐로 설정할지에 관한 로직임.
+  const selectElement = document.querySelector("#pathSelect");
+  var specificOptionIndex = Array.from(selectElement.options).findIndex(
+    function (option) {
+      return option.value === targetPathId;
+    }
+  );
+  if (specificOptionIndex == 0) {
+    specificOptionIndex = 2;
+  }
+  var targetOption = selectElement.options[specificOptionIndex - 1];
+
+  target.classList.add("fadeout");
+  setTimeout(() => {
+    main.removeChild(target);
+    if (main.childElementCount == 0) {
+      main.innerHTML = `
+      <button type="button" onclick="createPathAndDisplay()" class="btn add_new-btn writePage__btn">
+        내 패스 만들기
+      </button>
+      `;
+    }
+
+    updateSelectOptions();
+    if (targetOption) changeDisplay(targetOption.value);
+  }, 300);
+
+  targetOrder = paths.find((path) => path.id == targetPathId).order;
+
+  paths = paths.map((path) => {
+    if (path.order > targetOrder) {
+      path.order -= 1;
+    }
+    return path;
+  });
+
+  paths = paths.filter((path) => path.id !== targetPathId);
+  steps = steps.filter((step) => step.pathId !== targetPathId);
 }
 
 function handleAddStep(targetPathId) {
@@ -93,42 +146,6 @@ function handleDeleteItem(targetStepId) {
     steps.findIndex((step) => step.id == targetStepId),
     1
   );
-}
-
-function handleDeletePath(targetPathId) {
-  const main = document.querySelector(".main-container");
-  const target = main.querySelector(`.path_${targetPathId}`);
-
-  // 이 부분 로직 분리하기
-  // 내가 볼때 지우고 나서 다음 option을 뭐로 설정할지에 관한 로직임.
-  const selectElement = document.querySelector("#pathSelect");
-  var specificOptionIndex = Array.from(selectElement.options).findIndex(
-    function (option) {
-      return option.value === targetPathId;
-    }
-  );
-  if (specificOptionIndex == 0) {
-    specificOptionIndex = 2;
-  }
-  var targetOption = selectElement.options[specificOptionIndex - 1];
-
-  target.classList.add("fadeout");
-  setTimeout(() => {
-    main.removeChild(target);
-    if (main.childElementCount == 0) {
-      main.innerHTML = `
-      <button type="button" onclick="createPathAndDisplay()" class="btn add_new-btn writePage__btn">
-        내 패스 만들기
-      </button>
-      `;
-    }
-
-    updateSelectOptions();
-    if (targetOption) changeDisplay(targetOption.value);
-  }, 300);
-
-  paths = paths.filter((path) => path.id !== targetPathId);
-  steps = steps.filter((step) => step.pathId !== targetPathId);
 }
 
 function moveItemUp(stepId) {
