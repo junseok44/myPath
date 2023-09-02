@@ -53,9 +53,6 @@
   width: 100%;
 }
 
-.step-upload-btn:hover {
-}
-
 /* 나중에 정리 */
 .writePage > h1 {
   margin-bottom: 2rem;
@@ -130,7 +127,7 @@
 .initial-path-add-btn:hover {
   cursor: pointer;
   color: white;
-  background-color: var(--primary-color-highlight)
+  background-color: var(--primary-color-highlight);
 }
 
 /* .writePage__thumbnail {
@@ -167,7 +164,7 @@
   right: calc(100% + 0.5rem);
   width: 1rem;
   height: 1rem;
-  background-image: url("../left-arrow-angle.png"); /* Set the image path */
+  background-image: url("../../resource/left-arrow-angle.png");
   background-repeat: no-repeat; /* Prevent the image from repeating */
   background-size: contain; /* Scale the image to fit within the element */
   transform: translateY(-50%) rotate(180deg);
@@ -188,7 +185,7 @@
   left: 50%;
   width: 1rem;
   height: 1rem;
-  background-image: url("../left-arrow-angle.png"); /* Set the image path */
+  background-image: url("../../resource/left-arrow-angle.png");
   background-repeat: no-repeat; /* Prevent the image from repeating */
   background-size: contain; /* Scale the image to fit within the element */
   transform: translateX(-50%) rotate(270deg);

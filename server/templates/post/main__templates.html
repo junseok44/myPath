@@ -1,5 +1,16 @@
 {% extends 'base.html' %} {% load static %}
 
+
+<div>
+  {% block stylesheet %}
+  <link
+    rel="stylesheet"
+    href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
+  />
+  <link rel="stylesheet" href="{% static 'post/main/main.css' %}" />
+  {% endblock %}
+</div>
+
 {% block content %}
 
 <div class="main__templates">

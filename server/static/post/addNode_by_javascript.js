@@ -1,21 +1,21 @@
 // 이 부분은 테스트용입니다. runserver시 주석처리해주세요.
-const {
-  createPathAndDisplay,
-  handleChangePathTitle,
-  handleAddStep,
-  handleDeleteItem,
-  handleDeletePath,
-  moveItemDown,
-  moveItemUp,
-  handleChangeStepTitle,
-  handleChangeStepDesc,
-  handleChangeStepImage,
-} = require("./write/writeUtils");
+// const {
+//   createPathAndDisplay,
+//   handleChangePathTitle,
+//   handleAddStep,
+//   handleDeleteItem,
+//   handleDeletePath,
+//   moveItemDown,
+//   moveItemUp,
+//   handleChangeStepTitle,
+//   handleChangeStepDesc,
+//   handleChangeStepImage,
+// } = require("./write/writeUtils");
 
-module.exports = {
-  addPathNode,
-  addStepNode,
-};
+// module.exports = {
+//   addPathNode,
+//   addStepNode,
+// };
 // 여기까지
 
 function addPathNode(prevPathId, id) {

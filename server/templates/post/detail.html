@@ -2,6 +2,8 @@
 {% load static %}
 
 
+
+
 {% block search_engine_optimization %}
 <meta property="og:url" content="https://eb.my-path.xyz/" />
 <meta property="og:title" content="{{post.title}}" />
@@ -12,6 +14,13 @@
   content="{{post.desc}}"
 />
 <title>{{post.title}} | 마이패스</title>
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'post/detail/detail.css' %}" />
+{% endblock %}
+
+{% block script %}
 {% endblock %}
 
 {% block content %}

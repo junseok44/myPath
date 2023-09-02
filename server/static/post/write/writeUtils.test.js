@@ -2,23 +2,19 @@ const { fireEvent, screen, waitFor } = require("@testing-library/dom");
 const userEvent = require("@testing-library/user-event");
 const WriteUtils = require("./writeUtils");
 
-// let mainContainer;
-// mainContainer = document.createElement("div");
-// mainContainer.innerHTML = `
-// <div class="pathSelect">
-// <span>패스 선택</span>
-// <select id="pathSelect" class="writePage-input select"></select>
-// </div>
-// <ul class="main-container writePage__main col-mode">
-// <button
-//   type="button"
-//   class="initial-path-add-btn add_new-btn writePage__btn"
-// >
-//   패스 추가하기
-// </button>
-// </ul>
-// `;
-// document.body.appendChild(mainContainer);
+const mainContainer_html = `
+<div class="pathSelect">
+<span>패스 선택</span>
+<select id="pathSelect" class="writePage-input select"></select>
+</div>
+<ul class="main-container writePage__main col-mode">
+<button
+  type="button"
+  class="initial-path-add-btn add_new-btn writePage__btn"
+>
+  패스 추가하기
+</button>
+</ul>`;
 
 const createFirstPath = () => {
   const button = document.querySelector(".add_new-btn");
@@ -36,20 +32,7 @@ describe("path 추가와 삭제", () => {
     paths = WriteUtils.getPathsAndSteps().paths;
     steps = WriteUtils.getPathsAndSteps().steps;
     mainContainer = document.createElement("div");
-    mainContainer.innerHTML = `
-      <div class="pathSelect">
-      <span>패스 선택</span>
-      <select id="pathSelect" class="writePage-input select"></select>
-      </div>
-      <ul class="main-container writePage__main col-mode">
-      <button
-        type="button"
-        class="initial-path-add-btn add_new-btn writePage__btn"
-      >
-        패스 추가하기
-      </button>
-    </ul>
-      `;
+    mainContainer.innerHTML = mainContainer_html;
     document.body.appendChild(mainContainer);
   });
 
@@ -234,7 +217,6 @@ describe("path 추가와 삭제", () => {
     expect(steps.length).toBe(0);
   });
 });
-
 // 현재 이 부분의 맹점은. path[0]이 정확히 dom상의 첫번째 path를 가리키는지를 모른다는것.
 // 상관없을것같기도 하다.
 // 그리고 이 부분에서 중복이 없는지. 체크하는것도 논리적인 실력이 될듯.
@@ -247,20 +229,7 @@ describe("path order 관련 테스트", () => {
     paths = WriteUtils.getPathsAndSteps().paths;
     steps = WriteUtils.getPathsAndSteps().steps;
     mainContainer = document.createElement("div");
-    mainContainer.innerHTML = `
-    <div class="pathSelect">
-    <span>패스 선택</span>
-    <select id="pathSelect" class="writePage-input select"></select>
-    </div>
-    <ul class="main-container writePage__main col-mode">
-    <button
-      type="button"
-      class="initial-path-add-btn add_new-btn writePage__btn"
-    >
-      패스 추가하기
-    </button>
-  </ul>
-    `;
+    mainContainer.innerHTML = mainContainer_html;
     document.body.appendChild(mainContainer);
   });
 
@@ -418,7 +387,6 @@ describe("path order 관련 테스트", () => {
     expect(paths[3].order).toBe(2);
   });
 });
-
 describe("step 데이터 변경 테스트", () => {
   let mainContainer;
   let paths;
@@ -428,20 +396,7 @@ describe("step 데이터 변경 테스트", () => {
     paths = WriteUtils.getPathsAndSteps().paths;
     steps = WriteUtils.getPathsAndSteps().steps;
     mainContainer = document.createElement("div");
-    mainContainer.innerHTML = `
-    <div class="pathSelect">
-    <span>패스 선택</span>
-    <select id="pathSelect" class="writePage-input select"></select>
-    </div>
-    <ul class="main-container writePage__main col-mode">
-    <button
-      type="button"
-      class="initial-path-add-btn add_new-btn writePage__btn"
-    >
-      패스 추가하기
-    </button>
-  </ul>
-    `;
+    mainContainer.innerHTML = mainContainer_html;
     document.body.appendChild(mainContainer);
   });
 
@@ -548,7 +503,9 @@ describe("step 데이터 변경 테스트", () => {
     });
   });
 
-  it("용량이 큰 이미지 업로드시 어떻게 되는지 테스트", () => {});
+  it("용량이 큰 이미지 업로드시 어떻게 되는지 테스트", () => {
+    expect(1).toBe(2);
+  });
 
   it("제목, 내용, 이미지 변경 종합 테스트 ( 패스1,2 추가, 패스2에 스탭 1,2 추가) ", async () => {
     createFirstPath();
@@ -591,7 +548,6 @@ describe("step 데이터 변경 테스트", () => {
     });
   });
 });
-
 describe("step 추가, 삭제시 order가 제대로 반영이 되는지", () => {
   let mainContainer;
   let paths;
@@ -600,20 +556,7 @@ describe("step 추가, 삭제시 order가 제대로 반영이 되는지", () => 
     paths = WriteUtils.getPathsAndSteps().paths;
     steps = WriteUtils.getPathsAndSteps().steps;
     mainContainer = document.createElement("div");
-    mainContainer.innerHTML = `
-      <div class="pathSelect">
-      <span>패스 선택</span>
-      <select id="pathSelect" class="writePage-input select"></select>
-      </div>
-      <ul class="main-container writePage__main col-mode">
-      <button
-        type="button"
-        class="initial-path-add-btn add_new-btn writePage__btn"
-      >
-        패스 추가하기
-      </button>
-    </ul>
-      `;
+    mainContainer.innerHTML = mainContainer_html;
     document.body.appendChild(mainContainer);
   });
   afterEach(() => {
@@ -657,9 +600,114 @@ describe("step 추가, 삭제시 order가 제대로 반영이 되는지", () => 
     expect(steps[1].order).toBe(2);
   });
 });
+// css 상에서, pathSelect는 450px 이하에서만 나타나지만
+// 현재 테스트에서는 그냥 pc에서도 화면상에 있다고 생각.
+describe("패스 select 관련 테스트", () => {
+  let mainContainer;
+  let paths;
+  let steps;
+  beforeEach(() => {
+    paths = WriteUtils.getPathsAndSteps().paths;
+    steps = WriteUtils.getPathsAndSteps().steps;
+    mainContainer = document.createElement("div");
+    mainContainer.innerHTML = mainContainer_html;
+    document.body.appendChild(mainContainer);
+  });
+  afterEach(() => {
+    WriteUtils.resetPathsAndSteps();
+    const pathSelect = document.querySelector("#pathSelect");
+    if (pathSelect) {
+      pathSelect.innerHTML = "";
+    }
+    if (mainContainer && mainContainer.parentNode) {
+      mainContainer.parentNode.removeChild(mainContainer);
+    }
+  });
+  it("패스를 추가할시 pathSelect가 잘 업데이트 되는지", async () => {
+    createFirstPath();
+    const path_select = document.querySelector("#pathSelect");
+    expect(path_select).toBeTruthy();
 
-describe("패스 select 관련 테스트", () => {});
+    let options;
+    await waitFor(() => {
+      options = path_select.querySelectorAll("option");
+      expect(options.length).toBe(1);
+    });
+    expect(options[0].value).toBe(paths[0].id);
+    expect(options[0].text).toBe("이름없는 패스1");
+  });
 
-describe("반응형 테스트", () => {});
+  it("생성된 패스의 이름을 변경할시 pathSelect가 잘 업데이트 되는지", async () => {
+    createFirstPath();
 
-describe("가로, 세로모드 관련 테스트", () => {});
+    // const pathTitleInput = screen.queryByPlaceholderText("패스 제목 입력...");
+    // fireEvent.change(pathTitleInput, { target: { value: "이걸로 가자" } });
+
+    const path_select = document.querySelector("#pathSelect");
+    expect(path_select).toBeTruthy();
+    let options;
+    options = path_select.querySelectorAll("option");
+    expect(options[0].textContent).toBe("이걸로 가자");
+  });
+
+  it("첫번째 패스를 삭제할시 공백 패스를 보여주는지.", async () => {
+    createFirstPath();
+    const pathDeleteBtn = document.querySelector(".fa-trash");
+    fireEvent(pathDeleteBtn, new MouseEvent("click", { bubbles: true }));
+
+    const path_select = document.querySelector("#pathSelect");
+    expect(path_select).toBeTruthy();
+
+    const options = document.querySelectorAll(`option`);
+
+    await waitFor(() => {
+      expect(options.length).toBe(0);
+    });
+  });
+
+  it("패스가 2개 이상일때 첫번째 패스를 삭제할시 두번째 패스만 남는지", async () => {
+    createFirstPath();
+
+    const path_add_btn = document.querySelector(".path-add-btn");
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+
+    const path_select = document.querySelector("#pathSelect");
+    expect(path_select).toBeTruthy();
+
+    paths = WriteUtils.getPathsAndSteps().paths;
+    let options;
+    options = document.querySelectorAll(`option`);
+
+    expect(options[0].value).toBe(paths[0].id);
+    expect(options[0].text).toBe("이름없는 패스1");
+    expect(options[1].value).toBe(paths[1].id);
+    expect(options[1].text).toBe("이름없는 패스2");
+
+    const pathDeleteBtn = document.querySelector(".fa-trash");
+    fireEvent(pathDeleteBtn, new MouseEvent("click", { bubbles: true }));
+
+    await waitFor(() => {
+      options = document.querySelectorAll(`option`);
+      expect(options.length).toBe(1);
+      expect(options[0].value).toBe(paths[1].id);
+      expect(options[0].text).toBe("이름없는 패스1");
+    });
+  });
+
+  it("두번째 이상 패스를 삭제할시 select에는 이전 패스를 보여주는지", () => {});
+});
+describe("모바일 반응형 테스트", () => {
+  it("패스 추가시 해당 path만 화면에 잘 보이는지", () => {});
+
+  it("패스 삭제시 해당 path의 이전 path가 보이게 되는지", () => {});
+
+  it("첫번째 패스 삭제시 그 다음 패스를 화면에 띄우는지", () => {});
+
+  it("첫번째 패스 생성후 삭제시 오류", () => {});
+});
+
+describe("가로, 세로모드 관련 테스트", () => {
+  it("처음에는 가로모드로 생성이 되는지", () => {});
+
+  it("가로모드일때 해당 컴포넌트의 class명이 바뀌는지", () => {});
+});

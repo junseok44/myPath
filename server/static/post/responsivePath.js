@@ -1,7 +1,15 @@
+// 이 부분은 테스트용입니다. runserver시 주석 처리해주세요.
+// module.exports = {
+//   updateSelectOptions,
+//   changeDisplay,
+// };
+//
+
 let responsiveWidth = 900;
 const listElement = document.querySelector(".main-container");
 const selectElement = document.getElementById("pathSelect");
 
+// 현재 존재하는 path들의 데이터를 바탕으로 option을 생성함.
 function updateSelectOptions() {
   selectElement.innerHTML = "";
   const listItems = listElement.querySelectorAll(".path");
@@ -11,6 +19,7 @@ function updateSelectOptions() {
     const pathTitle = title !== "" ? title : `이름없는 패스${index}`;
     const option = document.createElement("option");
     const classNames = listItem.className.split(" ");
+    // 패스의 id를 option의 value로 설정함.
     for (const className of classNames) {
       if (className.startsWith("path_")) {
         option.value = className.slice(5);
@@ -32,6 +41,7 @@ function updateSelectOptions() {
   }
 }
 
+// 해당 option으로 change가 발생할시 다른거 다 숨기고 그 해당 path만 보여줌
 selectElement.addEventListener("change", () => {
   const selectedOption = selectElement.options[selectElement.selectedIndex];
   const selectedValue = selectedOption.value;
@@ -48,6 +58,7 @@ selectElement.addEventListener("change", () => {
   }
 });
 
+// 옵션들 중에서 value가 id인 옵션을 선택하고, change 이벤트를 발생시킴.
 function changeDisplay(id) {
   if (window.innerWidth <= responsiveWidth) {
     var optionElements = selectElement.getElementsByTagName("option");
@@ -66,10 +77,9 @@ const listItems = listElement.querySelectorAll(".path");
 
 if (window.innerWidth <= responsiveWidth) {
   listItems.forEach((item) => (item.style.display = "none"));
-  listItems[0].style.display = "block";
+  if (listItems.length > 0) listItems[0].style.display = "block";
+
   updateSelectOptions();
-} else {
-  // listItems.forEach((item) => (item.style.display = "block"));
 }
 
 // 개발용 이벤트 리스너.
@@ -77,7 +87,7 @@ window.addEventListener("resize", () => {
   const listItems = listElement.querySelectorAll(".path");
   if (window.innerWidth <= responsiveWidth) {
     listItems.forEach((item) => (item.style.display = "none"));
-    listItems[0].style.display = "block";
+    if (listItems.length > 0) listItems[0].style.display = "block";
     updateSelectOptions();
   } else {
     // listItems.forEach((item) => (item.style.display = "block"));

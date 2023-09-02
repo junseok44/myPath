@@ -1,4 +1,7 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block stylesheet %}
+
+<link rel="stylesheet" href="{% static 'post/write/write.css' %}" />
+{% endblock %} {% block content %}
 
 <div class="writePage">
   <form onsubmit="handleSubmit(event)">
