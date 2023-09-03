@@ -2,15 +2,19 @@
 // module.exports = {
 //   updateSelectOptions,
 //   changeDisplay,
+//   onChangeSelectElement,
 // };
 //
 
 let responsiveWidth = 900;
-const listElement = document.querySelector(".main-container");
-const selectElement = document.getElementById("pathSelect");
+let listElement = document.querySelector(".main-container");
+let selectElement = document.getElementById("pathSelect");
 
 // 현재 존재하는 path들의 데이터를 바탕으로 option을 생성함.
 function updateSelectOptions() {
+  listElement = document.querySelector(".main-container");
+  selectElement = document.getElementById("pathSelect");
+
   selectElement.innerHTML = "";
   const listItems = listElement.querySelectorAll(".path");
   let index = 1;
@@ -41,12 +45,13 @@ function updateSelectOptions() {
   }
 }
 
-// 해당 option으로 change가 발생할시 다른거 다 숨기고 그 해당 path만 보여줌
-selectElement.addEventListener("change", () => {
+function onChangeSelectElement() {
+  listElement = document.querySelector(".main-container");
+  selectElement = document.getElementById("pathSelect");
+
   const selectedOption = selectElement.options[selectElement.selectedIndex];
   const selectedValue = selectedOption.value;
-  const listItems = listElement.querySelectorAll(".path");
-  // Hide all list items
+  const listItems = document.querySelectorAll(".path");
   listItems.forEach((item) => (item.style.display = "none"));
 
   // Show the selected list item
@@ -56,11 +61,16 @@ selectElement.addEventListener("change", () => {
   if (selectedItem) {
     selectedItem.style.display = "block";
   }
-});
+}
+
+// 해당 option으로 change가 발생할시 다른거 다 숨기고 그 해당 path만 보여줌
+// selectElement.addEventListener("change", onChangeSelectElement);
+selectElement.onchange = onChangeSelectElement;
 
 // 옵션들 중에서 value가 id인 옵션을 선택하고, change 이벤트를 발생시킴.
 function changeDisplay(id) {
   if (window.innerWidth <= responsiveWidth) {
+    selectElement = document.getElementById("pathSelect");
     var optionElements = selectElement.getElementsByTagName("option");
     for (var i = 0; i < optionElements.length; i++) {
       if (optionElements[i].value === `${id}`) {

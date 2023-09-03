@@ -7,6 +7,12 @@ const mainContainer_html = `
 <span>패스 선택</span>
 <select id="pathSelect" class="writePage-input select"></select>
 </div>
+<button
+type="button"
+class="mode-btn writePage__btn"
+>
+세로모드로
+</button>
 <ul class="main-container writePage__main col-mode">
 <button
   type="button"
@@ -504,6 +510,7 @@ describe("step 데이터 변경 테스트", () => {
   });
 
   it("용량이 큰 이미지 업로드시 어떻게 되는지 테스트", () => {
+    // 이부분 어떻게 테스트할지 생각해봐야함.
     expect(1).toBe(2);
   });
 
@@ -602,7 +609,7 @@ describe("step 추가, 삭제시 order가 제대로 반영이 되는지", () => 
 });
 // css 상에서, pathSelect는 450px 이하에서만 나타나지만
 // 현재 테스트에서는 그냥 pc에서도 화면상에 있다고 생각.
-describe("패스 select 관련 테스트", () => {
+describe("패스 select 관련 테스트 (updateSelectoptions)", () => {
   let mainContainer;
   let paths;
   let steps;
@@ -615,10 +622,6 @@ describe("패스 select 관련 테스트", () => {
   });
   afterEach(() => {
     WriteUtils.resetPathsAndSteps();
-    const pathSelect = document.querySelector("#pathSelect");
-    if (pathSelect) {
-      pathSelect.innerHTML = "";
-    }
     if (mainContainer && mainContainer.parentNode) {
       mainContainer.parentNode.removeChild(mainContainer);
     }
@@ -629,10 +632,8 @@ describe("패스 select 관련 테스트", () => {
     expect(path_select).toBeTruthy();
 
     let options;
-    await waitFor(() => {
-      options = path_select.querySelectorAll("option");
-      expect(options.length).toBe(1);
-    });
+    options = document.querySelectorAll("option");
+    expect(options.length).toBe(1);
     expect(options[0].value).toBe(paths[0].id);
     expect(options[0].text).toBe("이름없는 패스1");
   });
@@ -640,17 +641,19 @@ describe("패스 select 관련 테스트", () => {
   it("생성된 패스의 이름을 변경할시 pathSelect가 잘 업데이트 되는지", async () => {
     createFirstPath();
 
-    // const pathTitleInput = screen.queryByPlaceholderText("패스 제목 입력...");
-    // fireEvent.change(pathTitleInput, { target: { value: "이걸로 가자" } });
-
     const path_select = document.querySelector("#pathSelect");
     expect(path_select).toBeTruthy();
+
+    const pathTitleInput = screen.queryByPlaceholderText("패스 제목 입력...");
+    fireEvent.change(pathTitleInput, { target: { value: "이걸로 가자" } });
+
     let options;
-    options = path_select.querySelectorAll("option");
+    options = document.querySelectorAll("option");
+    expect(options.length).toBe(1);
     expect(options[0].textContent).toBe("이걸로 가자");
   });
 
-  it("첫번째 패스를 삭제할시 공백 패스를 보여주는지.", async () => {
+  it("패스 삭제시 select가 잘 업데이트 되는지 (패스가 1개일때)", async () => {
     createFirstPath();
     const pathDeleteBtn = document.querySelector(".fa-trash");
     fireEvent(pathDeleteBtn, new MouseEvent("click", { bubbles: true }));
@@ -658,14 +661,13 @@ describe("패스 select 관련 테스트", () => {
     const path_select = document.querySelector("#pathSelect");
     expect(path_select).toBeTruthy();
 
-    const options = document.querySelectorAll(`option`);
-
     await waitFor(() => {
+      const options = document.querySelectorAll(`option`);
       expect(options.length).toBe(0);
     });
   });
 
-  it("패스가 2개 이상일때 첫번째 패스를 삭제할시 두번째 패스만 남는지", async () => {
+  it("패스 삭제시 select가 잘 업데이트 되는지 (패스가 두개이상일때)", async () => {
     createFirstPath();
 
     const path_add_btn = document.querySelector(".path-add-btn");
@@ -676,9 +678,10 @@ describe("패스 select 관련 테스트", () => {
 
     paths = WriteUtils.getPathsAndSteps().paths;
     let options;
-    options = document.querySelectorAll(`option`);
 
+    options = document.querySelectorAll(`option`);
     expect(options[0].value).toBe(paths[0].id);
+
     expect(options[0].text).toBe("이름없는 패스1");
     expect(options[1].value).toBe(paths[1].id);
     expect(options[1].text).toBe("이름없는 패스2");
@@ -689,25 +692,325 @@ describe("패스 select 관련 테스트", () => {
     await waitFor(() => {
       options = document.querySelectorAll(`option`);
       expect(options.length).toBe(1);
-      expect(options[0].value).toBe(paths[1].id);
-      expect(options[0].text).toBe("이름없는 패스1");
     });
+    expect(options[0].value).toBe(paths[1].id);
+    expect(options[0].text).toBe("이름없는 패스1");
+  });
+});
+describe("모바일 반응형 테스트 (changeDisplay)", () => {
+  let mainContainer;
+  let paths;
+  let pathSelect;
+  beforeEach(() => {
+    paths = WriteUtils.getPathsAndSteps().paths;
+    steps = WriteUtils.getPathsAndSteps().steps;
+    mainContainer = document.createElement("div");
+    mainContainer.innerHTML = mainContainer_html;
+    document.body.appendChild(mainContainer);
+    pathSelect = document.querySelector("#pathSelect");
+    if (!pathSelect.onchange) {
+      const { onChangeSelectElement } = require("../responsivePath");
+      pathSelect.onchange = onChangeSelectElement;
+    }
+    window.innerWidth = 450;
+    window.innerHeight = 700;
+  });
+  afterEach(() => {
+    WriteUtils.resetPathsAndSteps();
+    if (mainContainer && mainContainer.parentNode) {
+      mainContainer.parentNode.removeChild(mainContainer);
+    }
+  });
+  it("처음 패스 추가시 select에 그 함수로 선택되어있고 화면에는 첫번째 패스만 보여야함.", () => {
+    createFirstPath();
+
+    expect(pathSelect).toBeTruthy();
+    const selected_option = pathSelect.options[pathSelect.selectedIndex];
+
+    expect(selected_option.textContent).toBe("이름없는 패스1");
+
+    const paths = document.querySelectorAll(".path");
+    const path1_style = window.getComputedStyle(paths[0]);
+    expect(path1_style.display).toBe("block");
   });
 
-  it("두번째 이상 패스를 삭제할시 select에는 이전 패스를 보여주는지", () => {});
-});
-describe("모바일 반응형 테스트", () => {
-  it("패스 추가시 해당 path만 화면에 잘 보이는지", () => {});
+  it("마지막 패스 옆으로 패스를 계속 추가할시 화면에는 추가된 path만 보여야 함.", () => {
+    createFirstPath();
 
-  it("패스 삭제시 해당 path의 이전 path가 보이게 되는지", () => {});
+    const path_add_btn = document.querySelector(".path-add-btn");
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
 
-  it("첫번째 패스 삭제시 그 다음 패스를 화면에 띄우는지", () => {});
+    expect(screen.queryByText("이름없는 패스2")).toBeTruthy();
+    expect(screen.queryByText("이름없는 패스1")).toBeTruthy();
 
-  it("첫번째 패스 생성후 삭제시 오류", () => {});
+    let selected_option = pathSelect.options[pathSelect.selectedIndex];
+    expect(selected_option.textContent).toBe("이름없는 패스2");
+
+    let allPaths;
+    allPaths = document.querySelectorAll(".path");
+    const path1_style = window.getComputedStyle(allPaths[0]);
+    expect(path1_style.display).toBe("none");
+    let path2_style = window.getComputedStyle(allPaths[1]);
+    expect(path2_style.display).toBe("block");
+
+    const path_add_btn2 = document.querySelectorAll(".path-add-btn")[1];
+    fireEvent(path_add_btn2, new MouseEvent("click", { bubbles: true }));
+
+    selected_option = pathSelect.options[pathSelect.selectedIndex];
+    expect(selected_option.textContent).toBe("이름없는 패스3");
+
+    allPaths = document.querySelectorAll(".path");
+    expect(allPaths.length).toBe(3);
+    path2_style = window.getComputedStyle(allPaths[1]);
+    let path3_style = window.getComputedStyle(allPaths[2]);
+    expect(path2_style.display).toBe("none");
+    expect(path3_style.display).toBe("block");
+  });
+
+  it("패스 추가 이후 기존 패스 사이에 패스 추가할시 그 패스만 보이도록 되었는지.", () => {
+    createFirstPath();
+
+    const path_add_btn = document.querySelector(".path-add-btn");
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+
+    let selected_option = pathSelect.options[pathSelect.selectedIndex];
+    expect(selected_option.textContent).toBe("이름없는 패스2");
+
+    let allPaths;
+    allPaths = document.querySelectorAll(".path");
+    const path1_style = window.getComputedStyle(allPaths[0]);
+    expect(path1_style.display).toBe("none");
+    let path2_style = window.getComputedStyle(allPaths[1]);
+    expect(path2_style.display).toBe("block");
+    let path3_style = window.getComputedStyle(allPaths[2]);
+    expect(path3_style.display).toBe("none");
+  });
+
+  it("패스 삭제시 해당 path의 이전 path만 화면에 보이고 select는 그 값으로.", async () => {
+    createFirstPath();
+
+    const path_add_btn = document.querySelector(".path-add-btn");
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+
+    const pathDeleteBtn = document.querySelectorAll(".fa-trash")[1];
+    fireEvent(pathDeleteBtn, new MouseEvent("click", { bubbles: true }));
+
+    // 3초뒤에 삭제되고 display 변경되기 때문에 watiFor 사용해주어야 함.
+    await waitFor(() => {
+      let selected_option = pathSelect.options[pathSelect.selectedIndex];
+      expect(selected_option.textContent).toBe("이름없는 패스1");
+      expect(selected_option.value).toBe(paths[0].id);
+    });
+
+    let allPaths;
+    allPaths = document.querySelectorAll(".path");
+    expect(allPaths.length).toBe(1);
+    const path1_style = window.getComputedStyle(allPaths[0]);
+    expect(path1_style.display).toBe("block");
+  });
+
+  it("첫번째 패스 삭제시 두번째 패스가 화면에 보이고 select는 그 값만 선택되어야.", async () => {
+    createFirstPath();
+
+    const path_add_btn = document.querySelector(".path-add-btn");
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+
+    paths = WriteUtils.getPathsAndSteps().paths;
+    let new_added_id = paths[1].id;
+
+    const pathDeleteBtn = document.querySelectorAll(".fa-trash")[0];
+    fireEvent(pathDeleteBtn, new MouseEvent("click", { bubbles: true }));
+
+    await waitFor(() => {
+      let selected_option = pathSelect.options[pathSelect.selectedIndex];
+      expect(selected_option.textContent).toBe("이름없는 패스1");
+      expect(selected_option.value).toBe(new_added_id);
+    });
+
+    let allPaths;
+    allPaths = document.querySelectorAll(".path");
+    expect(allPaths.length).toBe(1);
+    const path1_style = window.getComputedStyle(allPaths[0]);
+    expect(path1_style.display).toBe("block");
+  });
+
+  it("패스 select시 select한 path만 보이고 다른 path는 보이지 않는지", () => {
+    createFirstPath();
+
+    const path_add_btn = document.querySelector(".path-add-btn");
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+
+    const path_add_btn2 = document.querySelectorAll(".path-add-btn")[1];
+    fireEvent(path_add_btn2, new MouseEvent("click", { bubbles: true }));
+
+    let allPaths;
+    allPaths = document.querySelectorAll(".path");
+    expect(allPaths.length).toBe(3);
+    let path1_style = window.getComputedStyle(allPaths[0]);
+    expect(path1_style.display).toBe("none");
+    let path2_style = window.getComputedStyle(allPaths[1]);
+    expect(path2_style.display).toBe("none");
+    let path3_style = window.getComputedStyle(allPaths[2]);
+    expect(path3_style.display).toBe("block");
+
+    let selected_option = pathSelect.options[pathSelect.selectedIndex];
+    expect(selected_option.textContent).toBe("이름없는 패스3");
+
+    let option_elements = document.querySelectorAll("option");
+    option_elements[1].selected = true;
+    pathSelect.dispatchEvent(new Event("change"));
+
+    path1_style = window.getComputedStyle(allPaths[0]);
+    expect(path1_style.display).toBe("none");
+    path2_style = window.getComputedStyle(allPaths[1]);
+    expect(path2_style.display).toBe("block");
+    path3_style = window.getComputedStyle(allPaths[2]);
+    expect(path3_style.display).toBe("none");
+
+    selected_option = pathSelect.options[pathSelect.selectedIndex];
+    expect(selected_option.textContent).toBe("이름없는 패스2");
+
+    option_elements[0].selected = true;
+    pathSelect.dispatchEvent(new Event("change"));
+
+    path1_style = window.getComputedStyle(allPaths[0]);
+    expect(path1_style.display).toBe("block");
+    path2_style = window.getComputedStyle(allPaths[1]);
+    expect(path2_style.display).toBe("none");
+    path3_style = window.getComputedStyle(allPaths[2]);
+    expect(path3_style.display).toBe("none");
+
+    selected_option = pathSelect.options[pathSelect.selectedIndex];
+    expect(selected_option.textContent).toBe("이름없는 패스1");
+  });
 });
 
 describe("가로, 세로모드 관련 테스트", () => {
-  it("처음에는 가로모드로 생성이 되는지", () => {});
+  let mainContainer;
+  let paths;
+  let pathSelect;
+  let modeBtn;
 
-  it("가로모드일때 해당 컴포넌트의 class명이 바뀌는지", () => {});
+  beforeEach(() => {
+    paths = WriteUtils.getPathsAndSteps().paths;
+    steps = WriteUtils.getPathsAndSteps().steps;
+    mainContainer = document.createElement("div");
+    mainContainer.innerHTML = mainContainer_html;
+    document.body.appendChild(mainContainer);
+    pathSelect = document.querySelector("#pathSelect");
+    modeBtn = document.querySelector(".mode-btn");
+    if (!pathSelect.onchange) {
+      const { onChangeSelectElement } = require("../responsivePath");
+      pathSelect.onchange = onChangeSelectElement;
+    }
+    if (!modeBtn.onclick) {
+      const { toggleMode } = require("./change_mode");
+      modeBtn.onclick = toggleMode;
+    }
+    window.innerWidth = 450;
+    window.innerHeight = 700;
+  });
+  afterEach(() => {
+    WriteUtils.resetPathsAndSteps();
+    if (mainContainer && mainContainer.parentNode) {
+      mainContainer.parentNode.removeChild(mainContainer);
+    }
+  });
+  it("처음에 패스추가할시 가로모드로 생성이 되는지", () => {
+    let main_container = document.querySelector(".main-container");
+    expect(main_container.classList.contains("col-mode")).toBeTruthy();
+    const { checkmode } = require("./change_mode");
+
+    expect(checkmode()).toBe("col");
+    createFirstPath();
+
+    const stepContainer = document.querySelector(".step_container");
+    expect(stepContainer.classList.contains("container_row-mode")).toBeFalsy();
+  });
+
+  it("모드 변경시 기존 패스들의 모드 변경이 잘 되는지.", async () => {
+    let main_container = document.querySelector(".main-container");
+    expect(main_container.classList.contains("col-mode")).toBeTruthy();
+
+    createFirstPath();
+    const path_add_btn = document.querySelector(".path-add-btn");
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+
+    // 모드 변경
+    fireEvent(modeBtn, new MouseEvent("click", { bubbles: true }));
+
+    expect(main_container.classList.contains("col-mode")).toBeFalsy();
+    const { checkmode } = require("./change_mode");
+    expect(checkmode()).toBe("row");
+
+    const stepContainer_list = document.querySelectorAll(".step_container");
+
+    for (cont of stepContainer_list) {
+      expect(cont.classList.contains("container_row-mode")).toBeTruthy();
+    }
+  });
+
+  it("모드 변경후 새롭게 추가할시 추가된 패스들의 모드가 유지가 되는지", () => {
+    const { checkmode } = require("./change_mode");
+
+    let main_container = document.querySelector(".main-container");
+    expect(main_container.classList.contains("col-mode")).toBeTruthy();
+
+    createFirstPath();
+    const path_add_btn = document.querySelector(".path-add-btn");
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+
+    // 모드 변경
+    fireEvent(modeBtn, new MouseEvent("click", { bubbles: true }));
+    expect(main_container.classList.contains("col-mode")).toBeFalsy();
+    expect(checkmode()).toBe("row");
+
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+    const path_add_btn2 = document.querySelectorAll(".path-add-btn")[2];
+    fireEvent(path_add_btn2, new MouseEvent("click", { bubbles: true }));
+
+    const stepContainer_list = document.querySelectorAll(".step_container");
+    for (cont of stepContainer_list) {
+      expect(cont.classList.contains("container_row-mode")).toBeTruthy();
+    }
+  });
+
+  it("가로모드로 추가하고, 모드변경해서 추가하고, 다시 가로모드변경시 추가, 변경 잘 되는지", () => {
+    const { checkmode } = require("./change_mode");
+    let main_container = document.querySelector(".main-container");
+    expect(main_container.classList.contains("col-mode")).toBeTruthy();
+    expect(checkmode()).toBe("col");
+
+    createFirstPath();
+    const path_add_btn = document.querySelector(".path-add-btn");
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+
+    // 세로모드로
+    fireEvent(modeBtn, new MouseEvent("click", { bubbles: true }));
+    expect(main_container.classList.contains("col-mode")).toBeFalsy();
+    expect(checkmode()).toBe("row");
+
+    fireEvent(path_add_btn, new MouseEvent("click", { bubbles: true }));
+    const path_add_btn2 = document.querySelectorAll(".path-add-btn")[2];
+    fireEvent(path_add_btn2, new MouseEvent("click", { bubbles: true }));
+
+    let stepContainer_list = document.querySelectorAll(".step_container");
+    for (cont of stepContainer_list) {
+      expect(cont.classList.contains("container_row-mode")).toBeTruthy();
+    }
+    // 다시 가로모드로
+    fireEvent(modeBtn, new MouseEvent("click", { bubbles: true }));
+    expect(main_container.classList.contains("col-mode")).toBeTruthy();
+    expect(checkmode()).toBe("col");
+
+    stepContainer_list = document.querySelectorAll(".step_container");
+    for (cont of stepContainer_list) {
+      expect(cont.classList.contains("container_row-mode")).toBeFalsy();
+    }
+  });
 });
+
+describe("종합테스트", () => {});

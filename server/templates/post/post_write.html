@@ -164,40 +164,14 @@
     }
   });
 </script>
-<!-- <script src="{% static 'post/modal.js' %}"></script> -->
 
 <!-- csrf token -->
 <script src="{% static 'post/csrftoken.js' %}"></script>
 <script src="{% static 'post/responsivePath.js' %}"></script>
 <script src="{% static 'post/addNode_by_javascript.js' %}"></script>
+<script src="{% static 'post/write/change_mode.js' %}"></script>
 <script src="{% static 'post/write/writeUtils.js' %}"></script>
 
-<!-- 모드변경 -->
-<script>
-  const main = document.querySelector(".main-container");
-  const modeBtn = document.querySelector(".mode-btn");
-
-  checkmode();
-
-  function checkmode() {
-    if (main.classList.contains("col-mode")) {
-      modeBtn.innerText = "가로모드로 바꾸기";
-      return "col";
-    } else {
-      modeBtn.innerText = "세로모드로 바꾸기";
-      return "row";
-    }
-  }
-
-  function toggleMode() {
-    const allContainer = document.querySelectorAll(".step_container");
-    for (let item of allContainer) {
-      item.classList.toggle("container_row-mode");
-    }
-    main.classList.toggle("col-mode");
-    checkmode();
-  }
-</script>
 <script>
   // 현재 문제는. 이 함수를 지금 test를 위해서 분리해야 하는데,
   // 그러면 import를 못하기 때문에, 다른 함수를

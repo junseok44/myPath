@@ -1,8 +1,6 @@
 // 이 부분은 테스트 용입니다. runserver시 주석 처리해주세요
 // 파일 중간중간에 require가 섞여있는데 주석처리해주세요. ctrl+f로 다 찾아서.
 // const uuid = require("uuid");
-// const updateSelectOptions = jest.fn();
-// const changeDisplay = jest.fn();
 
 // function getPathsAndSteps() {
 //   return { paths, steps };
@@ -269,7 +267,6 @@ function handleChangePathTitle(e, pathId) {
 
 // 이 부분은 테스트 용입니다. runsever시 주석 처리해주세요.
 // const { addStepNode, addPathNode } = require("../addNode_by_javascript");
-
 // 여기까지.
 /*
   path의 구조는 다음과 같습니다.
