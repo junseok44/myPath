@@ -151,7 +151,7 @@
   <!-- uuid -->
   <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
   
-  <!-- 삭제기능 -->
+  <!-- 포스트 삭제기능 -->
   <script>
     async function deletepost(id) {
       const response = await fetch(`/post/delete/${id}`, {
@@ -233,9 +233,6 @@
     });
   </script>
 
-  <script src="{% static 'post/responsivePath.js' %}"></script>
-  <script src="{% static 'post/addNode_by_javascript.js' %}"></script>
-  <script src="{% static 'post/csrftoken.js' %}"></script>
 
   <!-- 변수선언 -->
   <script>
@@ -276,6 +273,12 @@
       steps.push(item);
     }
   </script>
+
+<script src="{% static 'post/responsivePath.js' %}"></script>
+<script src="{% static 'post/addNode_by_javascript.js' %}"></script>
+<script src="{% static 'post/csrftoken.js' %}"></script>
+<script src="{% static 'post/handle_change_data.js' %}"></script>
+
 
   <!-- 메인 핸들러 -->
   <script>
@@ -471,45 +474,6 @@
   </script>
 
 
-
-  <script>
-  function handleChangeStepTitle(stepId) {
-    const stepNode = document.querySelector(`.step_${stepId}`);
-    const titleInput = stepNode.querySelector(".title");
-
-    const step = steps.find((step) => step.id == stepId);
-    step.title = titleInput.value;
-    step.isEdited = true;
-
-  }
-
-  function handleChangeStepDesc(stepId) {
-    const stepNode = document.querySelector(`.step_${stepId}`);
-    const descInput = stepNode.querySelector(".desc");
-
-    const step = steps.find((step) => step.id == stepId);
-    step.desc = descInput.value;
-    step.isEdited = true;
-
-  }
-
-  function handleChangeStepImage(stepId) {
-    const stepNode = document.querySelector(`.step_${stepId}`);
-    const imageInput = stepNode.querySelector(".imageInput");
-    const imageFile = imageInput.files[0];
-    const step = steps.find((step) => step.id == stepId);
-
-    if (imageFile) {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        imageData = event.target.result;
-        step.image = imageData;
-      };
-      reader.readAsDataURL(imageFile);
-    }
-    step.isEdited = true;
-  }
-  </script>
 
   <!-- form submit -->
   <script>

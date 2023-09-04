@@ -1,31 +1,28 @@
 // 이 부분은 테스트 용입니다. runserver시 주석 처리해주세요
 // 파일 중간중간에 require가 섞여있는데 주석처리해주세요. ctrl+f로 다 찾아서.
-// const uuid = require("uuid");
+const uuid = require("uuid");
 
-// function getPathsAndSteps() {
-//   return { paths, steps };
-// }
+function getPathsAndSteps() {
+  return { paths, steps };
+}
 
-// function resetPathsAndSteps() {
-//   paths = [];
-//   steps = [];
-// }
+function resetPathsAndSteps() {
+  paths = [];
+  steps = [];
+}
 
-// module.exports = {
-//   getPathsAndSteps: getPathsAndSteps,
-//   resetPathsAndSteps: resetPathsAndSteps,
-//   createPathAndDisplay: createPathAndDisplay,
-//   addPathData: addPathData,
-//   handleDeletePath: handleDeletePath,
-//   handleAddStep: handleAddStep,
-//   handleChangePathTitle: handleChangePathTitle,
-//   handleChangeStepTitle: handleChangeStepTitle,
-//   handleChangeStepDesc: handleChangeStepDesc,
-//   handleChangeStepImage: handleChangeStepImage,
-//   handleDeleteItem: handleDeleteItem,
-//   moveItemUp: moveItemUp,
-//   moveItemDown: moveItemDown,
-// };
+module.exports = {
+  getPathsAndSteps: getPathsAndSteps,
+  resetPathsAndSteps: resetPathsAndSteps,
+  createPathAndDisplay: createPathAndDisplay,
+  addPathData: addPathData,
+  handleDeletePath: handleDeletePath,
+  handleAddStep: handleAddStep,
+  handleChangePathTitle: handleChangePathTitle,
+  handleDeleteItem: handleDeleteItem,
+  moveItemUp: moveItemUp,
+  moveItemDown: moveItemDown,
+};
 
 // 여기까지
 
@@ -37,7 +34,7 @@ function createPathAndDisplay(prevPathId) {
   addPathNode(prevPathId, id);
   addPathData(prevPathId, id);
 
-  // const { updateSelectOptions, changeDisplay } = require("../responsivePath");
+  const { updateSelectOptions, changeDisplay } = require("../responsivePath");
 
   updateSelectOptions();
   changeDisplay(id);
@@ -68,7 +65,7 @@ function addPathData(prevPathId, id) {
 function handleDeletePath(targetPathId) {
   const main = document.querySelector(".main-container");
   const target = main.querySelector(`.path_${targetPathId}`);
-  // const { updateSelectOptions, changeDisplay } = require("../responsivePath");
+  const { updateSelectOptions, changeDisplay } = require("../responsivePath");
   // 이 부분 로직 분리하기
   // 내가 볼때 지우고 나서 다음 option을 뭐로 설정할지에 관한 로직임.
   const selectElement = document.querySelector("#pathSelect");
@@ -217,43 +214,8 @@ function moveItemDown(stepId) {
   });
 }
 
-function handleChangeStepTitle(stepId) {
-  const stepNode = document.querySelector(`.step_${stepId}`);
-  const titleInput = stepNode.querySelector(".title");
-
-  const step = steps.find((step) => step.id == stepId);
-  step.title = titleInput.value;
-  step.isEdited = true;
-}
-
-function handleChangeStepDesc(stepId) {
-  const stepNode = document.querySelector(`.step_${stepId}`);
-  const descInput = stepNode.querySelector(".desc");
-
-  const step = steps.find((step) => step.id == stepId);
-  step.desc = descInput.value;
-  step.isEdited = true;
-}
-
-function handleChangeStepImage(stepId) {
-  const stepNode = document.querySelector(`.step_${stepId}`);
-  const imageInput = stepNode.querySelector(".imageInput");
-  const imageFile = imageInput.files[0];
-  const step = steps.find((step) => step.id == stepId);
-
-  if (imageFile) {
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      imageData = event.target.result;
-      step.image = imageData;
-    };
-    reader.readAsDataURL(imageFile);
-  }
-  step.isEdited = true;
-}
-
 function handleChangePathTitle(e, pathId) {
-  // const { updateSelectOptions, changeDisplay } = require("../responsivePath");
+  const { updateSelectOptions, changeDisplay } = require("../responsivePath");
 
   paths = paths.map((path) =>
     path.id == pathId
@@ -266,7 +228,7 @@ function handleChangePathTitle(e, pathId) {
 }
 
 // 이 부분은 테스트 용입니다. runsever시 주석 처리해주세요.
-// const { addStepNode, addPathNode } = require("../addNode_by_javascript");
+const { addStepNode, addPathNode } = require("../addNode_by_javascript");
 // 여기까지.
 /*
   path의 구조는 다음과 같습니다.

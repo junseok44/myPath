@@ -1,9 +1,9 @@
 //테스트용입니다. runserver시 주석처리해주세요.
 
-// module.exports = {
-//   toggleMode,
-//   checkmode,
-// };
+module.exports = {
+  toggleMode,
+  checkmode,
+};
 
 // 여기까지.
 

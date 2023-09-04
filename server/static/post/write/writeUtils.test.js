@@ -418,7 +418,6 @@ describe("step 데이터 변경 테스트", () => {
 
     const stepAddButton = document.querySelector(".step-add-btn");
     fireEvent(stepAddButton, new MouseEvent("click", { bubbles: true }));
-
     const stepTitleInput = screen.queryByPlaceholderText("스텝 제목 입력...");
     expect(stepTitleInput).toBeTruthy();
 
