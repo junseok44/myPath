@@ -1,9 +1,9 @@
 // 이 부분은 테스트용입니다. runserver시 주석 처리해주세요.
-module.exports = {
-  updateSelectOptions,
-  changeDisplay,
-  onChangeSelectElement,
-};
+// module.exports = {
+//   updateSelectOptions,
+//   changeDisplay,
+//   onChangeSelectElement,
+// };
 //
 
 let responsiveWidth = 900;

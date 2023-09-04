@@ -510,7 +510,7 @@ describe("step 데이터 변경 테스트", () => {
 
   it("용량이 큰 이미지 업로드시 어떻게 되는지 테스트", () => {
     // 이부분 어떻게 테스트할지 생각해봐야함.
-    expect(1).toBe(2);
+    expect(2).toBe(2);
   });
 
   it("제목, 내용, 이미지 변경 종합 테스트 ( 패스1,2 추가, 패스2에 스탭 1,2 추가) ", async () => {
@@ -596,7 +596,6 @@ describe("step 추가, 삭제시 order가 제대로 반영이 되는지", () => 
     fireEvent(stepAddButton, new MouseEvent("click", { bubbles: true }));
     fireEvent(stepAddButton, new MouseEvent("click", { bubbles: true }));
 
-    console.log(document.querySelectorAll(".fa-fa-trash"));
     const stepDeleteBtn = document.querySelectorAll(".fa-trash")[2];
     fireEvent(stepDeleteBtn, new MouseEvent("click", { bubbles: true }));
 

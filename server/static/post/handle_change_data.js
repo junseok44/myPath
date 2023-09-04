@@ -1,25 +1,24 @@
 // 이 부분은 테스트 용입니다. runserver시 주석 처리해주세요
-
-module.exports = {
-  handleChangeStepDesc,
-  handleChangeStepImage,
-  handleChangeStepTitle,
-};
+// 중간에 require 숨어있습니다. ctrl+f로 찾아서 주석처리해주세요.
+// module.exports = {
+//   handleChangeStepDesc,
+//   handleChangeStepImage,
+//   handleChangeStepTitle,
+// };
 
 //
 
 function handleChangeStepTitle(stepId) {
-  let steps = require("./write/writeUtils").getPathsAndSteps().steps;
+  // let steps = require("./write/writeUtils").getPathsAndSteps().steps;
   const stepNode = document.querySelector(`.step_${stepId}`);
   const titleInput = stepNode.querySelector(".title");
-
   const step = steps.find((step) => step.id == stepId);
   step.title = titleInput.value;
   step.isEdited = true;
 }
 
 function handleChangeStepDesc(stepId) {
-  let steps = require("./write/writeUtils").getPathsAndSteps().steps;
+  // let steps = require("./write/writeUtils").getPathsAndSteps().steps;
   const stepNode = document.querySelector(`.step_${stepId}`);
   const descInput = stepNode.querySelector(".desc");
 
@@ -29,7 +28,7 @@ function handleChangeStepDesc(stepId) {
 }
 
 function handleChangeStepImage(stepId) {
-  let steps = require("./write/writeUtils").getPathsAndSteps().steps;
+  // let steps = require("./write/writeUtils").getPathsAndSteps().steps;
 
   const stepNode = document.querySelector(`.step_${stepId}`);
   const imageInput = stepNode.querySelector(".imageInput");
