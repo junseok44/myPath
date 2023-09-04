@@ -1,4 +1,4 @@
-{% extends 'post/main__templates.html' %} {% load static %}
+{% extends 'main/main_templates.html' %} {% load static %}
 
 <div>
   {% block stylesheet %}
@@ -6,6 +6,7 @@
     rel="stylesheet"
     href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
   />
+  <link rel="stylesheet" href="{% static 'post/main/main.css' %}" />
   {% endblock %}
 </div>
 
@@ -33,7 +34,7 @@
                       {% if post.thumbnail %}
                         <img src="{{post.thumbnail.url}}" alt="my icon"/>
                       {% else %}
-                      <img src="{% static 'noimage.jpg' %}" />
+                      <img src="{% static 'resource/noimage.jpg' %}" />
                       {% endif %}
                     </div>
                     <div class="card-description">{{post.desc}}</div>

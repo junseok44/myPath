@@ -6,17 +6,18 @@ from apps.comment.models import *
 from django.core.serializers import serialize
 from django.contrib import messages 
 from django.contrib.auth import get_user_model
-import json
 from django.http import JsonResponse,HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers import serialize
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.paginator import Paginator
 from .models import Category, CategoryTable
-
-import base64
-from django.core.files.base import ContentFile
 from django.core.paginator import Paginator
 from django.db.models import Q
+from .services import get_image_from_dataUrl
+from django.core.mail import send_mail
+from django.conf import settings
+import json
+
+
 
 User = get_user_model()
 # Create your views here.
@@ -42,8 +43,7 @@ def view_post_main(requests):
                "curations": allcuration__list
         }
    
-        return render(requests, "post/main.html",ctx)
-
+        return render(requests, "main/main.html",ctx)
 
 def category_search(request, category_id):
     category = Category.objects.get(id=category_id)
@@ -69,29 +69,10 @@ def category_search(request, category_id):
     }
     return render(
         request,
-        "post/main__category.html",
+        "main/main_category.html",
         ctx
     )
 
-def get_user_by_username(username):
-    try:
-        print("find user")
-        user = User.objects.get(username=username)
-        return user
-    except User.DoesNotExist:
-        print("create new user")
-        newUser = User.objects.create_user(
-            username=username, loginId="myOne", password='jang1234', intro='Test intro')
-        return newUser
-
-def get_image_from_dataUrl(dataUrl):
-    image_data = None 
-    if dataUrl:
-        format, imgstr = dataUrl.split(';base64,')
-        ext = format.split('/')[-1]
-        image_data = ContentFile(base64.b64decode(imgstr), name=f'image.{ext}')
-
-    return image_data
 
 @transaction.atomic
 @login_required(login_url="/user/login")
@@ -399,7 +380,6 @@ def view_post_edit(request, id):
 
     return render(request, 'post/post_edit.html', ctx)
 
-
 def view_post_detail(requests,pk):
 
     post=Post.objects.get(id=pk)
@@ -432,7 +412,7 @@ def view_post_detail(requests,pk):
             "post_comments":post_comments
         }
 
-    return render(requests,"post/detail.html",context=ctx)
+    return render(requests,"post/post_detail.html",context=ctx)
 
 def view_post_create_comment(request,pk):
     if request.method=="POST": 
@@ -462,7 +442,7 @@ def view_post_create_comment(request,pk):
             messages.error(request, "댓글 작성을 위해서 로그인해주세요!")
             return redirect(f'/post/{pk}')
 
-    return render(request,"post/detail.html")
+    return render(request,"post/post_detail.html")
 
 def view_post_delete_comment_ajax(request):
     req=json.loads(request.body)
@@ -609,9 +589,9 @@ def search(request):
         if request.method == 'POST':
                 searched = request.POST['searched']        
                 searched_posts = Post.objects.filter(title__contains=searched)
-                return render(request, 'post/searched.html', {'searched': searched, 'searched_posts': searched_posts,'categories':categories})
+                return render(request, 'main/main_searched.html', {'searched': searched, 'searched_posts': searched_posts,'categories':categories})
         else:
-                return render(request, 'post/searched.html', {'categories':categories,})
+                return render(request, 'main/main_searched.html', {'categories':categories,})
         
 def search_by_category(request, id):
     categories = Category.objects.all()
@@ -628,7 +608,7 @@ def search_by_category(request, id):
             Q(title__icontains=searched)
         )
         
-        return render(request, 'post/search_by_category.html', {
+        return render(request, 'main/main_search_by_category.html', {
             'searched': searched,
             'searched_posts': searched_posts,
             'category_name': category.name,
@@ -636,15 +616,11 @@ def search_by_category(request, id):
             'categories':categories,
         })
     else:
-        return render(request, 'post/search_by_category.html', {
+        return render(request, 'main/main_search_by_category.html', {
             'category_name': category.name,
             'category': category,
             'categories':categories,
         })
-
-
-
-
 
 
 def index(request):
@@ -657,8 +633,7 @@ def index(request):
 
 # views.py
 
-from django.core.mail import send_mail
-from django.conf import settings
+
 
 def report_post(request,pk):
     

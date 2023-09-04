@@ -1,9 +1,11 @@
 /venv
 /local
 /todo.md
-/liveapps
 /google_signin_buttons
+/node_modules
 /README.md
+/.elasticbeanstalk
+/package-lock.json
 # Created by https://www.toptal.com/developers/gitignore/api/django
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
 

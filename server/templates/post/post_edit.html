@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block content %}
 
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'post/write/write.css' %}" />
+<link rel="stylesheet" href="{% static 'post/edit/edit.css' %}" />
+{% endblock %}
+
+{% block content %}
 <div class="editPage">
   <!-- <h1>edit</h1> -->
   <form class="edit__form" onsubmit="handleSubmit(event)">
@@ -227,10 +233,9 @@
     });
   </script>
 
-  <script src="{% static 'post/writePage/responsivePath.js' %}"></script>
-  <script src="{% static 'post/writePage/path.js' %}"></script>
-  <script src="{% static 'post/writePage/modal.js' %}"></script>
-  <script src="{% static 'post/writePage/csrftoken.js' %}"></script>
+  <script src="{% static 'post/responsivePath.js' %}"></script>
+  <script src="{% static 'post/addNode_by_javascript.js' %}"></script>
+  <script src="{% static 'post/csrftoken.js' %}"></script>
 
   <!-- 변수선언 -->
   <script>
@@ -283,7 +288,6 @@
       addPathNode(prevPathId, id)
 
       const prevPathItem = paths.find((path) => path.id == prevPathId);
-
       if (prevPathItem) {
 
         paths = paths.map(
@@ -465,6 +469,8 @@
     });
 
   </script>
+
+
 
   <script>
   function handleChangeStepTitle(stepId) {

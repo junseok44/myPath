@@ -1,4 +1,13 @@
-{% extends 'post/main__templates.html' %} {% load static %}
+{% extends 'main/main_templates.html' %} {% load static %}
+<div>
+  {% block stylesheet %}
+  <link
+    rel="stylesheet"
+    href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
+  />
+  <link rel="stylesheet" href="{% static 'post/main/main.css' %}" />
+  {% endblock %}
+</div>
 
 <div>
   {% block mainContent %}
@@ -8,7 +17,8 @@
       <form
         class="mainsearch"
         method="POST"
-        action="{% url 'post:search_by_category' id=category.id %}">
+        action="{% url 'post:search_by_category' id=category.id %}"
+      >
         {% csrf_token %}
         <input
           class="form-control me-2 writePage-input"

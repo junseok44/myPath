@@ -13,9 +13,7 @@
 {% block content %}
 <div class="userPage">
   <div class="userinfo__title">
-    <div class="userinfo-box">
-      {{user.membership}} {{user.username}}
-    </div>
+    <div class="userinfo-box">{{user.membership}} {{user.username}}</div>
     <div>
       {% if user.is_authenticated and user == request.user%}
       <a href="{% url 'my_page' %}">
@@ -28,16 +26,13 @@
     <div class="usercard__container">
       <div class="usercard__header">자기소개</div>
       <div class="usercard__body">
-        <div class="usercard__content">
-          {{user.intro}}</div>
-        </div>
+        <div class="usercard__content">{{user.intro}}</div>
+      </div>
     </div>
     <div class="usercard__container">
       <div class="usercard__header">작성한 Path의 수</div>
       <div class="usercard__body">
-        <div class="usercard__content">
-          {{posts_count}}
-        </div>
+        <div class="usercard__content">{{posts_count}}</div>
       </div>
     </div>
 
@@ -51,9 +46,7 @@
         {% else %} {{card.title}} {% endif %}
       </div>
       <div class="usercard__body">
-        <div class="usercard__content">
-          {{card.desc}}
-        </div>
+        <div class="usercard__content">{{card.desc}}</div>
       </div>
     </div>
 
@@ -71,8 +64,10 @@
         </div>
         <div class="card__body">
           <div class="card-thumbnail">
-            {% if post.thumbnail != null and post.image.url != "" %}
-            <img src="{{post.thumbnail}}" alt="대체 텍스트" />
+            {% if post.thumbnail %}
+            <img src="{{post.thumbnail.url}}" />
+            {% else %}
+            <img src="{% static 'resource/noimage.jpg' %}" />
             {% endif %}
           </div>
           <div class="card-description">{{post.desc}}</div>

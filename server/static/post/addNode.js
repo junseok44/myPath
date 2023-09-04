@@ -1,20 +1,11 @@
-function handleChangePathTitle(e, pathId) {
-  paths = paths.map((path) =>
-    path.id == pathId
-      ? { ...path, title: e.target.value, isEdited: true }
-      : path
-  );
-
-  updateSelectOptions();
-  changeDisplay(pathId);
-}
-
 function addPathNode(prevPathId, id) {
-  const main = document.querySelector(".main-container");
   const NewBtn = document.querySelector(".add_new-btn");
   if (NewBtn) {
     NewBtn.parentNode.removeChild(NewBtn);
   }
+
+  // 가로모드인지 세로모드인지.
+  const main = document.querySelector(".main-container");
   let isColumnMode = main.classList.contains("col-mode");
 
   li = document.createElement("li");
@@ -24,12 +15,12 @@ function addPathNode(prevPathId, id) {
     li.innerHTML += `
     <span class="path_intro">
     <input maxlength="10" placeholder="패스 제목 입력..." type="text" class="writePage-input path_title" onchange="handleChangePathTitle(event,'${id}')">
-    <button type="button" class="secondary-btn path-add-btn" onclick="handleAddPath('${id}')">패스+</button>
+    <button type="button" class="secondary-btn path-add-btn" onclick="createPathAndDisplay('${id}')">패스+</button>
     <button type="button" class="step-btn" onclick="handleDeletePath('${id}')"><i class="fa-solid fa-trash"></i></button>
     </span>
     <div class="step_container_w_btn">
     <div class="step_container ${isColumnMode ? "" : " container_row-mode"}">
-            </div>
+    </div>
     <button type="button" class="step-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">+</button>
     </div>
     `;
@@ -42,11 +33,11 @@ function addPathNode(prevPathId, id) {
     </span>
     <div class="step_container_w_btn">
     <div class="step_container ${
-      isColumnMode ? '' : ' container_row-mode'
+      isColumnMode ? "" : " container_row-mode"
     }"></div>
     <button type="button" class="step-add-btn" onclick="handleAddStep('${id}')" class="item_add-btn">+</button>
     </div>
-    `
+    `;
   }
 
   if (prevPathId) {
@@ -90,6 +81,6 @@ function addStepNode(targetPathId, id) {
                     </div>
                   </div>
                 </div>
-          `
+          `;
   stepContainer.appendChild(section);
 }
