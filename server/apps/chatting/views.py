@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required   
 from apps.chatting.models import Room, Chat
 from django.contrib.auth import get_user_model
 from django.db.models import Q
@@ -11,16 +12,22 @@ import json
 
 User = get_user_model()
 
+@login_required(login_url='/login')
 def view_rooms(request):
     ctx = {
         "rooms": get_room_list(request.user)
     }
     return render(request, 'chatting/rooms.html',ctx)
 
+@login_required(login_url='/login')
 def view_chats(request,other_id):
-    other = User.objects.get(id=other_id)
+    try:
+        other = User.objects.get(id=other_id)
+    except User.DoesNotExist:
+        return redirect('/chat/rooms')
 
     msg_list = get_message_list(request.user,other)
+
 
     if len(msg_list) > 10:
         msg_list = msg_list[len(msg_list)-10:]
@@ -30,8 +37,6 @@ def view_chats(request,other_id):
         "current_room": get_current_room(request.user,other)
     }
     return render(request, 'chatting/chats.html',ctx)
-
-
 
 def ajax_get_room_message(request):
     

@@ -37,7 +37,6 @@ class TestMessageSend(TestCase):
         initial_last_message_time = room.lastMessageTime
 
         send_message(user2,user1,"야 뭐라는거야")
-
         room = Room.objects.get()
 
         self.assertEqual(room.startUser,user1)
@@ -56,6 +55,7 @@ class TestMessageSend(TestCase):
         self.assertEqual(chat.room,room)
 
 class TestRoomExit(TestCase):
+    # 유저가 방을 나갔을때 chat의 leftUesr는 user로 등록되고, room의
     def test_start_user_room_exit(self):
         TestMessageSend().test_send_message()
         room = Room.objects.get()
@@ -106,6 +106,7 @@ class TestRoomExit(TestCase):
         with self.assertRaises(ObjectDoesNotExist):
             Chat.objects.get()
 
+#나가고 나서 방이 안보이는지 테스트해야함.
 class TestGetRoomList(TestCase):
     def test_get_room_list(self):
         TestMessageSend().test_send_message()
@@ -126,7 +127,9 @@ class TestGetRoomList(TestCase):
         user2 = User.objects.get(username='endUser')
 
         room_list = get_room_list(user1)
+        room_list2 = get_room_list(user2)
         self.assertEqual(len(room_list),0)
+        self.assertEqual(len(room_list2),1)
 
     def test_get_room_list_after_enduser_exit(self):
         TestRoomExit().test_end_user_Room_exit()
@@ -135,6 +138,8 @@ class TestGetRoomList(TestCase):
 
         room_list = get_room_list(user2)
         self.assertEqual(len(room_list),0)
+        room_list2 = get_room_list(user1)
+        self.assertEqual(len(room_list2),1) 
 
     def test_get_startuser_room_after_enduser_exit(self):
         TestRoomExit().test_end_user_Room_exit()
@@ -162,8 +167,17 @@ class TestGetRoomList(TestCase):
         self.assertEqual(room_list[0].startUser_is_room_deleted,True)
         self.assertEqual(room_list[0].endUser_is_room_deleted,False)
 
-class TestGetMessage(TestCase):
+    def test_get_room_list_after_both_exit(self):
+        TestRoomExit().test_startuser_exit_and_enduser_exit()
+        user1 = User.objects.get(username='startUser')
+        user2 = User.objects.get(username='endUser')
 
+        room_list = get_room_list(user2)
+        self.assertEqual(len(room_list),0)
+        room_list2 = get_room_list(user1)
+        self.assertEqual(len(room_list2),0)
+
+class TestGetMessage(TestCase):
     def test_get_message(self):
         TestMessageSend().test_send_message()
         user1 = User.objects.get(username='startUser')
@@ -174,7 +188,21 @@ class TestGetMessage(TestCase):
         self.assertEqual(message_list[0].sender,user1)
         self.assertEqual(message_list[0].receiver,user2)
         self.assertEqual(message_list[0].message,"안녕하세요")
+    # 메시지를 여러개 보냈을때, 10개만 받아야 함.
+    def test_get_message_multiple(self):
+        for i in range(15):
+            TestMessageSend().test_send_message()
+        user1 = User.objects.get(username='startUser')
+        user2 = User.objects.get(username='endUser')
 
+        message_list = get_message_list(user1,user2)
+        self.assertEqual(len(message_list),10)
+        self.assertEqual(message_list[0].sender,user1)
+        self.assertEqual(message_list[0].receiver,user2)
+        self.assertEqual(message_list[0].message,"안녕하세요")
+        self.assertEqual(message_list[9].sender,user1)
+        self.assertEqual(message_list[9].receiver,user2)
+        self.assertEqual(message_list[9].message,"안녕하세요")
 
 class Test_Chat_Status_When_Exit(TestCase):
     def test_send_and_sender_exit(self):
@@ -183,8 +211,85 @@ class Test_Chat_Status_When_Exit(TestCase):
         user2 = User.objects.get(username='endUser')
         delete_room(user1,user2)
 
+        user1_message = get_message_list(user1,user2)
+        user2_message = get_message_list(user2,user1)
 
+        self.assertEqual(len(user1_message),0)
+        self.assertEqual(len(user2_message),1)
+        self.assertEqual(user2_message[0].sender,user1)
+        self.assertEqual(user2_message[0].receiver,user2)
+        self.assertEqual(user2_message[0].message,"안녕하세요")
 
+    def test_send_and_receiver_exit(self):
+        TestMessageSend().test_send_message()
+        user1 = User.objects.get(username='startUser')
+        user2 = User.objects.get(username='endUser')
+        delete_room(user2,user1)
 
+        user1_message = get_message_list(user1,user2)
+        user2_message = get_message_list(user2,user1)
+        self.assertEqual(len(user1_message),1)
+        self.assertEqual(len(user2_message),0)
+        self.assertEqual(user1_message[0].sender,user1)
+        self.assertEqual(user1_message[0].receiver,user2)
+        self.assertEqual(user1_message[0].message,"안녕하세요")
 
-# send하고 receiver가 나가고, sener가 다시 들어왔다가. 다시 나갔을때. getMEssage하면. 여전히 leftUser는 그 유저여야 함.
+    # 리시버에게는 마지막 메시지만 보여야함.
+    def test_send_and_receiver_exit_and_sender_send(self):
+        TestMessageSend().test_send_message()
+        user1 = User.objects.get(username='startUser')
+        user2 = User.objects.get(username='endUser')
+        delete_room(user2,user1)
+        send_message(user1,user2,"뭐라는거야")
+
+        message_list = get_message_list(user1,user2)
+        self.assertEqual(len(message_list),2)
+        self.assertEqual(message_list[0].sender,user1)
+        self.assertEqual(message_list[0].receiver,user2)
+        self.assertEqual(message_list[0].message,"안녕하세요")
+
+        self.assertEqual(message_list[1].sender,user1)
+        self.assertEqual(message_list[1].receiver,user2)
+        self.assertEqual(message_list[1].message,"뭐라는거야")
+
+        message_list = get_message_list(user2,user1)
+        self.assertEqual(len(message_list),1)
+        self.assertEqual(message_list[0].sender,user1)
+        self.assertEqual(message_list[0].receiver,user2)
+        self.assertEqual(message_list[0].message,"뭐라는거야")
+
+    def test_send_and_sender_exit_and_receiver_send(self):
+        TestMessageSend().test_send_message()
+        user1 = User.objects.get(username='startUser')
+        user2 = User.objects.get(username='endUser')
+        delete_room(user1,user2)
+        send_message(user2,user1,"뭐라는거야")
+
+        message_list = get_message_list(user1,user2)
+        self.assertEqual(len(message_list),1)
+        self.assertEqual(message_list[0].sender,user2)
+        self.assertEqual(message_list[0].receiver,user1)
+        self.assertEqual(message_list[0].message,"뭐라는거야")
+    
+    def test_send_and_sender_exit_and_sender_send(self):
+        TestMessageSend().test_send_message()   
+        user1 = User.objects.get(username='startUser')
+        user2 = User.objects.get(username='endUser')
+        delete_room(user1,user2)
+        send_message(user1,user2,"뭐라는거야")
+
+        user1_message = get_message_list(user1,user2)
+        user2_message = get_message_list(user2,user1)
+        
+        self.assertEqual(len(user1_message),1)
+        self.assertEqual(len(user2_message),2)
+        self.assertEqual(user1_message[0].sender,user1)
+        self.assertEqual(user1_message[0].receiver,user2)
+        self.assertEqual(user1_message[0].message,"뭐라는거야")
+        self.assertEqual(user2_message[0].sender,user1)
+        self.assertEqual(user2_message[0].receiver,user2)
+        self.assertEqual(user2_message[0].message,"안녕하세요")
+        self.assertEqual(user2_message[1].sender,user1)
+        self.assertEqual(user2_message[1].receiver,user2)
+        self.assertEqual(user2_message[1].message,"뭐라는거야")
+

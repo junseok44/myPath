@@ -42,7 +42,6 @@ def get_room_list(me):
     q1 = Room.objects.filter(startUser=me,startUser_is_room_deleted=False)
     q2 = Room.objects.filter(endUser=me,endUser_is_room_deleted=False)
     rooms = q1.union(q2).order_by('-lastMessageTime')
-    print(rooms)
     return rooms
 
 
