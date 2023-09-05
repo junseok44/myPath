@@ -114,10 +114,29 @@
   margin-bottom: 4rem;
 }
 
+.main__curation-subtitle {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+@font-face {
+  font-family: "GangwonState";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/GangwonState.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .main__curation-title h1 {
+  font-family: "GangwonState";
+  display: inline-block;
   font-size: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   word-break: keep-all;
+  font-weight: 600;
+  color: var(--primary-color);
 }
 
 .main__curation-container {
@@ -206,10 +225,35 @@
   .main__search-icon {
     right: 1rem;
   }
+
+  .main__curation .row-mode .step-container {
+    flex-direction: row;
+    height: auto;
+  }
+
+  .main__curation-subtitle {
+    display: block;
+  }
 }
 
 .main__category-item.active {
   border: 1px solid var(--primary-color);
   background-color: var(--primary-color);
   color: white;
+}
+
+.main__curation .main-container {
+  min-height: auto;
+  align-items: flex-start;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
+
+.main__curation .main-container .step-container {
+  width: 100%;
+}
+
+.main__curation-image {
+  width: 10rem;
+  height: 10rem;
 }

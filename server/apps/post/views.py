@@ -40,7 +40,10 @@ def view_post_main(requests):
 
         ctx = {
                "categories": categories,
-               "curations": allcuration__list
+               "curations": allcuration__list,
+               "curation_1": allcuration__list[0],
+                "curation_2": allcuration__list[1],
+                
         }
    
         return render(requests, "main/main.html",ctx)

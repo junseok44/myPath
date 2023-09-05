@@ -6,15 +6,315 @@
     rel="stylesheet"
     href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
   />
+  <link rel="stylesheet" href="{% static 'post/detail/detail.css' %}" />
   <link rel="stylesheet" href="{% static 'post/main/main.css' %}" />
+
   {% endblock %}
 </div>
 
 <div>
   {% block mainContent %}
-
     <div>
-      {% for cur in curations %}
+      <div class="main__curation detailPage">
+        <div class="main__curation-title">
+          <h1>마이패스 이용 가이드</h1>
+        </div>
+        {% if user.is_authenticated %}
+        <ul class="main-container row-mode detailPage__main">
+          <li class="path path_8c2a5cd5-dd00-4a69-84ad-2105818a5984" style="display: block;">
+            <div class="step-container">
+              <section class="step">
+                <div class="step-content disabled">
+                  <p class="title">
+                    
+                    로그인 성공!
+                    
+                  </p>
+                  <p class="desc">
+                    마이패스의 다양한 서비스들을 이용해보세요!
+                  </p>  
+                  <!-- <button class="btn detailPage__detailBtn" id="more-btn" type="button">
+                    로그인 하러 가기</button> -->
+                </div>
+         
+              </section>
+              <section class="step">
+                <div class="step-content">
+                  <p class="title">
+                    마이패스를 둘러보세요!
+                  </p>
+                  <p class="desc">
+                    다른 사람들은 어떤 패스를 썼을까요? 
+                  </p>  
+                  <button class="btn detailPage__detailBtn" id="more-btn" type="button">
+                  패스 보러가기</button>
+                </div>
+             
+              </section>
+             
+              <section class="step">
+                <div class="step-content">
+                  <p class="title">
+                    
+                    나만의 패스를 만들어보세요!
+                    
+                  </p>
+                  <p class="desc">
+                    커리큘럼, 나만의 계획, 나의 경험 정리..뭐든 좋아요!                    
+                  </p>  
+                  <button class="btn detailPage__detailBtn" id="more-btn" type="button">
+                    패스 만들러 가기</button>
+                </div>
+              
+              </section>
+              <section class="step">
+                <div class="step-content">
+                  <p class="title">
+                    
+                    공유해보세요!
+                    
+                  </p>
+                  <p class="desc">
+                    내가 만든 패스를 다른 사람들과 공유해보세요! 댓글도 쓰고, 채팅하면 재미가 두배!    
+                  </p>  
+                  <button class="btn detailPage__detailBtn" id="more-btn" type="button">
+                  내 패스 보러가기</button>
+                </div>
+             
+              </section>
+          
+              
+              
+            </div>
+          </li>
+        </ul>
+        {% else %}
+        <ul class="main-container row-mode detailPage__main">
+          <li class="path path_8c2a5cd5-dd00-4a69-84ad-2105818a5984" style="display: block;">
+            <div class="step-container">
+              <section class="step">
+                <div class="step-content">
+                  <p class="title">
+                    
+                    아직 로그인을 안하셨네요!
+                    
+                  </p>
+                  <p class="desc">
+                    로그인하시고 마이패스의 다양한 서비스들을 이용해보세요!
+                  </p>  
+                  <button class="btn detailPage__detailBtn" id="more-btn" type="button">
+                    로그인 하러 가기</button>
+                </div>
+         
+              </section>
+              <section class="step">
+                <div class="step-content">
+                  <p class="title">
+                    마이패스를 둘러보세요!
+                  </p>
+                  <p class="desc">
+                    다른 사람들은 어떤 패스를 썼을까요? 
+                  </p>  
+                  <button class="btn detailPage__detailBtn" id="more-btn" type="button">
+                  패스 보러가기</button>
+                </div>
+             
+              </section>
+           
+              <section class="step">
+                <div class="step-content disabled">
+                  <p class="title">
+                    
+                    나만의 패스를 만들어보세요!
+                    
+                  </p>
+                  <p class="desc">
+                    커리큘럼, 나만의 계획, 나의 경험 정리..뭐든 좋아요!                    
+                  </p>  
+                  <button class="btn detailPage__detailBtn" id="more-btn" type="button">
+                    패스 만들러 가기</button>
+                </div>
+              
+              </section>
+              <section class="step">
+                <div class="step-content disabled">
+                  <p class="title">
+                    
+                    공유해보세요!
+                    
+                  </p>
+                  <p class="desc">
+                    내가 만든 패스를 다른 사람들과 공유해보세요! 댓글도 쓰고, 채팅하면 재미가 두배!    
+                  </p>  
+                  <button class="btn detailPage__detailBtn" id="more-btn" type="button">
+                  내 패스 보러가기</button>
+                </div>
+             
+              </section>
+          
+              
+              
+            </div>
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+      <div class="main__curation">
+        <div class="main__curation-title">
+          <h1>{{curation_1.name}}</h1>
+        </div>
+        <ul class="main__curation-container owl-carousel">
+          {% for post in curation_1.list %}
+            <li class="main__curation-item">
+              <div class="card__container post-id-{{ post.id }}">
+                <a href="{% url 'post:post_detail' pk=post.id %}">
+                  <div class="card__header">
+                  <div class="card-author-profile-image"></div>
+                  <div class="card-title">{{post.title}}</div>
+                  <div class="card-author">{{post.user.username}}</div>
+                </div>
+                <div class="card__body">
+                  <div class="card-thumbnail">
+                    {% if post.thumbnail %}
+                      <img src="{{post.thumbnail.url}}" alt="my icon"/>
+                    {% else %}
+                    <img src="{% static 'resource/noimage.jpg' %}" />
+                    {% endif %}
+                  </div>
+                  <div class="card-description">{{post.desc}}</div>
+                </div>
+                </a>
+                <div class="card__buttons">
+                  <div class="like-btn">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>{{post.like_table.count}}</span>
+                  </div>
+                  <div class="reply-btn">
+                    <i class="fa-solid fa-comment-dots"></i>
+                    <span>{{post.post_comment.count}}</span>
+                  </div>
+                  <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>공유</span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="main__curation detailPage">
+        <div class="main__curation-title">
+      
+          <h1>이색적인 패스를 소개합니다 
+          </h1>
+        </div>
+        <img class="main__curation-image">
+      </img>
+        <p class="main__curation-subtitle">
+        빅데이터? 인공지능? // 닉네임</p>
+        <p>
+          데이터 사이언스? 인공지능? 머신러닝? 그게 대체 뭔데! 뭐가 다른 건데? 그동안 공부한 것들을 전공자가 정리해서 알려드립니다. 드루와!
+        </p>
+        <ul class="main-container row-mode detailPage__main">
+          <li class="path path_8c2a5cd5-dd00-4a69-84ad-2105818a5984" style="display: block;">
+            <div class="step-container">
+              <section class="step step_9855e6cc-6c85-4df8-a5f3-3fb15fa228fe">
+                <div class="step-content">
+                  <p class="title">
+                    
+                    미적분
+                    
+                  </p>
+                  <p class="desc">
+                    
+                    딥러닝에서 학습하는 과정에 미분을 이용한다고 말씀드린 것 기억나시나요? 그래서 미적분을 알아야 합니다ㅠㅠ
+                    
+                  </p>  
+                </div>
+         
+              </section>
+              <section class="step step_24b70892-ea5f-423b-a199-da4b1f0e860a">
+                <div class="step-content">
+                  <p class="title">
+                    
+                    선형대수
+                    
+                  </p>
+                  <p class="desc">
+                    
+                    입력 받는 데이터가 숫자 하나인 경우는 많지 않더라구요! 예를 들어 메뉴를 고를 때도 오늘 내 기분, 아까 먹은 점심, 친구의 취향, 날씨까지 여러 요소를 고려하게 되잖아요?! 그 모든 요소들을 숫자로 바꿔 입력받게 되면 하나의 입력에 여러 개의 숫자가 들어가게 됩니다. 이를 처리하기 위해 행렬을 공부해요. 특히 딥러닝에서는 입력 데이터의 사이즈가 아주 크기 때문에 필수! 
+                    
+                  </p>  
+                </div>
+              
+              </section>
+              <section class="step step_0018b668-02a2-4687-a648-18150fdfd212">
+                <div class="step-content">
+                  <p class="title">
+                    
+                    통계학
+                    
+                  </p>
+                  <p class="desc">
+                    
+                    딥러닝은 내 출력이 답과 얼마나 비슷한지를 바탕으로 계속 업데이트하기 때문에, 내가 얼마나 틀렸는지를 알아야 합니다! 내가 얼마나 틀렸는지 계산하는 방법은 통계ㅠㅠ
+                    
+                  </p>  
+                </div>
+             
+              </section>
+              
+              
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="main__curation">
+        <div class="main__curation-title">
+          <h1>{{curation_2.name}}</h1>
+        </div>
+        <ul class="main__curation-container owl-carousel">
+          {% for post in curation_2.list %}
+            <li class="main__curation-item">
+              <div class="card__container post-id-{{ post.id }}">
+                <a href="{% url 'post:post_detail' pk=post.id %}">
+                  <div class="card__header">
+                  <div class="card-author-profile-image"></div>
+                  <div class="card-title">{{post.title}}</div>
+                  <div class="card-author">{{post.user.username}}</div>
+                </div>
+                <div class="card__body">
+                  <div class="card-thumbnail">
+                    {% if post.thumbnail %}
+                      <img src="{{post.thumbnail.url}}" alt="my icon"/>
+                    {% else %}
+                    <img src="{% static 'resource/noimage.jpg' %}" />
+                    {% endif %}
+                  </div>
+                  <div class="card-description">{{post.desc}}</div>
+                </div>
+                </a>
+                <div class="card__buttons">
+                  <div class="like-btn">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>{{post.like_table.count}}</span>
+                  </div>
+                  <div class="reply-btn">
+                    <i class="fa-solid fa-comment-dots"></i>
+                    <span>{{post.post_comment.count}}</span>
+                  </div>
+                  <div class="share-btn" onclick="copyPostLink('{{post.id}}')">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>공유</span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <!-- {% for cur in curations %}
         <div class="main__curation">
           <div class="main__curation-title">
             <h1>{{cur.name}}</h1>
@@ -59,7 +359,7 @@
             {% endfor %}
           </ul>
         </div>
-      {% endfor %}
+      {% endfor %} -->
     </div>
 
   </div>
