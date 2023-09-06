@@ -26,7 +26,7 @@ User = get_user_model()
 def view_post_main(requests): 
         categories = Category.objects.all()
         allcuration__list = []
-        curation__ids = [1,2]
+        curation__ids = [1,2,3]
         for cur__id in curation__ids:
                 try:
                         curation = Curation.objects.get(pk=cur__id)
@@ -37,15 +37,16 @@ def view_post_main(requests):
                         allcuration__list.append({"name": curation.name, "list": curation__list})
                 except:
                         continue
+        # allcuration__list에 0,1이 없으면 에러가 난다. 그러면?
 
         ctx = {
                "categories": categories,
-               "curations": allcuration__list,
-               "curation_1": allcuration__list[0],
-                "curation_2": allcuration__list[1],
-                
         }
-   
+
+        for index, curation in enumerate(allcuration__list):
+            if curation:
+                ctx[f'curation_{index+1}'] = curation        
+
         return render(requests, "main/main.html",ctx)
 
 def category_search(request, category_id):

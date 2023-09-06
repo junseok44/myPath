@@ -236,7 +236,7 @@
   <script src="{% static 'post/responsivePath.js' %}"></script>
   <script src="{% static 'post/addNode_by_javascript.js' %}"></script>
   <script src="{% static 'post/csrftoken.js' %}"></script>
-
+  <script src="{% static 'post/handle_step_data.js' %}"></script>
   <!-- 변수선언 -->
   <script>
     const postData = JSON.parse("{{ jsonPost|escapejs }}");
@@ -470,9 +470,7 @@
 
   </script>
 
-
-
-  <script>
+  <!-- <script>
   function handleChangeStepTitle(stepId) {
     const stepNode = document.querySelector(`.step_${stepId}`);
     const titleInput = stepNode.querySelector(".title");
@@ -509,7 +507,7 @@
     }
     step.isEdited = true;
   }
-  </script>
+  </script> -->
 
   <!-- form submit -->
   <script>

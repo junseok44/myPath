@@ -249,6 +249,10 @@
   padding-bottom: 0rem;
 }
 
+.main__curation .path {
+  width: 100%;
+}
+
 .main__curation .main-container .step-container {
   width: 100%;
 }
