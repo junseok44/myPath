@@ -229,7 +229,9 @@
         <div class="main__curation-title">
           <h1>{{curation_3.name}}</h1>
         </div>
+        {% if curation_3.list.0.thumbnail %}
         <img class="main__curation-image" src="{{curation_3.list.0.thumbnail.url}}">
+        {% endif %}
       </img>
       <a href="/post/{{curation_3.list.0.id}}">
         <p class="main__curation-subtitle">
