@@ -66,7 +66,7 @@
     <hr class="divider"/>
     <ul class="main-container {{post.mode}}-mode editPage__main">
       {% if paths.length == 0 %}
-        <button type="button" onclick="handleAddPath()" class="add_new-btn">
+        <button type="button" onclick="createPathAndDisplay()" class="add_new-btn">
           새로운 패스 추가하기
         </button>
       {% endif %}
@@ -75,7 +75,7 @@
         <li class="path path_{{path.id}}">
           <span class="path_intro">
             <input maxlength="10" placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="writePage-input path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
-            <button class="secondary-btn path-add-btn" type="button" onclick="handleAddPath('{{path.id}}') ">
+            <button class="secondary-btn path-add-btn" type="button" onclick="createPathAndDisplay('{{path.id}}') ">
               패스+
             </button>
             <button class="step-btn" type="button" onclick="handleDeletePath('{{path.id}}')">
@@ -150,7 +150,6 @@
 </div>
   <!-- uuid -->
   <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
-  
 
   <!-- 태그기능 -->
   <script>
@@ -281,7 +280,6 @@
 <script src="{% static 'post/handle_change_data.js' %}"></script>
 <script src="{% static 'post/edit/editUtils.js' %}"></script>
   
-<!-- 메인 핸들러 -->
   <script>
     updateSelectOptions();
 
@@ -293,7 +291,6 @@
         }
       });
     });
-
   </script>
   
   <!-- api request. form submit, delete post -->

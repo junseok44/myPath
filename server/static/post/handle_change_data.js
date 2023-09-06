@@ -45,3 +45,73 @@ function handleChangeStepImage(stepId) {
   }
   step.isEdited = true;
 }
+
+function moveItemUp(stepId) {
+  const targetStep = steps.find((step) => step.id == stepId);
+  const pathId = targetStep.pathId;
+  const target = document.querySelector(`.step_${stepId}`);
+  const container = document.querySelector(`.path_${pathId} .step_container`);
+  const previousNode = target.previousElementSibling;
+  if (!previousNode) return;
+
+  container.removeChild(target);
+  container.insertBefore(target, previousNode);
+
+  const movedStep = steps.find(
+    (step) => step.pathId == pathId && step.order == targetStep.order - 1
+  );
+  // targetStep은 order를 -1 . movedStep은 order를 1.
+  steps = steps.map((step) => {
+    if (step.id == movedStep.id)
+      return {
+        ...step,
+        order: step.order + 1,
+        isEdited: true,
+      };
+    else if (step.id === targetStep.id)
+      return {
+        ...step,
+        order: step.order - 1,
+        isEdited: true,
+      };
+    else return step;
+  });
+}
+
+function moveItemDown(stepId) {
+  const targetStep = steps.find((step) => step.id == stepId);
+  const pathId = targetStep.pathId;
+  const target = document.querySelector(`.step_${stepId}`);
+  const container = document.querySelector(`.path_${pathId} .step_container`);
+  const nextNode = target.nextElementSibling;
+
+  if (!nextNode) return;
+  const next_nextNode = nextNode.nextElementSibling;
+  container.removeChild(target);
+
+  if (next_nextNode) {
+    container.insertBefore(target, next_nextNode);
+  } else {
+    container.appendChild(target);
+  }
+
+  const movedStep = steps.find(
+    (step) => step.pathId == pathId && step.order == targetStep.order + 1
+  );
+
+  steps = steps.map((step) => {
+    if (step.id == movedStep.id)
+      return {
+        ...step,
+        order: step.order - 1,
+        isEdited: true,
+      };
+    else if (step.id === targetStep.id)
+      return {
+        ...step,
+        order: step.order + 1,
+        isEdited: true,
+      };
+    else return step;
+  });
+}
