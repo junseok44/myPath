@@ -6,6 +6,9 @@
   height: 100%;
 }
 
+.userPage__add-btn {
+  z-index: 10;
+}
 .userPage__add-btn > i {
   color: var(--secondary-text-color);
   transition: all 0.3s ease-in-out;
@@ -21,7 +24,7 @@
 }
 
 .btn-unset {
-  all: unset; 
+  all: unset;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }

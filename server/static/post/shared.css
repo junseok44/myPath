@@ -74,11 +74,6 @@
 .main-container {
   min-height: 600px;
   overflow-x: auto;
-  @media screen and (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 }
 
 /* 제작, 편집 페이지
@@ -107,10 +102,6 @@
 #descInput {
   width: 100%;
   min-height: 10rem;
-
-  @media screen and (max-width: 600px) {
-    max-height: 5rem;
-  }
 }
 
 .secondary-line-styling {
@@ -207,7 +198,7 @@
   height: 200px;
   outline: none;
   border: none;
-  margin: 0 0.5rem ;
+  margin: 0 0.5rem;
   color: var(--secondary-text-color);
   border-radius: 50px;
   background-color: rgba(120, 120, 120, 0.1);
@@ -221,7 +212,7 @@
 .step-add-btn:hover {
   color: black;
   background-color: rgba(120, 120, 120, 0.15);
-} 
+}
 
 /* .post-input {
   width: 700px;
@@ -276,7 +267,7 @@
   left: 50%;
   width: 1rem;
   height: 1rem;
-  background-image: url("../left-arrow-angle.png"); /* Set the image path */
+  background-image: url("../resource/left-arrow-angle.png");
   background-repeat: no-repeat; /* Prevent the image from repeating */
   background-size: contain; /* Scale the image to fit within the element */
   transform: translateX(-50%) rotate(270deg); /* Rotate the arrow 90 degrees */
@@ -289,7 +280,7 @@
   right: calc(100% + 0.5rem);
   width: 1rem;
   height: 1rem;
-  background-image: url("../left-arrow-angle.png"); /* Set the image path */
+  background-image: url("../resource/left-arrow-angle.png"); /* Set the image path */
   background-repeat: no-repeat; /* Prevent the image from repeating */
   background-size: contain; /* Scale the image to fit within the element */
   transform: translateY(-50%) rotate(180deg); /* Set the trans */
@@ -309,9 +300,6 @@
 .editPage__pathSelect,
 .pathSelect {
   display: none;
-  @media screen and (max-width: 600px) {
-    display: block;
-  }
 }
 
 /* 모달관련 css */
@@ -326,14 +314,6 @@
   left: 17rem;
   bottom: 0px;
   z-index: 1000;
-  @media screen and (max-width: 600px) {
-    position: fixed;
-    top: 0;
-    left: 0;
-    min-width: 10px;
-    min-height: 10px;
-    z-index: 2;
-  }
 }
 
 .step__edit-modal {
@@ -350,9 +330,6 @@
   gap: 1rem;
   border: 1px solid var(--border-grey);
   border-radius: 5px;
-  @media screen and (min-width: 600px) {
-    animation: fadeIn 0.5s ease forwards;
-  }
   box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
 
   /* @media screen and (max-width: 600px) {
@@ -376,14 +353,6 @@
   z-index: 10;
   gap: 1rem;
   border: 1px solid black;
-  @media screen and (max-width: 600px) {
-    position: fixed;
-    min-height: 0px;
-    min-width: 0px;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
 }
 
 .container_row-mode {
@@ -391,44 +360,9 @@
   flex-direction: row;
   align-items: flex-start;
   gap: 2rem;
-  @media screen and (max-width: 600px) {
-    flex-direction: column;
-  }
-  @media screen and (min-width: 601px) {
-    /* display: inline-flex; */
-  }
-}
-
-.col-mode {
-  @media screen and (min-width: 600px) {
-    display: flex;
-    gap: 4rem;
-    align-items: flex-start;
-  }
 }
 
 /* 모달 반응형 주기 위함. */
-@media screen and (max-width: 600px) {
-  .modal__overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 2;
-    animation: fadeIn 0.5s ease forwards;
-  }
-
-  .modal__overlay::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1500px;
-    height: 1500px;
-    background-color: rgba(0, 0, 0, 0.6);
-  }
-}
 
 /* 버튼 관련 컴포넌트 */
 
@@ -450,7 +384,7 @@
   flex: 1;
   height: 25px;
   padding: 10px;
-  margin-right: 10px;;
+  margin-right: 10px;
   display: inline-block;
   vertical-align: middle;
   border: 1px solid var(--border-grey);
@@ -490,17 +424,87 @@
   border: 0;
 }
 
-@media screen and (max-width: 450px) {
-  .upload-file .upload-name {
-    display: none;
-  }
-}
-
-/* 제작, 편집 페이지 하단 버튼 */
 .post-footer-btn {
   width: 80px;
   font-size: 1rem;
   margin-left: 0.3rem;
 }
 
-/* 모달 스타일링 */
+@media screen and (max-width: 450px) {
+  #tagList {
+    margin-bottom: 0.5rem;
+  }
+  .upload-file .upload-name {
+    display: none;
+  }
+
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #reviewInput,
+  #descInput {
+    max-height: 5rem;
+  }
+
+  .editPage__pathSelect,
+  .pathSelect {
+    display: block;
+  }
+
+  .col-mode .modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 10px;
+    min-height: 10px;
+    z-index: 2;
+  }
+
+  .container_row-mode .step__edit-modal {
+    position: fixed;
+    min-height: 0px;
+    min-width: 0px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .container_row-mode {
+    flex-direction: column;
+  }
+
+  .modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    animation: fadeIn 0.5s ease forwards;
+  }
+
+  .modal__overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1500px;
+    height: 1500px;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .step__edit-modal {
+    animation: fadeIn 0.5s ease forwards;
+  }
+
+  .col-mode {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+  }
+}

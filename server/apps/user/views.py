@@ -20,7 +20,7 @@ GOOGLE_CLIENT_SECRET=os.environ.get("GOOGLE_CLIENT_SECRET")
 GOOGLE_CALLBACK_URL = "http://localhost:8000/user/googleRedirect"
 
 def user_main(request):  
-    return render(request, 'user/login.html')
+    return render(request, 'user/user_login.html')
 
 def user_login(request):
     if request.user.is_authenticated:
@@ -37,13 +37,13 @@ def user_login(request):
             return redirect('/')
         else:
             messages.error(request, "실패한 로그인입니다!")
-            return render(request, 'user/login.html', {'error': 'Invalid credentials.'})
+            return render(request, 'user/user_login.html', {'error': 'Invalid credentials.'})
     
     ctx = {
         "KAKAO_CLIENT_ID":KAKAO_CLIENT_ID,
         "KAKAO_REDIRECT_URL":KAKAO_REDIRECT_URL,
     }
-    return render(request, 'user/login.html', ctx)
+    return render(request, 'user/user_login.html', ctx)
 
 def user_signup(request):
     if request.user.is_authenticated:
@@ -58,16 +58,17 @@ def user_signup(request):
             return redirect('/')
         else:
             messages.error(request, "회원가입에 실패하였습니다.")
-            return render(request, 'user/signup.html', {'form': form})
+            return render(request, 'user/user_signup.html', {'form': form})
         
     else:
         form = CustomUserCreationForm()
-        return render(request, 'user/signup.html', {'form': form})
+        return render(request, 'user/user_signup.html', {'form': form})
 
 def user_logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
         return redirect("/")
+    return redirect("/")
 
 @login_required(login_url="/user/login")
 def my_page(requests):
@@ -81,7 +82,7 @@ def my_page(requests):
     userCards = UserCard.objects.filter(writer=requests.user)
 
     ctx = {'my_posts': my_posts, 'my_likes': my_likes, 'my_bookmarks': my_bookmarks,'user': user, "posts_count":posts_count, "userCards": userCards}
-    return render(requests, "user/my_page.html", ctx)
+    return render(requests, "user/user_my_page.html", ctx)
 
 def user_page(requests, id):
     user = User.objects.get(id=id)
@@ -300,11 +301,11 @@ def find_id(request):
         username = request.POST.get('username')
         try:
             user = User.objects.get(username=username)
-            return render(request, 'user/find_id.html', {'loginId': user.loginId})
+            return render(request, 'user/user_find_id.html', {'loginId': user.loginId})
         except User.DoesNotExist:
             messages.error(request, '해당 사용자명을 사용하는 사용자가 없습니다.')
             return redirect('find_id')
-    return render(request, 'user/find_id.html')
+    return render(request, 'user/user_find_id.html')
 
 def reset_password(request):
     if request.method == "POST":
@@ -325,4 +326,4 @@ def reset_password(request):
         except User.DoesNotExist:
             messages.error(request, '해당 loginId를 사용하는 사용자가 없습니다.')  
             return redirect('reset_password')
-    return render(request, 'user/reset_password.html')
+    return render(request, 'user/user_reset_password.html')

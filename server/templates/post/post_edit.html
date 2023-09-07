@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block content %}
 
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'post/write/write.css' %}" />
+<link rel="stylesheet" href="{% static 'post/edit/edit.css' %}" />
+{% endblock %}
+
+{% block content %}
 <div class="editPage">
   <!-- <h1>edit</h1> -->
   <form class="edit__form" onsubmit="handleSubmit(event)">
@@ -56,13 +62,6 @@
         <span>패스 선택</span>
         <select id="pathSelect" class="writePage-input select"></select>
       </div>
-      <button
-        type="button"
-        onclick="toggleMode()"
-        class="mode-btn writePage__btn"
-      >
-        세로모드로  
-      </button>
     </div>
     <hr class="divider"/>
     <ul class="main-container {{post.mode}}-mode editPage__main">
@@ -234,10 +233,9 @@
     });
   </script>
 
-  <script src="{% static 'post/writePage/responsivePath.js' %}"></script>
-  <script src="{% static 'post/writePage/path.js' %}"></script>
-  <script src="{% static 'post/writePage/modal.js' %}"></script>
-  <script src="{% static 'post/writePage/csrftoken.js' %}"></script>
+  <script src="{% static 'post/responsivePath.js' %}"></script>
+  <script src="{% static 'post/addNode_by_javascript.js' %}"></script>
+  <script src="{% static 'post/csrftoken.js' %}"></script>
 
   <!-- 변수선언 -->
   <script>
@@ -290,7 +288,6 @@
       addPathNode(prevPathId, id)
 
       const prevPathItem = paths.find((path) => path.id == prevPathId);
-
       if (prevPathItem) {
 
         paths = paths.map(
@@ -473,6 +470,8 @@
 
   </script>
 
+
+
   <script>
   function handleChangeStepTitle(stepId) {
     const stepNode = document.querySelector(`.step_${stepId}`);
@@ -517,7 +516,7 @@
     function handleFormCancel() {
 
       // TODO 정말로 취소하시겠습닉까/??
-      window.location.href = "/post/list"
+      window.location.href = "/"
     }
     async function handleSubmit(e) {
       e.preventDefault();

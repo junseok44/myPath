@@ -1,4 +1,7 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block stylesheet %}
+
+<link rel="stylesheet" href="{% static 'post/write/write.css' %}" />
+{% endblock %} {% block content %}
 
 <div class="writePage">
   <form onsubmit="handleSubmit(event)">
@@ -75,22 +78,22 @@
         onclick="toggleMode()"
         class="mode-btn writePage__btn"
       >
-        세로모드로  
+        세로모드로
       </button>
     </div>
-    <hr class="divider"/>
+    <hr class="divider" />
     <ul class="main-container writePage__main col-mode">
       <button
         type="button"
-        onclick="handleAddPath()"
+        onclick="createPathAndDisplay()"
         class="initial-path-add-btn add_new-btn writePage__btn"
       >
         패스 추가하기
       </button>
     </ul>
-    
+
     <h5 class="section-title" id="writePage-review-title">후기</h5>
-    <hr class="divider"/>
+    <hr class="divider" />
     <div class="writePage__review">
       <textarea
         maxlength="500"
@@ -103,15 +106,14 @@
     </div>
 
     <div class="writePage__footer">
-      <button type="submit" class="btn post-footer-btn writePage__btn">등록하기</button>
+      <button type="submit" class="btn post-footer-btn writePage__btn">
+        등록하기
+      </button>
     </div>
   </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
-
-<!-- csrf token -->
-<script src="{% static 'post/writePage/csrftoken.js' %}"></script>
 
 <!-- 태그기능 -->
 <script>
@@ -163,248 +165,22 @@
   });
 </script>
 
-<script src="{% static 'post/writePage/responsivePath.js' %}"></script>
-<script src="{% static 'post/writePage/modal.js' %}"></script>
-<script src="{% static 'post/writePage/path.js' %}"></script>
-<!-- 모드변경 -->
+<!-- csrf token -->
+<script src="{% static 'post/csrftoken.js' %}"></script>
+<script src="{% static 'post/responsivePath.js' %}"></script>
+<script src="{% static 'post/addNode_by_javascript.js' %}"></script>
+<script src="{% static 'post/write/change_mode.js' %}"></script>
+<script src="{% static 'post/write/writeUtils.js' %}"></script>
+
 <script>
-  const main = document.querySelector(".main-container");
-  const modeBtn = document.querySelector(".mode-btn");
-
-  checkmode();
-
-  function checkmode() {
-    if (main.classList.contains("col-mode")) {
-      modeBtn.innerText = "가로모드로 바꾸기";
-      return "col";
-    } else {
-      modeBtn.innerText = "세로모드로 바꾸기";
-      return "row";
-    }
-  }
-
-  function toggleMode() {
-    const allContainer = document.querySelectorAll(".step_container");
-    for (let item of allContainer) {
-      item.classList.toggle("container_row-mode");
-    }
-    main.classList.toggle("col-mode");
-    checkmode();
-  }
-</script>
-<script>
-  let paths = [];
-  let steps = [];
-  // TODO. COLUM삭제. ORDER변경. 그리고 아이템 ORDER변경.
+  // 현재 문제는. 이 함수를 지금 test를 위해서 분리해야 하는데,
+  // 그러면 import를 못하기 때문에, 다른 함수를
 
   const titleInput = document.querySelector("#titleInput");
   const descInput = document.querySelector("#descInput");
   const reviewInput = document.querySelector("#reviewInput");
   const imageInput = document.querySelector("#imageInput");
   const categorySelect = document.querySelector("#categorySelect");
-
-  function handleAddPath(prevPathId) {
-    let id = uuid.v4();
-    addPathNode(prevPathId, id);
-
-    const prevPathItem = paths.find((path) => path.id == prevPathId);
-    if (prevPathItem) {
-      paths = paths.map((path) =>
-        path.order >= prevPathItem.order + 1
-          ? {
-              ...path,
-              order: path.order + 1,
-            }
-          : path
-      );
-      paths.push({
-        id: id,
-        order: prevPathItem.order + 1,
-        title: ``,
-      });
-    } else {
-      paths.push({ id: id, order: 1, title: `` });
-    }
-
-    updateSelectOptions();
-    changeDisplay(id);
-  }
-
-  function handleAddStep(targetPathId) {
-    let id = uuid.v4();
-    addStepNode(targetPathId, id);
-
-    steps.push({
-      id,
-      pathId: targetPathId,
-      order: steps.filter((step) => step.pathId == targetPathId).length + 1,
-      isNew: true,
-      isEdited: false,
-      title: "",
-      desc: "",
-    });
-  }
-
-  function handleDeleteItem(targetStepId) {
-    const targetNode = document.querySelector(`.step_${targetStepId}`);
-
-    targetNode.classList.add("fadeout");
-    setTimeout(() => {
-      targetNode.parentNode.removeChild(targetNode);
-    }, 300);
-    // targetNode.parentNode.removeChild(targetNode);
-
-    const targetStep = steps.find((step) => step.id == targetStepId);
-
-    steps = steps.map((step) => {
-      if (step.colId == targetStep.colId && step.order > targetStep.order) {
-        step.order -= 1;
-        step.isEdited = true;
-      }
-
-      return step;
-    });
-    steps.splice(
-      steps.findIndex((step) => step.id == targetStepId),
-      1
-    );
-  }
-
-  function handleDeletePath(targetPathId) {
-    const main = document.querySelector(".main-container");
-    const target = main.querySelector(`.path_${targetPathId}`);
-
-    var optionElements = selectElement.getElementsByTagName("option");
-    var specificOptionIndex = Array.from(selectElement.options).findIndex(
-      function (option) {
-        return option.value === targetPathId;
-      }
-    );
-    if (specificOptionIndex == 0) {
-      specificOptionIndex = 2;
-    }
-    var targetOption = selectElement.options[specificOptionIndex - 1];
-
-    target.classList.add("fadeout");
-    setTimeout(() => {
-      main.removeChild(target);
-      if (main.childElementCount == 0) {
-        main.innerHTML = `
-      <button type="button" onclick="handleAddPath()" class="btn add_new-btn writePage__btn">
-        내 패스 만들기
-      </button>
-      `;
-      }
-
-      updateSelectOptions();
-      if (targetOption) changeDisplay(targetOption.value);
-    }, 300);
-
-    paths = paths.filter((path) => path.id !== targetPathId);
-    steps = steps.filter((step) => step.pathId !== targetPathId);
-  }
-
-  function moveItemUp(stepId) {
-    const targetStep = steps.find((step) => step.id == stepId);
-    const pathId = targetStep.pathId;
-    const target = document.querySelector(`.step_${stepId}`);
-    const container = document.querySelector(`.path_${pathId} .step_container`);
-    const previousNode = target.previousSibling;
-    if (!target.previousSibling) return;
-
-    container.removeChild(target);
-    container.insertBefore(target, previousNode);
-
-    const movedStep = steps.find(
-      (step) => step.pathId == pathId && step.order == targetStep.order - 1
-    );
-
-    // targetStep은 order를 -1 . movedStep은 order를 1.
-    steps = steps.map((step) => {
-      if (step.id == movedStep.id)
-        return {
-          ...step,
-          order: step.order + 1,
-        };
-      else if (step.id === targetStep.id)
-        return {
-          ...step,
-          order: step.order - 1,
-        };
-      else return step;
-    });
-  }
-
-  function moveItemDown(stepId) {
-    const targetStep = steps.find((step) => step.id == stepId);
-    const pathId = targetStep.pathId;
-    const target = document.querySelector(`.step_${stepId}`);
-    const container = document.querySelector(`.path_${pathId} .step_container`);
-    const nextNode = target.nextSibling;
-    if (!nextNode) return;
-    const next_nextNode = nextNode.nextSibling;
-
-    container.removeChild(target);
-
-    if (next_nextNode) {
-      container.insertBefore(target, next_nextNode);
-    } else {
-      container.appendChild(target);
-    }
-
-    const movedStep = steps.find(
-      (step) => step.pathId == pathId && step.order == targetStep.order + 1
-    );
-
-    steps = steps.map((step) => {
-      if (step.id == movedStep.id)
-        return {
-          ...step,
-          order: step.order - 1,
-        };
-      else if (step.id === targetStep.id)
-        return {
-          ...step,
-          order: step.order + 1,
-        };
-      else return step;
-    });
-  }
-
-  function handleChangeStepTitle(stepId) {
-    const stepNode = document.querySelector(`.step_${stepId}`);
-    const titleInput = stepNode.querySelector(".title");
-
-    const step = steps.find((step) => step.id == stepId);
-    step.title = titleInput.value;
-    step.isEdited = true;
-  }
-
-  function handleChangeStepDesc(stepId) {
-    const stepNode = document.querySelector(`.step_${stepId}`);
-    const descInput = stepNode.querySelector(".desc");
-
-    const step = steps.find((step) => step.id == stepId);
-    step.desc = descInput.value;
-    step.isEdited = true;
-  }
-
-  function handleChangeStepImage(stepId) {
-    const stepNode = document.querySelector(`.step_${stepId}`);
-    const imageInput = stepNode.querySelector(".imageInput");
-    const imageFile = imageInput.files[0];
-    const step = steps.find((step) => step.id == stepId);
-
-    if (imageFile) {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        imageData = event.target.result;
-        step.image = imageData;
-      };
-      reader.readAsDataURL(imageFile);
-    }
-    step.isEdited = true;
-  }
 
   async function handleSubmit(e) {
     e.preventDefault();
