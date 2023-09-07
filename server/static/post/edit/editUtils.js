@@ -45,7 +45,7 @@ function handleAddStep(targetPathId) {
   });
 }
 
-// writeUtils와 다른점은 deletedIds에 추가하는것. 그런데 에러있다.
+// writeUtils와 다른점은 deletedIds에 추가하는것.
 function handleDeleteItem(stepId) {
   const targetNode = document.querySelector(`.step_${stepId}`);
 
@@ -54,11 +54,22 @@ function handleDeleteItem(stepId) {
     targetNode.parentNode.removeChild(targetNode);
   }, 300);
 
+  const targetStep = steps.find((step) => step.id == targetStepId);
+
+  steps = steps.map((step) => {
+    if (step.colId == targetStep.colId && step.order > targetStep.order) {
+      step.order -= 1;
+      step.isEdited = true;
+    }
+
+    return step;
+  });
+
   steps = steps.filter((step) => step.id !== stepId);
   deletedIds.push(stepId);
 }
 
-// deletedPath에 추가하는 거 빼고는 동일. 이것도 순서 보정을 안해줬다.
+// deletedPath에 추가하는 거 빼고는 동일.
 function handleDeletePath(targetPathId) {
   const main = document.querySelector(".main-container");
   const target = main.querySelector(`.path_${targetPathId}`);
@@ -90,7 +101,16 @@ function handleDeletePath(targetPathId) {
   }, 300);
 
   deletedPaths.push(targetPathId);
-  // 누구야 이거 느낌표 빼놓은거...
+
+  targetOrder = paths.find((path) => path.id == targetPathId).order;
+
+  paths = paths.map((path) => {
+    if (path.order > targetOrder) {
+      path.order -= 1;
+    }
+    return path;
+  });
+
   paths = paths.filter((path) => path.id !== targetPathId);
   steps = steps.filter((step) => step.pathId !== targetPathId);
 }
