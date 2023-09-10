@@ -194,9 +194,11 @@ def view_post_delete(request, id):
     try:
         deletedPost = Post.objects.get(pk=id)
         deletedPost.delete()        
-
-        Push.objects.get(post=deletedPost).delete()
-
+        try:
+            Push.objects.get(post=deletedPost).delete()
+        except Exception as e:
+            print(e)
+        
         messages.success(request, '성공적으로 삭제되었습니다.')
         return JsonResponse({"msg":"success"},status = 200)
     except:
