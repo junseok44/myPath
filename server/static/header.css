@@ -63,16 +63,17 @@ a.header_btn:hover {
   transition: all 0.1s ease-in-out;
 }
 
-.header_push-list ~ .header_dropdown {
-  display: none;
+.header_btn_push:hover .header_push-list {
+  visibility: visible;
 }
 
 .header_push-list {
+  visibility: hidden;
   background-color: var(--grey);
   padding: 1rem;
   width: 10rem;
   position: absolute;
-  top: 250%;
+  top: 200%;
   left: 50%;
   transform: translateX(-50%) translateY(-20%);
   opacity: 1;
