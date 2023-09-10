@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'apps.post',
     'apps.comment',
     'apps.chatting',
+    'apps.base',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.base.context_processors.get_push_list'
             ],
         },
     },

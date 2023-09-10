@@ -44,10 +44,25 @@
               <i class="fa-solid fa-pen-to-square"></i>
               <div class="header_dropdown">글 작성하기</div>
             </a>
-            <a class="header_btn" href="">
+            <div class="header_btn header_btn_push" onclick="togglePushList()">
               <i class="fa-solid fa-bell"></i>
-              <div class="header_dropdown">알림</div>
-            </a>
+              <ul class="header_push-list">
+                {% if push_list.count == 0 %}
+                <span>알림이 없습니다.</span>
+                {% else %} {% for push in push_list %}
+                <a href="/post/{{push.post.id}}">
+                  <li>
+                    <span class="push_msg">
+                      {{push.sender}}님이 {{push.post.title}}글에 댓글을
+                      달았습니다.
+                    </span>
+                    {{push.text}}
+                  </li>
+                </a>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
             <a class="header_btn" href="{% url 'my_page' %}">
               <i class="fa-solid fa-user"></i>
               <div class="header_dropdown">마이페이지</div>
@@ -168,6 +183,13 @@
       </div>
     </footer>
   </body>
+
+  <script>
+    function togglePushList() {
+      const pushList = document.querySelector(".header_push-list");
+      pushList.classList.toggle("hidden");
+    }
+  </script>
 
   <script>
     function copyPostLink(post_id) {

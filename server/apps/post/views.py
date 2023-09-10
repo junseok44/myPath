@@ -192,10 +192,11 @@ def view_post_list(request):
 
 def view_post_delete(request, id):
     try:
-        print("삭제")
-        print(id)
         deletedPost = Post.objects.get(pk=id)
-        deletedPost.delete()
+        deletedPost.delete()        
+
+        Push.objects.get(post=deletedPost).delete()
+
         messages.success(request, '성공적으로 삭제되었습니다.')
         return JsonResponse({"msg":"success"},status = 200)
     except:
@@ -422,27 +423,37 @@ def view_post_create_comment(request,pk):
                 return redirect(f'/post/{pk}')
 
             parentId = request.POST.get("parentCommentId")
+            post = Post.objects.get(id=pk)
             if parentId is not None:
-                print(parentId)
                 parentComment = get_object_or_404(PostComment,pk=parentId)
-                print(parentComment)
-                PostComment.objects.create(
+                newComment = PostComment.objects.create(
                 writer=request.user,
-                post=Post.objects.get(id=pk),
+                post=post,
                 text = request.POST['comment'],
                 parentComment=parentComment)
+           
             else:
-                PostComment.objects.create(
+                newComment = PostComment.objects.create(
                 writer=request.user,
-                post=Post.objects.get(id=pk),
+                post=post,
                 text = request.POST['comment']
             )
+                
+            if request.user != post.user:
+                try:    
+                    Push.objects.create(sender=request.user, receiver=post.user, post=post, text=f"{newComment.text}",
+                                    postCommentId=newComment.id)
+                except:
+                    pass
+
             return redirect(f'/post/{pk}')
         else:
             messages.error(request, "댓글 작성을 위해서 로그인해주세요!")
             return redirect(f'/post/{pk}')
 
     return render(request,"post/post_detail.html")
+
+# 만약 comment를 지울 경우에는, 
 
 def view_post_delete_comment_ajax(request):
     req=json.loads(request.body)
@@ -451,10 +462,17 @@ def view_post_delete_comment_ajax(request):
     post=Post.objects.get(id=post_id)
     comment=PostComment.objects.get(post=post, id=comment_id)
     if request.method=="POST" and request.user.is_authenticated:
-        print(comment, request.user, comment.writer)
         if(request.user==comment.writer):
             comment_json=serialize('json', [comment])
             comment.delete()
+            try:
+                print("deleteCOmment")
+                push = Push.objects.get(postCommentId=comment_id)
+                print(push)
+                push.delete()
+            except Exception as e:
+                print(e)
+
             return JsonResponse({'comment':comment_json})
     else:
         return HttpResponse('Failed: Post requests only.')
@@ -497,12 +515,22 @@ def view_step_create_comment_ajax(request):
                 messages.error(request, "공백은 입력하실수 없습니다.")
                 return JsonResponse({"error": "errormessage"}, status=500)
             else:
+                step = get_object_or_404(Step, pk=step_id)
                 comment=StepComment.objects.create(
                     writer=request.user,
-                    step=get_object_or_404(Step, pk=step_id),
+                    step=step,
                     text=text,
                 )
                 ctx={'step_id':step_id,'comment_id':comment.id,'writer':comment.writer.username,'text':text}
+                if request.user != step.path.post.user:
+                    Push.objects.create(
+                        sender=request.user,
+                        receiver=step.path.post.user,
+                        post=step.path.post,
+                        step=step,
+                        stepCommentId=comment.id,
+                        text=f"{comment.text}"
+                    )
                 return JsonResponse(ctx)
         else:
             messages.error(request,"댓글 작성을 위해 로그인해주세요!")
@@ -522,6 +550,13 @@ def view_step_delete_comment_ajax(request):
         if(request.user==comment.writer):
             comment_json=serialize('json', [comment])
             comment.delete()
+
+            try:
+                push = Push.objects.get(stepCommentId=comment_id)
+                push.delete()
+            except:
+                pass
+            
             return JsonResponse({'comment':comment_json})
     else:
         return HttpResponse('Failed: Post requests only.')
