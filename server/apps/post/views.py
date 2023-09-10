@@ -433,6 +433,13 @@ def view_post_create_comment(request,pk):
                 post=post,
                 text = request.POST['comment'],
                 parentComment=parentComment)
+
+                if request.user != parentComment.writer:
+                    try:
+                        Push.objects.create(sender=request.user, receiver=parentComment.writer, post=post, text=f"{newComment.text}",
+                                        postCommentId=newComment.id)
+                    except:
+                        pass
            
             else:
                 newComment = PostComment.objects.create(
@@ -440,13 +447,12 @@ def view_post_create_comment(request,pk):
                 post=post,
                 text = request.POST['comment']
             )
-                
-            if request.user != post.user:
-                try:    
-                    Push.objects.create(sender=request.user, receiver=post.user, post=post, text=f"{newComment.text}",
-                                    postCommentId=newComment.id)
-                except:
-                    pass
+                if request.user != post.user:
+                    try:    
+                        Push.objects.create(sender=request.user, receiver=post.user, post=post, text=f"{newComment.text}",
+                                        postCommentId=newComment.id)
+                    except:
+                        pass
 
             return redirect(f'/post/{pk}')
         else:
