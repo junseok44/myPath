@@ -73,9 +73,9 @@ a.header_btn:hover {
   padding: 1rem;
   width: 10rem;
   position: absolute;
-  top: 200%;
+  top: 170%;
   left: 50%;
-  transform: translateX(-50%) translateY(-20%);
+  transform: translateX(-50%);
   opacity: 1;
   transition: all 2s ease-in-out;
   font-size: 0.9rem;
