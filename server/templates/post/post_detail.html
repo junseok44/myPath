@@ -134,8 +134,7 @@
               <img src="{% static 'resource/noimage.jpg' %}" />
               {% endif %}
             </div>
-            <div class="review-container detailPage__desc">
-              {{post.desc}}
+            <div class="review-container detailPage__desc">{{post.desc}}
             </div>
           </div>
         </div>
@@ -178,13 +177,9 @@
                   {{step.title}}
                   {% endif %}
                 </p>
-                <p class="desc">
-                  {% if step.desc == "" %}
-                  <span class="color-grey">
-                    설명이 없어요.
+                <p class="desc">{% if step.desc == "" %}<span class="color-grey">설명이 없어요.
+                  </span>{% else %}<span>{{step.desc}}
                   </span>
-                  {% else %}
-                  {{step.desc}}
                   {% endif %}
                 </p>  
               </div>
@@ -225,8 +220,7 @@
         </div>
         <div class="content-wrapper" id="accordion2">
           <div class="review-container">
-            <div class="review-content">
-              {{post.review}}
+            <div class="review-content">{{post.review}}
             </div>
           </div>
         </div>
@@ -427,14 +421,12 @@ const onClickStepDetail = async (step_id) => {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
                       <img class="step-img" src="${media_url}" />
-                      <div class="step-detail">
-                        <p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                      <div class="step-detail"><p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           } else {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
-                      <div class="step-detail">
-                        <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                      <div class="step-detail"><p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           }
         } else {
@@ -447,14 +439,12 @@ const onClickStepDetail = async (step_id) => {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
                       <img class="step-img" src="${media_url}" />
-                      <div class="step-detail">
-                          <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                      <div class="step-detail"><p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                     </div>`;
           } else {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
-                      <div class="step-detail">
-                          <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                      <div class="step-detail"><p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           }
           stepNode.insertBefore(stepInfo, comment_container)

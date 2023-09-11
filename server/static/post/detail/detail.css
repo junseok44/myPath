@@ -245,9 +245,14 @@
   line-height: 1.4rem;
 }
 
+.review-content {
+  white-space: pre;
+}
+
 .detailPage__desc {
   flex: 1;
   line-height: 1.4rem;
+  white-space: pre;
 }
 
 /* 메인: 패스 & 스탭 */
@@ -327,6 +332,7 @@
   overflow: auto; */
   min-height: 200px;
   height: auto;
+  white-space: pre;
 }
 
 .detailPage .step-img {
