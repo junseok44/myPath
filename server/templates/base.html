@@ -56,7 +56,7 @@
                       {{push.sender}}님이 {{push.post.title}}글에 댓글을
                       달았습니다.
                     </span>
-                    {{push.text}}
+                    {{push.text|truncatechars:15}}
                   </li>
                 </a>
                 {% endfor %}

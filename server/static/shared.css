@@ -87,6 +87,10 @@ h3 {
 }
 
 .hidden {
+  display: none;
+}
+
+.hidden_important {
   display: none !important;
 }
 

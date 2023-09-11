@@ -503,6 +503,7 @@ def view_step_detail_ajax(request):
                 "step": str(comment.step.id),
                 "text":comment.text,
                 "writer":comment.writer.username,
+                "writer_id": str(comment.writer.id),
             }, "pk": comment.pk} for comment in step_comments
         ]
         step_json = serialize('json', [step])

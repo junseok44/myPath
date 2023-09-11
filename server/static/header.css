@@ -84,9 +84,11 @@ a.header_btn:hover {
 .header_push-list li {
   position: relative;
   padding: 0.5rem 0rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
 }
 
+.header_push-list li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
 .header_push-list li:hover {
   color: var(--primary-color);
 }

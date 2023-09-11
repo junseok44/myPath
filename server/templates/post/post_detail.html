@@ -242,7 +242,9 @@
 
         <div class="post_comment_{{post_comment.id}} comment">
           <p class="comment_writer">
-            {{post_comment.writer}}
+            <a href="{% url 'user_page' id=post_comment.writer.id %}" class="comment_writer_link">
+              {{post_comment.writer}}
+            </a >
             {% if user.is_authenticated %}
             <span class="comment-actions">
               <span onclick="onToggleWriteBox('{{post_comment.id}}')">답글</span>
@@ -257,7 +259,9 @@
             {% for childComment in post_comment.postcomment_set.all %}
             <div class="post_comment_{{childComment.id}}">
               <p class="comment_writer">
+                <a href="{% url 'user_page' id=childComment.writer.id %}" class="comment_writer_link">
                 {{childComment.writer}}
+                </a>
                 <span class="comment-actions">
                   {% if childComment.writer == request.user %}
                   <span class="post-comment-delete"
@@ -268,7 +272,7 @@
               <p>{{childComment.text}}</p>
             </div>
             {% endfor %}
-            <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="child-comment-input comment-form hidden">
+            <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="child-comment-input comment-form hidden_important">
               {%csrf_token%}
               <input type="hidden" name="parentCommentId" value="{{post_comment.id}}" />
               <input class="writePage-input" type="text" name="comment" placeholder="답글을 입력하세요" />
@@ -406,7 +410,7 @@ const onClickStepDetail = async (step_id) => {
 
     try {
       const { user, step, step_comments, media_url } = await sendStepDetailRequest(step_id);
-      step_parsed = JSON.parse(step)[0];
+        step_parsed = JSON.parse(step)[0];
         step_comments_parsed = JSON.parse(step_comments);
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
         const comment_container = stepNode.querySelector(".step__comment")
@@ -416,7 +420,6 @@ const onClickStepDetail = async (step_id) => {
         desc=step_parsed["fields"]["desc"];
         step_title=title!==""?title:`제목이 없어요`;
         step_desc=desc!==""?desc:`설명이 없어요`;
-
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
         const stepInfo = document.createElement("div")
         if (currentStepInfo) {
@@ -459,8 +462,12 @@ const onClickStepDetail = async (step_id) => {
         commentNode.innerHTML = ``;
         commentNode.innerHTML += `<div class="modal__comment-title">댓글</div>`;
         step_comments_parsed.forEach((element) => {
+          console.log(element);
           commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
+                        <a href="/user/user_page/${element["fields"]["writer_id"]}" class="comment_writer_link">
                         <p class="comment_writer">${element["fields"]["writer"]}
+                        </a>
+                          
                           <span class="comment-actions">
                   
                         <span class="step-comment-delete ${user==element["fields"]["writer"]?'':'hidden'}" onclick=deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')>삭제</span>
@@ -661,7 +668,7 @@ const onClickStepDetail = async (step_id) => {
     const input = targetComment.querySelector(".child-comment-input");
     input
       .classList
-      .toggle("hidden");
+      .toggle("hidden_important");
   };
 
   const onAddChildrenComment = async (postId, parentCommentId) => {
