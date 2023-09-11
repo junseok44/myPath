@@ -78,12 +78,12 @@
             {% endif %}
           </span>
           <span class="detailPage__action-btn">
-            {% if user.is_authenticated %}
+            <!-- {% if user.is_authenticated %}
               {% if user != post.user %}
               <div onclick="onToggleMessageBar()">
               작성자에게 쪽지 보내기
             </div>
-            {% endif %}
+            {% endif %} -->
             <div class="message_overlay hidden" onclick="onToggleMessageBar()">
               <div class="message_box" onclick="onMessageBoxClick(event)">
                 <h1>쪽지 입력</h1>
