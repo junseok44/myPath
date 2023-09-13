@@ -54,7 +54,7 @@ def category_search(request, category_id):
     for tables in category_tables:
            category_posts.append(tables.post)
 
-    items_per_page = 6  
+    items_per_page = 8
     paginator = Paginator(category_posts, items_per_page)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
