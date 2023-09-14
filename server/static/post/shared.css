@@ -258,7 +258,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.4rem;
-  white-space: pre;
+  white-space: pre-wrap;
 }
 
 .col-mode .step:not(:last-child)::before {
