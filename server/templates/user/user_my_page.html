@@ -131,12 +131,13 @@
         class="nav-link active"
         id="my-posts-tab"
         data-toggle="tab"
-        href="#my-posts"
         >나의 패스</a
       >
     </li>
     <li class="nav-item" onclick="change_tab_color(event)">
-      <a class="nav-link" id="my-likes-tab" data-toggle="tab" href="#my-likes"
+      <a class="nav-link" 
+        id="my-likes-tab" 
+        data-toggle="tab"
         >좋아요 한 패스</a
       >
     </li>
@@ -145,7 +146,6 @@
         class="nav-link"
         id="my-bookmarks-tab"
         data-toggle="tab"
-        href="#my-bookmarks"
         >북마크 한 패스</a
       >
     </li>
@@ -330,6 +330,7 @@ editButtons.forEach(editBtn => {
   }
 </script>
 
+<!-- 탭 관련 -->
 <script>
   function change_tab_color(e) {
     var taps = document.querySelectorAll(".nav-item");
