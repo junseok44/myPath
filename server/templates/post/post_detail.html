@@ -77,6 +77,24 @@
             </div>
             {% endif %}
           </span>
+          <span class="detailPage__action-btn">
+            <!-- {% if user.is_authenticated %}
+              {% if user != post.user %}
+              <div onclick="onToggleMessageBar()">
+              작성자에게 쪽지 보내기
+            </div>
+            {% endif %} -->
+            <div class="message_overlay hidden" onclick="onToggleMessageBar()">
+              <div class="message_box" onclick="onMessageBoxClick(event)">
+                <h1>쪽지 입력</h1>
+                <textarea maxlength="100" class="message_text"></textarea>
+                <button onclick="onSendMessage('{{post.user.id}}')">보내기</button>
+              </div>
+            </div>  
+            {% endif %}
+
+          </span>
+
         </div>
       </div>
       <div class="detailPage__info">
@@ -116,8 +134,7 @@
               <img src="{% static 'resource/noimage.jpg' %}" />
               {% endif %}
             </div>
-            <div class="review-container detailPage__desc">
-              {{post.desc}}
+            <div class="review-container detailPage__desc">{{post.desc}}
             </div>
           </div>
         </div>
@@ -160,13 +177,9 @@
                   {{step.title}}
                   {% endif %}
                 </p>
-                <p class="desc">
-                  {% if step.desc == "" %}
-                  <span class="color-grey">
-                    설명이 없어요.
+                <p class="desc">{% if step.desc == "" %}<span class="color-grey">설명이 없어요.
+                  </span>{% else %}<span>{{step.desc}}
                   </span>
-                  {% else %}
-                  {{step.desc}}
                   {% endif %}
                 </p>  
               </div>
@@ -186,10 +199,10 @@
                 </div>
               </div>
               <div class="new__comment">
-                <input type="text" class="new-comment" placeholder="댓글을 입력하세요" />
-                <button class="btn comment-create" onclick="onClickStepComment('{{step.id}}')">+</button>
+                <input type="text" class="new-comment" id="modal-new-comment" placeholder="댓글을 입력하세요" />
+                <button class="btn comment-create" id="modal-new-cmt-btn" onclick="onClickStepComment('{{step.id}}')">댓글 달기</button>
               </div>
-              <button onclick="onToggleStepDetail('{{step.id}}')" class="btn done">확인</button>
+              <button onclick="onToggleStepDetail('{{step.id}}')" class="btn done" id="modal-close-btn">닫기</button>
             </div>
           </div>
           {% endfor %}
@@ -207,8 +220,7 @@
         </div>
         <div class="content-wrapper" id="accordion2">
           <div class="review-container">
-            <div class="review-content">
-              {{post.review}}
+            <div class="review-content">{{post.review}}
             </div>
           </div>
         </div>
@@ -224,7 +236,9 @@
 
         <div class="post_comment_{{post_comment.id}} comment">
           <p class="comment_writer">
-            {{post_comment.writer}}
+            <a href="{% url 'user_page' id=post_comment.writer.id %}" class="comment_writer_link">
+              {{post_comment.writer}}
+            </a >
             {% if user.is_authenticated %}
             <span class="comment-actions">
               <span onclick="onToggleWriteBox('{{post_comment.id}}')">답글</span>
@@ -239,7 +253,9 @@
             {% for childComment in post_comment.postcomment_set.all %}
             <div class="post_comment_{{childComment.id}}">
               <p class="comment_writer">
+                <a href="{% url 'user_page' id=childComment.writer.id %}" class="comment_writer_link">
                 {{childComment.writer}}
+                </a>
                 <span class="comment-actions">
                   {% if childComment.writer == request.user %}
                   <span class="post-comment-delete"
@@ -250,7 +266,7 @@
               <p>{{childComment.text}}</p>
             </div>
             {% endfor %}
-            <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="child-comment-input comment-form hidden">
+            <form action="{%url 'post:post_create_comment' post.pk%}" method="POST" class="child-comment-input comment-form hidden_important">
               {%csrf_token%}
               <input type="hidden" name="parentCommentId" value="{{post_comment.id}}" />
               <input class="writePage-input" type="text" name="comment" placeholder="답글을 입력하세요" />
@@ -285,9 +301,60 @@
     }
 </script>
 
+
+<!-- 쪽지 보내기 관련 스크립트 -->
+<script>
+
+  const user_id = "{{post.user.id}}";
+  const user_room_id = user_id.replaceAll("-", "");
+
+
+  function onMessageBoxClick(event) {
+  event.stopPropagation();
+  }
+
+  const onToggleMessageBar = () => {
+    const overlay = document.querySelector(`.message_overlay`)
+    overlay.classList.toggle("hidden")
+  }
+
+  const onSendMessage = async (receiver) => {
+    const text = document.querySelector(".message_text").value
+
+    const response = await fetch("/chat/api/send_message", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken"), // Replace with your method of getting CSRF token
+      },
+      body: JSON.stringify({receiver: receiver, text: text})
+    });
+
+    if (response.ok) {
+      response_parsed = await response.json()
+
+      const roomSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/user_room/" + user_room_id + "/"
+      );
+
+      roomSocket.onopen = () => {
+        roomSocket.send(JSON.stringify({ "type" : "update_room" }));
+
+        if(confirm("쪽지를 보냈어요. 쪽지함으로 이동하시겠습니까?")) {
+        window.location.href =`/chat/chats/${response_parsed["receiver_id"]}`
+        roomSocket.close()
+      }
+      }
+      document.querySelector(".message_text").value = ""
+    } else {}
+  }
+
+
+
+</script>
+
+
 <!-- ajax 요청 관련 스크립트 -->
-
-
 <script>
 
 const requestStepDetail = new XMLHttpRequest();
@@ -337,7 +404,7 @@ const onClickStepDetail = async (step_id) => {
 
     try {
       const { user, step, step_comments, media_url } = await sendStepDetailRequest(step_id);
-      step_parsed = JSON.parse(step)[0];
+        step_parsed = JSON.parse(step)[0];
         step_comments_parsed = JSON.parse(step_comments);
         const stepNode = document.querySelector(`.modal_${step_parsed["pk"]}`);
         const comment_container = stepNode.querySelector(".step__comment")
@@ -347,7 +414,6 @@ const onClickStepDetail = async (step_id) => {
         desc=step_parsed["fields"]["desc"];
         step_title=title!==""?title:`제목이 없어요`;
         step_desc=desc!==""?desc:`설명이 없어요`;
-
         const currentStepInfo = document.querySelector(`.step-${step_parsed["pk"]}`)
         const stepInfo = document.createElement("div")
         if (currentStepInfo) {
@@ -355,14 +421,12 @@ const onClickStepDetail = async (step_id) => {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
                       <img class="step-img" src="${media_url}" />
-                      <div class="step-detail">
-                        <p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                      <div class="step-detail"><p class="${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           } else {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
-                      <div class="step-detail">
-                        <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                      <div class="step-detail"><p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           }
         } else {
@@ -375,14 +439,12 @@ const onClickStepDetail = async (step_id) => {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
                       <img class="step-img" src="${media_url}" />
-                      <div class="step-detail">
-                          <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                      <div class="step-detail"><p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                     </div>`;
           } else {
             stepInfo.innerHTML = `<h3 class="modal__title ${title == "" ? 'color-grey' : ''}">${step_title}</h3>
                       <hr class="divider"/>
-                      <div class="step-detail">
-                          <p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
+                      <div class="step-detail"><p "${desc == "" ? 'color-grey' : ''}">${step_desc}</p>
                       </div>`;
           }
           stepNode.insertBefore(stepInfo, comment_container)
@@ -390,8 +452,12 @@ const onClickStepDetail = async (step_id) => {
         commentNode.innerHTML = ``;
         commentNode.innerHTML += `<div class="modal__comment-title">댓글</div>`;
         step_comments_parsed.forEach((element) => {
+          console.log(element);
           commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
+                        <a href="/user/user_page/${element["fields"]["writer_id"]}" class="comment_writer_link">
                         <p class="comment_writer">${element["fields"]["writer"]}
+                        </a>
+                          
                           <span class="comment-actions">
                   
                         <span class="step-comment-delete ${user==element["fields"]["writer"]?'':'hidden'}" onclick=deleteStepComment('${step_parsed["pk"]}','${element["pk"]}')>삭제</span>
@@ -592,7 +658,7 @@ const onClickStepDetail = async (step_id) => {
     const input = targetComment.querySelector(".child-comment-input");
     input
       .classList
-      .toggle("hidden");
+      .toggle("hidden_important");
   };
 
   const onAddChildrenComment = async (postId, parentCommentId) => {

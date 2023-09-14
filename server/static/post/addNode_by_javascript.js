@@ -7,10 +7,13 @@
 //   handleDeletePath,
 //   moveItemDown,
 //   moveItemUp,
-//   handleChangeStepTitle,
+// } = require("./write/writeUtils");
+
+// const {
 //   handleChangeStepDesc,
 //   handleChangeStepImage,
-// } = require("./write/writeUtils");
+//   handleChangeStepTitle,
+// } = require("./handle_change_data");
 
 // module.exports = {
 //   addPathNode,

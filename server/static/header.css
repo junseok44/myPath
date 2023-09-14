@@ -21,7 +21,7 @@ header {
   transition: opacity 0.3s;
 }
 
-.header_item > *:hover {
+a.header_btn:hover {
   opacity: 1;
   color: var(--primary-color);
 }
@@ -61,6 +61,64 @@ header {
   text-align: center;
   padding: 5px 3px;
   transition: all 0.1s ease-in-out;
+}
+
+.header_btn_push:hover .header_push-list {
+  visibility: visible;
+}
+
+.header_push-list {
+  visibility: hidden;
+  background-color: var(--grey);
+  padding: 1rem;
+  width: 10rem;
+  position: absolute;
+  top: 170%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
+  transition: all 2s ease-in-out;
+  font-size: 0.9rem;
+}
+
+.header_push-list li {
+  position: relative;
+  padding: 0.5rem 0rem;
+}
+
+.header_push-list li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+.header_push-list li:hover {
+  color: var(--primary-color);
+}
+
+.push_msg {
+  font-weight: 600;
+}
+
+/* .header_push-list li::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 110%;
+  width: 95%;
+  height: 1px;
+  background-color: black;
+} */
+
+.header_push-list::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 2rem;
+  height: 2rem;
+  transform: translateX(-50%);
+  border: 1rem solid transparent;
+  border-bottom: 1rem solid var(--grey);
+  box-sizing: border-box;
 }
 
 .header_btn:hover .header_dropdown {

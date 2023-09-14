@@ -90,6 +90,10 @@ h3 {
   display: none;
 }
 
+.hidden_important {
+  display: none !important;
+}
+
 .fa-solid.fa-heart {
   color: red;
 }
@@ -131,7 +135,6 @@ h3 {
   color: white;
   cursor: pointer;
 }
-
 
 .underline-btn {
   padding: none;
@@ -377,6 +380,14 @@ h3 {
 
 .color-grey {
   color: var(--dark-grey);
+}
+
+.color-green {
+  color: green;
+}
+
+.color-red {
+  color: red;
 }
 
 .responsive-container {
