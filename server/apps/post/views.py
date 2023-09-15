@@ -185,10 +185,17 @@ def view_post_write(request):
 
 def view_post_list(request):
     posts = Post.objects.all()
+    categories=Category.objects.all()
+    items_per_page = 8
+    paginator = Paginator(posts, items_per_page)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
     ctx = {
-        "posts": posts
+        "posts": posts,
+        "categories":categories,
+        "page":page,
     }
-    return render(request, 'post/post_list.html', ctx)
+    return render(request, 'main/main_post_list.html', ctx)
 
 def view_post_delete(request, id):
     try:
