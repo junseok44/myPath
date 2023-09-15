@@ -73,6 +73,36 @@ def category_search(request, category_id):
         ctx
     )
 
+def tag_search(request, tag_id):
+    tag = Tag.objects.get(id=tag_id)
+    tag_tables = TagTable.objects.filter(tag=tag)
+    tags = Tag.objects.all()
+    tag_posts = []
+    categories=Category.objects.all()
+
+    for tables in tag_tables:
+           tag_posts.append(tables.post)
+
+    items_per_page = 8
+    paginator = Paginator(tag_posts, items_per_page)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+
+    ctx = {
+            "tag_name": tag.name,
+            "tag": tag,
+            "tag_posts": tag_posts,
+            "tags": tags,
+            "page":page,
+            "current_tag_id": tag_id,
+            "categories":categories,
+    }
+    return render(
+        request,
+        "main/main_tag.html",
+        ctx
+    )
+
 
 @transaction.atomic
 @login_required(login_url="/user/login")
