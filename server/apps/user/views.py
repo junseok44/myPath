@@ -11,6 +11,7 @@ import os
 from django.http import JsonResponse
 from urllib.parse import parse_qs
 from json.decoder import JSONDecodeError
+from django.core.paginator import Paginator
 
 KAKAO_CLIENT_ID=os.environ.get("KAKAO_CLIENT_ID")
 KAKAO_REDIRECT_URL="http://localhost:8000/user/kakaoRedirect"
@@ -81,7 +82,18 @@ def my_page(requests):
     posts_count = Post.objects.filter(user=user_id).count()
     userCards = UserCard.objects.filter(writer=requests.user)
 
-    ctx = {'my_posts': my_posts, 'my_likes': my_likes, 'my_bookmarks': my_bookmarks,'user': user, "posts_count":posts_count, "userCards": userCards}
+    items_per_page = 8
+    paginator = Paginator(my_bookmarks, items_per_page)
+    page_number = requests.GET.get('page')
+    my_bookmarks_page = paginator.get_page(page_number)
+
+    ctx = {'my_posts': my_posts, 
+           'my_likes': my_likes, 
+           'my_bookmarks': my_bookmarks,
+           'user': user, 
+           "posts_count":posts_count, 
+           "userCards": userCards,
+           "my_bookmarks_page": my_bookmarks_page}
     return render(requests, "user/user_my_page.html", ctx)
 
 def user_page(requests, id):
