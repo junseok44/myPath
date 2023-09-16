@@ -35,7 +35,6 @@
                   <!-- <button class="btn detailPage__detailBtn" id="more-btn" type="button">
                     로그인 하러 가기</button> -->
                 </div>
-         
               </section>
               <section class="step">
                 <div class="step-content">
@@ -48,9 +47,7 @@
                   >
                   패스 보러가기</button>
                 </div>
-            
               </section>
-             
               <section class="step">
                 <div class="step-content">
                   <p class="title">나만의 패스를 만들어보세요!</p>
@@ -60,9 +57,7 @@
                     <button class="btn detailPage__detailBtn" id="more-btn" type="button">
                       패스 만들러 가기</button>
                   </a>
-                
                 </div>
-              
               </section>
               <section class="step">
                 <div class="step-content">
@@ -74,13 +69,8 @@
                     >
                       내 패스 보러가기</button>
                   </a>
-               
                 </div>
-             
               </section>
-          
-              
-              
             </div>
           </li>
         </ul>
@@ -97,10 +87,8 @@
                   <a href="{% url 'user_login' %}">
                     <button class="btn detailPage__detailBtn" id="more-btn" type="button">
                       로그인 하러 가기</button>
-  
                   </a>
                 </div>
-         
               </section>
               <section class="step">
                 <div class="step-content">
@@ -110,13 +98,10 @@
                   </p>  
                   <button class="btn detailPage__detailBtn" id="more-btn" type="button"
                   onclick="slideToCuration1()"
-                  
                   >
                   패스 보러가기</button>
                 </div>
-             
               </section>
-           
               <section class="step">
                 <div class="step-content disabled">
                   <p class="title">나만의 패스를 만들어보세요!
@@ -127,7 +112,6 @@
                   <button class="btn detailPage__detailBtn" id="more-btn" type="button">
                     패스 만들러 가기</button>
                 </div>
-              
               </section>
               <section class="step">
                 <div class="step-content disabled">
@@ -141,11 +125,7 @@
                   <button class="btn detailPage__detailBtn" id="more-btn" type="button">
                   내 패스 보러가기</button>
                 </div>
-             
               </section>
-          
-              
-              
             </div>
           </li>
         </ul>
@@ -164,20 +144,24 @@
               <div class="card__container post-id-{{ post.id }}">
                 <a href="{% url 'post:post_detail' pk=post.id %}">
                   <div class="card__header">
-                  <div class="card-author-profile-image"></div>
-                  <div class="card-title">{{post.title}}</div>
-                  <div class="card-author">{{post.user.username}}</div>
-                </div>
-                <div class="card__body">
-                  <div class="card-thumbnail">
-                    {% if post.thumbnail %}
-                      <img src="{{post.thumbnail.url}}" alt="my icon"/>
-                    {% else %}
-                    <img src="{% static 'resource/noimage.jpg' %}" />
-                    {% endif %}
+                    <div class="card-header-left">
+                      <div class="card-author-profile-image">이미지</div>
+                    </div>
+                    <div class="card-header-right">
+                      <div class="card-title">{{post.title}}</div>
+                      <div class="card-author">{{post.user.username}}</div>
+                    </div>
                   </div>
-                  <div class="card-description">{{post.desc}}</div>
-                </div>
+                  <div class="card__body">
+                    <div class="card-thumbnail">
+                      {% if post.thumbnail %}
+                        <img src="{{post.thumbnail.url}}" alt="my icon"/>
+                      {% else %}
+                      <img src="{% static 'resource/noimage.jpg' %}" />
+                      {% endif %}
+                    </div>
+                    <div class="card-description">{{post.desc}}</div>
+                  </div>
                 </a>
                 <div class="card__buttons">
                   <div class="like-btn">
@@ -211,20 +195,24 @@
               <div class="card__container post-id-{{ post.id }}">
                 <a href="{% url 'post:post_detail' pk=post.id %}">
                   <div class="card__header">
-                  <div class="card-author-profile-image"></div>
-                  <div class="card-title">{{post.title}}</div>
-                  <div class="card-author">{{post.user.username}}</div>
-                </div>
-                <div class="card__body">
-                  <div class="card-thumbnail">
-                    {% if post.thumbnail %}
-                      <img src="{{post.thumbnail.url}}" alt="my icon"/>
-                    {% else %}
-                    <img src="{% static 'resource/noimage.jpg' %}" />
-                    {% endif %}
+                    <div class="card-header-left">
+                      <div class="card-author-profile-image">이미지</div>
+                    </div>
+                    <div class="card-header-right">
+                      <div class="card-title">{{post.title}}</div>
+                      <div class="card-author">{{post.user.username}}</div>
+                    </div>
                   </div>
-                  <div class="card-description">{{post.desc}}</div>
-                </div>
+                  <div class="card__body">
+                    <div class="card-thumbnail">
+                      {% if post.thumbnail %}
+                        <img src="{{post.thumbnail.url}}" alt="my icon"/>
+                      {% else %}
+                      <img src="{% static 'resource/noimage.jpg' %}" />
+                      {% endif %}
+                    </div>
+                    <div class="card-description">{{post.desc}}</div>
+                  </div>
                 </a>
                 <div class="card__buttons">
                   <div class="like-btn">
