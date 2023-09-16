@@ -390,6 +390,10 @@ h3 {
   color: red;
 }
 
+.disabled {
+  opacity: 0.2;
+}
+
 .responsive-container {
   width: 90%; /* Default width for 450px or less */
   max-width: 1320px; /* Maximum width for 1400px or more */

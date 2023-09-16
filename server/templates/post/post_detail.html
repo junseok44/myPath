@@ -84,17 +84,16 @@
               작성자에게 쪽지 보내기
             </div>
             {% endif %} -->
-            <div class="message_overlay hidden" onclick="onToggleMessageBar()">
+            <!-- <div class="message_overlay hidden" onclick="onToggleMessageBar()">
               <div class="message_box" onclick="onMessageBoxClick(event)">
                 <h1>쪽지 입력</h1>
                 <textarea maxlength="100" class="message_text"></textarea>
                 <button onclick="onSendMessage('{{post.user.id}}')">보내기</button>
               </div>
-            </div>  
-            {% endif %}
+            </div>   -->
+            <!-- {% endif %} -->
 
           </span>
-
         </div>
       </div>
       <div class="detailPage__info">
@@ -116,7 +115,7 @@
       <ul id="tagList">
         {% for post_tag in post_tags %}
         <li>
-          <span>#{{post_tag.tag.name}}</span>
+          <span><a href="{% url 'post:tag' tag_id=post_tag.tag.id %}">#{{post_tag.tag.name}}</a></span>
         </li>
         {% endfor %}
       </ul>

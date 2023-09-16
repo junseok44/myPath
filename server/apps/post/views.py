@@ -26,7 +26,7 @@ User = get_user_model()
 def view_post_main(requests): 
         categories = Category.objects.all()
         allcuration__list = []
-        curation__ids = [1,2]
+        curation__ids = [1,2,3]
         for cur__id in curation__ids:
                 try:
                         curation = Curation.objects.get(pk=cur__id)
@@ -37,12 +37,16 @@ def view_post_main(requests):
                         allcuration__list.append({"name": curation.name, "list": curation__list})
                 except:
                         continue
+        # allcuration__list에 0,1이 없으면 에러가 난다. 그러면?
 
         ctx = {
                "categories": categories,
-               "curations": allcuration__list
         }
-   
+
+        for index, curation in enumerate(allcuration__list):
+            if curation:
+                ctx[f'curation_{index+1}'] = curation        
+
         return render(requests, "main/main.html",ctx)
 
 def category_search(request, category_id):
@@ -70,6 +74,36 @@ def category_search(request, category_id):
     return render(
         request,
         "main/main_category.html",
+        ctx
+    )
+
+def tag_search(request, tag_id):
+    tag = Tag.objects.get(id=tag_id)
+    tag_tables = TagTable.objects.filter(tag=tag)
+    tags = Tag.objects.all()
+    tag_posts = []
+    categories=Category.objects.all()
+
+    for tables in tag_tables:
+           tag_posts.append(tables.post)
+
+    items_per_page = 8
+    paginator = Paginator(tag_posts, items_per_page)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+
+    ctx = {
+            "tag_name": tag.name,
+            "tag": tag,
+            "tag_posts": tag_posts,
+            "tags": tags,
+            "page":page,
+            "current_tag_id": tag_id,
+            "categories":categories,
+    }
+    return render(
+        request,
+        "main/main_tag.html",
         ctx
     )
 
@@ -185,10 +219,17 @@ def view_post_write(request):
 
 def view_post_list(request):
     posts = Post.objects.all()
+    categories=Category.objects.all()
+    items_per_page = 8
+    paginator = Paginator(posts, items_per_page)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
     ctx = {
-        "posts": posts
+        "posts": posts,
+        "categories":categories,
+        "page":page,
     }
-    return render(request, 'post/post_list.html', ctx)
+    return render(request, 'main/main_post_list.html', ctx)
 
 def view_post_delete(request, id):
     try:
