@@ -39,7 +39,7 @@ function addPathNode(prevPathId, id) {
 
   const input = document.createElement("input");
   input.maxLength = 10;
-  input.placeholder = "패스 제목 입력...";
+  input.placeholder = "패스 제목을 입력해주세요!";
   input.type = "text";
   input.classList.add("writePage-input", "path_title");
   input.addEventListener("change", (event) => handleChangePathTitle(event, id));
@@ -117,13 +117,13 @@ function addStepNode(targetPathId, id) {
   titleInput.onchange = () => handleChangeStepTitle(id);
   titleInput.type = "text";
   titleInput.classList.add("writePage-input", "title");
-  titleInput.placeholder = "제목 입력...";
+  titleInput.placeholder = "스텝 제목을 입력해주세요!";
 
   const summaryTextArea = document.createElement("textarea");
   summaryTextArea.maxLength = 100;
   summaryTextArea.classList.add("writePage-input", "summary");
   summaryTextArea.id = "step-summary";
-  summaryTextArea.placeholder = "한줄 요약";
+  summaryTextArea.placeholder = "어떤 스텝인지 간략히 소개해주세요!";
   summaryTextArea.onchange = () => handleChangeStepSummary(id);
 
   const modalBtn = document.createElement("button");
@@ -159,7 +159,7 @@ function addStepNode(targetPathId, id) {
   editModal.classList.add(`step__edit-modal`, `modal_${id}`, "hidden");
 
   const modalDescTitle = document.createElement("h3");
-  modalDescTitle.textContent = "자세한 설명을 입력해주세요!";
+  modalDescTitle.textContent = "이 스텝에 대한 자세한 설명을 써보세요!";
 
   const modalDescTextarea = document.createElement("textarea");
   modalDescTextarea.classList.add("writePage-input");
