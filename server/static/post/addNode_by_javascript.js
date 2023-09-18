@@ -22,6 +22,7 @@
 // 여기까지
 
 function addPathNode(prevPathId, id) {
+  hideAllModal();
   const NewBtn = document.querySelector(".add_new-btn");
   if (NewBtn) {
     NewBtn.parentNode.removeChild(NewBtn);
@@ -100,6 +101,7 @@ function addPathNode(prevPathId, id) {
 }
 
 function addStepNode(targetPathId, id) {
+  hideAllModal();
   const stepContainer = document.querySelector(
     `.path_${targetPathId} .step_container`
   );
@@ -128,7 +130,7 @@ function addStepNode(targetPathId, id) {
   modalBtn.type = "button";
   modalBtn.classList.add("step-btn");
   modalBtn.classList.add("auth-link");
-  modalBtn.onclick = () => showModal(id);
+  modalBtn.onclick = () => toggleModal(id);
   modalBtn.textContent = "이 스텝 자세히 편집하기";
 
   // const modalIcon = document.createElement("i");

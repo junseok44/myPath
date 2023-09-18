@@ -1,12 +1,24 @@
 function showAllSteps() {
   console.log(steps);
 }
+// 현재 수정중인것. modal이 step 아래로 가려지게 되는 문제.
 
-function showModal(id) {
-  hideAllModal();
+function toggleModal(id) {
   const modal = document.querySelector(`.modal_${id}`);
-  modal.parentElement.classList.remove("hidden");
+  if (modal.parentElement.classList.contains("hidden")) {
+    hideAllModal();
+    modal.parentElement.classList.remove("hidden");
+    modal.parentElement.parentElement.parentElement.parentElement.parentElement.style.zIndex = 1000;
+  } else {
+    modal.parentElement.classList.add("hidden");
+    modal.parentElement.parentElement.parentElement.parentElement.parentElement.style.zIndex =
+      "auto";
+  }
 }
+
+// 내가 원하는것.
+// 클릭시 일단 모든 모달을 숨기고 -> 모달을 보여준다.
+// 그 다음 클릭시 다시 모든 모달을 숨긴다.
 
 function hideModal(id) {
   const modal = document.querySelector(`.modal_${id}`);
@@ -18,6 +30,8 @@ function hideAllModal() {
   modals.forEach((modal) => {
     if (!modal.parentElement) return;
     modal.parentElement.classList.add("hidden");
+    modal.parentElement.parentElement.parentElement.parentElement.parentElement.style.zIndex =
+      "auto";
   });
 }
 

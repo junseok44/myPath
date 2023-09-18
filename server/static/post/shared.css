@@ -363,14 +363,13 @@
 .container_row-mode .step__edit-modal {
   position: absolute;
   height: fit-content;
-  top: 8rem;
+  top: 2rem;
   bottom: 0px;
   padding: 2rem;
   background-color: white;
-  z-index: 1000;
+  z-index: 1001;
   display: flex;
   flex-direction: column;
-  z-index: 10;
   gap: 1rem;
 }
 
