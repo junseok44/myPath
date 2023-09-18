@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class="editPage">
-  <!-- <h1>edit</h1> -->
+  <button onclick="showAllSteps()">steps</button>
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <div class="writePage__title">
@@ -89,12 +89,10 @@
                 <section class="step step_{{step.id}}">
                   <div class="step-content">
                     <input maxlength="20" class="writePage-input title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
-                    <textarea maxlength="500" class=" writePage-input desc" onchange="handleChangeStepDesc('{{step.id}}')">{{step.desc}}</textarea>
-                    <input type="file" class="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
-                    {% comment %} <div class="upload-file">
-                      <label id="step-upload-btn" for="imageInput">사진 수정</label>
-                      <input type="file" class="upload-hidden" id="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
-                    </div> {% endcomment %}
+                    <textarea maxlength="100" class="writePage-input summary" onchange="handleChangeStepSummary('{{step.id}}')"></textarea>
+                    <button type="button" class="step-btn auth-link"
+                      onclick="showModal('{{step.id}}')"
+                    >이 스텝 자세히 편집하기</button>
                   </div>
                   <div class="step-btn-container">
                     <button class="step-btn" type="button" onclick="moveItemUp('{{step.id}}')">
@@ -107,6 +105,16 @@
                       <i class="fa-solid fa-trash"></i>
                     </button>
                   </div>
+                  <div class="modal__overlay hidden"><div class="step__edit-modal modal_{{step.id}} hidden"><h3>설명 편집</h3><textarea class="writePage-input desc"
+                      onchange="handleChangeStepDesc('{{step.id}}')"
+                    >{{step.desc}}</textarea>
+                    <h3>이미지 변경</h3>
+                    <input type="file" class="imageInput" data-testid="imageInput_{{step.id}}"
+                      onchange="handleChangeStepImage('{{step.id}}')"
+                    >
+                    <div class="modal__button-container"><button type="button" class="btn" onclick="hideAllModal()">취소</button><button type="button" class="btn"
+                        onclick="handleSaveValue('{{step.id}}')"
+                      >저장</button></div></div></div>
                 </section>
               {% endfor %}
             </div>
@@ -279,6 +287,7 @@
 <script src="{% static 'post/csrftoken.js' %}"></script>
 <script src="{% static 'post/handle_change_data.js' %}"></script>
 <script src="{% static 'post/edit/editUtils.js' %}"></script>
+<script src="{% static 'post/edit_modal.js' %}"></script>
   
   <script>
     updateSelectOptions();
