@@ -115,24 +115,29 @@ function addStepNode(targetPathId, id) {
   titleInput.onchange = () => handleChangeStepTitle(id);
   titleInput.type = "text";
   titleInput.classList.add("writePage-input", "title");
-  titleInput.placeholder = "스텝 제목 입력...";
+  titleInput.placeholder = "제목 입력...";
 
-  const descTextarea = document.createElement("textarea");
-  descTextarea.maxLength = 500;
-  descTextarea.onchange = () => handleChangeStepDesc(id);
-  descTextarea.classList.add("writePage-input", "desc");
-  descTextarea.id = "step-desc";
-  descTextarea.placeholder = "스텝 내용 입력...";
+  const summaryTextArea = document.createElement("textarea");
+  summaryTextArea.maxLength = 100;
+  summaryTextArea.classList.add("writePage-input", "summary");
+  summaryTextArea.id = "step-summary";
+  summaryTextArea.placeholder = "한줄 요약";
+  summaryTextArea.onchange = () => handleChangeStepSummary(id);
 
-  const imageInput = document.createElement("input");
-  imageInput.type = "file";
-  imageInput.classList.add("imageInput");
-  imageInput.setAttribute("data-testid", `imageInput_${id}`);
-  imageInput.onchange = () => handleChangeStepImage(id);
+  const modalBtn = document.createElement("button");
+  modalBtn.type = "button";
+  modalBtn.classList.add("step-btn");
+  modalBtn.classList.add("auth-link");
+  modalBtn.onclick = () => showModal(id);
+  modalBtn.textContent = "이 스텝 자세히 편집하기";
+
+  // const modalIcon = document.createElement("i");
+  // modalIcon.classList.add("fa-solid", "fa-edit");
+  // modalBtn.appendChild(modalIcon);
 
   stepContent.appendChild(titleInput);
-  stepContent.appendChild(descTextarea);
-  stepContent.appendChild(imageInput);
+  stepContent.appendChild(summaryTextArea);
+  stepContent.appendChild(modalBtn);
 
   const stepBtnContainer = document.createElement("div");
   stepBtnContainer.classList.add("step-btn-container");
@@ -151,36 +156,44 @@ function addStepNode(targetPathId, id) {
   const editModal = document.createElement("div");
   editModal.classList.add(`step__edit-modal`, `modal_${id}`, "hidden");
 
-  const modalTitleInput = document.createElement("input");
-  modalTitleInput.type = "text";
-  modalTitleInput.classList.add("title");
+  const modalDescTitle = document.createElement("h3");
+  modalDescTitle.textContent = "자세한 설명을 입력해주세요!";
 
   const modalDescTextarea = document.createElement("textarea");
+  modalDescTextarea.classList.add("writePage-input");
   modalDescTextarea.classList.add("desc");
+  modalDescTextarea.onchange = () => handleChangeStepDesc(id);
+
+  const modalImageTitle = document.createElement("h3");
+  modalImageTitle.textContent = "관련 이미지를 첨부해주세요!";
 
   const modalImageInput = document.createElement("input");
   modalImageInput.type = "file";
   modalImageInput.classList.add("imageInput");
+  modalImageInput.setAttribute("data-testid", `imageInput_${id}`);
+  modalImageInput.onchange = () => handleChangeStepImage(id);
 
   const modalButtonContainer = document.createElement("div");
+  modalButtonContainer.classList.add("modal__button-container");
 
   const cancelButton = document.createElement("button");
   cancelButton.type = "button";
   cancelButton.classList.add("btn");
-  cancelButton.onclick = () => handleToggleModal(id);
+  cancelButton.onclick = () => hideModal(id);
   cancelButton.textContent = "취소";
 
   const saveButton = document.createElement("button");
   saveButton.type = "button";
   saveButton.classList.add("btn");
   saveButton.onclick = () => handleSaveValue(id);
-  saveButton.textContent = "등록";
+  saveButton.textContent = "저장";
 
   modalButtonContainer.appendChild(cancelButton);
   modalButtonContainer.appendChild(saveButton);
 
-  editModal.appendChild(modalTitleInput);
+  editModal.appendChild(modalDescTitle);
   editModal.appendChild(modalDescTextarea);
+  editModal.appendChild(modalImageTitle);
   editModal.appendChild(modalImageInput);
   editModal.appendChild(modalButtonContainer);
 

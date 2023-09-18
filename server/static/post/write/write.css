@@ -194,6 +194,15 @@
   margin-top: 2rem;
 }
 
+.auth-link {
+  color: var(--primary-color);
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 450px) {
   .writePage__intro .labelfor {
     display: none;
@@ -205,8 +214,8 @@
   }
 }
 
-@media screen and (min-width: 600px) {
+/* @media screen and (min-width: 600px) {
   .main-container:not(.col-mode) .step_container {
     overflow-x: auto;
   }
-}
+} */
