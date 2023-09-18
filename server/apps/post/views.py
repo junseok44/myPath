@@ -149,7 +149,6 @@ def view_post_write(request):
                     review=data['review'],
                     mode=data['mode'],
                 )
-            print("post 생성", post)
 
             #카테고리 불러온후, post와 연결
             cat = Category.objects.get(name=data['category'])
@@ -168,15 +167,12 @@ def view_post_write(request):
                             post=post,
                             tag=tag
                         )
-                        print("tagable 연결", tagtable.tag.name)
                 else:
                     newTag = Tag.objects.create(name=tagName)
-                    print("태그생성",newTag.name)
                     tagtable = TagTable.objects.create(
                             post=post,
                             tag=newTag
                         )
-                    print("tagable 연결", tagtable.tag.name)
 
             #새로운 패스와 거기에 해당하는 스텝 생성.
             for path in data['paths']:
@@ -185,7 +181,6 @@ def view_post_write(request):
                     title=path['title'],
                     order=path['order']
                 )
-                print("path 생성", newPath)
                 for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
                     Image_url = step.get("image")
                     Image_data = get_image_from_dataUrl(Image_url)
@@ -195,6 +190,7 @@ def view_post_write(request):
                             title=step['title'],
                             desc=step['desc'],
                             order=step['order'],
+                            summary=step['summary'],
                             Image=Image_data
                         )
                     else:
@@ -202,9 +198,9 @@ def view_post_write(request):
                             path=newPath,
                             title=step['title'],
                             desc=step['desc'],
+                            summary=step['summary'],
                             order=step['order'],
                         )
-                    print("step생성", newStep)
 
             messages.success(request, '패스를 생성했습니다!')
             return JsonResponse({"id": post.id})
@@ -270,13 +266,11 @@ def view_post_edit(request, id):
 
             # data = json.loads(request.body)
             post = get_object_or_404(Post, pk=id)
-            print(post)
             # 1. 삭제된 path를 삭제한다.
             for deletedId in data['deletedPaths']:
                 matching_objects = Path.objects.filter(pk=deletedId)
                 if matching_objects.exists():
                     for obj in matching_objects:
-                        print("deleted columns"+obj.title)
                         obj.delete()
 
             # 삭제된 step을 삭제한다.
@@ -284,7 +278,6 @@ def view_post_edit(request, id):
                 matching_objects = Step.objects.filter(pk=deletedId)
                 if matching_objects.exists():
                     for obj in matching_objects:
-                        print("deleted steps"+obj.title)
                         obj.delete()
 
             # 1. Create 기존 패스에 추가된 스텝을 추가한다.
@@ -297,6 +290,7 @@ def view_post_edit(request, id):
                             title=step['title'],
                             desc=step['desc'],
                             order=step['order'],
+                            summary=step['summary'],
                             Image=get_image_from_dataUrl(step['image'])
                         )
                     else:    
@@ -305,34 +299,31 @@ def view_post_edit(request, id):
                             title=step['title'],
                             desc=step['desc'],
                             order=step['order'],
+                            summary=step['summary'],
                         )
-                    print("created into current path", step.title)
 
             # 2. Create 새로운 패스를 추가하고, 그 패스에 해당하는 step도 추가한다.
             for path in [path for path in data['paths'] if path['isNew'] == True]:
-                print(path["id"])
                 newPath = Path.objects.create(
                     post=post, title=path['title'], order=path['order'])
                 for step in [step for step in data['steps'] if step['pathId'] == path['id']]:
                     if step.get('image') != None and step.get('image') != "":
                         newStep = Step.objects.create(path=newPath, title=step['title'], desc=step['desc'],
-                                                  order=step['order'], Image=get_image_from_dataUrl(step['image'])
+                                                  order=step['order'], Image=get_image_from_dataUrl(step['image']),
+                                                  summary=step['summary']
                                                   )
                     else:
                         newStep = Step.objects.create(path=newPath, title=step['title'], desc=step['desc'],
-                                                  order=step['order']
+                                                  order=step['order'],summary=step['summary']
                                                   )
-                    print("created new step in new column", newStep.title)
 
 
             #update
             # 기존 path 중에서 수정된것을 반영한다.
             for path in [path for path in data['paths'] if path['isEdited'] == True and path['isNew'] == False]:
-                print(path)
                 matching_objects = Path.objects.filter(pk=path['id'])
                 if matching_objects.exists():
                     for obj in matching_objects:
-                        print(obj)
                         obj.title = path['title']
                         obj.order = path['order']
                         obj.save()
@@ -344,10 +335,10 @@ def view_post_edit(request, id):
                 myStep.title = step['title']
                 myStep.desc = step['desc']
                 myStep.order = step['order']
+                myStep.summary = step['summary']
                 if step.get('image') != None and step.get('image') != "":
                     myStep.Image = get_image_from_dataUrl(step['image'])
                 myStep.save()
-                print("edited step", myStep.title)
 
             # post를 수정한다.
             post.title = data['title']
@@ -366,10 +357,8 @@ def view_post_edit(request, id):
             # post tag 삭제.
             for dTagName in data['deletedTag']:
                 try:
-                    print(dTagName)
                     dTag = Tag.objects.get(name=dTagName)
                     dTagTable = TagTable.objects.get(tag=dTag, post=post)
-                    print(dTagTable)
                     dTagTable.delete()
                 except:
                     pass
@@ -383,15 +372,12 @@ def view_post_edit(request, id):
                             post=post,
                             tag=tag
                         )
-                        print("tagable 연결", tagtable.tag.name)
                 else:
                     newTag = Tag.objects.create(name=tagName)
-                    print("태그생성",newTag.name)
                     tagtable = TagTable.objects.create(
                             post=post,
                             tag=newTag
                         )
-                    print("tagable 연결", tagtable.tag.name)
 
             messages.success(request, "성공적으로 수정했습니다!!")
             return JsonResponse({"msg": "hello"})
@@ -516,9 +502,7 @@ def view_post_delete_comment_ajax(request):
             comment_json=serialize('json', [comment])
             comment.delete()
             try:
-                print("deleteCOmment")
                 push = Push.objects.get(postCommentId=comment_id)
-                print(push)
                 push.delete()
             except Exception as e:
                 print(e)
@@ -621,11 +605,9 @@ def toggle_bookmark_ajax(request):
             try:
                 bookmark_entry = BookMarkTable.objects.get(user=user, post_id=post_id)
                 bookmark_entry.delete()
-                print("북마크 테이블 삭제")
                 is_bookMarked = False
             except BookMarkTable.DoesNotExist:
                 BookMarkTable.objects.create(user=user, post_id=post_id)
-                print("북마크 테이블 추가")
                 is_bookMarked = True
             targetPost = Post.objects.get(pk=post_id)
             count = BookMarkTable.objects.filter(post=targetPost).count()
@@ -643,11 +625,9 @@ def toggle_like_ajax(request):
             try:
                 liketable_entry = LikeTable.objects.get(user=user, post_id=post_id)
                 liketable_entry.delete()
-                print("좋아요 테이블 삭제")
                 is_Liked = False
             except LikeTable.DoesNotExist:
                 LikeTable.objects.create(user=user, post_id=post_id)
-                print("좋아요 테이블추가")
                 is_Liked = True
             targetPost = Post.objects.get(pk=post_id)
             count = LikeTable.objects.filter(post=targetPost).count()
