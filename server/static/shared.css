@@ -246,8 +246,27 @@ h3 {
   height: 70px;
   padding: 20px 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+}
+
+.card-author-profile-image {
+  width: 35px;
+  height: 35px;
+  margin: 0 10px 0 5px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  /* 임시 코드 */
+  background-color: #636e72;
+  color: white;
+  font-size: 10px;
+}
+
+.card-header-right {
+  display: flex;
+  flex-direction: column;
 }
 
 .card-title {
