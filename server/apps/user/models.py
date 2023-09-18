@@ -47,3 +47,4 @@ class UserCard(models.Model):
     link = models.CharField(null=True, blank=True, max_length=100)
     desc = models.CharField(max_length=100)
     writer = models.ForeignKey(User, models.CASCADE, related_name="user_card")
+    profile=models.ImageField(upload_to="user/",blank=True,null=True)
