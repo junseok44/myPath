@@ -473,6 +473,7 @@
 }
 
 .detailPage .step__edit-modal .step-detail {
+  flex: 1;
   line-height: 1.4rem;
 }
 
@@ -653,6 +654,10 @@
 
   .detailPage .step__edit-modal {
     width: 100%;
+  }
+
+  .detailPage .step__edit-modal div:first-child {
+    flex: 1;
   }
 }
 
