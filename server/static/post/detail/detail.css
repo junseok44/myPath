@@ -453,7 +453,7 @@
 }
 
 .comment-form {
-  /* display: flex; */
+  display: flex;
   gap: 0.5rem;
 }
 
@@ -655,10 +655,6 @@
   .detailPage .step__edit-modal {
     width: 100%;
   }
-
-  .detailPage .step__edit-modal div:first-child {
-    flex: 1;
-  }
 }
 
 .detailPage .message_overlay {
@@ -690,4 +686,8 @@
   height: 150px;
   padding: 15px;
   background-color: white;
+}
+
+.detailPage .step__edit-modal div:first-child {
+  flex: 1;
 }
