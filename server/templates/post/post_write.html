@@ -12,7 +12,7 @@
           maxlength="20"
           class="writePage-input"
           type="text"
-          placeholder="패스들을 묶을 수 있는 재미있는 제목을 적어보세요! ex) 프로 자취러의 오븐빵 만들기 비법전수"
+          placeholder="패스들을 묶을 수 있는 재미있는 제목을 적어보세요! ex) 프로 자취러의 홈베이킹 비법전수"
           name="title"
           id="titleInput"
           required="required"
@@ -81,6 +81,9 @@
           라는 패스를 만든다면,
           <span class="bold">'반죽하기', '발효하기', '굽기'</span>
           등의 스텝들을 만들고 각각의 스텝에 대한 설명을 덧붙일 수 있어요!
+          <br /><br />하나의 패스 뿐만이 아니라, '오븐빵 만들기', '전자레인지 빵
+          만들기' 등 <span class="color-pr bold">여러개의 패스들을</span> 만들어
+          볼 수 있겠죠?
         </div>
       </span>
     </div>
@@ -89,13 +92,16 @@
         <span>패스 선택</span>
         <select id="pathSelect" class="writePage-input select"></select>
       </div>
-      <button
-        type="button"
-        onclick="toggleMode()"
-        class="mode-btn writePage__btn"
-      >
-        세로모드로
-      </button>
+      <span>
+        <span class="mode-text">세로모드</span>
+        <button
+          type="button"
+          onclick="toggleMode()"
+          class="mode-btn writePage__btn"
+        >
+          모드변경
+        </button>
+      </span>
     </div>
     <hr class="divider" />
     <ul class="main-container writePage__main col-mode">

@@ -14,11 +14,12 @@ checkmode();
 
 function checkmode() {
   main = document.querySelector(".main-container");
+  const modeText = document.querySelector(".mode-text");
   if (main.classList.contains("col-mode")) {
-    modeBtn.innerText = "가로모드로 바꾸기";
+    modeText.innerText = "세로모드";
     return "col";
   } else {
-    modeBtn.innerText = "세로모드로 바꾸기";
+    modeText.innerText = "가로모드";
     return "row";
   }
 }
