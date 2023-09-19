@@ -179,6 +179,7 @@
 .path-add-btn,
 .step-add-btn {
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .col-mode .step-add-btn {
