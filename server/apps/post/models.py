@@ -37,6 +37,7 @@ class Step(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     path = models.ForeignKey(Path, models.CASCADE, related_name="step")
     title = models.CharField(max_length=20, blank=False, null=False)
+    summary=models.CharField(max_length=100, blank=True, null=True)
     desc = models.CharField(max_length=500, blank=False, null=False)
     order = models.IntegerField()
     Image = models.ImageField(upload_to="step/", blank=True, null=True)

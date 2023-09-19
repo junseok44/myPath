@@ -179,6 +179,7 @@
 .path-add-btn,
 .step-add-btn {
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .col-mode .step-add-btn {
@@ -241,13 +242,19 @@
   box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.1);
 }
 
+.step .summary {
+  height: 10rem;
+}
+
 .step.fadeout {
   animation: fadeout 0.3s ease forwards;
 }
 
 .detailPage .step-content .title {
   font-size: 1.1rem;
+  font-weight: 600;
   margin-bottom: 1rem;
+  color: var(--primary-color);
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -321,7 +328,7 @@
   position: absolute;
   /* min-width: 800px; */
   min-height: 600px;
-  top: 1rem;
+  top: 0rem;
   bottom: 0px;
   padding: 2rem;
   background-color: white;
@@ -341,19 +348,30 @@
   } */
 }
 
+.step__edit-modal .desc {
+  all: unset;
+  border: 1px solid var(--border-grey);
+  padding: 10px;
+  flex: 1;
+}
+
+.modal__button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.2rem;
+}
+
 .container_row-mode .step__edit-modal {
   position: absolute;
   height: fit-content;
-  top: 15rem;
+  top: 2rem;
   bottom: 0px;
   padding: 2rem;
   background-color: white;
-  z-index: 1000;
+  z-index: 1001;
   display: flex;
   flex-direction: column;
-  z-index: 10;
   gap: 1rem;
-  border: 1px solid black;
 }
 
 .container_row-mode {
@@ -495,6 +513,21 @@
     width: 1500px;
     height: 1500px;
     background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  .step {
+    animation: none;
+  }
+
+  .col-mode .step__edit-modal {
+    position: fixed;
+    min-width: 0px;
+    min-height: 0px;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 70%;
+    transform: translate(-50%, -50%);
   }
 }
 

@@ -27,6 +27,15 @@ function handleChangeStepDesc(stepId) {
   step.isEdited = true;
 }
 
+function handleChangeStepSummary(stepId) {
+  const stepNode = document.querySelector(`.step_${stepId}`);
+  const summaryInput = stepNode.querySelector(".summary");
+
+  const step = steps.find((step) => step.id == stepId);
+  step.summary = summaryInput.value;
+  step.isEdited = true;
+}
+
 function handleChangeStepImage(stepId) {
   // let steps = require("./write/writeUtils").getPathsAndSteps().steps;
 

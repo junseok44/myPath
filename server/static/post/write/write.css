@@ -194,6 +194,59 @@
   margin-top: 2rem;
 }
 
+.write__guide-btn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.write__guide-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20rem;
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  opacity: 0;
+  transition: all 0.3s;
+  visibility: hidden;
+  z-index: 1003;
+}
+
+.write__guide-btn:hover .write__guide-dropdown {
+  opacity: 1;
+  visibility: visible;
+}
+
+.auth-link {
+  color: var(--primary-color);
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.color-pr {
+  color: var(--primary-color);
+}
+
+.bold {
+  font-weight: 600;
+}
+
 @media screen and (max-width: 450px) {
   .writePage__intro .labelfor {
     display: none;
@@ -205,8 +258,8 @@
   }
 }
 
-@media screen and (min-width: 600px) {
+/* @media screen and (min-width: 600px) {
   .main-container:not(.col-mode) .step_container {
     overflow-x: auto;
   }
-}
+} */

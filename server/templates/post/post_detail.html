@@ -176,8 +176,8 @@
                   {{step.title}}
                   {% endif %}
                 </p>
-                <p class="desc">{% if step.desc == "" %}<span class="color-grey">설명이 없어요.
-                  </span>{% else %}<span>{{step.desc}}
+                <p class="desc">{% if not step.summary %}<span class="color-grey">요약이 없어요.
+                  </span>{% else %}<span>{{step.summary}}
                   </span>
                   {% endif %}
                 </p>  
