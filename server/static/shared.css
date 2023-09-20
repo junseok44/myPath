@@ -380,6 +380,11 @@ h3 {
   line-height: 1.4rem;
 }
 
+.usercard__content.post__number {
+  font-size: 2rem;
+  padding-top: 1rem;
+}
+
 .usercard__content::-webkit-scrollbar {
   display: none;
 }
