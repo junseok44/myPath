@@ -241,7 +241,7 @@
       let response123 = await response.json();
       window.location.href = `/post/${response123.id}`;
     } else {
-      location.reload();
+      alert("작성에 실패했습니다! 다시 시도해주세요");
     }
   }
 </script>
