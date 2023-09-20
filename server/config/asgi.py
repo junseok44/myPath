@@ -20,11 +20,11 @@ from apps.chatting.routing import websocket_urlpatterns
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
-    "websocket": AllowedHostsOriginValidator(
-        AuthMiddlewareStack(URLRouter(websocket_urlpatterns))),
-})
+# application = ProtocolTypeRouter({
+#     "http": get_asgi_application(),
+#     "websocket": AllowedHostsOriginValidator(
+#         AuthMiddlewareStack(URLRouter(websocket_urlpatterns))),
+# })
 
-# application = get_asgi_application()
+application = get_asgi_application()
 
