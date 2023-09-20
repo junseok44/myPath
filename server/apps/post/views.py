@@ -23,6 +23,21 @@ User = get_user_model()
 # Create your views here.
 
 
+def view_feedback(request):
+
+    if request.method == "POST":
+        try:
+            Feedback.objects.create(text=request.POST.get("feedback"))
+            messages.success(request, "소중한 의견 감사드립니다!")
+
+        except Exception as e:
+            print(e)
+            messages.error(request, "피드백 전송에 실패했습니다. 다시 시도해주세요!")
+        
+        return redirect("/")
+
+    return render(request, 'feedback.html', {})
+
 def view_post_main(requests): 
         categories = Category.objects.all()
         allcuration__list = []

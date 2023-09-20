@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% load static %} {% block stylesheet %}
+<link rel="stylesheet" href="{% static 'shared.css' %}" />
+<style>
+  .feedback {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .feedback h1 {
+    font-size: 2rem;
+  }
+
+  .feedback textarea {
+    width: 100%;
+    flex: 1;
+  }
+</style>
+<!-- <link rel="stylesheet" href="{% static 'feedback.css' %}" /> -->
+{% endblock %} {% block content %}
+
+<div class="center__layout">
+  <div class="feedback">
+    <h1>의견 보내기</h1>
+    <h3>
+      불편했던 부분, 개선할 부분이 있었나요?<br />
+      운영진에게 의견을 보내주세요! 마이패스에게 큰 힘이 됩니다.
+    </h3>
+
+    <form action="" method="POST">
+      {% csrf_token %}
+      <textarea
+        name="feedback"
+        id="feedback"
+        cols="30"
+        rows="10"
+        maxlength="500"
+        placeholder="욕설, 비방은 자제해주세요 ㅠㅠ"
+      ></textarea>
+      <div>
+        <input type="submit" value="보내기" class="btn" />
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

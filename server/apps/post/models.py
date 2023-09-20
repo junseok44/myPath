@@ -97,4 +97,5 @@ class LikeTable(models.Model):
     user = models.ForeignKey(User, models.CASCADE, related_name="like_table")
 
 
-
+class Feedback(models.Model):
+    text = models.CharField(max_length=500)
