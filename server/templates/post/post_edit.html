@@ -107,9 +107,9 @@
                   <div class="step-content">
                     <input placeholder="스텝 제목을 입력해주세요!" maxlength="20" class="writePage-input title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
                     {% if step.summary %}
-                    <textarea placeholder="어떤 스텝인지 간략히 소개해주세요!" maxlength="100" class="writePage-input summary" onchange="handleChangeStepSummary('{{step.id}}')">{{step.summary}}</textarea>
+                    <textarea placeholder="어떤 스텝인지 간략히 소개해주세요!" required maxlength="100" class="writePage-input summary" onchange="handleChangeStepSummary('{{step.id}}')">{{step.summary}}</textarea>
                     {% else %}
-                    <textarea placeholder="어떤 스텝인지 간략히 소개해주세요!" maxlength="100" class="writePage-input summary" onchange="handleChangeStepSummary('{{step.id}}')"></textarea>
+                    <textarea placeholder="어떤 스텝인지 간략히 소개해주세요!" required maxlength="100" class="writePage-input summary" onchange="handleChangeStepSummary('{{step.id}}')"></textarea>
                     {% endif %}
                     <button type="button" class="step-btn auth-link"
                       onclick="toggleModal('{{step.id}}')"

@@ -124,6 +124,7 @@ function addStepNode(targetPathId, id) {
   summaryTextArea.classList.add("writePage-input", "summary");
   summaryTextArea.id = "step-summary";
   summaryTextArea.placeholder = "어떤 스텝인지 간략히 소개해주세요!";
+  summaryTextArea.setAttribute("required", true);
   summaryTextArea.onchange = () => handleChangeStepSummary(id);
 
   const modalBtn = document.createElement("button");
