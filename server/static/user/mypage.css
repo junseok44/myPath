@@ -2,6 +2,12 @@
   margin-bottom: 2rem;
 }
 
+.myPage__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 #userPage__intro-input {
   height: 100%;
 }
