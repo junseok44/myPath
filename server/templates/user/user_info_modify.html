@@ -7,50 +7,52 @@
 </div>
 
 <div class="userInfoPage">
-    <h2>회원 정보 수정</h2>
-    <form action="{% url 'user_info' id=request.user.id %}" method="post" class="userInfo__form">
-        {% csrf_token %}
-        <div class="userInfoMod__container">
-          <div class="userInfoMod-input-box">
-            <div>
-              <label for="{{ form.username.id_for_label }}">Profile image</label>
-              <input
-                class="userInfo-input"
-                id="user_username"
-                type="text"
-                name="user_username"
-                placeholder="{{user.username}}"
-                required
-              />
-            </div>
-            <div>
-              <label for="{{ form.username.id_for_label }}">Username</label>
-              <input
-                class="userInfo-input"
-                id="user_username"
-                type="text"
-                name="user_username"
-                placeholder="{{user.username}}"
-                required
-              />
-            </div>
-            <div>
-              <label for="{{ form.intro.id_for_label }}">Introduction</label>
-              <textarea
-                class="userInfo-input"
-                id="user_intro"
-                type="text"
-                name="user_intro"
-                placeholder="{{user.intro}}"
-                required
-              >{{user.intro}}</textarea>
-            </div>
+  <h2>회원 정보 수정</h2>
+  <form action="{% url 'user_info' id=request.user.id %}" method="POST" class="userInfo__form">
+      {% csrf_token %}
+      <div class="userInfoMod__container">
+        <div class="userInfoMod-input-box">
+          <div>
+            <label for="{{ form.username.id_for_label }}">Profile image</label>
+            <input
+              class="userInfo-input"
+              id="user_username"
+              type="text"
+              name="user_username"
+              placeholder="{{user.username}}"
+            />
+          </div>
+          <div>
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            <input
+              class="userInfo-input"
+              id="user_username"
+              type="text"
+              name="user_username"
+              placeholder="{{user.username}}"
+            />
+          </div>
+          <div>
+            <label for="{{ form.intro.id_for_label }}">Introduction</label>
+            <textarea
+              class="userInfo-input"
+              id="user_intro"
+              type="text"
+              name="user_intro"
+              placeholder="{{user.intro}}"
+            >{{user.intro}}</textarea>
           </div>
         </div>
-        <div class="userInfoMode-btn-box">
-          <button class="btn delete-btn">회원 탈퇴하기</button>
-          <button type="submit" class="btn">저장하기</button>
-        </div> 
+      </div>
+      <div class="userInfoMode-btn-box">
+        <button type="submit" class="btn">저장하기</button>
+      </div>
+  </form>
+  <div class="userInfoMode-btn-box">
+    <form action="{% url 'user_delete' %}" method="POST">
+      {% csrf_token %}
+      <input class="btn delete-btn" type="submit" value="회원 탈퇴하기">
     </form>
+  </div> 
 </div>
 {% endblock %}

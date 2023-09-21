@@ -3,6 +3,14 @@
   margin-bottom: 2rem;
 }
 
+.userInfoPage form {
+  margin-bottom: 10px;
+}
+
+.userInfoPage .btn {
+  width: 100px;
+}
+
 .userInfoMod__container {
   width: 100%;
   align-items: center;
@@ -40,8 +48,9 @@
   justify-content: flex-end;
 }
 
-.userInfoMode-btn-box button {
-  margin-left: 10px;
+.userInfoMode-btn-box form {
+  border: none;
+  outline: none; 
 }
 
 .delete-btn {

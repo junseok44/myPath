@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
-from .forms import UserInfoModifyForm
+from .forms import CustomUserChangeForm
 from django.contrib import messages
 from apps.user.models import User, UserCard
 from apps.post.models import Post, BookMarkTable, LikeTable
@@ -347,7 +347,7 @@ def reset_password(request):
 def user_info(request, id):
     user = User.objects.get(id=id)
     if request.method == 'POST':
-        form = UserInfoModifyForm(request.POST, instance=request.user)
+        form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, '회원 정보가 업데이트 되었습니다.')
@@ -355,7 +355,12 @@ def user_info(request, id):
         else:
             messages.error(request, '입력된 정보가 올바르지 않습니다. 다시 시도해주세요.')
     else:
-        form = UserInfoModifyForm(instance=request.user)
+        form = CustomUserChangeForm(instance=request.user)
     
     ctx={'id': id, 'form':form}
     return render(request, 'user/user_info_modify.html', ctx)
+
+def user_delete(request):
+    user = request.user
+    user.delete()
+    return redirect('/')
