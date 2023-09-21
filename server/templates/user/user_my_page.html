@@ -13,7 +13,7 @@
 
 <div class="myPage">
   <div class="userinfo__title">{{user.membership}} {{user.username}}</div>
-
+  <a href="{% url 'user_info' id=user_id %}"><div class="secondary-btn">회원 정보 수정하기</div></a>
   <div class="userinfo__container owl-carousel">
     <div class="usercard__container">
       <div class="usercard__header">자기소개

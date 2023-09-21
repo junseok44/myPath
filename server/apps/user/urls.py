@@ -20,6 +20,7 @@ urlpatterns = [
     path('googleLoginStart', google_Auth_Start, name="google_start"),
     path('googleRedirect/', google_Auth_Redirect, name="google_redirect"),
     path('kakaoRedirect/', kakao_Auth_Redirect, name='kakao_redirect'),
+    path('user_info/<uuid:id>', user_info, name='user_info'),
 ]
 
 if settings.DEBUG:

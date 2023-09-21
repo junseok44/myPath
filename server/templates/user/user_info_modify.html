@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% load static %} {% load my_filters %} 
+{% block content %}
+<!-- <div>
+  {% block stylesheet %}
+  <link
+    rel="stylesheet"
+    href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
+  />
+  <link rel="stylesheet" href="{% static 'user/userpage.css' %}" />
+  <link rel="stylesheet" href="{% static 'user/mypage.css' %}" />
+  {% endblock %}
+</div>
+
+<div class="infoPage">
+  hihihi
+</div> -->
+
+
+<div class="userInfoPage">
+    <h2>회원 정보 수정</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">저장하기</button>
+    </form>
+</div>
+{% endblock %}

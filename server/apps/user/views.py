@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
+from .forms import UserInfoModifyForm
 from django.contrib import messages
 from apps.user.models import User, UserCard
 from apps.post.models import Post, BookMarkTable, LikeTable
@@ -93,7 +94,8 @@ def my_page(requests):
            'user': user, 
            "posts_count":posts_count, 
            "userCards": userCards,
-           "my_bookmarks_page": my_bookmarks_page}
+           "my_bookmarks_page": my_bookmarks_page,
+           'user_id': user_id}
     return render(requests, "user/user_my_page.html", ctx)
 
 def user_page(requests, id):
@@ -339,3 +341,20 @@ def reset_password(request):
             messages.error(request, '해당 loginId를 사용하는 사용자가 없습니다.')  
             return redirect('reset_password')
     return render(request, 'user/user_reset_password.html')
+
+
+@login_required
+def user_info(request, id):
+    if request.method == 'POST':
+        form = UserInfoModifyForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '회원 정보가 업데이트 되었습니다.')
+            return redirect('my_page')
+        else:
+            messages.error(request, '입력된 정보가 올바르지 않습니다. 다시 시도해주세요.')
+    else:
+        form = UserInfoModifyForm(instance=request.user)
+    
+    ctx={'id': id, 'form':form}
+    return render(request, 'user/user_info_modify.html', ctx)
