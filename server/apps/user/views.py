@@ -345,6 +345,7 @@ def reset_password(request):
 
 @login_required
 def user_info(request, id):
+    user = User.objects.get(id=id)
     if request.method == 'POST':
         form = UserInfoModifyForm(request.POST, instance=request.user)
         if form.is_valid():

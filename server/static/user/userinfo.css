@@ -1,0 +1,53 @@
+.userInfoPage h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.userInfoMod__container {
+  width: 100%;
+  align-items: center;
+  min-width: 15vw;
+}
+
+.userInfoMod-input-box > div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.userInfoMod-input-box label {
+  display: inline-block;
+  width: 150px;
+  font-size: 1.2rem;
+}
+
+.userInfoMod-input-box input,
+.userInfoMod-input-box textarea {
+  width: 90%;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1.1rem;
+}
+
+.userInfoMod-input-box textarea {
+  height: 150px;
+}
+
+.userInfoMode-btn-box {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.userInfoMode-btn-box button {
+  margin-left: 10px;
+}
+
+.delete-btn {
+  background-color: rgb(216, 61, 87);
+}
+
+.delete-btn:hover {
+  background-color: rgba(216, 61, 87, 0.9);
+}
