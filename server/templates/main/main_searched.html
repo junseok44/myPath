@@ -13,9 +13,13 @@
         <div class="card__container post-id-{{ searched_post.id }}">
           <a href="{% url 'post:post_detail' pk=searched_post.id %}">
             <div class="card__header">
-              <div class="card-author-profile-image"></div>
-              <div class="card-title">{{searched_post.title}}</div>
-              <div class="card-author">{{searched_post.user.username}}</div>
+              <div class="card-header-left">
+                <div class="card-author-profile-image">이미지</div>
+              </div>
+              <div class="card-header-right">
+                <div class="card-title">{{searched_post.title}}</div>
+                <div class="card-author">{{searched_post.user.username}}</div>
+              </div>
             </div>
             <div class="card__body">
               <div class="card-thumbnail">
