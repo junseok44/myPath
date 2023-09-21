@@ -1,4 +1,5 @@
-.userInfoPage h2 {
+.userInfoPage h2,
+.pwEditPage h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
 }
@@ -24,15 +25,27 @@
   margin-bottom: 1rem;
 }
 
-.userInfoMod-input-box label {
+.userInfoMod__container label,
+.pwEditPage label {
   display: inline-block;
   width: 150px;
   font-size: 1.2rem;
 }
 
 .userInfoMod-input-box input,
-.userInfoMod-input-box textarea {
-  width: 90%;
+.userInfoMod-input-box textarea{
+  min-width: 200px;
+  width: 50%;
+  border: 1px solid var(--border-grey);
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1.1rem;
+}
+
+.pwEditPage input,
+.pw-input-box-w-warning input {
+  display: inline-block;
+  width: 300px;
   border: 1px solid var(--border-grey);
   border-radius: 5px;
   padding: 10px;
@@ -53,10 +66,47 @@
   outline: none; 
 }
 
+.pwEdit-input-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.pw-input-box-w-warning {
+  width: 100%;
+  /* display: flex; */
+  flex-direction: column;
+}
+
+.pw_edit_box {
+  display: flex;
+  align-items: center;
+}
+
+.password-warning {
+  margin-top: 1rem;
+}
+
+.pwEditPage button {
+  width: 100px;
+}
+
 .delete-btn {
   background-color: rgb(216, 61, 87);
 }
 
 .delete-btn:hover {
   background-color: rgba(216, 61, 87, 0.9);
+}
+
+.pwEdit-btn-box {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#pw-edit-btn {
+  margin: none;
+  padding: none;
 }
