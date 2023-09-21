@@ -13,22 +13,13 @@
       <div class="userInfoMod__container">
         <div class="userInfoMod-input-box">
           <div>
-            <label for="{{ form.username.id_for_label }}">Profile image</label>
-            <input
-              class="userInfo-input"
-              id="user_username"
-              type="text"
-              name="user_username"
-              placeholder="{{user.username}}"
-            />
-          </div>
-          <div>
             <label for="{{ form.username.id_for_label }}">Username</label>
             <input
               class="userInfo-input"
-              id="user_username"
+              id="username"
               type="text"
-              name="user_username"
+              name="username"
+              value="username"
               placeholder="{{user.username}}"
             />
           </div>
@@ -36,9 +27,9 @@
             <label for="{{ form.intro.id_for_label }}">Introduction</label>
             <textarea
               class="userInfo-input"
-              id="user_intro"
+              id="intro"
               type="text"
-              name="user_intro"
+              name="intro"
               placeholder="{{user.intro}}"
             >{{user.intro}}</textarea>
           </div>
