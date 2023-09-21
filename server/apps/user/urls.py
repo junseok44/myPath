@@ -22,6 +22,7 @@ urlpatterns = [
     path('kakaoRedirect/', kakao_Auth_Redirect, name='kakao_redirect'),
     path('user_info/<uuid:id>', user_info, name='user_info'),
     path('user_delete/', user_delete, name='user_delete'),
+    path('user_pw_edit/', user_pw_edit, name='user_pw_edit'),
 ]
 
 if settings.DEBUG:

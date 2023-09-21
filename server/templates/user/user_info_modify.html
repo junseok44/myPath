@@ -44,6 +44,7 @@
       {% csrf_token %}
       <input class="btn delete-btn" type="submit" value="회원 탈퇴하기">
     </form>
+    <a href="{% url 'user_pw_edit' %}" class="btn">비번 변경</a>
   </div> 
 </div>
 {% endblock %}

@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
-from .forms import CustomUserChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm,CustomPasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from apps.user.models import User, UserCard
 from apps.post.models import Post, BookMarkTable, LikeTable
@@ -364,3 +363,17 @@ def user_delete(request):
     user = request.user
     user.delete()
     return redirect('/')
+
+@login_required
+def user_pw_edit(request):
+    if request.method == 'POST':
+        password_change_form = CustomPasswordChangeForm(request.user, request.POST)
+        if password_change_form.is_valid():
+            user = password_change_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, '비밀번호를 성공적으로 변경하였습니다.')
+            return redirect('my_page')
+    else:
+        password_change_form = CustomPasswordChangeForm(request.user)
+
+    return render(request, 'user/user_pw_edit.html', {'password_change_form':password_change_form})

@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from .models import User
 
 class CustomUserCreationForm(UserCreationForm):
@@ -12,14 +12,19 @@ class CustomUserChangeForm(UserChangeForm):
         model = User
         fields = ('username', 'intro')
 
-# class UserInfoModifyForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = ['loginId', 'username', 'intro', 'kakaoId', 'googleId', 'naverId']
-
-#     def __init__(self, *args, **kwargs):
-#         super(UserInfoModifyForm, self).__init__(*args, **kwargs)
-#         # 소셜 로그인 필드는 비활성화
-#         self.fields['kakaoId'].widget.attrs['readonly'] = True
-#         self.fields['googleId'].widget.attrs['readonly'] = True
-#         self.fields['naverId'].widget.attrs['readonly'] = True
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].label = '기존 비밀번호'
+        self.fields['old_password'].widget.attrs.update({
+            'class': 'form-control',
+            'autofocus': False,
+        })
+        self.fields['new_password1'].label = '새 비밀번호'
+        self.fields['new_password1'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['new_password2'].label = '새 비밀번호 확인'
+        self.fields['new_password2'].widget.attrs.update({
+            'class': 'form-control',
+        })
