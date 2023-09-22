@@ -13,7 +13,14 @@
 
 <div class="myPage">
   <div class="myPage__header">
-    <div class="userinfo__title">{{user.membership}} {{user.username}}</div>
+    <div class="userinfo__title">
+      {% if user.profile %}
+        <img src="{{user.profile.url}}">>
+      {% else %}
+        <img src="media/resource/noimage.jpg">
+      {% endif %}
+      {{user.membership}} {{user.username}}
+    </div>
     <a href="{% url 'user_info' id=user_id %}"><div class="secondary-btn">회원 정보 수정하기</div></a>
   </div>
   <div class="userinfo__container owl-carousel">
@@ -23,6 +30,7 @@
       </div>
       <div class="usercard__body">
         <div class="usercard__content">
+          
           {% if user.intro == "" %}
           <div class="userPage__intro-guide">작성된 자기소개가 없습니다.</div>
           {% else %} 

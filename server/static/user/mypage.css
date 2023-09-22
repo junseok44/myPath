@@ -8,6 +8,19 @@
   align-items: center;
 }
 
+.userinfo__title img{
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #636e72;
+  color: white;
+  font-size: 10px;
+  margin-right:0.8rem;
+}
+
 #userPage__intro-input {
   height: 100%;
 }

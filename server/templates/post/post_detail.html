@@ -98,6 +98,11 @@
       </div>
       <div class="detailPage__info">
         <div class="detailPage__info-left">
+          {% if user.profile %}
+          <img class="writer_profile" src="{{post.user.profile.url}}">
+          {% else %}
+          <img src="{% static 'resource/noimage.jpg' %}" />
+          {% endif %}
           <a class="detailPage-author-link" href="{% url 'user_page' id=post.user.id %}">{{post.user}}</a>
           <span class="separator secondary-line-styling">∙</span>
           <span class="detailPage-created-date">{{post.created_at}}</span>
@@ -235,7 +240,7 @@
 
         <div class="post_comment_{{post_comment.id}} comment">
           <p class="comment_writer">
-            {% if post_comment.writer.profile %}
+            {% if post_comment.writer.profile.url %}
             <img src="{{post_comment.writer.profile.url}}" />
             {% else %}
             <img src="{% static 'resource/noimage.jpg' %}" />
@@ -257,6 +262,7 @@
             {% for childComment in post_comment.postcomment_set.all %}
             <div class="post_comment_{{childComment.id}}">
               <p class="comment_writer">
+                <img src="{{childComment.writer.profile.url}}">
                 <a href="{% url 'user_page' id=childComment.writer.id %}" class="comment_writer_link">
                 {{childComment.writer}}
                 </a>

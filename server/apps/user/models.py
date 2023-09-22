@@ -29,7 +29,7 @@ class User(AbstractUser):
     
     username = models.CharField(max_length=10, unique=True)
 
-    profile=models.ImageField(upload_to="user/", default="resource/noimage.jpg")
+    profile=models.ImageField(upload_to="user/", default="/resource/noimage.jpg")
 
     intro = models.CharField(max_length=300)
 
