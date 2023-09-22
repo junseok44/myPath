@@ -124,6 +124,13 @@ def user_card_add(request):
 
     return redirect("/user/my_page")
 
+def user_profile(request):
+    user=request.user
+    user.profile=request.FILES.get("imageInput")
+    user.save()
+    return redirect("my_page")
+
+
 def user_card_edit(request,id):
     card = get_object_or_404(UserCard, id=id)
 
@@ -168,9 +175,7 @@ def user_card_delete(request, id):
 def user_intro_update(request):
     if request.method == 'POST':
         intro = request.POST.get('intro')
-        profile=request.POST.get('imageInput')
         request.user.intro = intro
-        request.user.profile=profile
         request.user.save()
         return redirect('/user/my_page')  # Redirect to the same page after submission
     

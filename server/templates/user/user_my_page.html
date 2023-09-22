@@ -25,13 +25,21 @@
   </div>
   <div class="userinfo__container owl-carousel">
     <div class="usercard__container">
-      프로필 사진
+      <p>프로필 사진</p>
+      <div class="edit_profile">
+        <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
+          {%csrf_token%}
+          <input type="file" class="upload-hidden" name="imageInput">
+          <input class="btn" type="submit" value="저장">
+        </form>
+      </div>
       {% if user.profile %}
       <img src="{{user.profile.url}}">
       {% else %}
       <img src="{% static 'resource/noimage.jpg' %}">
       {% endif %}
     </div>
+    
     <div class="usercard__container">
       <div class="usercard__header">자기소개
         <button class="userPage__intro-edit btn-unset userPage__ml"><i class="fa-solid fa-pen"></i></button>
@@ -180,7 +188,13 @@
           <a href="{% url 'post:post_detail' pk=post.id %}">
             <div class="card__header">
               <div class="card-header-left">
-                <div class="card-author-profile-image">이미지</div>
+                <div class="card-author-profile-image">
+                  {% if post.user.profile %}
+                    <img src="{{post.user.profile.url}}">
+                  {% else %}
+                    <img src="{% static 'resource/noimage.jpg' %}"/>
+                  {% endif %}
+                </div>
               </div>
               <div class="card-header-right">
                 <div class="card-title">{{post.title}}</div>

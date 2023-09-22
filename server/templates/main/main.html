@@ -146,7 +146,11 @@
                   <div class="card__header">
                     <div class="card-header-left">
                       <div class="card-author-profile-image">
-                        <img src="{{post.user.profile.url}}"/>
+                        {% if post.user.profile %}
+                        <img src="{{post.user.profile.url}}">
+                        {% else %}
+                        <img src="{% static 'resource/noimage.jpg' %}"/>
+                        {% endif %}
                       </div>
                     </div>
                     <div class="card-header-right">
@@ -198,7 +202,13 @@
                 <a href="{% url 'post:post_detail' pk=post.id %}">
                   <div class="card__header">
                     <div class="card-header-left">
-                      <div class="card-author-profile-image">이미지</div>
+                      <div class="card-author-profile-image">
+                        {% if post.user.profile %}
+                        <img src="{{post.user.profile.url}}">
+                        {% else %}
+                        <img src="{% static 'resource/noimage.jpg' %}"/>
+                        {% endif %}
+                      </div>
                     </div>
                     <div class="card-header-right">
                       <div class="card-title">{{post.title}}</div>
