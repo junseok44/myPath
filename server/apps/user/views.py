@@ -168,7 +168,9 @@ def user_card_delete(request, id):
 def user_intro_update(request):
     if request.method == 'POST':
         intro = request.POST.get('intro')
+        profile=request.POST.get('imageInput')
         request.user.intro = intro
+        request.user.profile=profile
         request.user.save()
         return redirect('/user/my_page')  # Redirect to the same page after submission
     

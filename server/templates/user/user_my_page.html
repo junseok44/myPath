@@ -25,6 +25,14 @@
   </div>
   <div class="userinfo__container owl-carousel">
     <div class="usercard__container">
+      프로필 사진
+      {% if user.profile %}
+      <img src="{{user.profile.url}}">
+      {% else %}
+      <img src="{% static 'resource/noimage.jpg' %}">
+      {% endif %}
+    </div>
+    <div class="usercard__container">
       <div class="usercard__header">자기소개
         <button class="userPage__intro-edit btn-unset userPage__ml"><i class="fa-solid fa-pen"></i></button>
       </div>
