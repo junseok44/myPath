@@ -235,6 +235,11 @@
 
         <div class="post_comment_{{post_comment.id}} comment">
           <p class="comment_writer">
+            {% if post_comment.writer.profile %}
+            <img src="{{post_comment.writer.profile.url}}" />
+            {% else %}
+            <img src="{% static 'resource/noimage.jpg' %}" />
+            {% endif %}
             <a href="{% url 'user_page' id=post_comment.writer.id %}" class="comment_writer_link">
               {{post_comment.writer}}
             </a >
@@ -247,7 +252,7 @@
             </span>
             {% endif %}
           </p>
-          <p>{{post_comment.text}}</p>
+          <p class="comment-content">{{post_comment.text}}</p>
           <div class="comment-children">
             {% for childComment in post_comment.postcomment_set.all %}
             <div class="post_comment_{{childComment.id}}">
@@ -451,11 +456,14 @@ const onClickStepDetail = async (step_id) => {
         commentNode.innerHTML = ``;
         commentNode.innerHTML += `<div class="modal__comment-title">댓글</div>`;
         step_comments_parsed.forEach((element) => {
-          console.log(element);
           commentNode.innerHTML += `<div class="step-${step_parsed["pk"]}-${element["pk"]} comment">
-                        <a href="/user/user_page/${element["fields"]["writer_id"]}" class="comment_writer_link">
-                        <p class="comment_writer">${element["fields"]["writer"]}
-                        </a>
+                        <div class="comment_writer">
+                          <img src="${element["fields"]["writer_profile"]}"
+                          <a href="/user/user_page/${element["fields"]["writer_id"]}" class="comment_writer_link">
+                          <p class="comment_writer">${element["fields"]["writer"]}
+                          </a>
+                        </div>
+                        
                           
                           <span class="comment-actions">
                   

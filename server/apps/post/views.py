@@ -538,11 +538,13 @@ def view_step_detail_ajax(request):
             media_url = step.Image.url
         except Exception as e:
             media_url = None
+
         step_list = [
             {"fields":{
                 "step": str(comment.step.id),
                 "text":comment.text,
                 "writer":comment.writer.username,
+                "writer_profile":comment.writer.profile.url,
                 "writer_id": str(comment.writer.id),
             }, "pk": comment.pk} for comment in step_comments
         ]
@@ -571,7 +573,8 @@ def view_step_create_comment_ajax(request):
                     step=step,
                     text=text,
                 )
-                ctx={'step_id':step_id,'comment_id':comment.id,'writer':comment.writer.username,'text':text}
+                ctx={'step_id':step_id,'comment_id':comment.id,'writer':comment.writer.username,
+                'text':text}
                 if request.user != step.path.post.user:
                     Push.objects.create(
                         sender=request.user,

@@ -496,7 +496,22 @@
   margin-bottom: 0.3rem;
 }
 
+.comment img {
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #636e72;
+  color: white;
+  font-size: 10px;
+}
+
 .comment_writer {
+  display:flex;
+  gap:0.3rem;
+  align-items:center;
   padding-bottom: 0.3rem;
   font-weight: 700;
   font-size: 0.8rem;
