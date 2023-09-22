@@ -25,19 +25,28 @@
   </div>
   <div class="userinfo__container owl-carousel">
     <div class="usercard__container">
-      <p>프로필 사진</p>
-      <div class="edit_profile">
-        <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
+      <div class="usercard__header">
+        <p>프로필 사진</p>
+        <button class="userPage__intro-edit btn-unset userPage__ml" onclick="toggleEditProfile()"><i class="fa-solid fa-pen"></i></button>
+      </div>
+      <div class="edit_profile hidden">
+        <form action="{% url 'edit_profile' %}" method="POST" class="edit_profile-form" enctype="multipart/form-data">
           {%csrf_token%}
           <input type="file" class="upload-hidden" name="imageInput">
           <input class="btn" type="submit" value="저장">
         </form>
       </div>
-      {% if user.profile %}
-      <img src="{{user.profile.url}}">
-      {% else %}
-      <img src="{% static 'resource/noimage.jpg' %}">
-      {% endif %}
+          
+          <div class="user_profile">
+            {% if user.profile %}
+            <img src="{{user.profile.url}}">
+          {% else %}
+            <img src="{% static 'resource/noimage.jpg' %}">
+          {% endif %}
+          </div>
+          
+        
+      
     </div>
     
     <div class="usercard__container">
@@ -397,6 +406,15 @@
 
   function onCancelEditForm() {
     location.reload()
+  }
+</script>
+
+<script>
+  function toggleEditProfile(){
+    const edit=document.querySelector('.edit_profile')
+    const profile=document.querySelector('.user_profile')
+    edit.classList.toggle("hidden")
+    profile.classList.toggle("hidden")
   }
 </script>
 

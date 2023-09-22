@@ -544,6 +544,14 @@ def view_step_detail_ajax(request):
                 "step": str(comment.step.id),
                 "text":comment.text,
                 "writer":comment.writer.username,
+                "writer_profile": str("/static/resource/noimage.jpg"),
+                "writer_id": str(comment.writer.id),
+            }, "pk": comment.pk}
+            if not comment.writer.profile else
+            {"fields":{
+                "step": str(comment.step.id),
+                "text":comment.text,
+                "writer":comment.writer.username,
                 "writer_profile":comment.writer.profile.url,
                 "writer_id": str(comment.writer.id),
             }, "pk": comment.pk} for comment in step_comments
