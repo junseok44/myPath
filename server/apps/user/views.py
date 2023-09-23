@@ -350,17 +350,22 @@ def reset_password(request):
 
 @login_required
 def user_info(request, id):
-    user = User.objects.get(id=id)
+    user = get_object_or_404(User, id=id)   
+
+    if request.user != user:
+        return redirect('/')
+
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, instance=request.user)
+        form = CustomUserChangeForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
             messages.success(request, '회원 정보가 업데이트 되었습니다.')
             return redirect('my_page')
-        else:
+        else: 
             messages.error(request, '입력된 정보가 올바르지 않습니다. 다시 시도해주세요.')
+            return redirect('user_info', id=id) 
     else:
-        form = CustomUserChangeForm(instance=request.user)
+        form = CustomUserChangeForm(instance=user)
     
     ctx={'id': id, 'form':form}
     return render(request, 'user/user_info_modify.html', ctx)

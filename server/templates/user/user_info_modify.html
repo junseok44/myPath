@@ -1,54 +1,66 @@
-{% extends 'base.html' %} {% load static %} {% load my_filters %} 
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% load my_filters %}
 <div>
   {% block stylesheet %}
   <link rel="stylesheet" href="{% static 'user/userinfo.css' %}" />
   {% endblock %}
 </div>
-
+{% block content %}
 <div class="userInfoPage">
   <h2>회원 정보 수정</h2>
-  <form action="{% url 'user_info' id=request.user.id %}" method="POST" class="userInfo__form">
-      {% csrf_token %}
-      <div class="userInfoMod__container">
-        <div class="userInfoMod-input-box">
-          <div>
-            <label for="{{ form.username.id_for_label }}">Username</label>
-            <input
-              class="userInfo-input"
-              id="username"
-              type="text"
-              name="username"
-              value="{{user.username}}"
-              placeholder="{{user.username}}"
-            />
-          </div>
-          
-          <div>
-            <label for="{{ form.intro.id_for_label }}">Introduction</label>
-            <textarea
-              class="userInfo-input"
-              id="intro"
-              type="text"
-              name="intro"
-              placeholder="{{user.intro}}"
-            >{{user.intro}}</textarea>
-          </div>
+  <form
+    action="{% url 'user_info' id=request.user.id %}"
+    method="POST"
+    class="userInfo__form"
+  >
+    {% csrf_token %}
+    <div class="userInfoMod__container">
+      <div class="userInfoMod-input-box">
+        <div>
+          <label for="{{ form.username.id_for_label }}">Username</label>
+          <input
+            class="userInfo-input"
+            id="username"
+            type="text"
+            name="username"
+            required
+            value="{{user.username}}"
+            placeholder="{{user.username}}"
+          />
         </div>
-        <div class="pw_edit_box">
-          <label for = "pw_edit">Password</label>
-          <a href="{% url 'user_pw_edit' %}" class="secondary-btn" id="pw-edit-btn">비밀번호 변경</a>
+
+        <div>
+          <label for="{{ form.intro.id_for_label }}">Introduction</label>
+          <textarea
+            class="userInfo-input"
+            id="intro"
+            type="text"
+            name="intro"
+            required
+            placeholder="{{user.intro}}"
+          >
+{{user.intro}}</textarea
+          >
         </div>
       </div>
-      <div class="userInfoMode-btn-box">
-        <button type="submit" class="btn">저장하기</button>
+      <div class="pw_edit_box">
+        <label for="pw_edit">Password</label>
+        <a
+          href="{% url 'user_pw_edit' %}"
+          class="secondary-btn"
+          id="pw-edit-btn"
+          >비밀번호 변경</a
+        >
       </div>
+    </div>
+    <div class="userInfoMode-btn-box">
+      <button type="submit" class="btn">저장하기</button>
+    </div>
   </form>
   <div class="userInfoMode-btn-box">
     <form action="{% url 'user_delete' %}" method="POST">
       {% csrf_token %}
-      <input class="btn delete-btn" type="submit" value="회원 탈퇴하기">
+      <input class="btn delete-btn" type="submit" value="회원 탈퇴하기" />
     </form>
-  </div> 
+  </div>
 </div>
 {% endblock %}
