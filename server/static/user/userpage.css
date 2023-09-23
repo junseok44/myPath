@@ -6,5 +6,15 @@
 }
 
 .userinfo__container {
-  margin-bottom: 2rem;;
+  margin-bottom: 2rem;
+}
+
+.auth-link {
+  color: var(--primary-color);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
 }
