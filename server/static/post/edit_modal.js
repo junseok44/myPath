@@ -9,10 +9,12 @@ function toggleModal(id) {
     hideAllModal();
     modal.parentElement.classList.remove("hidden");
     modal.parentElement.parentElement.parentElement.parentElement.parentElement.style.zIndex = 1000;
+    modal.parentElement.parentElement.style.zIndex = 500;
   } else {
     modal.parentElement.classList.add("hidden");
     modal.parentElement.parentElement.parentElement.parentElement.parentElement.style.zIndex =
       "auto";
+    modal.parentElement.parentElement.style.zIndex = "auto";
   }
 }
 
@@ -27,6 +29,11 @@ function hideModal(id) {
 
 function hideAllModal() {
   const modals = document.querySelectorAll(".step__edit-modal");
+
+  const steps = document.querySelectorAll(".step");
+  steps.forEach((step) => {
+    step.style.zIndex = "auto";
+  });
   modals.forEach((modal) => {
     if (!modal.parentElement) return;
     modal.parentElement.classList.add("hidden");
