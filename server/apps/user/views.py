@@ -204,20 +204,18 @@ def kakao_Auth_Redirect(request):
                 "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
             }
             profile_res = requests.post("https://kapi.kakao.com/v2/user/me", headers=headers123)
-
             if profile_res.status_code == 200:
                 profile_data = profile_res.json()
                 properties = profile_data.get('properties')
                 if properties and 'nickname' in properties:
                     username = properties['nickname']
                     kakao_id = str(profile_data.get('id'))
-                    user, created = User.objects.get_or_create(kakaoId=kakao_id)
-                    if created:
-                        user.username = username
-                        user.loginId = kakao_id
-                        user.password = kakao_id
-                        user.save()
-                    auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    try:    
+                        user, created = User.objects.get_or_create(kakaoId=kakao_id,defaults={'loginId': kakao_id, 'password': kakao_id, 'username': username})
+                        auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    except Exception as e:
+                        messages.error(request,"카카오 로그인에 실패했어요! 다시 시도해주세요")
+                        print(e)
                     return redirect("/")
                 else:
                     print("Kakao API에서 닉네임 정보를 가져오지 못했습니다.")
@@ -250,6 +248,7 @@ def google_Auth_Redirect(request):
         messages.error(request, "로그인에 실패했습니다! 다시 시도해주세요.")
         return redirect("/")
     profile_req_json = profile_req.json()
+    print(profile_req_json)
     userId = str(profile_req_json.get('user_id',''))
     if not userId:
         messages.error(request, "로그인에 실패했습니다! 다시 시도해주세요.")
