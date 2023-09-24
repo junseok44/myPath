@@ -9,7 +9,7 @@ admin.site.register(Category)
 admin.site.register(CategoryTable)
 admin.site.register(Tag)
 admin.site.register(TagTable)
-
+admin.site.register(Feedback)
 admin.site.register(Curation)
 admin.site.register(CurationTable)
 admin.site.register(BookMarkTable)
