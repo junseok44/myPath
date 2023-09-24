@@ -261,7 +261,12 @@ def google_Auth_Redirect(request):
         username = username + "@"
     hasUser = User.objects.filter(googleId=userId).exists()
     if not hasUser:
-        user = User.objects.create(googleId=userId, username=username, loginId=userId, password=userId)
+        try:
+            user = User.objects.create(googleId=userId, username=username, loginId=userId, password=userId)
+        except Exception as e:
+            messages.error(request, "로그인에 실패했습니다! 다시 시도해주세요.")
+            print(e)
+            return redirect("/")
     user = User.objects.get(googleId=userId)
     auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')        
     return redirect("/")
