@@ -64,6 +64,7 @@
 }
 
 .main__category-list {
+  width: 70%;
   display: inline-flex;
   overflow-x: auto;
   padding-bottom: 1rem;
@@ -111,7 +112,7 @@
 }
 
 .main__curation {
-  margin-bottom: 4rem;
+  margin-bottom: 4.5rem;
 }
 
 .main__curation-subtitle {
@@ -130,10 +131,10 @@
 }
 
 .main__curation-title h1 {
-  font-family: "GangwonState";
+  font-family: "GangwonState", sans-serif !important;
   display: inline-block;
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   word-break: keep-all;
   font-weight: 600;
   color: var(--primary-color);
@@ -186,6 +187,11 @@
 }
 
 @media screen and (max-width: 450px) {
+  .main__templates {
+    width: 80%;
+    margin-bottom: 5rem;
+  }
+
   .main__logo {
     width: 12rem;
     height: 4rem;
@@ -193,6 +199,10 @@
 
   .category__header {
     flex-direction: column;
+  }
+
+  .main__category-list {
+    width: 100%;
   }
 
   .category__header h1 {

@@ -24,6 +24,7 @@ header {
 a.header_btn:hover {
   opacity: 1;
   color: var(--primary-color);
+  cursor: pointer;
 }
 
 .header_logo {
