@@ -6,6 +6,7 @@
     rel="stylesheet"
     href="{% static 'library/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}"
   />
+  <link rel="stylesheet" href="{% static 'user/mypage.css' %}" />
   <link rel="stylesheet" href="{% static 'user/userpage.css' %}" />
   {% endblock %}
 </div>
@@ -13,7 +14,13 @@
 {% block content %}
 <div class="userPage">
   <div class="userinfo__title">
-    <div class="userinfo-box">{{user.membership}} {{user.username}}</div>
+    <div class="userinfo-box">
+      {% if user.profile %}
+      <img src="{{user.profile.url}}" />
+      {% else %}
+      <img src="/static/resource/noimage.jpg" />
+      {% endif %} {{user.membership}} {{user.username}}
+    </div>
     <div>
       {% if user.is_authenticated and user == request.user%}
       <a href="{% url 'my_page' %}">

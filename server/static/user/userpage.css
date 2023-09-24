@@ -5,6 +5,11 @@
   justify-content: space-between;
 }
 
+.userinfo-box {
+  display: flex;
+  align-items: center;
+}
+
 .userinfo__container {
   margin-bottom: 4rem;
 }
