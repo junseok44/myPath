@@ -32,6 +32,8 @@ a.header_btn:hover {
   font-size: 1.5rem;
   width: 7rem;
   height: 3rem;
+  background-image: url("/static/resource/logo2.jpg");
+  background-size: cover;
 }
 
 .header_btn {
@@ -140,5 +142,11 @@ a.header_btn:hover {
 @media screen and (max-width: 450px) {
   .header__greetings {
     display: none;
+  }
+
+  .header_logo {
+    background-image: url("/static/resource/favicon_2.png");
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }
