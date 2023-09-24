@@ -108,13 +108,13 @@
         var messages = document.querySelector(".messages");
         if (messages) {
           setTimeout(function () {
-            messages.style.top = "-100%"; // Move the message back up
-
+            messages.style.zIndex = 3000;
+            messages.style.top = "2%"; // Move the message back up
             messages.classList.add("show"); // Show the message
             setTimeout(function () {
               messages.style.top = "-100%"; // Move the message back up
-            }, 1000); // Wait for 3 seconds
-          }, 500); // Delay before showing the message
+            }, 1500); // Wait for 3 seconds
+          }, 100); // Delay before showing the message
         }
       });
     </script>

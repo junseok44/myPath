@@ -34,10 +34,10 @@ def user_login(request):
         
         if user is not None:
             auth_login(request, user) 
-            messages.success(request, "성공적인 로그인입니다!")
+            messages.success(request, "로그인 성공! 마이패스에 어서오세요~")
             return redirect('/')
         else:
-            messages.error(request, "실패한 로그인입니다!")
+            messages.error(request, "로그인에 실패했어요! 다시 시도해주세요")
             return render(request, 'user/user_login.html', {'error': 'Invalid credentials.'})
     
     ctx = {
@@ -213,6 +213,7 @@ def kakao_Auth_Redirect(request):
                     try:    
                         user, created = User.objects.get_or_create(kakaoId=kakao_id,defaults={'loginId': kakao_id, 'password': kakao_id, 'username': username})
                         auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                        messages.success(request, "로그인 성공! 마이패스에 어서오세요~")
                     except Exception as e:
                         messages.error(request,"카카오 로그인에 실패했어요! 다시 시도해주세요")
                         print(e)
@@ -269,6 +270,7 @@ def google_Auth_Redirect(request):
             return redirect("/")
     user = User.objects.get(googleId=userId)
     auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')        
+    messages.success(request, "로그인 성공! 마이패스에 어서오세요~")
     return redirect("/")
 
 def naver_Auth_Redirect(request):
