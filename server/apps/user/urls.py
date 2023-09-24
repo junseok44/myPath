@@ -13,6 +13,7 @@ urlpatterns = [
     path('login/reset_pw/',reset_password, name='reset_password'),
     path('my_page', my_page, name='my_page'),
     path('user_page/<uuid:id>', user_page, name='user_page'),
+    path('profile',user_profile,name="edit_profile"),
     path('addCard',user_card_add, name="user_card_add"),
     path('userIntro', user_intro_update, name="user_intro_update"),
     path('deleteCard/<int:id>',user_card_delete,name="user_card_delete"),
@@ -20,6 +21,9 @@ urlpatterns = [
     path('googleLoginStart', google_Auth_Start, name="google_start"),
     path('googleRedirect/', google_Auth_Redirect, name="google_redirect"),
     path('kakaoRedirect/', kakao_Auth_Redirect, name='kakao_redirect'),
+    path('user_info/<uuid:id>', user_info, name='user_info'),
+    path('user_delete/', user_delete, name='user_delete'),
+    path('user_pw_edit/', user_pw_edit, name='user_pw_edit'),
 ]
 
 if settings.DEBUG:

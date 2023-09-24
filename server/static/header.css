@@ -1,0 +1,152 @@
+header {
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2000;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+}
+
+.header {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header_item > *:not(:first-child) {
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+a.header_btn:hover {
+  opacity: 1;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.header_logo {
+  cursor: pointer;
+  font-size: 1.5rem;
+  width: 7rem;
+  height: 3rem;
+  background-image: url("/static/resource/logo2.jpg");
+  background-size: cover;
+}
+
+.header_btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.header_btn:not(:last-child) {
+  margin-right: 0.3rem;
+}
+
+.header_dropdown {
+  font-size: 0.8rem;
+  opacity: 0;
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20%);
+  background-color: var(--grey);
+  border-radius: 0.3rem;
+  width: 5rem;
+  text-align: center;
+  padding: 5px 3px;
+  transition: all 0.1s ease-in-out;
+}
+
+.header_btn_push:hover .header_push-list {
+  visibility: visible;
+}
+
+.header_push-list {
+  visibility: hidden;
+  background-color: var(--grey);
+  padding: 1rem;
+  width: 10rem;
+  position: absolute;
+  top: 170%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
+  transition: all 2s ease-in-out;
+  font-size: 0.9rem;
+}
+
+.header_push-list li {
+  position: relative;
+  padding: 0.5rem 0rem;
+}
+
+.header_push-list li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+.header_push-list li:hover {
+  color: var(--primary-color);
+}
+
+.push_msg {
+  font-weight: 600;
+}
+
+/* .header_push-list li::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 110%;
+  width: 95%;
+  height: 1px;
+  background-color: black;
+} */
+
+.header_push-list::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 2rem;
+  height: 2rem;
+  transform: translateX(-50%);
+  border: 1rem solid transparent;
+  border-bottom: 1rem solid var(--grey);
+  box-sizing: border-box;
+}
+
+.header_btn:hover .header_dropdown {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0%);
+}
+
+.header_item {
+  display: flex;
+  align-items: center;
+}
+
+.header_username {
+  margin-right: 0.3rem;
+  cursor: default;
+}
+
+@media screen and (max-width: 450px) {
+  .header__greetings {
+    display: none;
+  }
+
+  .header_logo {
+    background-image: url("/static/resource/favicon_2.png");
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}

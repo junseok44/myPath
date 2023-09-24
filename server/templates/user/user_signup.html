@@ -1,0 +1,68 @@
+{% extends 'user/user_login_templates.html' %} {% block formContent %}
+
+<div class="signup auth-container">
+  <h2>회원가입</h2>
+  <form action="{% url 'user_signup' %}" method="post" class="auth__form">
+    {% csrf_token %}
+    <div class="signup__box">
+      {% for field in form %}
+      <div class="signup-input-box">
+        <input
+          type="{{ field.field.widget.input_type }}"
+          class="form-control"
+          id="{{ field.id_for_label }}"
+          placeholder="{{ field.label }}"
+          name="{{ field.name }}"
+        />
+      </div>
+      {% endfor %}
+    </div>
+    <button class="btn auth-btn-disabled" id="signup-btn" type="submit">
+      가입하기
+    </button>
+  </form>
+  <div>
+    이미 계정이 있나요?
+    <a class="auth-link" href="{% url 'user_login' %}">로그인</a>
+  </div>
+  {% if form.errors %}
+  <!-- 
+  <div class="errors">
+    <ul>
+      {% for field in form %} {% for error in field.errors %}
+      <li>{{ error }}</li>
+      {% endfor %} {% endfor %}
+    </ul>
+  </div> -->
+  {% endif %}
+</div>
+
+<!-- 가입 버튼 색상 관련 -->
+<script>
+  const inputFields = document.querySelectorAll(".form-control"); // 모든 입력 필드 선택
+  const signupBtn = document.getElementById("signup-btn");
+
+  inputFields.forEach((inputField) => {
+    inputField.addEventListener("keyup", validateLogin);
+  });
+
+  function validateLogin() {
+    let allFieldsFilled = true;
+
+    inputFields.forEach((inputField) => {
+      if (!inputField.value) {
+        allFieldsFilled = false;
+      }
+    });
+
+    if (allFieldsFilled) {
+      signupBtn.disabled = false;
+      signupBtn.style.cursor = "pointer";
+      signupBtn.classList.add("auth-btn-active");
+    } else {
+      signupBtn.disabled = true;
+      signupBtn.classList.remove("auth-btn-active");
+    }
+  }
+</script>
+{% endblock %}

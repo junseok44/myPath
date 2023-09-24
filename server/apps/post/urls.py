@@ -7,6 +7,7 @@ app_name = 'post'
 
 urlpatterns = [
     path('', view_post_main, name='post_main'),
+    path('feedback',view_feedback, name="feedback"),
     path('post/write', view_post_write, name="post_write"),
     path('post/edit/<uuid:id>', view_post_edit, name="post_edit"),
     path('post/delete/<uuid:id>', view_post_delete, name="post_delete"),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('post/delete_comment',view_post_delete_comment_ajax,name='post_delete_comment'),
     path('post/step/delete_comment',view_step_delete_comment_ajax,name='step_delete_comment'),
     path("category/<int:category_id>/", category_search , name='category'),
+    path("tag/<int:tag_id>/", tag_search, name='tag'),
     path('api/toggleBookMark/', toggle_bookmark_ajax),
     path('api/toggleLike/', toggle_like_ajax),
     path('search/', search , name='search'),

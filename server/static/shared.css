@@ -6,6 +6,14 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "GangwonState";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/GangwonState.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --border-grey: #e3e3e3;
   --primary-color: rgb(29, 161, 93);
@@ -90,6 +98,10 @@ h3 {
   display: none;
 }
 
+.hidden_important {
+  display: none !important;
+}
+
 .fa-solid.fa-heart {
   color: red;
 }
@@ -124,6 +136,7 @@ h3 {
   border-radius: 100px;
   background-color: transparent;
   color: var(--primary-color);
+  width: max-content;
 }
 
 .secondary-btn:hover {
@@ -131,7 +144,6 @@ h3 {
   color: white;
   cursor: pointer;
 }
-
 
 .underline-btn {
   padding: none;
@@ -194,6 +206,7 @@ h3 {
 
 /* 글씨 크기 관련 */
 .section-title {
+  /* font-family: "GangwonState" !important; */
   font-size: 1.4rem;
 }
 
@@ -206,10 +219,15 @@ h3 {
 }
 
 /* 공통 컴포넌트: 포스트 카드 관련 */
+
+.userinfo__title {
+  /* font-family: "GangwonState" !important; */
+}
 .post__title,
 .userinfo__title {
   font-size: 2rem;
   margin: 0 0 1rem 0;
+  word-break: keep-all;
 }
 
 .post__container,
@@ -243,8 +261,34 @@ h3 {
   height: 70px;
   padding: 20px 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+}
+
+.card-author-profile-image {
+  width: 35px;
+  height: 35px;
+  margin: 0 10px 0 5px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  /* 임시 코드 */
+  /* background-color: #636e72;
+  color: white;
+  font-size: 10px; */
+}
+
+.card-author-profile-image img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
+.card-header-right {
+  display: flex;
+  flex-direction: column;
 }
 
 .card-title {
@@ -358,6 +402,11 @@ h3 {
   line-height: 1.4rem;
 }
 
+.usercard__content.post__number {
+  font-size: 2rem;
+  padding-top: 1rem;
+}
+
 .usercard__content::-webkit-scrollbar {
   display: none;
 }
@@ -377,6 +426,18 @@ h3 {
 
 .color-grey {
   color: var(--dark-grey);
+}
+
+.color-green {
+  color: green;
+}
+
+.color-red {
+  color: red;
+}
+
+.disabled {
+  opacity: 0.2;
 }
 
 .responsive-container {
@@ -431,4 +492,8 @@ h3 {
   .userinfo__container {
     grid-template-columns: 1fr;
   }
+}
+
+.bold {
+  font-weight: 600;
 }

@@ -1,0 +1,68 @@
+{% extends 'main/main_templates.html' %} {% load static %}
+<div>
+  {% block mainContent%}
+  <div>
+    {% if searched %}
+    <h1>"{{ searched }}"에 대한 검색 결과입니다.</h1>
+    <br />
+
+    <ul class="searched_item-container">
+      {% for searched_post in searched_posts %}
+
+      <li class="category__item">
+        <div class="card__container post-id-{{ searched_post.id }}">
+          <a href="{% url 'post:post_detail' pk=searched_post.id %}">
+            <div class="card__header">
+              <div class="card-header-left">
+                <div class="card-author-profile-image">
+                  {% if post.user.profile %}
+                    <img src="{{post.user.profile.url}}">
+                  {% else %}
+                    <img src="{% static 'resource/noimage.jpg' %}"/>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="card-header-right">
+                <div class="card-title">{{searched_post.title}}</div>
+                <div class="card-author">{{searched_post.user.username}}</div>
+              </div>
+            </div>
+            <div class="card__body">
+              <div class="card-thumbnail">
+                {% if searched_post.thumbnail %}
+                <img src="{{searched_post.thumbnail.url}}" alt="my icon" />
+                {% else %}
+                <img src="" />
+                {% endif %}
+              </div>
+              <div class="card-description">{{searched_post.desc}}</div>
+            </div>
+          </a>
+          <div class="card__buttons">
+            <div class="like-btn">
+              <i class="fa-solid fa-heart"></i>
+              <span>{{searched_post.like_table.count}}</span>
+            </div>
+            <div class="reply-btn">
+              <i class="fa-solid fa-comment-dots"></i>
+              <span>{{searched_post.post_comment.count}}</span>
+            </div>
+            <div
+              class="share-btn"
+              onclick="copyPostLink('{{searched_post.id}}')"
+            >
+              <i class="fa-solid fa-share-nodes"></i>
+              <span>공유</span>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      {% endfor %}
+    </ul>
+    {% else %}
+    <h1>찾고 있는 검색어를 검색창에 입력해주세요.</h1>
+    {% endif %}
+  </div>
+  {% endblock %}
+</div>

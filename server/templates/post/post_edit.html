@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block content %}
 
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'post/write/write.css' %}" />
+<link rel="stylesheet" href="{% static 'post/edit/edit.css' %}" />
+{% endblock %}
+
+{% block content %}
 <div class="editPage">
-  <!-- <h1>edit</h1> -->
   <form class="edit__form" onsubmit="handleSubmit(event)">
     <div class="writePage__intro">
       <div class="writePage__title">
         <div class="labelfor">포스트 제목</div>
-        <input class="writePage-input" maxlength="20" type="text" placeholder="title" name="title" id="titleInput" value="{{post.title}}"/>
+        <input class="writePage-input" maxlength="20" type="text" placeholder="패스들을 묶을 수 있는 재미있는 제목을 적어보세요! ex) 프로 자취러의 홈베이킹 비법전수" name="title" id="titleInput" value="{{post.title}}"/>
       </div>
       <div class="writePage__category">
         <div class="labelfor">카테고리</div>
@@ -47,10 +52,28 @@
 
     </div>
     <div class="writePage__desc">
-      <textarea class="writePage-input" maxlength="500" type="text" placeholder="설명" name="desc" id="descInput">{{post.desc}}</textarea>
+      <textarea class="writePage-input" maxlength="500" type="text" placeholder="무엇에 관한 패스들인가요? 설명을 적어보세요! ex) 빵 만들기, 어렵다고 생각하시나요? 5년차 자취러가 알려드립니다." name="desc" id="descInput">{{post.desc}}</textarea>
     </div>
 
-    <div class="section-title">패스 자세히 보기</div>
+    <div class="section-title">패스 편집하기
+      <span class="write__guide-btn">
+        <i class="fa-solid fa-question"></i>
+        <div class="write__guide-dropdown">
+          <span class="color-pr bold">스텝</span>은 어떤 것을 하기 위한
+          하나하나의 단계를, <br /><br />
+          <span class="color-pr bold">패스</span>
+          는 스텝들을 묶어서 하나의 큰 단위로 만든 것을 말해요! <br /><br />예를
+          들어서,
+          <span class="bold">'빵 만들기'</span>
+          라는 패스를 만든다면,
+          <span class="bold">'반죽하기', '발효하기', '굽기'</span>
+          등의 스텝들을 만들고 각각의 스텝에 대한 설명을 덧붙일 수 있어요!
+          <br /><br />하나의 패스 뿐만이 아니라,
+          <span class="bold">'오븐빵 만들기', '전자레인지 빵 만들기'</span>등
+          하나의 글에 여러가지 패스들을 추가할 수 있겠죠?
+        </div>
+      </span>
+    </div>
     <div class="writePage__controlBox">
       <div class="pathSelect">
         <span>패스 선택</span>
@@ -59,17 +82,17 @@
     </div>
     <hr class="divider"/>
     <ul class="main-container {{post.mode}}-mode editPage__main">
-      {% if paths.length == 0 %}
+      {% if paths|length == 0 %}
+        <div>dfdf</div>
         <button type="button" onclick="handleAddPath()" class="add_new-btn">
           새로운 패스 추가하기
         </button>
       {% endif %}
-      
       {% for path in paths %}
         <li class="path path_{{path.id}}">
           <span class="path_intro">
-            <input maxlength="10" placeholder="패스 이름 입력..." type="text" value="{{path.title}}" class="writePage-input path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
-            <button class="secondary-btn path-add-btn" type="button" onclick="handleAddPath('{{path.id}}') ">
+            <input maxlength="10" placeholder="패스 제목을 입력해주세요!" type="text" value="{{path.title}}" class="writePage-input path_title" onchange="handleChangePathTitle(event,'{{path.id}}')">
+            <button class="secondary-btn path-add-btn" type="button" onclick="createPathAndDisplay('{{path.id}}') ">
               패스+
             </button>
             <button class="step-btn" type="button" onclick="handleDeletePath('{{path.id}}')">
@@ -82,13 +105,15 @@
               {% for step in path.steps %}
                 <section class="step step_{{step.id}}">
                   <div class="step-content">
-                    <input maxlength="20" class="writePage-input title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
-                    <textarea maxlength="500" class=" writePage-input desc" onchange="handleChangeStepDesc('{{step.id}}')">{{step.desc}}</textarea>
-                    <input type="file" class="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
-                    {% comment %} <div class="upload-file">
-                      <label id="step-upload-btn" for="imageInput">사진 수정</label>
-                      <input type="file" class="upload-hidden" id="imageInput" onchange="handleChangeStepImage('{{step.id}}')" />
-                    </div> {% endcomment %}
+                    <input placeholder="스텝 제목을 입력해주세요!" maxlength="20" class="writePage-input title" onchange="handleChangeStepTitle('{{step.id}}')" value="{{step.title}}"/>
+                    {% if step.summary %}
+                    <textarea placeholder="어떤 스텝인지 간략히 소개해주세요!" required maxlength="100" class="writePage-input summary" onchange="handleChangeStepSummary('{{step.id}}')">{{step.summary}}</textarea>
+                    {% else %}
+                    <textarea placeholder="어떤 스텝인지 간략히 소개해주세요!" required maxlength="100" class="writePage-input summary" onchange="handleChangeStepSummary('{{step.id}}')"></textarea>
+                    {% endif %}
+                    <button type="button" class="step-btn auth-link"
+                      onclick="toggleModal('{{step.id}}')"
+                    >이 스텝 자세히 편집하기</button>
                   </div>
                   <div class="step-btn-container">
                     <button class="step-btn" type="button" onclick="moveItemUp('{{step.id}}')">
@@ -101,6 +126,16 @@
                       <i class="fa-solid fa-trash"></i>
                     </button>
                   </div>
+                  <div class="modal__overlay hidden"><div class="step__edit-modal modal_{{step.id}} hidden"><h3>설명 편집</h3><textarea class="writePage-input desc"
+                      onchange="handleChangeStepDesc('{{step.id}}')"
+                    >{{step.desc}}</textarea>
+                    <h3>이미지 변경</h3>
+                    <input type="file" class="imageInput" data-testid="imageInput_{{step.id}}"
+                      onchange="handleChangeStepImage('{{step.id}}')"
+                    >
+                    <div class="modal__button-container"><button type="button" class="btn" onclick="hideAllModal()">취소</button><button type="button" class="btn"
+                        onclick="handleSaveValue('{{step.id}}')"
+                      >저장</button></div></div></div>
                 </section>
               {% endfor %}
             </div>
@@ -144,28 +179,9 @@
 </div>
   <!-- uuid -->
   <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
-  
-  <!-- 삭제기능 -->
-  <script>
-    async function deletepost(id) {
-      const response = await fetch(`/post/delete/${id}`, {
-        method: "POST",
-        body: JSON.stringify({id: id}),
-        headers: {
-          "content-type": "application/json",
-          "X-CSRFToken": csrftoken
-        }
-      });
-
-      if (response.status == 200) {
-        window.location.href = "/post/list";
-      }
-    }
-  </script>
 
   <!-- 태그기능 -->
   <script>
-    // JavaScript code
     const tagList = []; // Array to store tags
     {% for tagtable in post.tag_table.all %}
       tagList.push("{{ tagtable.tag.name }}");
@@ -226,13 +242,10 @@
       }
     });
   </script>
+  <!-- <script src="{% static 'post/tag.js' %}"></script> -->
 
-  <script src="{% static 'post/writePage/responsivePath.js' %}"></script>
-  <script src="{% static 'post/writePage/path.js' %}"></script>
-  <script src="{% static 'post/writePage/modal.js' %}"></script>
-  <script src="{% static 'post/writePage/csrftoken.js' %}"></script>
 
-  <!-- 변수선언 -->
+  <!-- 변수선언, step, path 데이터 받아서 저장. -->
   <script>
     const postData = JSON.parse("{{ jsonPost|escapejs }}");
     const pathData = JSON.parse("{{ jsonPaths|escapejs }}");
@@ -242,12 +255,6 @@
     let steps = [];
     let deletedIds = [];
     let deletedPaths = [];
-
-    const imageInput = document.querySelector("#imageInput");
-    const main = document.querySelector(".main-container");
-    const descInput = document.querySelector("#descInput");
-    const categorySelect = document.querySelector("#categorySelect");
-
     for (let path of pathData) {
       let newPath = {
         ...path.fields,
@@ -257,7 +264,27 @@
       };
       paths.push(newPath);
     }
+/*
+    path의 형태는 다음과 같습니다.
+    {
+      id: "uuid",
+      title: "패스 제목",
+      order: 1,
+      isNew: false,
+      isEdited: false
+    }
 
+    step의 형태는 다음과 같습니다.
+    {
+      id: "uuid",
+      pathId: "uuid",
+      order: 1,
+      isNew: false,
+      isEdited: false,
+      title: "스텝 제목",
+      desc: "스텝 설명",
+    }
+*/
     for (let instance of stepData) {
       let item = {
         ...instance.fields,
@@ -265,248 +292,45 @@
         isNew: false,
         isEdited: false
       };
-
       item["pathId"] = item["path"];
       delete item["path"];
       steps.push(item);
     }
+
+    const imageInput = document.querySelector("#imageInput");
+    const main = document.querySelector(".main-container");
+    const descInput = document.querySelector("#descInput");
+    const categorySelect = document.querySelector("#categorySelect");
   </script>
 
-  <!-- 메인 핸들러 -->
+<script src="{% static 'post/responsivePath.js' %}"></script>
+<script src="{% static 'post/addNode_by_javascript.js' %}"></script>
+<script src="{% static 'post/csrftoken.js' %}"></script>
+<script src="{% static 'post/handle_change_data.js' %}"></script>
+<script src="{% static 'post/edit/editUtils.js' %}"></script>
+<script src="{% static 'post/edit_modal.js' %}"></script>
+  
   <script>
-
     updateSelectOptions();
-
-    function handleAddPath(prevPathId) {
-
-      let id = uuid.v4()
-      addPathNode(prevPathId, id)
-
-      const prevPathItem = paths.find((path) => path.id == prevPathId);
-
-      if (prevPathItem) {
-
-        paths = paths.map(
-          (path) => path.order >= prevPathItem.order + 1
-          ? {
-            ...path,
-            order: path.order + 1,
-            isEdited: true
-          }
-          : path);
-
-        paths.push({
-          id: id,
-          order: prevPathItem.order + 1,
-          title: ``,
-          isNew: true,
-          isEdited: false
-        });
-      } else {
-        paths.push({id: id, order: 1, title: ``, isNew: true, isEdited: false});
-      }
-
-      updateSelectOptions()
-      changeDisplay(id);
-    }
-
-    function handleAddStep(targetPathId) {
-      let id = uuid.v4();
-      addStepNode(targetPathId, id)
-
-      steps.push({
-        id,
-        pathId: targetPathId,
-        order: steps
-          .filter((step) => step.pathId == targetPathId)
-          .length + 1,
-        isNew: true,
-        isEdited: false,
-        title: "",
-        desc: ""
-      });
-    }
-
-    function handleDeleteItem(stepId) {
-      const step = document.querySelector(`.step_${stepId}`);
-
-      step.classList.add("fadeout");
-      setTimeout(() => {
-      step
-        .parentNode
-        .removeChild(step);
-    }, 300);
-
-
-     
-
-      steps = steps.filter((step) => step.id !== stepId);
-      deletedIds.push(stepId);
-
-    }
-
-    function moveItemUp(stepId) {
-      const targetStep = steps.find((step) => step.id == stepId);
-      const pathId = targetStep.pathId;
-      const target = document.querySelector(`.step_${stepId}`);
-      const container = document.querySelector(`.path_${pathId} .step_container`);
-      const previousNode = target.previousElementSibling;
-      if (!previousNode) 
-        return;
-      
-      container.removeChild(target);
-      container.insertBefore(target, previousNode);
-
-      const movedStep = steps.find((step) => step.pathId == pathId && step.order == targetStep.order - 1);
-      // targetStep은 order를 -1 . movedStep은 order를 1.
-      steps = steps.map((step) => {
-        if (step.id == movedStep.id) 
-          return {
-            ...step,
-            order: step.order + 1,
-            isEdited: true
-          };
-        else if (step.id === targetStep.id) 
-          return {
-            ...step,
-            order: step.order - 1,
-            isEdited: true
-          };
-        else 
-          return step;
-        }
-      );
-    }
-
-    function moveItemDown(stepId) {
-      const targetStep = steps.find((step) => step.id == stepId);
-      const pathId = targetStep.pathId;
-      const target = document.querySelector(`.step_${stepId}`);
-      const container = document.querySelector(`.path_${pathId} .step_container`);
-      const nextNode = target.nextElementSibling;
-
-      if (!nextNode) 
-        return;
-      const next_nextNode = nextNode.nextElementSibling;
-      container.removeChild(target);
-
-      if (next_nextNode) {
-        container.insertBefore(target, next_nextNode);
-
-      } else {
-        container.appendChild(target);
-      }
-
-      const movedStep = steps.find((step) => step.pathId == pathId && step.order == targetStep.order + 1);
-
-      steps = steps.map((step) => {
-        if (step.id == movedStep.id) 
-          return {
-            ...step,
-            order: step.order - 1,
-            isEdited: true
-          };
-        else if (step.id === targetStep.id) 
-          return {
-            ...step,
-            order: step.order + 1,
-            isEdited: true
-          };
-        else 
-          return step;
-        }
-      );
-    }
-
-    function handleDeletePath(targetPathId) {
-      const main = document.querySelector(".main-container");
-      const target = main.querySelector(`.path_${targetPathId}`);
-
-      var optionElements = selectElement.getElementsByTagName("option");
-      var specificOptionIndex = Array
-        .from(selectElement.options)
-        .findIndex(function (option) {
-          return option.value === targetPathId;
-        });
-      if(specificOptionIndex == 0){
-        specificOptionIndex = 2;
-      }
-      var targetOption = selectElement.options[specificOptionIndex - 1];
-
-      target.classList.add("fadeout");
-
-      setTimeout(() => {
-        main.removeChild(target);
-        if (main.childElementCount == 0) {
-        main.innerHTML = `
-      <button type="button" onclick="handleAddPath()" class="add_new-btn btn">
-      옆에 새로운 패스 추가하기
-      </button>
-      `;
-    }
-    updateSelectOptions();
-      if(targetOption) changeDisplay(targetOption.value);
-      }, 300)
-
-      deletedPaths.push(targetPathId);
-      // 누구야 이거 느낌표 빼놓은거...
-      paths = paths.filter((path) => path.id !== targetPathId);
-      steps = steps.filter((step) => step.pathId !== targetPathId);
-
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-      const titleInput = document.querySelector('.title');
-      titleInput.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-          event.preventDefault();
+  </script>
+  
+  <!-- api request. form submit, delete post -->
+  <script>
+    async function deletepost(id) {
+      const response = await fetch(`/post/delete/${id}`, {
+        method: "POST",
+        body: JSON.stringify({id: id}),
+        headers: {
+          "content-type": "application/json",
+          "X-CSRFToken": csrftoken
         }
       });
-    });
 
-  </script>
-
-  <script>
-  function handleChangeStepTitle(stepId) {
-    const stepNode = document.querySelector(`.step_${stepId}`);
-    const titleInput = stepNode.querySelector(".title");
-
-    const step = steps.find((step) => step.id == stepId);
-    step.title = titleInput.value;
-    step.isEdited = true;
-
-  }
-
-  function handleChangeStepDesc(stepId) {
-    const stepNode = document.querySelector(`.step_${stepId}`);
-    const descInput = stepNode.querySelector(".desc");
-
-    const step = steps.find((step) => step.id == stepId);
-    step.desc = descInput.value;
-    step.isEdited = true;
-
-  }
-
-  function handleChangeStepImage(stepId) {
-    const stepNode = document.querySelector(`.step_${stepId}`);
-    const imageInput = stepNode.querySelector(".imageInput");
-    const imageFile = imageInput.files[0];
-    const step = steps.find((step) => step.id == stepId);
-
-    if (imageFile) {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        imageData = event.target.result;
-        step.image = imageData;
-      };
-      reader.readAsDataURL(imageFile);
+      if (response.status == 200) {
+        window.location.href = "/post/list";
+      }
     }
-    step.isEdited = true;
-  }
-  </script>
 
-  <!-- form submit -->
-  <script>
     function handleFormCancel() {
 
       // TODO 정말로 취소하시겠습닉까/??
@@ -547,7 +371,7 @@
         window.location.href = `/post/${postData[0].pk}`;
 
       } else {
-        location.reload()
+        alert("편집에 실패했습니다! 다시 시도해주세요");
       }
     }
   </script>

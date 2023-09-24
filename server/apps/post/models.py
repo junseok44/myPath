@@ -37,11 +37,22 @@ class Step(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     path = models.ForeignKey(Path, models.CASCADE, related_name="step")
     title = models.CharField(max_length=20, blank=False, null=False)
+    summary=models.CharField(max_length=100, blank=True, null=True)
     desc = models.CharField(max_length=500, blank=False, null=False)
     order = models.IntegerField()
     Image = models.ImageField(upload_to="step/", blank=True, null=True)
 
 
+class Push(models.Model):
+    sender = models.ForeignKey(User, models.CASCADE, related_name="push_sender")
+    receiver = models.ForeignKey(User, models.CASCADE, related_name="push_receiver")
+    post = models.ForeignKey(Post, models.CASCADE, related_name="push_post", null=True, blank=True)
+    step = models.ForeignKey(Step, models.CASCADE, related_name="push_step", null=True, blank=True)
+    postCommentId = models.IntegerField(null=True, blank=True)
+    stepCommentId = models.IntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    text = models.CharField(max_length=100)
+    is_read = models.BooleanField(default=False)
 
 class Category(models.Model):
     name = models.CharField(max_length=10)
@@ -86,4 +97,5 @@ class LikeTable(models.Model):
     user = models.ForeignKey(User, models.CASCADE, related_name="like_table")
 
 
-
+class Feedback(models.Model):
+    text = models.CharField(max_length=500)

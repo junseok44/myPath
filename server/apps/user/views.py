@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm,CustomPasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from apps.user.models import User, UserCard
 from apps.post.models import Post, BookMarkTable, LikeTable
@@ -11,6 +11,7 @@ import os
 from django.http import JsonResponse
 from urllib.parse import parse_qs
 from json.decoder import JSONDecodeError
+from django.core.paginator import Paginator
 
 KAKAO_CLIENT_ID=os.environ.get("KAKAO_CLIENT_ID")
 KAKAO_REDIRECT_URL=os.environ.get("KAKAO_REDIRECT_URL")
@@ -20,7 +21,7 @@ GOOGLE_CLIENT_SECRET=os.environ.get("GOOGLE_CLIENT_SECRET")
 GOOGLE_CALLBACK_URL = os.environ.get("GOOGLE_CALLBACK_URL")
 
 def user_main(request):  
-    return render(request, 'user/login.html')
+    return render(request, 'user/user_login.html')
 
 def user_login(request):
     if request.user.is_authenticated:
@@ -33,17 +34,17 @@ def user_login(request):
         
         if user is not None:
             auth_login(request, user) 
-            messages.success(request, "성공적인 로그인입니다!")
+            messages.success(request, "로그인 성공! 마이패스에 어서오세요~")
             return redirect('/')
         else:
-            messages.error(request, "실패한 로그인입니다!")
-            return render(request, 'user/login.html', {'error': 'Invalid credentials.'})
+            messages.error(request, "로그인에 실패했어요! 다시 시도해주세요")
+            return render(request, 'user/user_login.html', {'error': 'Invalid credentials.'})
     
     ctx = {
         "KAKAO_CLIENT_ID":KAKAO_CLIENT_ID,
         "KAKAO_REDIRECT_URL":KAKAO_REDIRECT_URL,
     }
-    return render(request, 'user/login.html', ctx)
+    return render(request, 'user/user_login.html', ctx)
 
 def user_signup(request):
     if request.user.is_authenticated:
@@ -58,11 +59,11 @@ def user_signup(request):
             return redirect('/')
         else:
             messages.error(request, "회원가입에 실패하였습니다.")
-            return render(request, 'user/signup.html', {'form': form})
+            return render(request, 'user/user_signup.html', {'form': form})
         
     else:
         form = CustomUserCreationForm()
-        return render(request, 'user/signup.html', {'form': form})
+        return render(request, 'user/user_signup.html', {'form': form})
 
 def user_logout(request):
     if request.user.is_authenticated:
@@ -81,8 +82,20 @@ def my_page(requests):
     posts_count = Post.objects.filter(user=user_id).count()
     userCards = UserCard.objects.filter(writer=requests.user)
 
-    ctx = {'my_posts': my_posts, 'my_likes': my_likes, 'my_bookmarks': my_bookmarks,'user': user, "posts_count":posts_count, "userCards": userCards}
-    return render(requests, "user/my_page.html", ctx)
+    items_per_page = 8
+    paginator = Paginator(my_bookmarks, items_per_page)
+    page_number = requests.GET.get('page')
+    my_bookmarks_page = paginator.get_page(page_number)
+
+    ctx = {'my_posts': my_posts, 
+           'my_likes': my_likes, 
+           'my_bookmarks': my_bookmarks,
+           'user': user, 
+           "posts_count":posts_count, 
+           "userCards": userCards,
+           "my_bookmarks_page": my_bookmarks_page,
+           'user_id': user_id}
+    return render(requests, "user/user_my_page.html", ctx)
 
 def user_page(requests, id):
     user = User.objects.get(id=id)
@@ -110,6 +123,13 @@ def user_card_add(request):
         return redirect("/user/my_page")
 
     return redirect("/user/my_page")
+
+def user_profile(request):
+    user=request.user
+    user.profile=request.FILES.get("imageInput")
+    user.save()
+    return redirect("my_page")
+
 
 def user_card_edit(request,id):
     card = get_object_or_404(UserCard, id=id)
@@ -184,20 +204,19 @@ def kakao_Auth_Redirect(request):
                 "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
             }
             profile_res = requests.post("https://kapi.kakao.com/v2/user/me", headers=headers123)
-
             if profile_res.status_code == 200:
                 profile_data = profile_res.json()
                 properties = profile_data.get('properties')
                 if properties and 'nickname' in properties:
                     username = properties['nickname']
                     kakao_id = str(profile_data.get('id'))
-                    user, created = User.objects.get_or_create(kakaoId=kakao_id)
-                    if created:
-                        user.username = username
-                        user.loginId = kakao_id
-                        user.password = kakao_id
-                        user.save()
-                    auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    try:    
+                        user, created = User.objects.get_or_create(kakaoId=kakao_id,defaults={'loginId': kakao_id, 'password': kakao_id, 'username': username})
+                        auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                        messages.success(request, "로그인 성공! 마이패스에 어서오세요~")
+                    except Exception as e:
+                        messages.error(request,"카카오 로그인에 실패했어요! 다시 시도해주세요")
+                        print(e)
                     return redirect("/")
                 else:
                     print("Kakao API에서 닉네임 정보를 가져오지 못했습니다.")
@@ -230,6 +249,7 @@ def google_Auth_Redirect(request):
         messages.error(request, "로그인에 실패했습니다! 다시 시도해주세요.")
         return redirect("/")
     profile_req_json = profile_req.json()
+    print(profile_req_json)
     userId = str(profile_req_json.get('user_id',''))
     if not userId:
         messages.error(request, "로그인에 실패했습니다! 다시 시도해주세요.")
@@ -242,9 +262,15 @@ def google_Auth_Redirect(request):
         username = username + "@"
     hasUser = User.objects.filter(googleId=userId).exists()
     if not hasUser:
-        user = User.objects.create(googleId=userId, username=username, loginId=userId, password=userId)
+        try:
+            user = User.objects.create(googleId=userId, username=username, loginId=userId, password=userId)
+        except Exception as e:
+            messages.error(request, "로그인에 실패했습니다! 다시 시도해주세요.")
+            print(e)
+            return redirect("/")
     user = User.objects.get(googleId=userId)
     auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')        
+    messages.success(request, "로그인 성공! 마이패스에 어서오세요~")
     return redirect("/")
 
 def naver_Auth_Redirect(request):
@@ -301,11 +327,11 @@ def find_id(request):
         username = request.POST.get('username')
         try:
             user = User.objects.get(username=username)
-            return render(request, 'user/find_id.html', {'loginId': user.loginId})
+            return render(request, 'user/user_find_id.html', {'loginId': user.loginId})
         except User.DoesNotExist:
             messages.error(request, '해당 사용자명을 사용하는 사용자가 없습니다.')
             return redirect('find_id')
-    return render(request, 'user/find_id.html')
+    return render(request, 'user/user_find_id.html')
 
 def reset_password(request):
     if request.method == "POST":
@@ -326,4 +352,46 @@ def reset_password(request):
         except User.DoesNotExist:
             messages.error(request, '해당 loginId를 사용하는 사용자가 없습니다.')  
             return redirect('reset_password')
-    return render(request, 'user/reset_password.html')
+    return render(request, 'user/user_reset_password.html')
+
+
+@login_required
+def user_info(request, id):
+    user = get_object_or_404(User, id=id)   
+
+    if request.user != user:
+        return redirect('/')
+
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '회원 정보가 업데이트 되었습니다.')
+            return redirect('my_page')
+        else: 
+            messages.error(request, '입력된 정보가 올바르지 않습니다. 다시 시도해주세요.')
+            return redirect('user_info', id=id) 
+    else:
+        form = CustomUserChangeForm(instance=user)
+    
+    ctx={'id': id, 'form':form}
+    return render(request, 'user/user_info_modify.html', ctx)
+
+def user_delete(request):
+    user = request.user
+    user.delete()
+    return redirect('/')
+
+@login_required
+def user_pw_edit(request):
+    if request.method == 'POST':
+        password_change_form = CustomPasswordChangeForm(request.user, request.POST)
+        if password_change_form.is_valid():
+            user = password_change_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, '비밀번호를 성공적으로 변경하였습니다.')
+            return redirect('my_page')
+    else:
+        password_change_form = CustomPasswordChangeForm(request.user)
+
+    return render(request, 'user/user_pw_edit.html', {'password_change_form':password_change_form})

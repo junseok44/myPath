@@ -10,17 +10,17 @@
     <meta property="og:title" content="마이패스" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="{% static 'resource/logo.png' %}" />
+
     <meta
       property="og:description"
       content="나만의 경험 공유 플랫폼, 마이패스입니다."
     />
     <title>마이패스 | MyPath</title>
     {% endblock %}
-
-    <link rel="stylesheet" href="{% static 'reset.css' %}" />
+    <link rel="icon" href="{% static 'resource/favicon_2.png' %}" />
     <link rel="stylesheet" href="{% static 'index.css' %}" />
-    <link rel="stylesheet" href="{% static 'shared.css' %}" />
-    <link rel="stylesheet" href="{% static 'user/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'header.css' %}" />
+    <link rel="stylesheet" href="{% static 'footer.css' %}" />
     {% block stylesheet %}{% endblock %}
   </head>
   <body>
@@ -29,10 +29,11 @@
         <div class="header">
           <div class="header_item">
             <a href="/" class="header_logo_link">
-              <img
+              <div class="header_logo"></div>
+              <!-- <img
                 src="{% static 'resource/logo2.jpg' %}"
                 class="header_logo"
-              />
+              /> -->
             </a>
           </div>
           <div class="header_item">
@@ -45,10 +46,33 @@
               <i class="fa-solid fa-pen-to-square"></i>
               <div class="header_dropdown">글 작성하기</div>
             </a>
+            <div class="header_btn header_btn_push">
+              <i class="fa-solid fa-bell"></i>
+              <ul class="header_push-list">
+                {% if push_list.count == 0 %}
+                <span>알림이 없습니다.</span>
+                {% else %} {% for push in push_list %}
+                <a href="/post/{{push.post.id}}">
+                  <li>
+                    <span class="push_msg">
+                      {{push.sender}}님이 {{push.post.title}}글에 댓글을
+                      달았습니다.
+                    </span>
+                    {{push.text|truncatechars:15}}
+                  </li>
+                </a>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
             <a class="header_btn" href="{% url 'my_page' %}">
               <i class="fa-solid fa-user"></i>
               <div class="header_dropdown">마이페이지</div>
             </a>
+            <!-- <a class="header_btn" href="{% url 'rooms' %}">
+              <i class="fa-solid fa-comments"></i>
+              <div class="header_dropdown">채팅방</div>
+            </a> -->
             <a class="header_btn" href="{% url 'user_logout' %}">
               <i class="fa-solid fa-right-from-bracket"></i>
               <div class="header_dropdown">로그아웃</div>
@@ -84,13 +108,13 @@
         var messages = document.querySelector(".messages");
         if (messages) {
           setTimeout(function () {
-            messages.style.top = "-100%"; // Move the message back up
-
+            messages.style.zIndex = 3000;
+            messages.style.top = "2%"; // Move the message back up
             messages.classList.add("show"); // Show the message
             setTimeout(function () {
               messages.style.top = "-100%"; // Move the message back up
-            }, 1000); // Wait for 3 seconds
-          }, 500); // Delay before showing the message
+            }, 1500); // Wait for 3 seconds
+          }, 100); // Delay before showing the message
         }
       });
     </script>
@@ -111,9 +135,9 @@
               <i class="fa-solid fa-envelope"></i>
               <div class="footer_dropdown">newtonjjang@naver.com</div>
             </a>
-            <a class="footer_icon">
-              <i class="fa-brands fa-github"></i>
-              <div class="footer_dropdown">깃허브</div>
+            <a class="footer_icon" href="/feedback">
+              <i class="fa-solid fa-comment"></i>
+              <div class="footer_dropdown">운영진에게 의견 남기기</div>
             </a>
           </div>
           <div>
@@ -161,6 +185,13 @@
       </div>
     </footer>
   </body>
+
+  <script>
+    function togglePushList() {
+      const pushList = document.querySelector(".header_push-list");
+      pushList.classList.toggle("hidden");
+    }
+  </script>
 
   <script>
     function copyPostLink(post_id) {

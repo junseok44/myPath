@@ -2,6 +2,25 @@
   margin-bottom: 2rem;
 }
 
+.myPage__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userinfo__title img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #636e72;
+  color: white;
+  font-size: 10px;
+  margin-right: 0.8rem;
+}
+
 #userPage__intro-input {
   height: 100%;
 }
@@ -107,4 +126,25 @@
 
 .userPage__editBtns button {
   flex: 1;
+}
+
+.edit_profile-form {
+  display: flex;
+}
+
+.user_profile {
+  margin-top: 1rem;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.usercard__header {
+  display: flex;
+}
+
+@media screen and (max-width: 450px) {
+  .myPage__header {
+    display: block;
+    margin-bottom: 0.4rem;
+  }
 }

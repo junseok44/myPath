@@ -1,0 +1,161 @@
+{% extends 'base.html' %} {% block content %}
+
+<div>
+  <h1>{{other.username}}와의 채팅</h1>
+  <button onclick="onMoveRoom()">방 목록으로</button>
+  <form action="{% url 'delete_room' other_id=other.id%}" method="POST">
+    {% csrf_token %}
+    <button type="submit">채팅방 나가기</button>
+  </form>
+  <button onclick="onloadMoreMessage('{{other.id}}')">
+    이전 채팅 불러오기
+  </button>
+  <ul class="chat_list">
+    {% for msg in msg_list %} {% if msg.sender == user %}
+    <li class="color-green">
+      <span class="message_user">{{msg.sender}}</span>{{msg.message}}
+    </li>
+    {% else %}
+    <li class="color-red">
+      <span class="message_user">{{msg.sender}}</span>
+      {{msg.message}}
+    </li>
+    {% endif %} {% endfor %}
+  </ul>
+  <input maxlength="100" class="message_input" />
+  <button onclick="onSendMessage(event,'{{other.id}}')">전송</button>
+</div>
+
+<!-- csrf cookie -->
+<script>
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+</script>
+
+<!-- 채팅 관련 소켓 -->
+<script>
+  const chat_list = document.querySelector(".chat_list");
+  const current_room_id = "{{current_room.id}}";
+  const user_username = "{{user.username}}";
+  const user_id = "{{user.id}}";
+  const other_id = "{{other.id}}";
+  const user_room_id = other_id.replaceAll("-", "");
+
+  // 현재 채팅방 관련 소켓
+  const chatSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/chat/" + `${current_room_id}` + "/"
+  );
+
+  // 채팅하는 상대방의 방 목록을 업데이트한다.
+  const roomSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/user_room/" + user_room_id + "/"
+  );
+
+  roomSocket.onclose = function (e) {
+    console.error("room socket closed unexpectedly");
+  };
+
+  chatSocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    if (data.sender_id == user_id) {
+      chat_list.innerHTML += `<li class="color-green">${data.sender} ${data.message}</li>`;
+    } else if (data.sender_id == other_id) {
+      chat_list.innerHTML += `<li class="color-red">${data.sender} ${data.message}</li>`;
+
+      // 읽었다고 보내주기.
+      chatSocket.send(
+        JSON.stringify({
+          type: "read_message",
+          chat_id: data.chat_id,
+        })
+      );
+    } else {
+      chat_list.innerHTML += `<li>${data.sender} ${data.message}</li>`;
+    }
+  };
+
+  chatSocket.onclose = function (e) {
+    console.error("socket closed unexpectedly");
+  };
+</script>
+
+<script>
+  let messageIndex = 2;
+  async function onloadMoreMessage(other_id) {
+    const response = await fetch("/chat/api/get_message", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken"), // Replace with your method of getting CSRF token
+      },
+      body: JSON.stringify({ other_id: other_id, messageIndex: messageIndex }),
+    });
+
+    if (response.ok) {
+      response_parsed = await response.json();
+      for (let msg of response_parsed.msg_list.reverse()) {
+        li = createChatNode(msg.sender_id, msg.sender, msg.text);
+        chat_list.insertBefore(li, chat_list.firstChild);
+      }
+      messageIndex += 1;
+    } else {
+      alert("서버 상태가 좋지 않습니다. 다시 시도해주세요.");
+    }
+  }
+
+  function createChatNode(sender_id, sender, message) {
+    const li = document.createElement("li");
+    li.innerHTML = `${sender} ${message}`;
+
+    if (sender_id == user_id) {
+      li.classList.add("color-green");
+    } else if (sender_id == other_id) {
+      li.classList.add("color-red");
+    }
+
+    return li;
+  }
+</script>
+
+<!-- 메시지 전송 관련 이벤트 리스너 -->
+<script>
+  const message_input = document.querySelector(".message_input");
+
+  message_input.addEventListener("keydown", function (event) {
+    if (event.key == "Enter") {
+      event.preventDefault();
+      onSendMessage(event, "{{other.id}}");
+    }
+  });
+
+  const onSendMessage = async (event, receiver) => {
+    const message_input = document.querySelector(".message_input");
+    const text = message_input.value;
+
+    const response = await fetch("/chat/api/send_message", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken"), // Replace with your method of getting CSRF token
+      },
+      body: JSON.stringify({ receiver: receiver, text: text }),
+    });
+
+    if (response.ok) {
+      response_parsed = await response.json();
+      roomSocket.send(JSON.stringify({ type: "update_room" }));
+      message_input.value = "";
+    } else {
+      alert("서버 상태가 좋지 않습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const onMoveRoom = () => {
+    window.location.href = "/chat/rooms";
+  };
+</script>
+
+{% endblock %}
