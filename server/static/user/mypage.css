@@ -145,5 +145,6 @@
 @media screen and (max-width: 450px) {
   .myPage__header {
     display: block;
+    margin-bottom: 0.4rem;
   }
 }
