@@ -6,6 +6,14 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "GangwonState";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/GangwonState.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --border-grey: #e3e3e3;
   --primary-color: rgb(29, 161, 93);
@@ -128,6 +136,7 @@ h3 {
   border-radius: 100px;
   background-color: transparent;
   color: var(--primary-color);
+  width: max-content;
 }
 
 .secondary-btn:hover {
@@ -197,6 +206,7 @@ h3 {
 
 /* 글씨 크기 관련 */
 .section-title {
+  font-family: "GangwonState" !important;
   font-size: 1.4rem;
 }
 
@@ -211,8 +221,10 @@ h3 {
 /* 공통 컴포넌트: 포스트 카드 관련 */
 .post__title,
 .userinfo__title {
+  font-family: "GangwonState" !important;
   font-size: 2rem;
   margin: 0 0 1rem 0;
+  word-break: keep-all;
 }
 
 .post__container,

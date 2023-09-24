@@ -17,7 +17,7 @@
       {% if user.profile %}
         <img src="{{user.profile.url}}">>
       {% else %}
-        <img src="media/resource/noimage.jpg">
+        <img src="/static/resource/noimage.jpg">
       {% endif %}
       {{user.membership}} {{user.username}}
     </div>
@@ -245,7 +245,13 @@
           <a href="{% url 'post:post_detail' pk=like_post.post.id %}">
             <div class="card__header">
               <div class="card-header-left">
-                <div class="card-author-profile-image">이미지</div>
+                <div class="card-author-profile-image">
+                  {% if post.user.profile %}
+                  <img src="{{post.user.profile.url}}">
+                {% else %}
+                  <img src="{% static 'resource/noimage.jpg' %}"/>
+                {% endif %}
+                </div>
               </div>
               <div class="card-header-right">
                 <div class="card-title">{{like_post.post.title}}</div>
@@ -291,7 +297,14 @@
           <a href="{% url 'post:post_detail' pk=bm_post.post.id %}">
             <div class="card__header">
               <div class="card-header-left">
-                <div class="card-author-profile-image">이미지</div>
+                <div class="card-author-profile-image">
+
+                  {% if post.user.profile %}
+                  <img src="{{post.user.profile.url}}">
+                {% else %}
+                  <img src="{% static 'resource/noimage.jpg' %}"/>
+                {% endif %}
+                </div>
               </div>
               <div class="card-header-right">
                 <div class="card-title">{{bm_post.post.title}}</div>

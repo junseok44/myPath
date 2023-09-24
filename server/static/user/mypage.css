@@ -8,7 +8,7 @@
   align-items: center;
 }
 
-.userinfo__title img{
+.userinfo__title img {
   width: 40px;
   height: 40px;
   border-radius: 100%;
@@ -18,7 +18,7 @@
   background-color: #636e72;
   color: white;
   font-size: 10px;
-  margin-right:0.8rem;
+  margin-right: 0.8rem;
 }
 
 #userPage__intro-input {
@@ -128,16 +128,22 @@
   flex: 1;
 }
 
-.edit_profile-form{
-  display:flex;
+.edit_profile-form {
+  display: flex;
 }
 
-.user_profile{
-  margin-top:1rem;
+.user_profile {
+  margin-top: 1rem;
   object-fit: cover;
   overflow: hidden;
 }
 
-.usercard__header{
-  display:flex;
+.usercard__header {
+  display: flex;
+}
+
+@media screen and (max-width: 450px) {
+  .myPage__header {
+    display: block;
+  }
 }
