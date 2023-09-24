@@ -14,13 +14,15 @@
 <div class="myPage">
   <div class="myPage__header">
     <div class="userinfo__title">
-      {% if user.profile %}
+      <div class="userinfo-box">
+        {% if user.profile %}
         <img src="{{user.profile.url}}">
       {% else %}
         <img src="/static/resource/noimage.jpg">
       {% endif %}
       {{user.username}}
       <span class="membership_text">{{user.membership}}</span>
+      </div>
     </div>
     <a href="{% url 'user_info' id=user_id %}"><div class="secondary-btn">회원 정보 수정하기</div></a>
   </div>
