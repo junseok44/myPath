@@ -206,7 +206,7 @@ h3 {
 
 /* 글씨 크기 관련 */
 .section-title {
-  font-family: "GangwonState" !important;
+  /* font-family: "GangwonState" !important; */
   font-size: 1.4rem;
 }
 
@@ -221,7 +221,7 @@ h3 {
 /* 공통 컴포넌트: 포스트 카드 관련 */
 
 .userinfo__title {
-  font-family: "GangwonState" !important;
+  /* font-family: "GangwonState" !important; */
 }
 .post__title,
 .userinfo__title {

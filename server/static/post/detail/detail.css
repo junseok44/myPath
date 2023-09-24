@@ -90,7 +90,7 @@
 }
 
 .detailPage__title h2 {
-  font-family: "GangwonState" !important;
+  /* font-family: "GangwonState" !important; */
   font-size: 2.5rem;
   margin-right: 1rem;
   overflow: hidden;

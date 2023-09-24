@@ -123,10 +123,10 @@
 }
 
 .main__curation-title h1 {
-  font-family: "GangwonState", sans-serif !important;
+  /* font-family: "GangwonState", sans-serif !important; */
   display: inline-block;
   font-size: 2rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   word-break: keep-all;
   font-weight: 600;
   color: var(--primary-color);
