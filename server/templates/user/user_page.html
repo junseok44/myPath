@@ -19,7 +19,9 @@
       <img src="{{user.profile.url}}" />
       {% else %}
       <img src="/static/resource/noimage.jpg" />
-      {% endif %} {{user.membership}} {{user.username}}
+      {% endif %} {{user.username}}
+
+      <span class="membership_text">{{user.membership}}</span>
     </div>
     <div>
       {% if user.is_authenticated and user == request.user%}

@@ -10,6 +10,14 @@
   align-items: center;
 }
 
+.membership_text {
+  font-size: 0.8rem;
+  color: var(--dark-grey);
+  position: relative;
+  top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
 .userinfo__container {
   margin-bottom: 4rem;
 }
