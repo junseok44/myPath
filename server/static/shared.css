@@ -219,9 +219,12 @@ h3 {
 }
 
 /* 공통 컴포넌트: 포스트 카드 관련 */
-.post__title,
+
 .userinfo__title {
   font-family: "GangwonState" !important;
+}
+.post__title,
+.userinfo__title {
   font-size: 2rem;
   margin: 0 0 1rem 0;
   word-break: keep-all;
