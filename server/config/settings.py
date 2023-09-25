@@ -88,7 +88,7 @@ INSTALLED_APPS = [
     'apps.comment',
     'storages',
     'ebhealthcheck.apps.EBHealthCheckConfig',
-    'apps.chatting',
+    # 'apps.chatting',
     'apps.base',
 ]
 
