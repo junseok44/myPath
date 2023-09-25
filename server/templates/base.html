@@ -9,7 +9,10 @@
     <meta property="og:url" content="https://hi.my-path.xyz/" />
     <meta property="og:title" content="마이패스" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="{% static 'resource/open_graph.jpg' %}" />
+    <meta
+      property="og:image"
+      content="{% static 'resource/open_graph.jpg' %}"
+    />
 
     <meta
       property="og:description"
@@ -69,10 +72,7 @@
               <i class="fa-solid fa-user"></i>
               <div class="header_dropdown">마이페이지</div>
             </a>
-            <!-- <a class="header_btn" href="{% url 'rooms' %}">
-              <i class="fa-solid fa-comments"></i>
-              <div class="header_dropdown">채팅방</div>
-            </a> -->
+
             <a class="header_btn" href="{% url 'user_logout' %}">
               <i class="fa-solid fa-right-from-bracket"></i>
               <div class="header_dropdown">로그아웃</div>
